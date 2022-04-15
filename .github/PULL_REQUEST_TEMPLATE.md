@@ -5,11 +5,6 @@
 [List any issues this PR will resolve]
 
 ### Check List
-- [ ] New functionality includes testing.
-  - [ ] All tests pass, including unit test, integration test and doctest
-- [ ] New functionality has been documented.
-  - [ ] New functionality has javadoc added
-  - [ ] New functionality has user manual doc added
 - [ ] Commits are signed per the DCO using --signoff
 
 By submitting this pull request, I confirm that my contribution is made under the terms of the Apache 2.0 license.
