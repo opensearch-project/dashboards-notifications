@@ -30,7 +30,7 @@ jobs:
 
       - name: Edit the issue template
         run: |
-          echo "https://github.com/opensearch-project/notifications/pull/${{ env.PR_NUMBER }}." >> ./.github/ISSUE_TEMPLATE/documentation.md
+          echo "https://github.com/opensearch-project/dashboards-notifications/pull/${{ env.PR_NUMBER }}." >> ./.github/ISSUE_TEMPLATE/documentation.md
       - name: Create Issue From File
         id: create-issue
         uses: peter-evans/create-issue-from-file@v4

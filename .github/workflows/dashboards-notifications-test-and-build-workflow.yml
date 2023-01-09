@@ -10,6 +10,7 @@ on: [pull_request, push]
 env:
   PLUGIN_NAME: notifications-dashboards
   OPENSEARCH_DASHBOARDS_VERSION: 'main'
+  OPENSEARCH_NOTIFICATIONS_VERSION: 'main'
   OPENSEARCH_VERSION: '3.0.0-SNAPSHOT'
 
 jobs:
@@ -58,6 +59,12 @@ jobs:
       - name: Shorten Path
         if: ${{ matrix.os == 'windows-latest' }}
         run: subst 'X:' .
+
+      - name: Check out the notifications repo
+        uses: actions/checkout@v1
+        with:
+          repository: opensearch-project/notifications
+          ref: ${{ env.OPENSEARCH_NOTIFICATIONS_VERSION }}
 
       - name: Run Opensearch with plugin
         working-directory: ${{ env.WORKING_DIR }}
