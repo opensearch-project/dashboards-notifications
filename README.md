@@ -15,7 +15,7 @@ Please see our technical [documentation](https://opensearch.org/docs/) to learn 
 1. Create a `plugins` directory inside the OpenSearch Dashboards source code directory, if `plugins` directory doesn't exist.
 1. Check out this package from version control into the `plugins` directory.
    ```
-   git clone git@github.com:opensearch-project/notifications.git plugins --no-checkout
+   git clone git@github.com:opensearch-project/dashboards-notifications.git plugins --no-checkout
    cd plugins
    echo 'dashboards-notifications/*' >> .git/info/sparse-checkout
    git config core.sparseCheckout true
@@ -29,7 +29,7 @@ Ultimately, your directory structure should look like this:
 .
 ├── OpenSearch Dashboards
 │ └── plugins
-│ └── dashboards-notifications
+│   └── dashboards-notifications
 ```
 
 ## Build
@@ -50,11 +50,11 @@ Example output: `./build/notificationsDashboards*.zip`
 
 ## Contributing to OpenSearch Dashboards Notifications
 
-We welcome you to get involved in development, documentation, testing the Notifications plugin. See our [CONTRIBUTING.md](./../CONTRIBUTING.md) and join in.
+We welcome you to get involved in development, documentation, testing the dashboards-notifications plugin. See our [CONTRIBUTING.md](./../CONTRIBUTING.md) and join in.
 
 ## Bugs, Enhancements or Questions
 
-Please file an issue to report any bugs you may find, enhancements you may need or questions you may have [here](https://github.com/opensearch-project/notifications/issues).
+Please file an issue to report any bugs you may find, enhancements you may need or questions you may have [here](https://github.com/opensearch-project/dashboards-notifications/issues).
 
 ## License
 
