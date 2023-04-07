@@ -116,7 +116,6 @@ jobs:
 
       - name: Move Notifications to Plugins Dir
         run: |
-          mkdir -p OpenSearch-Dashboards/plugins
           mv dashboards-notifications OpenSearch-Dashboards/plugins/dashboards-notifications
 
       - name: OpenSearch Dashboards Plugin Bootstrap
