@@ -29,10 +29,12 @@ jobs:
         os: [ ubuntu-latest, windows-latest ]
         include:
           - os: windows-latest
+            os_build_args: -x integTest -x jacocoTestReport
             working_directory: X:\
             os_java_options: -Xmx4096M
             cypress_cache_folder: ~/AppData/Local/Cypress/Cache
           - os: ubuntu-latest
+            os_build_args: -x integTest -x jacocoTestReport
             jest_test_args: --coverage
             cypress_cache_folder: ~/.cache/Cypress
             # TODO: Add back when macos-latest is back in the test matrix
@@ -70,7 +72,7 @@ jobs:
               brew install coreutils
           fi
           cd notifications/notifications
-          ./gradlew run -Dopensearch.version=${{ env.OPENSEARCH_VERSION }} &
+          ./gradlew run -Dopensearch.version=${{ env.OPENSEARCH_VERSION }} -x integTest -x jacocoTestReport &
           timeout 300 bash -c 'while [[ "$(curl -s -o /dev/null -w ''%{http_code}'' localhost:9200)" != "200" ]]; do sleep 5; done'
         shell: bash
         env:
