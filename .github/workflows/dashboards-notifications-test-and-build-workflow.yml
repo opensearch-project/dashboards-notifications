@@ -50,7 +50,7 @@ jobs:
           java-version: 11
 
       - name: Checkout Plugin
-        uses: actions/checkout@v1
+        uses: actions/checkout@v2
         with:
           path: notifications
           repository: opensearch-project/notifications
