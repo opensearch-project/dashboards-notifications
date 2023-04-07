@@ -62,7 +62,9 @@ jobs:
       # short enough to work on Windows
       - name: Shorten Path
         if: ${{ matrix.os == 'windows-latest' }}
-        run: subst 'X:' .
+        run: |
+          git config --system core.longpaths true
+          subst 'X:' .
 
       - name: Run Opensearch with plugin
         working-directory: ${{ env.WORKING_DIR }}
