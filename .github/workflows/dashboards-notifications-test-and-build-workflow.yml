@@ -87,19 +87,19 @@ jobs:
         with:
           repository: opensearch-project/Opensearch-Dashboards
           ref: ${{ env.OPENSEARCH_DASHBOARDS_VERSION }}
-          path: notifications/OpenSearch-Dashboards
+          path: OpenSearch-Dashboards
 
       - name: Setup Node
         uses: actions/setup-node@v3
         with:
-          node-version-file: 'notifications/OpenSearch-Dashboards/.nvmrc'
+          node-version-file: './OpenSearch-Dashboards/.nvmrc'
           registry-url: 'https://registry.npmjs.org'
 
       - name: Install Yarn
         # Need to use bash to avoid having a windows/linux specific step
         shell: bash
         run: |
-          YARN_VERSION=$(node -p "require('../notifications/OpenSearch-Dashboards/package.json').engines.yarn")
+          YARN_VERSION=$(node -p "require('./OpenSearch-Dashboards/package.json').engines.yarn")
           echo "Installing yarn@$YARN_VERSION"
           npm i -g yarn@$YARN_VERSION
 
@@ -113,16 +113,18 @@ jobs:
           npm config set script-shell "C:\\Program Files\\git\\bin\\bash.exe"
 
       - name: Move Notifications to Plugins Dir
-        run: mv dashboards-notifications notifications/OpenSearch-Dashboards/plugins/dashboards-notifications
+        run: |
+          mkdir -p OpenSearch-Dashboards/plugins
+          mv dashboards-notifications OpenSearch-Dashboards/plugins/dashboards-notifications
 
       - name: OpenSearch Dashboards Plugin Bootstrap
         run: |
-          cd notifications/OpenSearch-Dashboards/plugins/dashboards-notifications
+          cd OpenSearch-Dashboards/plugins/dashboards-notifications
           yarn osd bootstrap
 
       - name: Build Artifact
         run: |
-          cd notifications/OpenSearch-Dashboards/plugins/dashboards-notifications
+          cd OpenSearch-Dashboards/plugins/dashboards-notifications
           yarn build
 
       - name: Run unit tests
@@ -130,7 +132,7 @@ jobs:
         with:
           timeout_minutes: 30
           max_attempts: 1
-          command: cd notifications/OpenSearch-Dashboards/plugins/dashboards-notifications; yarn test:jest ${{ env.JEST_TEST_ARGS }}
+          command: cd OpenSearch-Dashboards/plugins/dashboards-notifications; yarn test:jest ${{ env.JEST_TEST_ARGS }}
           shell: bash
 
       - name: Run OpenSearch Dashboards server
@@ -144,7 +146,7 @@ jobs:
 
       - name: Install Cypress
         run: |
-          cd notifications/OpenSearch-Dashboards/plugins/dashboards-notifications
+          cd OpenSearch-Dashboards/plugins/dashboards-notifications
           # This will install Cypress in case the binary is missing which can happen on Windows and Mac
           # If the binary exists, this will exit quickly so it should not be an expensive operation
           npx cypress install
@@ -153,7 +155,7 @@ jobs:
       - name: Get Cypress version
         id: cypress_version
         run: |
-          cd notifications/OpenSearch-Dashboards/plugins/dashboards-notifications
+          cd OpenSearch-Dashboards/plugins/dashboards-notifications
           echo "::set-output name=cypress_version::$(cat ./package.json | jq '.dependencies.cypress' | tr -d '"')"
 
       - name: Cache Cypress
@@ -172,7 +174,7 @@ jobs:
       - name: Run Cypress tests
         uses: cypress-io/github-action@v2
         with:
-          working-directory: notifications/OpenSearch-Dashboards/plugins/dashboards-notifications
+          working-directory: OpenSearch-Dashboards/plugins/dashboards-notifications
           command: yarn run cypress run --browser chrome
           wait-on: 'http://localhost:5601'
         env:
@@ -183,25 +185,25 @@ jobs:
         if: failure()
         with:
           name: cypress-screenshots-${{ matrix.os }}
-          path: notifications/OpenSearch-Dashboards/plugins/dashboards-notifications/.cypress/screenshots
+          path: OpenSearch-Dashboards/plugins/dashboards-notifications/.cypress/screenshots
 
       # Test run video was always captured, so this action uses "always()" condition
       - uses: actions/upload-artifact@v1
         if: always()
         with:
           name: cypress-videos-${{ matrix.os }}
-          path: notifications/OpenSearch-Dashboards/plugins/dashboards-notifications/.cypress/videos
+          path: OpenSearch-Dashboards/plugins/dashboards-notifications/.cypress/videos
 
       - name: Upload coverage
         if: ${{ matrix.os == 'ubuntu-latest' }}
         uses: codecov/codecov-action@v1
         with:
           flags: dashboards-notifications
-          directory: notifications/OpenSearch-Dashboards/plugins/
+          directory: OpenSearch-Dashboards/plugins/
           token: ${{ secrets.CODECOV_TOKEN }}
 
       - name: Upload Artifact
         uses: actions/upload-artifact@v1
         with:
           name: dashboards-notifications
-          path: notifications/OpenSearch-Dashboards/plugins/dashboards-notifications/build
+          path: OpenSearch-Dashboards/plugins/dashboards-notifications/build
