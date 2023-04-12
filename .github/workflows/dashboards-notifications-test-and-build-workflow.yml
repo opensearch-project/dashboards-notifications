@@ -107,13 +107,15 @@ jobs:
           ref: ${{ env.OPENSEARCH_DASHBOARDS_VERSION }}
           path: OpenSearch-Dashboards
 
-      - name: Checkout OpenSearch-dashboard-notifications Plugin
-        uses: actions/checkout@v2
+      - name: Setup Node
+        uses: actions/setup-node@v3
         with:
           node-version-file: './OpenSearch-Dashboards/.nvmrc'
           registry-url: 'https://registry.npmjs.org'
 
       - name: Install correct yarn version for OpenSearch Dashboards
+        # Need to use bash to avoid having a windows/linux specific step
+        shell: bash
         run: |
           YARN_VERSION=$(node -p "require('./OpenSearch-Dashboards/package.json').engines.yarn")
           echo "Installing yarn@$YARN_VERSION"
