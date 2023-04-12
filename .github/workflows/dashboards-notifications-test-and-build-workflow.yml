@@ -30,10 +30,12 @@ jobs:
         os: [ ubuntu-latest, windows-latest ]
         include:
           - os: windows-latest
+            os_build_args: -x integTest -x jacocoTestReport
             working_directory: X:\
             os_java_options: -Xmx4096M
             cypress_cache_folder: ~/AppData/Local/Cypress/Cache
           - os: ubuntu-latest
+            os_build_args: -x integTest -x jacocoTestReport
             jest_test_args: --coverage
             cypress_cache_folder: ~/.cache/Cypress
             # TODO: Add back when macos-latest is back in the test matrix
@@ -51,11 +53,20 @@ jobs:
           distribution: temurin # Temurin is a distribution of adoptium
           java-version: 11
 
+      - name: Checkout Plugin
+        uses: actions/checkout@v2
+        with:
+          path: notifications
+          repository: opensearch-project/notifications
+          ref: '2.x'
+
       # This is a hack, but this step creates a link to the X: mounted drive, which makes the path
       # short enough to work on Windows
       - name: Shorten Path
         if: ${{ matrix.os == 'windows-latest' }}
-        run: subst 'X:' .
+        run: |
+          git config --system core.longpaths true
+          subst 'X:' .
 
       - name: enable long paths in git
         if: ${{ matrix.os == 'windows-latest' }}
@@ -79,12 +90,16 @@ jobs:
               brew install coreutils
           fi
           cd notifications/notifications
-          ./gradlew run -Dopensearch.version=${{ env.OPENSEARCH_VERSION }} &
+          ./gradlew run -Dopensearch.version=${{ env.OPENSEARCH_VERSION }} -x integTest -x jacocoTestReport &
           timeout 300 bash -c 'while [[ "$(curl -s -o /dev/null -w ''%{http_code}'' localhost:9200)" != "200" ]]; do sleep 5; done'
         shell: bash
         env:
           _JAVA_OPTIONS: ${{ matrix.os_java_options }}
 
+      - name: Checkout Notification Dashboards plugin
+        uses: actions/checkout@v2
+        with:
+          path: dashboards-notifications
       - name: Checkout OpenSearch Dashboards
         uses: actions/checkout@v2
         with:
@@ -92,35 +107,32 @@ jobs:
           ref: ${{ env.OPENSEARCH_DASHBOARDS_VERSION }}
           path: OpenSearch-Dashboards
 
-      - name: Checkout OpenSearch-dashboard-notifications Plugin
-        uses: actions/checkout@v2
+      - name: Setup Node
+        uses: actions/setup-node@v3
         with:
-          path: OpenSearch-Dashboards/plugins/dashboards-notifications
-
-      - name: Get node and yarn versions
-        working-directory: ${{ env.WORKING_DIR }}
-        id: versions_step
-        run: |
-          echo "::set-output name=node_version::$(node -p "(require('./OpenSearch-Dashboards/package.json').engines.node).match(/[.0-9]+/)[0]")"
-          echo "::set-output name=yarn_version::$(node -p "(require('./OpenSearch-Dashboards/package.json').engines.yarn).match(/[.0-9]+/)[0]")"
-
-      - name: Setup node
-        uses: actions/setup-node@v1
-        with:
-          node-version: ${{ steps.versions_step.outputs.node_version }}
+          node-version-file: './OpenSearch-Dashboards/.nvmrc'
           registry-url: 'https://registry.npmjs.org'
 
       - name: Install correct yarn version for OpenSearch Dashboards
+        # Need to use bash to avoid having a windows/linux specific step
+        shell: bash
         run: |
-          npm uninstall -g yarn
-          echo "Installing yarn ${{ steps.versions_step.outputs.yarn_version }}"
-          npm i -g yarn@${{ steps.versions_step.outputs.yarn_version }}
+          YARN_VERSION=$(node -p "require('./OpenSearch-Dashboards/package.json').engines.yarn")
+          echo "Installing yarn@$YARN_VERSION"
+          npm i -g yarn@$YARN_VERSION
+
+      - run: node -v
+      - run: yarn -v
 
       - name: Set npm to use bash for shell
         if: ${{ matrix.os == 'windows-latest' }}
         run: |
           # Sets Windows to use bash for npm shell so the script commands work as intended
           npm config set script-shell "C:\\Program Files\\git\\bin\\bash.exe"
+
+      - name: Move Notifications to Plugins Dir
+        run: |
+          mv dashboards-notifications OpenSearch-Dashboards/plugins/dashboards-notifications
 
       - name: OpenSearch Dashboards Plugin Bootstrap
         run: |
@@ -147,6 +159,12 @@ jobs:
           timeout 400 bash -c 'while [[ "$(curl -s http://localhost:5601/api/status | jq -r '.status.overall.state')" != "green" ]]; do echo sleeping 5; sleep 5; done'
           curl -sk localhost:5601/api/status | jq
           netstat -anp tcp | grep LISTEN | grep 5601 || netstat -ntlp | grep 5601
+        shell: bash
+
+      - name: Add sleep to wait for bundle build completion
+        run: |
+          sleep 300
+        # sleep two more minutes to make sure all the bundles have been built.
         shell: bash
 
       - name: Install Cypress
@@ -180,7 +198,7 @@ jobs:
         uses: cypress-io/github-action@v2
         with:
           working-directory: OpenSearch-Dashboards/plugins/dashboards-notifications
-          command: yarn run cypress run --browser chrome
+          command: yarn run cypress run
           wait-on: 'http://localhost:5601'
         env:
           CYPRESS_CACHE_FOLDER: ${{ matrix.cypress_cache_folder }}
