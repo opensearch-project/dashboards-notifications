@@ -7,6 +7,5 @@ Compatible with OpenSearch Dashboards 2.6.0
 ### Bug Fixes
 * Fix CI flow. ([#33](https://github.com/opensearch-project/dashboards-notifications/pull/33))
 
-
 ### Documentation
 * Drafted 2.7 release notes. ([#34](https://github.com/opensearch-project/dashboards-notifications/pull/34))
