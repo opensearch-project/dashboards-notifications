@@ -12,7 +12,7 @@ This document contains a list of maintainers in this repo. See [opensearch-proje
 | Hailong Cui           | [Hailong-am](https://github.com/Hailong-am)   | Amazon      |
 | Binlong Gao           | [gaobinlong](https://github.com/gaobinlong)   | Amazon      |
 | Zhou Su               | [SuZhou-Joe](https://github.com/SuZhou-Joe)   | Amazon      |
-| Yuye Zhu              | [SuZhou-Joe](https://github.com/yuye-aws)   | Amazon      |
+| Yuye Zhu              | [yuye-aws](https://github.com/yuye-aws)   | Amazon      |
 | zhichao               | [SuZhou-Joe](https://github.com/zhichao-aws)   | Amazon      |
 
 
