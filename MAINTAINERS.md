@@ -13,7 +13,7 @@ This document contains a list of maintainers in this repo. See [opensearch-proje
 | Binlong Gao           | [gaobinlong](https://github.com/gaobinlong)   | Amazon      |
 | Zhou Su               | [SuZhou-Joe](https://github.com/SuZhou-Joe)   | Amazon      |
 | Yuye Zhu              | [yuye-aws](https://github.com/yuye-aws)   | Amazon      |
-| zhichao               | [SuZhou-Joe](https://github.com/zhichao-aws)   | Amazon      |
+| Zhichao Geng           | [zhichao-aws](https://github.com/zhichao-aws)   | Amazon      |
 
 
 [This document](https://github.com/opensearch-project/.github/blob/main/MAINTAINERS.md) explains what maintainers do in this repo, and how they should be doing it. If you're interested in contributing, see [CONTRIBUTING](CONTRIBUTING.md).
