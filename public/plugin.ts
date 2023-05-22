@@ -7,6 +7,7 @@ import {
   AppMountParameters,
   CoreSetup,
   CoreStart,
+  DEFAULT_APP_CATEGORIES,
   Plugin,
 } from '../../../src/core/public';
 import {
@@ -15,6 +16,13 @@ import {
   AppPluginStartDependencies,
 } from './types';
 import { PLUGIN_NAME } from '../common';
+import {Navigation} from "./pages/Main/Main";
+import {ROUTES} from "./utils/constants";
+import {ManagementOverViewPluginSetup} from "../../../src/plugins/management_overview/public";
+
+interface NotificationsDashboardsSetupDeps {
+  managementOverview?: ManagementOverViewPluginSetup;
+}
 
 export class notificationsDashboardsPlugin
   implements
@@ -22,17 +30,13 @@ export class notificationsDashboardsPlugin
       notificationsDashboardsPluginSetup,
       notificationsDashboardsPluginStart
     > {
-  public setup(core: CoreSetup): notificationsDashboardsPluginSetup {
+  public setup(core: CoreSetup, {managementOverview}: NotificationsDashboardsSetupDeps): notificationsDashboardsPluginSetup {
     // Register an application into the side navigation menu
     core.application.register({
       id: PLUGIN_NAME,
       title: 'Notifications',
-      category: {
-        id: 'opensearch',
-        label: 'OpenSearch Plugins',
-        order: 2000,
-      },
-      order: 6000,
+      category: DEFAULT_APP_CATEGORIES.management,
+      order: 9060,
       async mount(params: AppMountParameters) {
         // Load application bundle
         const { renderApp } = await import('./application');
@@ -42,6 +46,31 @@ export class notificationsDashboardsPlugin
         return renderApp(coreStart, params);
       },
     });
+
+    if (managementOverview) {
+      managementOverview.register({
+        id: PLUGIN_NAME,
+        title: 'Notifications',
+        order: 9060,
+        pages: [
+          {
+            title: Navigation.Channels,
+            url: `#${ROUTES.CHANNELS}`,
+            order: 100
+          },
+          {
+            title: Navigation.EmailSenders,
+            url: `#${ROUTES.EMAIL_SENDERS}`,
+            order: 200
+          },
+          {
+            title: Navigation.EmailGroups,
+            url: `#${ROUTES.EMAIL_GROUPS}`,
+            order: 300
+          },
+        ]
+      });
+    }
 
     // Return methods that should be available to other plugins
     return {};

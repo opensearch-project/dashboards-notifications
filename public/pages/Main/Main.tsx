@@ -21,7 +21,7 @@ import { CreateSESSender } from '../Emails/CreateSESSender';
 import { EmailGroups } from '../Emails/EmailGroups';
 import { EmailSenders } from '../Emails/EmailSenders';
 
-enum Navigation {
+export enum Navigation {
   Notifications = 'Notifications',
   Channels = 'Channels',
   EmailSenders = 'Email senders',
