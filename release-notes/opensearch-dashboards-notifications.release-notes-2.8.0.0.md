@@ -6,4 +6,4 @@ Compatible with OpenSearch Dashboards 2.8.0
 
 
 ### Documentation
-* Drafted 2.8 release notes. ([#51](https://github.com/opensearch-project/dashboards-notifications/pull/51))
+* Drafted 2.8 release notes. ([#52](https://github.com/opensearch-project/dashboards-notifications/pull/52))
