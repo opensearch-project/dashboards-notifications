@@ -155,7 +155,7 @@ jobs:
       - name: Run OpenSearch Dashboards server
         run: |
           cd ./OpenSearch-Dashboards
-          yarn start --no-base-path --no-watch &
+          yarn start --no-base-path --no-watch > nohup.out &
           timeout 400 bash -c 'while [[ "$(curl -s http://localhost:5601/api/status | jq -r '.status.overall.state')" != "green" ]]; do echo sleeping 5; sleep 5; done'
           curl -sk localhost:5601/api/status | jq
           netstat -anp tcp | grep LISTEN | grep 5601 || netstat -ntlp | grep 5601
@@ -230,3 +230,10 @@ jobs:
         with:
           name: dashboards-notifications
           path: OpenSearch-Dashboards/plugins/dashboards-notifications/build
+
+      - name: Update OSD logs
+        uses: actions/upload-artifact@v1
+        if: always()
+        with:
+          name: opensearch-dashboards-logs
+          path: OpenSearch-Dashboards/nohup.out
