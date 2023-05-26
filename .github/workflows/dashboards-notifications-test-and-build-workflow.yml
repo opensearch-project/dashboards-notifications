@@ -163,7 +163,7 @@ jobs:
 
       - name: Add sleep to wait for bundle build completion
         run: |
-          sleep 300
+          sleep 200
         # sleep two more minutes to make sure all the bundles have been built.
         shell: bash
 
