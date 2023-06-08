@@ -8,6 +8,7 @@
 import { delay } from '../utils/constants';
 import testSlackChannel from '../fixtures/test_slack_channel';
 import testChimeChannel from '../fixtures/test_chime_channel';
+import testMicrosoftTeamsChannel from '../fixtures/test_microsoft_teams_channel.json';
 import testWebhookChannel from '../fixtures/test_webhook_channel.json';
 import testTlsSmtpSender from '../fixtures/test_tls_smtp_sender';
 
@@ -69,6 +70,25 @@ describe('Test create channels', () => {
     cy.contains('successfully created.').should('exist');
   });
 
+  it('creates a microsoft teams channel and send test message', () => {
+    cy.get('[placeholder="Enter channel name"]').type('Test microsoft teams channel');
+
+    cy.get('.euiSuperSelectControl').contains('Slack').click({ force: true });
+    cy.wait(delay);
+    cy.get('.euiContextMenuItem__text')
+      .contains('Microsoft Teams')
+      .click({ force: true });
+    cy.wait(delay);
+
+    cy.get('[data-test-subj="create-channel-microsoftTeams-webhook-input"]').type(
+      'https://sample-microsoft-teams-webhook'
+    );
+    cy.wait(delay);
+
+    cy.get('[data-test-subj="create-channel-create-button"]').click();
+    cy.contains('successfully created.').should('exist');
+  });
+
   it('creates an email channel', () => {
     cy.get('[placeholder="Enter channel name"]').type('Test email channel');
 
@@ -114,7 +134,7 @@ describe('Test create channels', () => {
       .contains('Email')
       .click({ force: true });
     cy.wait(delay);
-    
+
     cy.get('input.euiRadio__input#ses_account').click({ force: true });
     cy.wait(delay);
 
@@ -195,6 +215,7 @@ describe('Test channels table', () => {
     // Create test channels
     cy.createConfig(testSlackChannel);
     cy.createConfig(testChimeChannel);
+    cy.createConfig(testMicrosoftTeamsChannel);
     cy.createConfig(testWebhookChannel);
     cy.createTestEmailChannel();
   });
@@ -292,7 +313,7 @@ describe('Test channel details', () => {
     cy.contains('successfully unmuted.').should('exist');
     cy.contains('Active').should('exist');
   });
-  
+
   it('edits channels', () => {
     cy.contains('Actions').click({ force: true });
     cy.contains('Edit').click({ force: true });

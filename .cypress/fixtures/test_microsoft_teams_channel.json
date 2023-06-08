@@ -1,0 +1,11 @@
+{
+  "config": {
+    "name": "Test microsoft teams channel",
+    "description": "A test microsoft teams channel",
+    "config_type": "microsoft_teams",
+    "is_enabled": true,
+    "microsoft_teams": {
+      "url": "https://sample-microsoft-teams-webhook"
+    }
+  }
+}
