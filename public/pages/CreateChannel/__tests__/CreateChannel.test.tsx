@@ -63,6 +63,7 @@ describe('<CreateChannel/> spec', () => {
       availableConfigTypes: [
         'slack',
         'chime',
+        'microsoft_teams',
         'webhook',
         'email',
         'sns',
@@ -156,6 +157,42 @@ describe('<CreateChannel/> spec', () => {
     });
 
     utilsChime.getByTestId('create-channel-create-button').click();
+    await waitFor(() => {
+      expect(updateConfigFailure).toBeCalled();
+    });
+  });
+
+  it('renders the component for editing microsoft teams', async () => {
+    const notificationServiceMockMicrosoftTeams = jest.fn() as any;
+    const getMicrosoftTeamsChannel = jest.fn(
+      async (queryObject: object) => MOCK_DATA.microsoftTeams
+    );
+    notificationServiceMockMicrosoftTeams.notificationService = {
+      getChannel: getMicrosoftTeamsChannel,
+      updateConfig: updateConfigFailure,
+    };
+    const props = {
+      location: { search: '' },
+      match: { params: { id: 'test' } },
+    };
+    const utilsMicrosoftTeams = render(
+      <MainContext.Provider value={mainStateMock}>
+        <ServicesContext.Provider value={notificationServiceMockMicrosoftTeams}>
+          <CoreServicesContext.Provider value={coreServicesMock}>
+            <CreateChannel
+              {...(props as RouteComponentProps<{ id: string }>)}
+              edit={true}
+            />
+          </CoreServicesContext.Provider>
+        </ServicesContext.Provider>
+      </MainContext.Provider>
+    );
+
+    await waitFor(() => {
+      expect(getMicrosoftTeamsChannel).toBeCalled();
+    });
+
+    utilsMicrosoftTeams.getByTestId('create-channel-create-button').click();
     await waitFor(() => {
       expect(updateConfigFailure).toBeCalled();
     });
