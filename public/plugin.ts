@@ -16,9 +16,9 @@ import {
   AppPluginStartDependencies,
 } from './types';
 import { PLUGIN_NAME } from '../common';
-import {Navigation} from "./pages/Main/Main";
-import {ROUTES} from "./utils/constants";
-import {ManagementOverViewPluginSetup} from "../../../src/plugins/management_overview/public";
+import { Navigation } from "./pages/Main/Main";
+import { ROUTES } from "./utils/constants";
+import { ManagementOverViewPluginSetup } from "../../../src/plugins/management_overview/public";
 
 interface NotificationsDashboardsSetupDeps {
   managementOverview?: ManagementOverViewPluginSetup;
@@ -30,7 +30,7 @@ export class notificationsDashboardsPlugin
       notificationsDashboardsPluginSetup,
       notificationsDashboardsPluginStart
     > {
-  public setup(core: CoreSetup, {managementOverview}: NotificationsDashboardsSetupDeps): notificationsDashboardsPluginSetup {
+  public setup(core: CoreSetup, { managementOverview }: NotificationsDashboardsSetupDeps): notificationsDashboardsPluginSetup {
     // Register an application into the side navigation menu
     core.application.register({
       id: PLUGIN_NAME,
