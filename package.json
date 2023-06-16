@@ -11,7 +11,7 @@
   "scripts": {
     "osd": "node ../../scripts/osd",
     "opensearch": "node ../../scripts/opensearch",
-    "lint": "eslint .",
+    "lint": "node ../../scripts/eslint . && node ../../scripts/stylelint",
     "start": "yarn plugin_helpers start",
     "build": "yarn plugin_helpers build",
     "test:jest": "TZ=UTC ../../node_modules/.bin/jest --config ./test/jest.config.js",

@@ -3,6 +3,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
+import { i18n } from '@osd/i18n';
 import {
   AppMountParameters,
   CoreSetup,
@@ -13,16 +14,9 @@ import {
 import {
   notificationsDashboardsPluginSetup,
   notificationsDashboardsPluginStart,
-  AppPluginStartDependencies,
+  NotificationsDashboardsSetupDeps,
 } from './types';
 import { PLUGIN_NAME } from '../common';
-import { Navigation } from "./pages/Main/Main";
-import { ROUTES } from "./utils/constants";
-import { ManagementOverViewPluginSetup } from "../../../src/plugins/management_overview/public";
-
-interface NotificationsDashboardsSetupDeps {
-  managementOverview?: ManagementOverViewPluginSetup;
-}
 
 export class notificationsDashboardsPlugin
   implements
@@ -30,11 +24,18 @@ export class notificationsDashboardsPlugin
       notificationsDashboardsPluginSetup,
       notificationsDashboardsPluginStart
     > {
-  public setup(core: CoreSetup, { managementOverview }: NotificationsDashboardsSetupDeps): notificationsDashboardsPluginSetup {
+  private title = i18n.translate('notification.notificationTitle', {
+    defaultMessage: 'Notifications',
+  });
+
+  public setup(
+    core: CoreSetup,
+    { managementOverview }: NotificationsDashboardsSetupDeps
+  ): notificationsDashboardsPluginSetup {
     // Register an application into the side navigation menu
     core.application.register({
       id: PLUGIN_NAME,
-      title: 'Notifications',
+      title: this.title,
       category: DEFAULT_APP_CATEGORIES.management,
       order: 9060,
       async mount(params: AppMountParameters) {
@@ -50,25 +51,12 @@ export class notificationsDashboardsPlugin
     if (managementOverview) {
       managementOverview.register({
         id: PLUGIN_NAME,
-        title: 'Notifications',
+        title: this.title,
         order: 9060,
-        pages: [
-          {
-            title: Navigation.Channels,
-            url: `#${ROUTES.CHANNELS}`,
-            order: 100
-          },
-          {
-            title: Navigation.EmailSenders,
-            url: `#${ROUTES.EMAIL_SENDERS}`,
-            order: 200
-          },
-          {
-            title: Navigation.EmailGroups,
-            url: `#${ROUTES.EMAIL_GROUPS}`,
-            order: 300
-          },
-        ]
+        description: i18n.translate('notification.notificationDescription', {
+          defaultMessage:
+            'Connect with your communication service to receive notifications from supported OpenSearch plugins.',
+        }),
       });
     }
 
