@@ -55,7 +55,7 @@ export class notificationsDashboardsPlugin
         order: 9060,
         description: i18n.translate('notification.notificationDescription', {
           defaultMessage:
-            'Connect with your communication service to receive notifications from supported OpenSearch plugins.',
+            'Connect with your communication services to receive notifications from supported OpenSearch plugins.',
         }),
       });
     }
