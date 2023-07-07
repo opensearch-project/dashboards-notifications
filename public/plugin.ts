@@ -3,16 +3,18 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
+import { i18n } from '@osd/i18n';
 import {
   AppMountParameters,
   CoreSetup,
   CoreStart,
+  DEFAULT_APP_CATEGORIES,
   Plugin,
 } from '../../../src/core/public';
 import {
   notificationsDashboardsPluginSetup,
   notificationsDashboardsPluginStart,
-  AppPluginStartDependencies,
+  NotificationsDashboardsSetupDeps,
 } from './types';
 import { PLUGIN_NAME } from '../common';
 
@@ -22,17 +24,20 @@ export class notificationsDashboardsPlugin
       notificationsDashboardsPluginSetup,
       notificationsDashboardsPluginStart
     > {
-  public setup(core: CoreSetup): notificationsDashboardsPluginSetup {
+  private title = i18n.translate('notification.notificationTitle', {
+    defaultMessage: 'Notifications',
+  });
+
+  public setup(
+    core: CoreSetup,
+    { managementOverview }: NotificationsDashboardsSetupDeps
+  ): notificationsDashboardsPluginSetup {
     // Register an application into the side navigation menu
     core.application.register({
       id: PLUGIN_NAME,
-      title: 'Notifications',
-      category: {
-        id: 'opensearch',
-        label: 'OpenSearch Plugins',
-        order: 2000,
-      },
-      order: 6000,
+      title: this.title,
+      category: DEFAULT_APP_CATEGORIES.management,
+      order: 9060,
       async mount(params: AppMountParameters) {
         // Load application bundle
         const { renderApp } = await import('./application');
@@ -42,6 +47,18 @@ export class notificationsDashboardsPlugin
         return renderApp(coreStart, params);
       },
     });
+
+    if (managementOverview) {
+      managementOverview.register({
+        id: PLUGIN_NAME,
+        title: this.title,
+        order: 9060,
+        description: i18n.translate('notification.notificationDescription', {
+          defaultMessage:
+            'Connect with your communication services to receive notifications from supported OpenSearch plugins.',
+        }),
+      });
+    }
 
     // Return methods that should be available to other plugins
     return {};
