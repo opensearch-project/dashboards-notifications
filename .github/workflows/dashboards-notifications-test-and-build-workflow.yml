@@ -10,7 +10,7 @@ on: [pull_request, push]
 env:
   PLUGIN_NAME: notifications-dashboards
   OPENSEARCH_DASHBOARDS_VERSION: '2.x'
-  OPENSEARCH_VERSION: '2.7.0-SNAPSHOT'
+  OPENSEARCH_VERSION: '2.8.0-SNAPSHOT'
 
 jobs:
   tests:
@@ -139,7 +139,7 @@ jobs:
       - name: Run OpenSearch Dashboards server
         run: |
           cd OpenSearch-Dashboards
-          yarn start --no-base-path --no-watch &
+          yarn start --no-base-path --no-watch --server.host="0.0.0.0" &
           timeout 400 bash -c 'while [[ "$(curl -s http://localhost:5601/api/status | jq -r '.status.overall.state')" != "green" ]]; do echo sleeping 5; sleep 5; done'
           curl -sk localhost:5601/api/status | jq
           netstat -anp tcp | grep LISTEN | grep 5601 || netstat -ntlp | grep 5601
