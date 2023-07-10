@@ -1,13 +1,14 @@
 {
   "id": "notificationsDashboards",
-  "version": "2.8.0.0",
-  "opensearchDashboardsVersion": "2.8.0",
+  "version": "2.9.0.0",
+  "opensearchDashboardsVersion": "2.9.0",
   "requiredPlugins": [
     "navigation",
     "data"
   ],
   "optionalPlugins": [
-    "share"
+    "share",
+    "managementOverview"
   ],
   "server": true,
   "ui": true
