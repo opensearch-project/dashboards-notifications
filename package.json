@@ -21,13 +21,13 @@
     "postbuild": "echo Renaming build artifact to [$npm_package_config_zip_name-$npm_package_version.zip] && mv build/$npm_package_config_id*.zip build/$npm_package_config_zip_name-$npm_package_version.zip"
   },
   "dependencies": {
-    "cypress": "^6.0.0"
   },
   "devDependencies": {
     "@types/enzyme-adapter-react-16": "^1.0.6",
     "@types/showdown": "^1.9.3",
     "enzyme-adapter-react-16": "^1.15.5",
-    "jest-dom": "^4.0.0"
+    "jest-dom": "^4.0.0",
+    "cypress": "^6.0.0"
   },
   "resolutions": {
     "async": "^3.2.3",
