@@ -27,11 +27,11 @@
     "@types/enzyme-adapter-react-16": "^1.0.6",
     "@types/showdown": "^1.9.3",
     "enzyme-adapter-react-16": "^1.15.5",
-    "jest": "^27.5.1",
     "jest-dom": "^4.0.0"
   },
   "resolutions": {
     "async": "^3.2.3",
-    "minimist": "^1.2.6"
+    "minimist": "^1.2.6",
+    "tough-cookie": "^4.1.3"
   }
 }
