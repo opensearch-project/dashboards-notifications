@@ -84,6 +84,11 @@ Cypress.Commands.add('createTestEmailChannel', () => {
 
 Cypress.Commands.add('deleteAllConfigs', () => {
   cy.request({
+    method: 'POST',
+    url: `${Cypress.env('opensearch')}/_refresh`
+  });
+
+  cy.request({
     method: 'GET',
     url: `${Cypress.env('opensearch')}${API.CONFIGS_BASE}`,
   }).then((response) => {
