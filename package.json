@@ -1,6 +1,6 @@
 {
   "name": "notifications-dashboards",
-  "version": "2.9.0.0",
+  "version": "2.10.0.0",
   "description": "OpenSearch Dashboards Notifications Plugin",
   "license": "Apache-2.0",
   "main": "index.ts",
@@ -20,8 +20,7 @@
     "plugin_helpers": "node ../../scripts/plugin_helpers",
     "postbuild": "echo Renaming build artifact to [$npm_package_config_zip_name-$npm_package_version.zip] && mv build/$npm_package_config_id*.zip build/$npm_package_config_zip_name-$npm_package_version.zip"
   },
-  "dependencies": {
-  },
+  "dependencies": {},
   "devDependencies": {
     "@types/enzyme-adapter-react-16": "^1.0.6",
     "@types/showdown": "^1.9.3",
