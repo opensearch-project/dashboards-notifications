@@ -11,7 +11,7 @@
   "scripts": {
     "osd": "node ../../scripts/osd",
     "opensearch": "node ../../scripts/opensearch",
-    "lint": "eslint .",
+    "lint": "node ../../scripts/eslint . && node ../../scripts/stylelint",
     "start": "yarn plugin_helpers start",
     "build": "yarn plugin_helpers build",
     "test:jest": "TZ=UTC ../../node_modules/.bin/jest --config ./test/jest.config.js",
@@ -20,18 +20,17 @@
     "plugin_helpers": "node ../../scripts/plugin_helpers",
     "postbuild": "echo Renaming build artifact to [$npm_package_config_zip_name-$npm_package_version.zip] && mv build/$npm_package_config_id*.zip build/$npm_package_config_zip_name-$npm_package_version.zip"
   },
-  "dependencies": {
-    "cypress": "^6.0.0"
-  },
+  "dependencies": {},
   "devDependencies": {
     "@types/enzyme-adapter-react-16": "^1.0.6",
     "@types/showdown": "^1.9.3",
     "enzyme-adapter-react-16": "^1.15.5",
-    "jest": "^27.5.1",
-    "jest-dom": "^4.0.0"
+    "jest-dom": "^4.0.0",
+    "cypress": "^6.0.0"
   },
   "resolutions": {
     "async": "^3.2.3",
-    "minimist": "^1.2.6"
+    "minimist": "^1.2.6",
+    "tough-cookie": "^4.1.3"
   }
 }

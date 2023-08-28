@@ -118,7 +118,7 @@ describe('Test create channels', () => {
     cy.wait(delay);
     cy.get(
       '[data-test-subj="create-recipient-group-modal-create-button"]'
-    ).click();
+    ).click({ force: true });
     cy.contains('successfully created.').should('exist');
 
     cy.get('[data-test-subj="create-channel-create-button"]').click();
@@ -155,7 +155,7 @@ describe('Test create channels', () => {
     );
     cy.get(
       '[data-test-subj="create-ses-sender-modal-create-button"]'
-    ).click();
+    ).click({ force: true });
     cy.contains('successfully created.').should('exist');
 
     // custom data-test-subj does not work on combo box
@@ -202,7 +202,7 @@ describe('Test create channels', () => {
       'arn:aws:iam::012345678901:role/NotificationsSNSRole'
     );
 
-    cy.get('[data-test-subj="create-channel-create-button"]').click();
+    cy.get('[data-test-subj="create-channel-create-button"]').click({ force: true });
     cy.contains('successfully created.').should('exist');
   });
 });
