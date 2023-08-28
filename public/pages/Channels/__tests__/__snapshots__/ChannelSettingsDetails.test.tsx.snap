@@ -196,6 +196,62 @@ exports[`<ChannelSettingsDetails /> spec renders Slack channel 1`] = `
 </div>
 `;
 
+exports[`<ChannelSettingsDetails /> spec renders Teams channel 1`] = `
+<div>
+  <div
+    class="euiSpacer euiSpacer--s"
+  />
+  <div
+    class="euiFlexGroup euiFlexGroup--gutterLarge euiFlexGroup--directionRow euiFlexGroup--responsive"
+  >
+    <div
+      class="euiFlexItem"
+    >
+      <dl
+        class="euiDescriptionList euiDescriptionList--row"
+        style="word-break: break-word; white-space: pre-line;"
+      >
+        <dt
+          class="euiDescriptionList__title"
+        >
+          Channel type
+        </dt>
+        <dd
+          class="euiDescriptionList__description"
+        >
+          Microsoft Teams
+        </dd>
+      </dl>
+    </div>
+    <div
+      class="euiFlexItem"
+    >
+      <dl
+        class="euiDescriptionList euiDescriptionList--row"
+        style="word-break: break-word; white-space: pre-line;"
+      >
+        <dt
+          class="euiDescriptionList__title"
+        >
+          Webhook URL
+        </dt>
+        <dd
+          class="euiDescriptionList__description"
+        >
+          https://chimehook
+        </dd>
+      </dl>
+    </div>
+    <div
+      class="euiFlexItem"
+    />
+  </div>
+  <div
+    class="euiSpacer euiSpacer--m"
+  />
+</div>
+`;
+
 exports[`<ChannelSettingsDetails /> spec renders Webhook channel 1`] = `
 <div>
   <div

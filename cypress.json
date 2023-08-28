@@ -11,6 +11,7 @@
   "requestTimeout": 60000,
   "responseTimeout": 60000,
   "defaultCommandTimeout": 60000,
+  "pageLoadTimeout":90000,
   "retries": {
     "runMode": 2,
     "openMode": 2

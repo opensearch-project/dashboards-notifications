@@ -101,6 +101,19 @@ export function ChannelSettingsDetails(props: ChannelSettingsDetailsProps) {
         },
       ]
     );
+  } else if (type === BACKEND_CHANNEL_TYPE.MICROSOFT_TEAMS) {
+    settingsList.push(
+      ...[
+        {
+          title: 'Channel type',
+          description: CHANNEL_TYPE.microsoft_teams,
+        },
+        {
+          title: 'Webhook URL',
+          description: props.channel.microsoft_teams!.url || '-',
+        },
+      ]
+    );
   } else if (type === BACKEND_CHANNEL_TYPE.EMAIL) {
     const emailObject = deconstructEmailObject(props.channel.email!);
     const recipientsDescription = getModalComponent(

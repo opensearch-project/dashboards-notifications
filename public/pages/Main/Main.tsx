@@ -70,6 +70,7 @@ export default class Main extends Component<MainProps, MainState> {
         availableConfigTypes: [
           'slack',
           'chime',
+          'microsoft_teams',
           'webhook',
           'email',
           'sns',
