@@ -81,7 +81,7 @@ describe('Test create channels', () => {
     cy.wait(delay);
 
     cy.get('[data-test-subj="create-channel-microsoftTeams-webhook-input"]').type(
-      'https://sample-microsoft-teams-webhook'
+      'https://testdomain.webhook.office.com/123'
     );
     cy.wait(delay);
 

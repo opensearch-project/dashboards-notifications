@@ -5,7 +5,7 @@
     "config_type": "microsoft_teams",
     "is_enabled": true,
     "microsoft_teams": {
-      "url": "https://sample-microsoft-teams-webhook"
+      "url": "https://testdomain.webhook.office.com/123"
     }
   }
 }
