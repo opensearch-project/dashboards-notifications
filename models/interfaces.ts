@@ -37,6 +37,9 @@ export interface ChannelItemType extends ConfigType {
   chime?: {
     url: string;
   };
+  microsoft_teams?: {
+    url: string;
+  };
   webhook?: {
     url: string;
     header_params: object;

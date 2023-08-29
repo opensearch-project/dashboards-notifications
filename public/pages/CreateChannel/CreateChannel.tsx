@@ -36,6 +36,7 @@ import { HeaderItemType, WebhookHttpType, WebhookMethodType } from '../Channels/
 import { MainContext } from '../Main/Main';
 import { ChannelNamePanel } from './components/ChannelNamePanel';
 import { ChimeSettings } from './components/ChimeSettings';
+import { MicrosoftTeamsSettings } from './components/MicrosoftTeamsSettings';
 import { CustomWebhookSettings } from './components/CustomWebhookSettings';
 import { EmailSettings } from './components/EmailSettings';
 import { SlackSettings } from './components/SlackSettings';
@@ -96,6 +97,7 @@ export function CreateChannel(props: CreateChannelsProps) {
 
   const [slackWebhook, setSlackWebhook] = useState('');
   const [chimeWebhook, setChimeWebhook] = useState('');
+  const [microsoftTeamsWebhook, setMicrosoftTeamsWebhook] = useState('');
 
   const [senderType, setSenderType] = useState<SenderType>('smtp_account');
   const [selectedSmtpSenderOptions, setSelectedSmtpSenderOptions] = useState<
@@ -130,6 +132,7 @@ export function CreateChannel(props: CreateChannelsProps) {
     name: [],
     slackWebhook: [],
     chimeWebhook: [],
+    microsoftTeamsWebhook: [],
     smtpSender: [],
     sesSender: [],
     recipients: [],
@@ -184,6 +187,8 @@ export function CreateChannel(props: CreateChannelsProps) {
         setSlackWebhook(response.slack?.url || '');
       } else if (type === BACKEND_CHANNEL_TYPE.CHIME) {
         setChimeWebhook(response.chime?.url || '');
+      } else if (type === BACKEND_CHANNEL_TYPE.MICROSOFT_TEAMS) {
+        setMicrosoftTeamsWebhook(response.microsoft_teams?.url || '');
       } else if (type === BACKEND_CHANNEL_TYPE.EMAIL) {
         const emailObject = deconstructEmailObject(response.email!);
         setSenderType(emailObject.senderType);
@@ -220,6 +225,7 @@ export function CreateChannel(props: CreateChannelsProps) {
       name: validateChannelName(name),
       slackWebhook: [],
       chimeWebhook: [],
+      microsoftTeamsWebhook: [],
       smtpSender: [],
       sesSender: [],
       recipients: [],
@@ -233,6 +239,8 @@ export function CreateChannel(props: CreateChannelsProps) {
       errors.slackWebhook = validateWebhookURL(slackWebhook);
     } else if (channelType === BACKEND_CHANNEL_TYPE.CHIME) {
       errors.chimeWebhook = validateWebhookURL(chimeWebhook);
+    } else if (channelType === BACKEND_CHANNEL_TYPE.MICROSOFT_TEAMS) {
+      errors.microsoftTeamsWebhook = validateWebhookURL(microsoftTeamsWebhook);
     } else if (channelType === BACKEND_CHANNEL_TYPE.EMAIL) {
       if (senderType === 'smtp_account') {
         errors.smtpSender = validateEmailSender(selectedSmtpSenderOptions);
@@ -270,6 +278,8 @@ export function CreateChannel(props: CreateChannelsProps) {
       config.slack = { url: slackWebhook };
     } else if (channelType === BACKEND_CHANNEL_TYPE.CHIME) {
       config.chime = { url: chimeWebhook };
+    } else if (channelType === BACKEND_CHANNEL_TYPE.MICROSOFT_TEAMS) {
+      config.microsoft_teams = { url: microsoftTeamsWebhook };
     } else if (channelType === BACKEND_CHANNEL_TYPE.CUSTOM_WEBHOOK) {
       config.webhook = constructWebhookObject(
         webhookTypeIdSelected,
@@ -401,7 +411,12 @@ export function CreateChannel(props: CreateChannelsProps) {
               chimeWebhook={chimeWebhook}
               setChimeWebhook={setChimeWebhook}
             />
-          ) : channelType === BACKEND_CHANNEL_TYPE.EMAIL ? (
+          ) : channelType === BACKEND_CHANNEL_TYPE.MICROSOFT_TEAMS ? (
+            <MicrosoftTeamsSettings
+              microsoftTeamsWebhook={microsoftTeamsWebhook}
+              setMicrosoftTeamsWebhook={setMicrosoftTeamsWebhook}
+            />
+          ): channelType === BACKEND_CHANNEL_TYPE.EMAIL ? (
             <EmailSettings
               senderType={senderType}
               setSenderType={setSenderType}

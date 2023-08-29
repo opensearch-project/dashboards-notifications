@@ -45,4 +45,11 @@ describe('<ChannelSettingsDetails /> spec', () => {
     );
     expect(utils.container.firstChild).toMatchSnapshot();
   });
+
+  it('renders Teams channel', () => {
+    const utils = render(
+      <ChannelSettingsDetails channel={MOCK_DATA.microsoftTeams} />
+    );
+    expect(utils.container.firstChild).toMatchSnapshot();
+  });
 });
