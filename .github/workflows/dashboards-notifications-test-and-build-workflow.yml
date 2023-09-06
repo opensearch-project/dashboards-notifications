@@ -138,7 +138,7 @@ jobs:
       - name: Run OpenSearch Dashboards server
         run: |
           cd OpenSearch-Dashboards
-          yarn start --no-base-path --no-watch --server.host="0.0.0.0" &
+          yarn start --no-base-path --no-watch --no-optimizer --server.host="0.0.0.0" &
           timeout 400 bash -c 'while [[ "$(curl -s http://localhost:5601/api/status | jq -r '.status.overall.state')" != "green" ]]; do echo sleeping 5; sleep 5; done'
           curl -sk localhost:5601/api/status | jq
           netstat -anp tcp | grep LISTEN | grep 5601 || netstat -ntlp | grep 5601
