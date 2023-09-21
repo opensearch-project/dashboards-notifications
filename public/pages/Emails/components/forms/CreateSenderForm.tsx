@@ -147,7 +147,7 @@ export function CreateSenderForm(props: CreateSenderFormProps) {
         style={{ maxWidth: '650px' }}
         helpText={
           <div>
-            SSL or TLS is recommended for security. To use either one, you must
+            SSL/TLS or STARTTLS is recommended for security. To use either one, you must
             enter each sender account's credentials to the OpenSearch
             keystore using the CLI.{' '}
             <EuiLink
