@@ -56,7 +56,7 @@ describe('<SendersTableControls /> spec', () => {
       </MainContext.Provider>
     );
     fireEvent.click(utils.getByText('Encryption method'));
-    fireEvent.click(utils.getByText('TLS'));
+    fireEvent.click(utils.getByText('STARTTLS'));
     fireEvent.click(utils.getByText('None'));
     expect(onFiltersChange).toBeCalledWith({ encryptionMethod: ["start_tls", "none"] });
   });
