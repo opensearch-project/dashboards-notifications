@@ -74,8 +74,8 @@ export const CHANNEL_TYPE = Object.freeze({
 };
 
 export const ENCRYPTION_TYPE = Object.freeze({
-  ssl: 'SSL',
-  start_tls: 'TLS',
+  ssl: 'SSL/TLS',
+  start_tls: 'STARTTLS',
   none: 'None',
 });
 
