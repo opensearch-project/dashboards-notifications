@@ -67,7 +67,7 @@ describe('Test create email senders', () => {
       force: true,
     });
     cy.wait(delay);
-    cy.get('.euiContextMenuItem__text').contains('TLS').click({ force: true });
+    cy.get('.euiContextMenuItem__text').contains('STARTTLS').click({ force: true });
     cy.wait(delay);
 
     cy.get('.euiButton__text').contains('Create').click({ force: true });
