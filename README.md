@@ -50,7 +50,7 @@ Example output: `./build/notificationsDashboards*.zip`
 
 ## Contributing to OpenSearch Dashboards Notifications
 
-We welcome you to get involved in development, documentation, testing the dashboards-notifications plugin. See our [CONTRIBUTING.md](./../CONTRIBUTING.md) and join in.
+We welcome you to get involved in development, documentation, testing the dashboards-notifications plugin. See our [CONTRIBUTING.md](CONTRIBUTING.md) and join in.
 
 ## Bugs, Enhancements or Questions
 
