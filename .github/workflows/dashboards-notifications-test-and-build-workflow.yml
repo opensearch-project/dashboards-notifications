@@ -25,7 +25,6 @@ jobs:
       fail-fast: false
       matrix:
         # TODO: macos-latest was removed due to CI flakiness, we can revisit adding it back later
-        os: [ ubuntu-latest, windows-latest ]
         include:
           - os: windows-latest
             os_build_args: -x integTest -x jacocoTestReport

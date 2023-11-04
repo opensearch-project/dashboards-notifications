@@ -1,0 +1,133 @@
+##
+ # Copyright OpenSearch Contributors
+ # SPDX-License-Identifier: Apache-2.0
+##
+
+name: Test and Build Dashboards Notifications on prod docker linux
+
+on: [pull_request, push]
+
+env:
+  PLUGIN_NAME: notifications-dashboards
+  OPENSEARCH_DASHBOARDS_VERSION: 'main'
+  NOTIFICATIONS_PLUGIN_VERSION: 'main'
+  OPENSEARCH_VERSION: '3.0.0-SNAPSHOT'
+
+jobs:
+  Get-CI-Image-Tag:
+    uses: opensearch-project/opensearch-build/.github/workflows/get-ci-image-tag.yml@main
+    with:
+      product: opensearch-dashboards
+
+  tests-linux:
+    needs: Get-CI-Image-Tag
+    env:
+      JEST_TEST_ARGS: ${{ matrix.jest_test_args }}
+      # prevents extra Cypress installation progress messages
+      CI: 1
+      # avoid warnings like "tput: No value for $TERM and no -T specified"
+      TERM: xterm
+      WORKING_DIR: ${{ matrix.working_directory }}.
+    strategy:
+      # This setting says that all jobs should finish, even if one fails
+      fail-fast: false
+      matrix:
+        include:
+          - os: ubuntu-latest
+            os_build_args: -x integTest -x jacocoTestReport
+            jest_test_args: --coverage
+            cypress_cache_folder: ~/.cache/Cypress
+
+    name: Test and Build Dashboards Notifications on ${{ matrix.os }}
+    runs-on: ${{ matrix.os }}
+    container:
+      # using the same image which is used by opensearch-build team to build the OpenSearch Distribution
+      # this image tag is subject to change as more dependencies and updates will arrive over time
+      image: ${{ needs.Get-CI-Image-Tag.outputs.ci-image-version-linux }}
+      # need to switch to root so that github actions can install runner binary on container without permission issues.
+      options: --user root
+
+    steps:
+      - name: Set up JDK
+        uses: actions/setup-java@v2
+        with:
+          distribution: temurin # Temurin is a distribution of adoptium
+          java-version: 11
+
+      - name: Checkout Plugin
+        uses: actions/checkout@v2
+        with:
+          path: notifications
+          repository: opensearch-project/notifications
+          ref: '2.x'
+
+      - name: Check out the notifications repo
+        uses: actions/checkout@v2
+        with:
+          repository: opensearch-project/notifications
+          ref: ${{ env.NOTIFICATIONS_PLUGIN_VERSION }}
+          path: notifications
+
+      - name: Run Opensearch with plugin
+        working-directory: ${{ env.WORKING_DIR }}
+        run: |
+          chown -R 1000:1000 `pwd`
+          cd notifications/notifications
+          su `id -un 1000` -c "nohup ./gradlew run -Dopensearch.version=${{ env.OPENSEARCH_VERSION }} -x integTest -x jacocoTestReport &"
+          timeout 300 bash -c 'while [[ "$(curl -s -o /dev/null -w ''%{http_code}'' localhost:9200)" != "200" ]]; do sleep 5; done'
+        shell: bash
+        env:
+          _JAVA_OPTIONS: ${{ matrix.os_java_options }}
+
+      - name: Checkout Notification Dashboards plugin
+        uses: actions/checkout@v2
+        with:
+          path: dashboards-notifications
+      - name: Checkout OpenSearch Dashboards
+        uses: actions/checkout@v2
+        with:
+          repository: opensearch-project/Opensearch-Dashboards
+          ref: ${{ env.OPENSEARCH_DASHBOARDS_VERSION }}
+          path: OpenSearch-Dashboards
+
+      - name: Move Notifications to Plugins Dir
+        run: |
+          mv dashboards-notifications OpenSearch-Dashboards/plugins/dashboards-notifications
+
+      - name: OpenSearch Dashboards Plugin Bootstrap and build
+        run: |
+          chown -R 1000:1000 `pwd`
+          cd ./OpenSearch-Dashboards/
+          su `id -un 1000` -c "source $NVM_DIR/nvm.sh && nvm use && node -v && yarn -v &&
+                               cd ./plugins/dashboards-notifications &&
+                               whoami && yarn osd bootstrap && yarn build"
+
+      - name: Run unit tests
+        uses: nick-fields/retry@v2
+        with:
+          timeout_minutes: 30
+          max_attempts: 1
+          command: cd ./OpenSearch-Dashboards/plugins/dashboards-notifications; su `id -un 1000` -c "yarn test:jest ${{ env.JEST_TEST_ARGS }}"
+          shell: bash
+
+      - name: Run OpenSearch Dashboards server
+        run: |
+          cd ./OpenSearch-Dashboards
+          su `id -un 1000` -c 'source $NVM_DIR/nvm.sh && nvm use && node -v && yarn -v && nohup yarn start --no-base-path --no-watch --server.host="0.0.0.0" &'
+          timeout 900 bash -c 'while [[ "$(curl -s http://localhost:5601/api/status | jq -r '.status.overall.state')" != "green" ]]; do echo sleeping 5; sleep 5; done'
+          curl -sk localhost:5601/api/status | jq
+          netstat -anp tcp | grep LISTEN | grep 5601 || netstat -ntlp | grep 5601
+        shell: bash
+
+      - name: Upload coverage
+        uses: codecov/codecov-action@v1
+        with:
+          flags: dashboards-notifications
+          directory: OpenSearch-Dashboards/plugins/
+          token: ${{ secrets.CODECOV_TOKEN }}
+
+      - name: Upload Artifact
+        uses: actions/upload-artifact@v1
+        with:
+          name: dashboards-notifications
+          path: OpenSearch-Dashboards/plugins/dashboards-notifications/build
