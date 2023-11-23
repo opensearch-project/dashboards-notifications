@@ -9,9 +9,8 @@ on: [pull_request, push]
 
 env:
   PLUGIN_NAME: notifications-dashboards
-  OPENSEARCH_DASHBOARDS_VERSION: 'main'
-  NOTIFICATIONS_PLUGIN_VERSION: 'main'
-  OPENSEARCH_VERSION: '3.0.0-SNAPSHOT'
+  OPENSEARCH_DASHBOARDS_VERSION: '2.x'
+  NOTIFICATIONS_PLUGIN_VERSION: '2.x'
 
 jobs:
   Get-CI-Image-Tag:
@@ -73,7 +72,7 @@ jobs:
         run: |
           chown -R 1000:1000 `pwd`
           cd notifications/notifications
-          su `id -un 1000` -c "nohup ./gradlew run -Dopensearch.version=${{ env.OPENSEARCH_VERSION }} -x integTest -x jacocoTestReport &"
+          su `id -un 1000` -c "nohup ./gradlew run -x integTest -x jacocoTestReport &"
           timeout 300 bash -c 'while [[ "$(curl -s -o /dev/null -w ''%{http_code}'' localhost:9200)" != "200" ]]; do sleep 5; done'
         shell: bash
         env:
