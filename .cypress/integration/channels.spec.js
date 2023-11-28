@@ -35,7 +35,7 @@ describe('Test create channels', () => {
 
     cy.get('[placeholder="Enter channel name"]').type('Test slack channel');
     cy.get('[data-test-subj="create-channel-slack-webhook-input"]').type(
-      'https://sample-slack-webhook'
+      'https://hooks.slack.com/services/A123456/B1234567/A1B2C3D4E5F6G7H8I9J0K1L2'
     );
     cy.wait(delay);
     cy.get('[data-test-subj="create-channel-send-test-message-button"]').click({
