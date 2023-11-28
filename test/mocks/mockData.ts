@@ -16,7 +16,7 @@ const mockChime: ChannelItemType = {
   config_type: 'chime',
   is_enabled: true,
   chime: {
-    url: 'https://chimehook',
+    url: 'https://hooks.chime.aws/incomingwebhooks/sample_chime_url?token=123456',
   },
   config_id: 'test-chime',
   created_time_ms: 1622670451891,
@@ -166,7 +166,7 @@ const mockMicrosoftTeams: ChannelItemType = {
   config_type: 'microsoft_teams',
   is_enabled: false,
   microsoft_teams: {
-    url: 'https://chimehook',
+    url: 'https://hooks.chime.aws/incomingwebhooks/sample_chime_url?token=123456',
   },
   config_id: 'test-slack',
   created_time_ms: 1622670451891,

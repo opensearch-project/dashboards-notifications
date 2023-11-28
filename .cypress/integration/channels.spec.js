@@ -62,7 +62,7 @@ describe('Test create channels', () => {
     cy.wait(delay);
 
     cy.get('[data-test-subj="create-channel-chime-webhook-input"]').type(
-      'https://sample-chime-webhook'
+      'https://hooks.chime.aws/incomingwebhooks/sample_chime_url?token=123456'
     );
     cy.wait(delay);
 
