@@ -182,7 +182,7 @@ exports[`<ChannelSettingsDetails /> spec renders Slack channel 1`] = `
         <dd
           class="euiDescriptionList__description"
         >
-          https://chimehook
+          https://hooks.slack.com/services/A123456/B1234567/A1B2C3D4E5F6G7H8I9J0K1L2
         </dd>
       </dl>
     </div>

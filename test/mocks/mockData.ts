@@ -29,7 +29,7 @@ const mockSlack: ChannelItemType = {
   config_type: 'slack',
   is_enabled: false,
   slack: {
-    url: 'https://chimehook',
+    url: 'https://hooks.slack.com/services/A123456/B1234567/A1B2C3D4E5F6G7H8I9J0K1L2',
   },
   config_id: 'test-slack',
   created_time_ms: 1622670451891,
