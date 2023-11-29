@@ -56,6 +56,20 @@ jobs:
         run: |
           git config --system core.longpaths true
           subst 'X:' .
+      
+      - name: enable long paths in git
+        if: ${{ matrix.os == 'windows-latest' }}
+        run: |
+          # enable long paths to fix "path too long" errors when cloning repos in windows
+          git config --system core.longpaths true
+        shell: bash
+
+      - name: Check out the notifications repo
+        uses: actions/checkout@v2
+        with:
+          repository: opensearch-project/notifications
+          ref: ${{ env.NOTIFICATIONS_PLUGIN_VERSION }}
+          path: notifications
 
       - name: Run Opensearch with plugin
         working-directory: ${{ env.WORKING_DIR }}
