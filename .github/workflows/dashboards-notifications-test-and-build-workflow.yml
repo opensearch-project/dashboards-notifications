@@ -52,13 +52,6 @@ jobs:
           distribution: temurin # Temurin is a distribution of adoptium
           java-version: 11
 
-      - name: Checkout Plugin
-        uses: actions/checkout@v2
-        with:
-          path: notifications
-          repository: opensearch-project/notifications
-          ref: '2.x'
-
       # This is a hack, but this step creates a link to the X: mounted drive, which makes the path
       # short enough to work on Windows
       - name: Shorten Path
@@ -89,7 +82,7 @@ jobs:
               brew install coreutils
           fi
           cd notifications/notifications
-          ./gradlew run -Dopensearch.version=${{ env.OPENSEARCH_VERSION }} -x integTest -x jacocoTestReport &
+          ./gradlew run -Dopensearch.version=${{ env.OPENSEARCH_VERSION }} -x integTest -x jacocoTestReport | tee -a opensearch.log &
           timeout 300 bash -c 'while [[ "$(curl -s -o /dev/null -w ''%{http_code}'' localhost:9200)" != "200" ]]; do sleep 5; done'
         shell: bash
         env:
@@ -154,7 +147,7 @@ jobs:
       - name: Run OpenSearch Dashboards server
         run: |
           cd ./OpenSearch-Dashboards
-          yarn start --no-base-path --no-watch --server.host="0.0.0.0" &
+          yarn start --no-base-path --no-watch --server.host="0.0.0.0" --opensearch.requestTimeout=120000 &
           timeout 900 bash -c 'while [[ "$(curl -s http://localhost:5601/api/status | jq -r '.status.overall.state')" != "green" ]]; do echo sleeping 5; sleep 5; done'
           curl -sk localhost:5601/api/status | jq
           netstat -anp tcp | grep LISTEN | grep 5601 || netstat -ntlp | grep 5601
@@ -208,6 +201,12 @@ jobs:
         with:
           name: cypress-screenshots-${{ matrix.os }}
           path: OpenSearch-Dashboards/plugins/dashboards-notifications/.cypress/screenshots
+
+      - uses: actions/upload-artifact@v1
+        if: always()
+        with:
+          name: opensearch-logs-${{ matrix.os }}
+          path: notifications/notifications/opensearch.log
 
       # Test run video was always captured, so this action uses "always()" condition
       - uses: actions/upload-artifact@v1
