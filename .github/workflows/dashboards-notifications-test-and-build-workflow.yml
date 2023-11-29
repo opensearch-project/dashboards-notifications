@@ -82,7 +82,7 @@ jobs:
               brew install coreutils
           fi
           cd notifications/notifications
-          ./gradlew run -Dopensearch.version=${{ env.OPENSEARCH_VERSION }} -x integTest -x jacocoTestReport >> opensearch.log &
+          ./gradlew run -Dopensearch.version=${{ env.OPENSEARCH_VERSION }} -x integTest -x jacocoTestReport | tee -a opensearch.log &
           timeout 300 bash -c 'while [[ "$(curl -s -o /dev/null -w ''%{http_code}'' localhost:9200)" != "200" ]]; do sleep 5; done'
         shell: bash
         env:
