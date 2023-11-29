@@ -42,7 +42,7 @@ exports[`<ChannelSettingsDetails /> spec renders Chime channel 1`] = `
         <dd
           class="euiDescriptionList__description"
         >
-          https://chimehook
+          https://hooks.chime.aws/incomingwebhooks/sample_chime_url?token=123456
         </dd>
       </dl>
     </div>
@@ -238,7 +238,7 @@ exports[`<ChannelSettingsDetails /> spec renders Teams channel 1`] = `
         <dd
           class="euiDescriptionList__description"
         >
-          https://chimehook
+          https://hooks.chime.aws/incomingwebhooks/sample_chime_url?token=123456
         </dd>
       </dl>
     </div>
