@@ -52,13 +52,6 @@ jobs:
           distribution: temurin # Temurin is a distribution of adoptium
           java-version: 11
 
-      - name: Checkout Plugin
-        uses: actions/checkout@v2
-        with:
-          path: notifications
-          repository: opensearch-project/notifications
-          ref: '2.x'
-
       # This is a hack, but this step creates a link to the X: mounted drive, which makes the path
       # short enough to work on Windows
       - name: Shorten Path
