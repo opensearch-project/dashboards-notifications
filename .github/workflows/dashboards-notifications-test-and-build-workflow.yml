@@ -10,6 +10,7 @@ on: [pull_request, push]
 env:
   PLUGIN_NAME: notifications-dashboards
   OPENSEARCH_DASHBOARDS_VERSION: '2.x'
+  NOTIFICATIONS_PLUGIN_VERSION: '2.x'
 
 jobs:
   tests:
@@ -49,13 +50,6 @@ jobs:
         with:
           java-version: 11
 
-      - name: Checkout Plugin
-        uses: actions/checkout@v2
-        with:
-          path: notifications
-          repository: opensearch-project/notifications
-          ref: '2.x'
-
       # This is a hack, but this step creates a link to the X: mounted drive, which makes the path
       # short enough to work on Windows
       - name: Shorten Path
@@ -63,6 +57,20 @@ jobs:
         run: |
           git config --system core.longpaths true
           subst 'X:' .
+      
+      - name: enable long paths in git
+        if: ${{ matrix.os == 'windows-latest' }}
+        run: |
+          # enable long paths to fix "path too long" errors when cloning repos in windows
+          git config --system core.longpaths true
+        shell: bash
+
+      - name: Check out the notifications repo
+        uses: actions/checkout@v2
+        with:
+          repository: opensearch-project/notifications
+          ref: ${{ env.NOTIFICATIONS_PLUGIN_VERSION }}
+          path: notifications
 
       - name: Run Opensearch with plugin
         working-directory: ${{ env.WORKING_DIR }}
@@ -136,8 +144,8 @@ jobs:
 
       - name: Run OpenSearch Dashboards server
         run: |
-          cd OpenSearch-Dashboards
-          yarn start --no-base-path --no-watch --server.host="0.0.0.0" &
+          cd ./OpenSearch-Dashboards
+          yarn start --no-base-path --no-watch --server.host="0.0.0.0" --opensearch.requestTimeout=120000 &
           timeout 900 bash -c 'while [[ "$(curl -s http://localhost:5601/api/status | jq -r '.status.overall.state')" != "green" ]]; do echo sleeping 5; sleep 5; done'
           curl -sk localhost:5601/api/status | jq
           netstat -anp tcp | grep LISTEN | grep 5601 || netstat -ntlp | grep 5601
