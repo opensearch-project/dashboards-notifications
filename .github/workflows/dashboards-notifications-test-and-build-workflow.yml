@@ -80,7 +80,7 @@ jobs:
               brew install coreutils
           fi
           cd notifications/notifications
-          ./gradlew run -x integTest -x jacocoTestReport | tee -a opensearch.log &
+          ./gradlew run -x integTest -x jacocoTestReport &
           timeout 300 bash -c 'while [[ "$(curl -s -o /dev/null -w ''%{http_code}'' localhost:9200)" != "200" ]]; do sleep 5; done'
         shell: bash
         env:
@@ -198,12 +198,6 @@ jobs:
         with:
           name: cypress-screenshots-${{ matrix.os }}
           path: OpenSearch-Dashboards/plugins/dashboards-notifications/.cypress/screenshots
-
-      - uses: actions/upload-artifact@v1
-        if: always()
-        with:
-          name: opensearch-logs-${{ matrix.os }}
-          path: notifications/notifications/opensearch.log
 
       # Test run video was always captured, so this action uses "always()" condition
       - uses: actions/upload-artifact@v1
