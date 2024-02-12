@@ -12,4 +12,4 @@ Compatible with OpenSearch Dashboards 2.12.0
 * Fix: CI flow on windows main ([#145](https://github.com/opensearch-project/dashboards-notifications/pull/145))
 
 ### Documentation
-* Drafted release notes. ([#]())
+* Drafted release notes. ([#156](https://github.com/opensearch-project/dashboards-notifications/pull/156))
