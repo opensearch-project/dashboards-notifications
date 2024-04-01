@@ -8,6 +8,7 @@ import React, { useContext } from 'react';
 import { ContentPanel } from '../../../components/ContentPanel';
 import { CreateChannelContext } from '../CreateChannel';
 import { validateChannelName } from '../utils/validationHelper';
+import { i18n } from '@osd/i18n';
 
 interface ChannelNamePanelProps {
   name: string;
@@ -22,17 +23,32 @@ export function ChannelNamePanel(props: ChannelNamePanelProps) {
     <>
       <ContentPanel
         bodyStyles={{ padding: 'initial' }}
-        title="Name and description"
+        title={
+          i18n.translate('notification.notificationChannels.nameAndDescription', {
+          defaultMessage:
+          "Name and description",
+          })}
+        
         titleSize="s"
       >
         <EuiFormRow
-          label="Name"
+          label={
+            i18n.translate('notification.notificationChannels.newChannelName', {
+            defaultMessage:
+              'Name',
+            })}
+          
           error={context.inputErrors.name.join(' ')}
           isInvalid={context.inputErrors.name.length > 0}
         >
           <EuiFieldText
             data-test-subj="create-channel-name-input"
-            placeholder="Enter channel name"
+            placeholder={
+              i18n.translate('notification.notificationChannels.newChannelPlaceholder', {
+              defaultMessage:
+                "Enter channel name",
+              })}
+            
             value={props.name}
             onChange={(e) => props.setName(e.target.value)}
             isInvalid={context.inputErrors.name.length > 0}
@@ -47,14 +63,29 @@ export function ChannelNamePanel(props: ChannelNamePanelProps) {
         <EuiFormRow
           label={
             <span>
-              Description - <i style={{ fontWeight: 'normal' }}>optional</i>
+              {
+              i18n.translate('notification.notificationChannels.newChannelDescription', {
+              defaultMessage:
+                "Description - ",
+              })}
+              <i style={{ fontWeight: 'normal' }}>{
+                i18n.translate('notification.notificationChannels.newChannelDescriptionOptional', {
+                defaultMessage:
+                  'optional',
+                })}
+                </i>
             </span>
           }
         >
           <>
             <EuiTextArea
               data-test-subj="create-channel-description-input"
-              placeholder="What is the purpose of this channel?"
+              placeholder={
+                i18n.translate('notification.notificationChannels.newChannelPurpose', {
+                defaultMessage:
+                "What is the purpose of this channel?",
+                })}
+              
               style={{ height: '4.1rem' }}
               value={props.description}
               onChange={(e) => props.setDescription(e.target.value)}

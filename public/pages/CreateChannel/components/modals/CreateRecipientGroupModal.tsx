@@ -24,6 +24,8 @@ import {
   validateRecipientGroupName,
 } from '../../../Emails/utils/validationHelper';
 
+import { i18n } from '@osd/i18n';
+
 interface CreateRecipientGroupModalProps extends ModalRootProps {
   addRecipientGroupOptionAndSelect: (
     recipientGroupOption: EuiComboBoxOptionOption<string>
@@ -66,7 +68,12 @@ export function CreateRecipientGroupModal(
     <EuiOverlayMask>
       <EuiModal onClose={props.onClose} style={{ width: 650 }}>
         <EuiModalHeader>
-          <EuiModalHeaderTitle>Create recipient group</EuiModalHeaderTitle>
+          <EuiModalHeaderTitle>
+          {i18n.translate('notification.notificationChannels.createRecipientGrou', {
+            defaultMessage:
+              'Create recipient group',
+            })}
+    </EuiModalHeaderTitle>
         </EuiModalHeader>
 
         <EuiModalBody>
@@ -85,14 +92,22 @@ export function CreateRecipientGroupModal(
         </EuiModalBody>
 
         <EuiModalFooter>
-          <EuiButtonEmpty onClick={props.onClose}>Cancel</EuiButtonEmpty>
+          <EuiButtonEmpty onClick={props.onClose}>
+          {i18n.translate('notification.notificationChannels.information.doCreateSenderCancel', {
+              defaultMessage:
+                'Cancel',
+              })}
+          </EuiButtonEmpty>
           <EuiButton
             data-test-subj="create-recipient-group-modal-create-button"
             fill
             onClick={async () => {
               if (!isInputValid()) {
                 coreContext.notifications.toasts.addDanger(
-                  'Some fields are invalid. Fix all highlighted error(s) before continuing.'
+                  i18n.translate('notification.notificationChannels.information.fieldInvalid', {
+                    defaultMessage:
+                    'Some fields are invalid. Fix all highlighted error(s) before continuing.',
+                    })
                 );
                 return;
               }
@@ -105,7 +120,10 @@ export function CreateRecipientGroupModal(
                 .createConfig(config)
                 .then((response) => {
                   coreContext.notifications.toasts.addSuccess(
-                    `Recipient group ${name} successfully created. You can select ${name} from the list of recipient groups.`
+                    i18n.translate('notification.notificationChannels.information.recipientSuccessfullyCreated', {
+                      defaultMessage:
+                      'Recipient group ${name} successfully created. You can select ${name} from the list of recipient groups.',
+                      })
                   );
                   props.addRecipientGroupOptionAndSelect({
                     label: name,
@@ -115,12 +133,18 @@ export function CreateRecipientGroupModal(
                 })
                 .catch((error) => {
                   coreContext.notifications.toasts.addError(error?.body || error, {
-                    title: 'Failed to create sender.',
+                    title: i18n.translate('notification.notificationChannels.information.failedCreateSender', {
+                      defaultMessage:
+                      'Failed to create sender.',
+                      }),
                   });
                 });
             }}
           >
-            Create
+            {i18n.translate('notification.notificationChannels.createToken', {
+              defaultMessage:
+              'Create',
+            })}
           </EuiButton>
         </EuiModalFooter>
       </EuiModal>

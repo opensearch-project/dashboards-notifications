@@ -32,6 +32,7 @@ import {
   SendersTableControls,
   SendersTableControlsFilterType,
 } from './SendersTableControls';
+import { i18n } from '@osd/i18n';
 
 interface SendersTableProps {
   coreContext: CoreStart;
@@ -69,35 +70,50 @@ export class SendersTable extends Component<
     this.columns = [
       {
         field: 'name',
-        name: 'Name',
+        name: i18n.translate('notification.notificationChannels.fieldName', {
+          defaultMessage:
+          'Name',
+          }),
         sortable: true,
         truncateText: true,
         width: '200px',
       },
       {
         field: 'smtp_account.from_address',
-        name: 'Outbound email address',
+        name: i18n.translate('notification.notificationChannels.fieldOutboundEmailAddress', {
+          defaultMessage:
+          'Outbound email address',
+          }),
         sortable: true,
         truncateText: true,
         width: '200px',
       },
       {
         field: 'smtp_account.host',
-        name: 'Host',
+        name: i18n.translate('notification.notificationChannels.fieldHost', {
+          defaultMessage:
+          'Host',
+          }),
         sortable: true,
         truncateText: true,
         width: '200px',
       },
       {
         field: 'smtp_account.port',
-        name: 'Port',
+        name: i18n.translate('notification.notificationChannels.fieldPort', {
+          defaultMessage:
+          'Port',
+          }),
         sortable: false,
         truncateText: true,
         width: '200px',
       },
       {
         field: 'smtp_account.method',
-        name: 'Encryption method',
+        name: i18n.translate('notification.notificationChannels.fieldencryptionMethod', {
+          defaultMessage:
+          'Encryption method',
+          }),
         sortable: true,
         truncateText: true,
         width: '200px',
@@ -147,7 +163,10 @@ export class SendersTable extends Component<
       this.setState({ items: senders.items, total: senders.total });
     } catch (error) {
       this.props.coreContext.notifications.toasts.addDanger(
-        getErrorMessage(error, 'There was a problem loading SMTP senders.')
+        getErrorMessage(error, i18n.translate('notification.notificationChannels.loadingSmtpSendersErr', {
+          defaultMessage:
+          'There was a problem loading SMTP senders.',
+          }))
       );
     }
     this.setState({ loading: false });
@@ -211,7 +230,10 @@ export class SendersTable extends Component<
                           })
                         }
                       >
-                        Delete
+                        {i18n.translate('notification.notificationChannels.deleteToken', {
+                        defaultMessage:
+                          'Delete',
+                        })}
                       </EuiButton>
                     )}
                   </ModalConsumer>
@@ -228,14 +250,20 @@ export class SendersTable extends Component<
                       )
                     }
                   >
-                    Edit
+                        {i18n.translate('notification.notificationChannels.editToken', {
+                        defaultMessage:
+                          'Edit',
+                        })}
                   </EuiButton>
                 ),
               },
               {
                 component: (
                   <EuiButton fill href={`#${ROUTES.CREATE_SENDER}`}>
-                    Create SMTP sender
+                        {i18n.translate('notification.notificationChannels.createSmtpSender', {
+                        defaultMessage:
+                          'Create SMTP Sender',
+                        })}
                   </EuiButton>
                 ),
               },
@@ -243,7 +271,10 @@ export class SendersTable extends Component<
           />
         }
         bodyStyles={{ padding: 'initial' }}
-        title="SMTP senders"
+        title={i18n.translate('notification.notificationChannels.emailSenders', {
+          defaultMessage:
+          "SMTP senders",
+          })}
         titleSize="m"
         total={this.state.total}
       >
@@ -262,11 +293,24 @@ export class SendersTable extends Component<
           selection={selection}
           noItemsMessage={
             <EuiEmptyPrompt
-              title={<h2>No SMTP senders to display</h2>}
-              body="Set up an outbound email server by creating a sender. You will select a sender when configuring email channels."
+              title={<h2>
+                {i18n.translate('notification.notificationChannels.noSmtpToDisplay', {
+                defaultMessage:
+                  'No SMTP senders to display',
+                })}
+                
+                
+                </h2>}
+              body={i18n.translate('notification.notificationChannels.newSmtpServerHelper', {
+                defaultMessage:
+                "Set up an outbound email server by creating a sender. You will select a sender when configuring email channels.",
+                })}
               actions={
                 <EuiButton href={`#${ROUTES.CREATE_SENDER}`}>
-                  Create SMTP sender
+                  {i18n.translate('notification.notificationChannels.emailSenders', {
+                  defaultMessage:
+                    'Create SMTP sender',
+                  })}
                 </EuiButton>
               }
             />

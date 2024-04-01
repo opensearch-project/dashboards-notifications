@@ -34,6 +34,7 @@ import { getErrorMessage } from '../../../../utils/helpers';
 import { DetailsListModal } from '../../../Channels/components/modals/DetailsListModal';
 import { DEFAULT_PAGE_SIZE_OPTIONS } from '../../../Notifications/utils/constants';
 import { DeleteRecipientGroupModal } from '../modals/DeleteRecipientGroupModal';
+import { i18n } from '@osd/i18n';
 
 interface RecipientGroupsTableProps {
   coreContext: CoreStart;
@@ -67,14 +68,20 @@ export class RecipientGroupsTable extends Component<
     this.columns = [
       {
         field: 'name',
-        name: 'Name',
+        name: i18n.translate('notification.notificationChannels.fieldName', {
+          defaultMessage:
+          'Name',
+          }),
         sortable: true,
         truncateText: true,
         width: '150px',
       },
       {
         field: 'email_group.recipient_list',
-        name: 'Email addresses',
+        name: i18n.translate('notification.notificationChannels.fieldEmails', {
+          defaultMessage:
+          'Email addresses',
+          }),
         sortable: true,
         truncateText: true,
         width: '450px',
@@ -94,7 +101,10 @@ export class RecipientGroupsTable extends Component<
                         onClick={() =>
                           onShow(DetailsListModal, {
                             header: `Email addresses (${emails.length})`,
-                            title: 'Email addresses',
+                            title: i18n.translate('notification.notificationChannels.fieldEmails', {
+                              defaultMessage:
+                              'Email addresses',
+                              }),
                             items: emails,
                           })
                         }
@@ -111,7 +121,10 @@ export class RecipientGroupsTable extends Component<
       },
       {
         field: 'description',
-        name: 'Description',
+        name: i18n.translate('notification.notificationChannels.fieldDescription', {
+          defaultMessage:
+          'Description',
+          }),
         sortable: true,
         truncateText: true,
         width: '300px',
@@ -162,7 +175,10 @@ export class RecipientGroupsTable extends Component<
       });
     } catch (error) {
       this.props.coreContext.notifications.toasts.addDanger(
-        getErrorMessage(error, 'There was a problem loading recipient groups.')
+        getErrorMessage(error, i18n.translate('notification.notificationChannels.loadingRecipientsGroupErr', {
+          defaultMessage:
+          'There was a problem loading recipient groups.',
+          }))
       );
     }
     this.setState({ loading: false });
@@ -227,7 +243,10 @@ export class RecipientGroupsTable extends Component<
                             })
                           }
                         >
-                          Delete
+                          {i18n.translate('notification.notificationChannels.deleteToken', {
+                          defaultMessage:
+                            'Delete',
+                          })}
                         </EuiButton>
                       )}
                     </ModalConsumer>
@@ -244,14 +263,20 @@ export class RecipientGroupsTable extends Component<
                         )
                       }
                     >
-                      Edit
+                          {i18n.translate('notification.notificationChannels.editToken', {
+                          defaultMessage:
+                            'Edit',
+                          })}
                     </EuiButton>
                   ),
                 },
                 {
                   component: (
                     <EuiButton fill href={`#${ROUTES.CREATE_RECIPIENT_GROUP}`}>
-                      Create recipient group
+                     {i18n.translate('notification.notificationChannels.createRecipientGroup', {
+                      defaultMessage:
+                        'Create recipient group',
+                      })} 
                     </EuiButton>
                   ),
                 },
@@ -259,7 +284,10 @@ export class RecipientGroupsTable extends Component<
             />
           }
           bodyStyles={{ padding: 'initial' }}
-          title="Recipient groups"
+          title={i18n.translate('notification.notificationChannels.emailRecipientsGroupsList', {
+            defaultMessage:
+            "Recipient groups",
+            })}
           titleSize="m"
           total={this.state.total}
         >
@@ -279,11 +307,22 @@ export class RecipientGroupsTable extends Component<
             selection={selection}
             noItemsMessage={
               <EuiEmptyPrompt
-                title={<h2>No recipient groups to display</h2>}
-                body="Use an email group to manage a list of email addresses you frequently send at a time. You can select recipient groups when configuring email channels."
+                title={<h2>
+                  {i18n.translate('notification.notificationChannels.noRecipientsToDisplay', {
+                    defaultMessage:
+                      'No recipient groups to display',
+                    })}
+                  </h2>}
+                body={i18n.translate('notification.notificationChannels.noRecipientsToDisplayHelp', {
+                  defaultMessage:
+                  "Use an email group to manage a list of email addresses you frequently send at a time. You can select recipient groups when configuring email channels.",
+                  })}
                 actions={
                   <EuiButton href={`#${ROUTES.CREATE_RECIPIENT_GROUP}`}>
-                    Create recipient group
+                  {i18n.translate('notification.notificationChannels.createRecipientGroup', {
+                      defaultMessage:
+                        'Create recipient group',
+                      })}
                   </EuiButton>
                 }
               />

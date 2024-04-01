@@ -25,6 +25,7 @@ import {
   validatePort,
   validateSenderName,
 } from '../../utils/validationHelper';
+import { i18n } from '@osd/i18n';
 
 interface CreateSenderFormProps {
   senderName: string;
@@ -52,7 +53,11 @@ export function CreateSenderForm(props: CreateSenderFormProps) {
   return (
     <>
       <EuiFormRow
-        label="Sender name"
+        label = {i18n.translate('notification.notificationChannels.params.senderNameLabel', {
+          defaultMessage:
+            'Sender name',
+          })}
+
         style={{ maxWidth: '650px' }}
         helpText="Use a unique, descriptive name. The sender name must contain from 2 to 50 characters. Valid characters are lowercase a-z, 0-9, - (hyphen) and _ (underscore)."
         error={props.inputErrors.senderName.join(' ')}
@@ -60,7 +65,10 @@ export function CreateSenderForm(props: CreateSenderFormProps) {
       >
         <EuiFieldText
           fullWidth
-          placeholder="Enter sender name"
+          placeholder={i18n.translate('notification.notificationChannels.params.senderNamePlaceholder', {
+            defaultMessage:
+              'Enter sender name',
+            })}
           data-test-subj="create-sender-form-name-input"
           value={props.senderName}
           onChange={(e) => props.setSenderName(e.target.value)}
@@ -78,7 +86,10 @@ export function CreateSenderForm(props: CreateSenderFormProps) {
       <EuiFlexGroup gutterSize="s" style={{ maxWidth: '658px' }}>
         <EuiFlexItem grow={4}>
           <EuiFormRow
-            label="Email address"
+            label={i18n.translate('notification.notificationChannels.params.senderEmail', {
+              defaultMessage:
+              'Email address',
+              })}
             error={props.inputErrors.email.join(' ')}
             isInvalid={props.inputErrors.email.length > 0}
           >
@@ -99,7 +110,10 @@ export function CreateSenderForm(props: CreateSenderFormProps) {
         </EuiFlexItem>
         <EuiFlexItem grow={4}>
           <EuiFormRow
-            label="Host"
+            label={i18n.translate('notification.notificationChannels.params.senderHost', {
+              defaultMessage:
+              'Host',
+              })}
             error={props.inputErrors.host.join(' ')}
             isInvalid={props.inputErrors.host.length > 0}
           >
@@ -143,19 +157,27 @@ export function CreateSenderForm(props: CreateSenderFormProps) {
 
       <EuiSpacer size="m" />
       <EuiFormRow
-        label="Encryption method"
+        label={i18n.translate('notification.notificationChannels.params.senderEncryptionMethod', {
+          defaultMessage:
+          'Encryption method',
+          })}
         style={{ maxWidth: '650px' }}
         helpText={
           <div>
-            SSL/TLS or STARTTLS is recommended for security. To use either one, you must
-            enter each sender account's credentials to the OpenSearch
-            keystore using the CLI.{' '}
+      {i18n.translate('notification.notificationChannels.params.senderEncryptionMethodDesc', {
+          defaultMessage:
+          'SSL/TLS or STARTTLS is recommended for security. To use either one, you must enter each sender account\'s credentials to the OpenSearch keystore using the CLI.',
+          })}
+            
             <EuiLink
               href={ALERTING_DOCUMENTATION_LINK}
               target="_blank"
               external
             >
-              Learn more
+              {i18n.translate('notification.notificationChannels.readMor', {
+              defaultMessage:
+                'Learn more',
+              })}
             </EuiLink>
           </div>
         }

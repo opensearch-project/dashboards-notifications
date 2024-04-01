@@ -9,6 +9,7 @@ import { RouteComponentProps } from 'react-router-dom';
 import { CoreServicesContext } from '../../components/coreServices';
 import { BREADCRUMBS } from '../../utils/constants';
 import { RecipientGroupsTable } from './components/tables/RecipientGroupsTable';
+import { i18n } from '@osd/i18n';
 
 interface EmailGroupsProps extends RouteComponentProps {}
 
@@ -25,7 +26,13 @@ export function EmailGroups(props: EmailGroupsProps) {
   return (
     <>
       <EuiTitle size="l">
-        <h1>Email recipient groups</h1>
+        <h1> 
+          {
+          i18n.translate('notification.notificationChannels.emailRecipientsGroupsList', {
+          defaultMessage:
+          'Email recipient groups',
+        })}
+    </h1>
       </EuiTitle>
 
       <EuiSpacer />

@@ -32,6 +32,7 @@ import { ROUTES } from '../../../../utils/constants';
 import { getErrorMessage } from '../../../../utils/helpers';
 import { DEFAULT_PAGE_SIZE_OPTIONS } from '../../../Notifications/utils/constants';
 import { DeleteSenderModal } from '../modals/DeleteSenderModal';
+import { i18n } from '@osd/i18n';
 
 interface SESSendersTableProps {
   coreContext: CoreStart;
@@ -64,26 +65,38 @@ export class SESSendersTable extends Component<
     this.columns = [
       {
         field: 'name',
-        name: 'Name',
+        name: i18n.translate('notification.notificationChannels.fieldName', {
+          defaultMessage:
+          'Name',
+          }),
         sortable: true,
         truncateText: true,
         width: '200px',
       },
       {
         field: 'ses_account.from_address',
-        name: 'Outbound email address',
+        name: i18n.translate('notification.notificationChannels.fieldOutboundEmailAddress', {
+          defaultMessage:
+          'Outbound email address',
+          }),
         sortable: true,
         truncateText: true,
       },
       {
         field: 'ses_account.region',
-        name: 'AWS region',
+        name: i18n.translate('notification.notificationChannels.awsRegion', {
+          defaultMessage:
+          'AWS region',
+          }),
         sortable: true,
         truncateText: true,
       },
       {
         field: 'ses_account.role_arn',
-        name: 'Role ARN',
+        name: i18n.translate('notification.notificationChannels.arnRole', {
+          defaultMessage:
+          'Role ARN',
+          }),
         sortable: false,
         truncateText: true,
       },
@@ -191,7 +204,10 @@ export class SESSendersTable extends Component<
                           })
                         }
                       >
-                        Delete
+                        {i18n.translate('notification.notificationChannels.deleteToken', {
+                        defaultMessage:
+                          'Delete',
+                        })}
                       </EuiButton>
                     )}
                   </ModalConsumer>
@@ -208,14 +224,20 @@ export class SESSendersTable extends Component<
                       )
                     }
                   >
-                    Edit
+                        {i18n.translate('notification.notificationChannels.editToken', {
+                        defaultMessage:
+                          'Edit',
+                        })}
                   </EuiButton>
                 ),
               },
               {
                 component: (
                   <EuiButton fill href={`#${ROUTES.CREATE_SES_SENDER}`}>
-                    Create SES sender
+                  {i18n.translate('notification.notificationChannels.createSesSender', {
+                      defaultMessage:
+                        'Crete SES Sender',
+                      })}
                   </EuiButton>
                 ),
               },
@@ -223,14 +245,20 @@ export class SESSendersTable extends Component<
           />
         }
         bodyStyles={{ padding: 'initial' }}
-        title="SES senders"
+        title={i18n.translate('notification.notificationChannels.sesSenders', {
+          defaultMessage:
+          "SES senders",
+          })}
         titleSize="m"
         total={this.state.total}
       >
         <EuiFieldSearch
           data-test-subj="ses-senders-table-search-input"
           fullWidth={true}
-          placeholder="Search"
+          placeholder={i18n.translate('notification.notificationChannels.searchPlaceholder', {
+            defaultMessage:
+            "Search",
+            })}
           onSearch={this.onSearchChange}
         />
         <EuiHorizontalRule margin="s" />
@@ -243,11 +271,22 @@ export class SESSendersTable extends Component<
           selection={selection}
           noItemsMessage={
             <EuiEmptyPrompt
-              title={<h2>No SES senders to display</h2>}
-              body="Set up an outbound email server by creating a sender. You will select a sender when configuring email channels."
+              title={<h2>
+                {i18n.translate('notification.notificationChannels.noSesServers', {
+                defaultMessage:
+                  'No SES senders to display',
+                })}
+                </h2>}
+              body={i18n.translate('notification.notificationChannels.noSesServersHelper', {
+                defaultMessage:
+                "Set up an outbound email server by creating a sender. You will select a sender when configuring email channels.",
+                })}
               actions={
                 <EuiButton href={`#${ROUTES.CREATE_SES_SENDER}`}>
-                  Create SES sender
+                  {i18n.translate('notification.notificationChannels.createSesSender', {
+                    defaultMessage:
+                      'Create SES sender',
+                    })}
                 </EuiButton>
               }
             />

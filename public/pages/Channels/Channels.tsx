@@ -36,6 +36,7 @@ import { DEFAULT_PAGE_SIZE_OPTIONS } from '../Notifications/utils/constants';
 import { ChannelActions } from './components/ChannelActions';
 import { ChannelControls } from './components/ChannelControls';
 import { ChannelFiltersType } from './types';
+import { i18n } from '@osd/i18n';
 
 interface ChannelsProps extends RouteComponentProps {
   notificationService: NotificationService;
@@ -68,7 +69,10 @@ export class Channels extends Component<ChannelsProps, ChannelsState> {
     this.columns = [
       {
         field: 'name',
-        name: 'Name',
+        name: i18n.translate('notification.notificationChannels.notificationName', {
+          defaultMessage:
+          'Name',
+          }),
         sortable: true,
         truncateText: true,
         render: (name: string, item: ChannelItemType) => (
@@ -79,24 +83,41 @@ export class Channels extends Component<ChannelsProps, ChannelsState> {
       },
       {
         field: 'is_enabled',
-        name: 'Notification status',
+        name: i18n.translate('notification.notificationChannels.notificationStatus', {
+          defaultMessage:
+            'Notification status',
+          }),
         sortable: true,
         render: (enabled: boolean) => {
           const color = enabled ? 'success' : 'subdued';
-          const label = enabled ? 'Active' : 'Muted';
+          const label = enabled ? i18n.translate('notification.notificationChannels.channelUnMuted', {
+            defaultMessage:
+            'Active',
+            })
+         : i18n.translate('notification.notificationChannels.channelMuted', {
+          defaultMessage:
+          'Muted',
+          })
+      ;
           return <EuiHealth color={color}>{label}</EuiHealth>;
         },
       },
       {
         field: 'config_type',
-        name: 'Type',
+        name: i18n.translate('notification.notificationChannels.notificationType', {
+          defaultMessage:
+          'Type',
+          }),
         sortable: true,
         truncateText: false,
         render: (type: string) => _.get(CHANNEL_TYPE, type, '-'),
       },
       {
         field: 'description',
-        name: 'Description',
+        name: i18n.translate('notification.notificationChannels.notificationDescription', {
+          defaultMessage:
+          'Description',
+          }),
         sortable: true,
         truncateText: true,
         render: (description: string) => description || '-',
@@ -224,7 +245,10 @@ export class Channels extends Component<ChannelsProps, ChannelsState> {
                 {
                   component: (
                     <EuiButton fill href={`#${ROUTES.CREATE_CHANNEL}`}>
-                      Create channel
+                      {i18n.translate('notification.notificationChannels.newChannel', {
+                      defaultMessage:
+                        'Create channel',
+                      })}
                     </EuiButton>
                   ),
                 },
@@ -232,7 +256,10 @@ export class Channels extends Component<ChannelsProps, ChannelsState> {
             />
           }
           bodyStyles={{ padding: 'initial' }}
-          title="Channels"
+          title={i18n.translate('notification.notificationChannels.Title', {
+            defaultMessage:
+            "Channels",
+            })}
           titleSize="m"
           total={this.state.total}
         >
@@ -251,11 +278,26 @@ export class Channels extends Component<ChannelsProps, ChannelsState> {
             selection={selection}
             noItemsMessage={
               <EuiEmptyPrompt
-                title={<h2>No channels to display</h2>}
-                body="To send or receive notifications, you will need to create a notification channel."
+                title={<h2>
+                  {
+                  i18n.translate('notification.notificationChannels.notificationNoChannelsToDisplay', {
+                  defaultMessage:
+                    'No channels to display',
+                  })}
+                  </h2>}
+                body={
+                  i18n.translate('notification.notificationChannels.NotificationNoChannelsToDisplayDesc', {
+                  defaultMessage:
+                    "To send or receive notifications, you will need to create a notification channel.",
+                  })}
+                  
                 actions={
                   <EuiButton href={`#${ROUTES.CREATE_CHANNEL}`}>
-                    Create channel
+                    {
+                    i18n.translate('notification.notificationChannels.createChannel', {
+                    defaultMessage:
+                    'Create channel',
+                      })}
                   </EuiButton>
                 }
               />

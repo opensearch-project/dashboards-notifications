@@ -56,6 +56,7 @@ import {
   validateRecipients,
   validateWebhookURL,
 } from './utils/validationHelper';
+import { i18n } from '@osd/i18n';
 
 interface CreateChannelsProps extends RouteComponentProps<{ id?: string }> {
   edit?: boolean;
@@ -170,7 +171,10 @@ export function CreateChannel(props: CreateChannelsProps) {
             );
             if (channel.email?.invalid_ids?.length) {
               coreContext.notifications.toasts.addDanger(
-                'The sender and/or some recipient groups might have been deleted.'
+                i18n.translate('notification.notificationChannels.createChannelRecipientsDeletedErr', {
+                  defaultMessage:
+                  'The sender and/or some recipient groups might have been deleted.',
+                  })
               );
             }
             return channel;
@@ -329,7 +333,10 @@ export function CreateChannel(props: CreateChannelsProps) {
         })
         .catch((error) => {
           error.message =
-            'Failed to create temporary channel for test message. ' +
+          i18n.translate('notification.notificationChannels.createChannelTempFailed', {
+            defaultMessage:
+              'Failed to create temporary channel for test message. ',
+            }) +
             error.message;
           throw error;
         });
@@ -338,12 +345,21 @@ export function CreateChannel(props: CreateChannelsProps) {
         tempChannelId,
       );
       coreContext.notifications.toasts.addSuccess(
-        'Successfully sent a test message.'
+        i18n.translate('notification.notificationChannels.', {
+          defaultMessage:
+          'Successfully sent a test message.',
+          })
       );
     } catch (error: any) {
       coreContext.notifications.toasts.addError(error?.body || error, {
-        title: 'Failed to send the test message.',
-        toastMessage: 'View error details and adjust the channel settings.',
+        title: i18n.translate('notification.notificationChannels.createChannellFailedSendMessage', {
+          defaultMessage:
+          'Failed to send the test message.',
+          }),
+        toastMessage: i18n.translate('notification.notificationChannels.createChannelFailedSendMessageToast', {
+          defaultMessage:
+          'View error details and adjust the channel settings.',
+          }),
       });
     } finally {
       if (tempChannelId) {
@@ -354,7 +370,10 @@ export function CreateChannel(props: CreateChannelsProps) {
           })
           .catch((error) => {
             coreContext.notifications.toasts.addError(error?.body || error, {
-              title: 'Failed to delete temporary channel for test message.',
+              title: i18n.translate('notification.notificationChannels.createChannelFailedDeleteTempChannel', {
+                defaultMessage:
+                'Failed to delete temporary channel for test message.',
+                }),
             });
           });
       }
@@ -367,7 +386,22 @@ export function CreateChannel(props: CreateChannelsProps) {
         value={{ edit: props.edit, inputErrors, setInputErrors }}
       >
         <EuiTitle size="l">
-          <h1>{`${props.edit ? 'Edit' : 'Create'} channel`}</h1>
+          <h1>{
+          `${props.edit ? i18n.translate('notification.notificationChannels.editChannel', {
+              defaultMessage:
+              'Edit',
+              }) : i18n.translate('notification.notificationChannels.createChannel', {
+                defaultMessage:
+                'Create',
+                })} `} 
+
+                {
+                i18n.translate('notification.notificationChannels.channelLabel', {
+                defaultMessage:
+                  'channel',
+                })}
+
+          </h1>
         </EuiTitle>
 
         <EuiSpacer />
@@ -381,7 +415,11 @@ export function CreateChannel(props: CreateChannelsProps) {
         <EuiSpacer />
         <ContentPanel
           bodyStyles={{ padding: 'initial' }}
-          title="Configurations"
+          title={
+            i18n.translate('notification.notificationChannels.channels.configurations', {
+            defaultMessage:
+            "Configurations",
+            })}
           titleSize="s"
         >
           <EuiFormRow label="Channel type">
@@ -390,7 +428,11 @@ export function CreateChannel(props: CreateChannelsProps) {
             ) : (
               <>
                 <EuiText size="xs" color="subdued">
-                  Channel type cannot be changed after the channel is created.
+                {
+                i18n.translate('notification.notificationChannels.channels.canBeChangedDesc', {
+                defaultMessage:
+                'Channel type cannot be changed after the channel is created.',
+                })}
                 </EuiText>
                 <EuiSuperSelect
                   options={channelTypeOptions}
@@ -463,7 +505,12 @@ export function CreateChannel(props: CreateChannelsProps) {
         <EuiSpacer />
         <EuiFlexGroup gutterSize="m" justifyContent="flexEnd">
           <EuiFlexItem grow={false}>
-            <EuiButtonEmpty href={prevURL}>Cancel</EuiButtonEmpty>
+            <EuiButtonEmpty href={prevURL}>
+            {i18n.translate('notification.notificationChannels.information.doCreateSenderCancel', {
+              defaultMessage:
+                'Cancel',
+              })}
+            </EuiButtonEmpty>
           </EuiFlexItem>
           <EuiFlexItem grow={false}>
             <EuiButton
@@ -471,14 +518,20 @@ export function CreateChannel(props: CreateChannelsProps) {
               onClick={() => {
                 if (!isInputValid()) {
                   coreContext.notifications.toasts.addDanger(
-                    'Some fields are invalid. Fix all highlighted error(s) before continuing.'
+                    i18n.translate('notification.notificationChannels.information.fieldInvalid', {
+                      defaultMessage:
+                      'Some fields are invalid. Fix all highlighted error(s) before continuing.',
+                      })
                   );
                   return;
                 }
                 sendTestMessage();
               }}
             >
-              Send test message
+              {i18n.translate('notification.notificationChannels.sendTestMessage', {
+              defaultMessage:
+              'Send test message',
+              })}
             </EuiButton>
           </EuiFlexItem>
           <EuiFlexItem grow={false}>
@@ -489,11 +542,15 @@ export function CreateChannel(props: CreateChannelsProps) {
               onClick={async () => {
                 if (!isInputValid()) {
                   coreContext.notifications.toasts.addDanger(
-                    'Some fields are invalid. Fix all highlighted error(s) before continuing.'
+                    i18n.translate('notification.notificationChannels.information.fieldInvalid', {
+                      defaultMessage:
+                      'Some fields are invalid. Fix all highlighted error(s) before continuing.',
+                      })
                   );
                   return;
                 }
                 setLoading(true);
+                let ret:String
                 const config = createConfigObject();
                 const request = props.edit
                   ? servicesContext.notificationService.updateConfig(
@@ -504,9 +561,20 @@ export function CreateChannel(props: CreateChannelsProps) {
                 await request
                   .then((response) => {
                     coreContext.notifications.toasts.addSuccess(
-                      `Channel ${name} successfully ${
-                        props.edit ? 'updated' : 'created'
-                      }.`
+                      i18n.translate('notification.notificationChannels.channelUpdated', {
+                        defaultMessage:
+                        `Channel ${name} successfully ${
+                          props.edit ? ret=i18n.translate('notification.notificationChannels.recipientupdatedToken2', {
+                            defaultMessage:
+                            'updated',
+                            }) : ret=i18n.translate('notification.notificationChannels.recipientcreatedToken2', {
+                              defaultMessage:
+                              'created',
+                              })
+                        }.`,
+                        values:{action:ret}
+                        })
+                      
                     );
                     setTimeout(() => (location.hash = prevURL), SERVER_DELAY);
                   })
@@ -515,15 +583,24 @@ export function CreateChannel(props: CreateChannelsProps) {
                     coreContext.notifications.toasts.addError(
                       error?.body || error,
                       {
-                        title: `Failed to ${
-                          props.edit ? 'update' : 'create'
-                        } channel.`,
+                        title: i18n.translate('notification.notificationChannels.failedCreateUpdateChannel', {
+                          defaultMessage:
+                          `Failed to ${
+                            props.edit ? 'update' : 'create'
+                          } channel.`,
+                          }),
                       }
                     );
                   });
               }}
             >
-              {props.edit ? 'Save' : 'Create'}
+              {props.edit ? i18n.translate('notification.notificationChannels.information.doSaveSender', {
+                    defaultMessage:
+                      'Save',
+                    }) : i18n.translate('notification.notificationChannels.information.doCreateSender', {
+                      defaultMessage:
+                        'Create',
+                      })}
             </EuiButton>
           </EuiFlexItem>
         </EuiFlexGroup>

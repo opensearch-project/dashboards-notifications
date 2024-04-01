@@ -18,6 +18,7 @@ import {
   validateRecipientGroupEmails,
   validateRecipientGroupName,
 } from '../../utils/validationHelper';
+import { i18n } from '@osd/i18n';
 
 interface CreateRecipientGroupFormProps {
   name: string;
@@ -38,16 +39,25 @@ export function CreateRecipientGroupForm(props: CreateRecipientGroupFormProps) {
   return (
     <>
       <EuiFormRow
-        label="Name"
+        label={i18n.translate('notification.notificationChannels.recipientGroupFormName', {
+          defaultMessage:
+            'Name',
+          })}
         style={{ maxWidth: '650px' }}
-        helpText="The name must contain 2 to 50 characters. Valid characters are A-Z, a-z, 0-9, (_) underscore, (-) hyphen and unicode characters."
+        helpText={i18n.translate('notification.notificationChannels.recipientGroupFormNameHelp', {
+          defaultMessage:
+          "The name must contain 2 to 50 characters. Valid characters are A-Z, a-z, 0-9, (_) underscore, (-) hyphen and unicode characters.",
+          })}
         error={props.inputErrors.name.join(' ')}
         isInvalid={props.inputErrors.name.length > 0}
       >
         <EuiFieldText
           fullWidth
           data-test-subj="create-recipient-group-form-name-input"
-          placeholder="Enter recipient group name"
+          placeholder={i18n.translate('notification.notificationChannels.recipientGroupFormNamePlaceholder', {
+            defaultMessage:
+              'Enter recipient group name',
+            })}
           value={props.name}
           onChange={(e) => props.setName(e.target.value)}
           isInvalid={props.inputErrors.name.length > 0}
@@ -64,19 +74,35 @@ export function CreateRecipientGroupForm(props: CreateRecipientGroupFormProps) {
       <EuiFormRow
         label={
           <span>
-            Description - <i style={{ fontWeight: 'normal' }}>optional</i>
+            {i18n.translate('notification.notificationChannels.recipientGroupFormNameDesc', {
+            defaultMessage:
+              'Description - ',
+            })}
+            <i style={{ fontWeight: 'normal' }}>
+            {i18n.translate('notification.notificationChannels.newChannelDescriptionOptional', {
+            defaultMessage:
+              'optional',
+            })}
+              </i>
           </span>
         }
         style={{ maxWidth: '650px' }}
       >
         <>
           <EuiText size="xs" color="subdued">
-            Describe the purpose of the channel.
+          {i18n.translate('notification.notificationChannels.newChannelDescriptionPurpose', {
+          defaultMessage:
+            'Describe the purpose of the channel.',
+          })}
+            
           </EuiText>
           <EuiTextArea
             fullWidth
             data-test-subj="create-recipient-group-form-description-input"
-            placeholder="What is the purpose of this recipient group?"
+            placeholder={i18n.translate('notification.notificationChannels.newChannelDescriptionPurposeRecipient', {
+              defaultMessage:
+              "What is the purpose of this recipient group?",
+              })}
             style={{ height: '4.1rem' }}
             value={props.description}
             onChange={(e) => props.setDescription(e.target.value)}
@@ -86,17 +112,27 @@ export function CreateRecipientGroupForm(props: CreateRecipientGroupFormProps) {
 
       <EuiSpacer size="m" />
       <EuiFormRow
-        label="Emails"
+        label={i18n.translate('notification.notificationChannels.recipientGroupsEmails', {
+          defaultMessage:
+          "Emails",
+          })}
         style={{ maxWidth: '650px' }}
         error={props.inputErrors.emailOptions.join(' ')}
         isInvalid={props.inputErrors.emailOptions.length > 0}
       >
         <>
           <EuiText size="xs" color="subdued">
-            Select or type in one or more email addresses.
+          {i18n.translate('notification.notificationChannels.recipientsListSelectBox', {
+          defaultMessage:
+            'Select or type in one or more email addresses.',
+          })}
+            
           </EuiText>
           <EuiComboBox
-            placeholder="Email addresses"
+            placeholder={i18n.translate('notification.notificationChannels.recipientGroupsEmails', {
+              defaultMessage:
+                '"Email addresses"',
+              })}
             data-test-subj="create-recipient-group-form-emails-input"
             fullWidth
             options={props.emailOptions}
@@ -117,7 +153,10 @@ export function CreateRecipientGroupForm(props: CreateRecipientGroupFormProps) {
                   })
               )
             }
-            customOptionText={'Add {searchValue} as an email address'}
+            customOptionText={i18n.translate('notification.notificationChannels.addAsEmailAddress', {
+              defaultMessage:
+                'Add {searchValue} as an email address',
+              })}
             isClearable={true}
             isInvalid={props.inputErrors.emailOptions.length > 0}
             onBlur={() => {
