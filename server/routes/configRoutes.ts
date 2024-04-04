@@ -216,11 +216,13 @@ export function configRoutes(router: IRouter) {
           keyof typeof CHANNEL_TYPE
         >;
         const channelTypes: Partial<typeof CHANNEL_TYPE> = {};
-        for (let i = 0; i < config_type_list.length; i++) {
-          const channel = config_type_list[i];
-          if (!CHANNEL_TYPE[channel]) continue;
-          channelTypes[channel] = CHANNEL_TYPE[channel];
+        
+        for (let channel of config_type_list) {
+          if (CHANNEL_TYPE[channel]) {
+            channelTypes[channel] = CHANNEL_TYPE[channel]
+          }
         }
+
         const availableFeature = {
           availableChannels: channelTypes,
           availableConfigTypes: config_type_list as string[],
