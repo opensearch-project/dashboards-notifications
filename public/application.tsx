@@ -11,21 +11,28 @@ import { CoreServicesContext } from './components/coreServices';
 import Main from './pages/Main';
 import { NotificationService } from './services';
 import { ServicesContext } from './services/services';
+import { DataSourceManagementPluginSetup } from '../../../src/plugins/data_source_management/public';
+import { AppPluginStartDependencies } from "./types";
 
-export const renderApp = (coreStart: CoreStart, params: AppMountParameters) => {
+export const renderApp = (
+  coreStart: CoreStart,
+  params: AppMountParameters,
+  dataSourceManagement: DataSourceManagementPluginSetup,
+  pluginStartDependencies: AppPluginStartDependencies,
+) => {
   const http = coreStart.http;
-  const notificationService = new NotificationService(http);
-  const services = { notificationService };
 
   ReactDOM.render(
     <Router>
       <Route
         render={(props) => (
-          <ServicesContext.Provider value={services}>
             <CoreServicesContext.Provider value={coreStart}>
-              <Main {...props} />
+              <Main {...props}
+                setActionMenu={params.setHeaderActionMenu}
+                multiDataSourceEnabled={!!pluginStartDependencies.dataSource}
+                dataSourceManagement={dataSourceManagement}
+              />
             </CoreServicesContext.Provider>
-          </ServicesContext.Provider>
         )}
       />
     </Router>,

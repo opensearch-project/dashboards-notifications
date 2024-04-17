@@ -10,7 +10,7 @@ import {
 } from '../../../../src/core/server';
 import { NODE_API } from '../../common';
 
-export function eventRoutes(router: IRouter) {
+export function eventRoutes(router: IRouter, dataSourceEnabled: boolean) {
   router.get(
     {
       path: `${NODE_API.GET_EVENT}/{eventId}`,

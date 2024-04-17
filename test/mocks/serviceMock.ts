@@ -25,7 +25,7 @@ const coreServicesMock = ({
   },
 } as unknown) as CoreStart;
 
-const browserServicesMock = new NotificationService(httpClientMock);
+const browserServicesMock = new NotificationService(httpClientMock, this.state.dataSourceId, this.props.multiDataSourceEnabled);
 const notificationServiceMock = {
   notificationService: browserServicesMock,
 };

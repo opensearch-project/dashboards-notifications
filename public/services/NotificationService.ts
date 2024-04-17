@@ -26,6 +26,7 @@ import {
   configToSESSender,
   eventToNotification,
 } from './utils/helper';
+import { MDSEnabledClientService } from './MDSEnabledClientService';
 
 interface ConfigsResponse {
   total_hits: number;
@@ -37,17 +38,34 @@ interface EventsResponse {
   event_list: any[];
 }
 
-export default class NotificationService {
+export default class NotificationService extends MDSEnabledClientService {
   httpClient: HttpSetup;
+  private dataSourceId: string;
+  private multiDataSourceEnabled: boolean;
 
-  constructor(httpClient: HttpSetup) {
+  constructor(httpClient, dataSourceId: string, multiDataSourceEnabled: boolean) {
+    super(httpClient);
     this.httpClient = httpClient;
+    this.dataSourceId = dataSourceId;
+    this.multiDataSourceEnabled = multiDataSourceEnabled;
   }
 
   createConfig = async (config: any) => {
-    const response = await this.httpClient.post(NODE_API.CREATE_CONFIG, {
-      body: JSON.stringify({ config: config }),
-    });
+    console.log("DataSourceId coming in NotificationService ", this.dataSourceId);
+    let queryObj;
+    if(this.multiDataSourceEnabled) {
+      queryObj = {
+        body: JSON.stringify({ config: config }),
+        query: { dataSourceId: this.dataSourceId },
+      };
+    }
+    else {
+      queryObj = {
+        body: JSON.stringify({ config: config }),
+      };
+    }
+    console.log("Query Object from Create Config is ", queryObj);
+    const response = await this.httpClient.post(NODE_API.CREATE_CONFIG, queryObj);
     return response;
   };
 
@@ -70,7 +88,13 @@ export default class NotificationService {
     return response;
   };
 
-  getConfigs = async (queryObject: HttpFetchQuery) => {
+  getConfigs = async (queryObject: any) => {
+    if (this.multiDataSourceEnabled) {
+      queryObject = { ...queryObject, dataSourceId: this.dataSourceId };
+    }
+    console.log("DataSourceId is ", this.dataSourceId);
+    console.log("DataSourceEnabled is ", this.multiDataSourceEnabled)
+    console.log("QueryObject from getConfigs is ", JSON.stringify(queryObject));
     return this.httpClient.get<ConfigsResponse>(NODE_API.GET_CONFIGS, {
       query: queryObject,
     });
@@ -215,6 +239,7 @@ export default class NotificationService {
       const response = await this.httpClient.get(
         NODE_API.GET_AVAILABLE_FEATURES
       );
+      console.log("Response of getServerFeatures API is ", response);
       const config_type_list = response.allowed_config_type_list as Array<
         keyof typeof CHANNEL_TYPE
       >;

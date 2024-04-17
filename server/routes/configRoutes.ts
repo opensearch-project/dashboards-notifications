@@ -10,30 +10,63 @@ import {
 } from '../../../../src/core/server';
 import { NODE_API } from '../../common';
 import { joinRequestParams } from '../utils/helper';
+export function configRoutes(router: IRouter, dataSourceEnabled: boolean) {
 
-export function configRoutes(router: IRouter) {
+  let getConfigsQuerySchema: any = {
+      from_index: schema.number(),
+      max_items: schema.number(),
+      query: schema.maybe(schema.string()),
+      config_type: schema.oneOf([
+        schema.arrayOf(schema.string()),
+        schema.string(),
+      ]),
+      is_enabled: schema.maybe(schema.boolean()),
+      sort_field: schema.string(),
+      sort_order: schema.string(),
+      config_id_list: schema.maybe(
+        schema.oneOf([schema.arrayOf(schema.string()), schema.string()])
+      ),
+      'smtp_account.method': schema.maybe(
+        schema.oneOf([schema.arrayOf(schema.string()), schema.string()])
+      ),
+  };
+  if (dataSourceEnabled) {
+    getConfigsQuerySchema = {
+      ...getConfigsQuerySchema,
+      dataSourceId: schema.string(),
+    };
+  }
+
+  let genericBodyAndDataSourceIdQuery: { body: any; query?: any } = {
+    body: schema.any(),
+  };
+  if (dataSourceEnabled) {
+    genericBodyAndDataSourceIdQuery = {
+      ...genericBodyAndDataSourceIdQuery,
+      query: schema.object({
+        dataSourceId: schema.string(),
+      }),
+    };
+  }
+
+  function createMDSClient(request, context) {
+    const { dataSourceId = "" } = (request.query || {}) as { dataSourceId?: string };
+    if (dataSourceEnabled && dataSourceId && dataSourceId.trim().length != 0) {
+      console.log('DataSourceId is from createMDSClient', dataSourceId);
+      return context.dataSource.opensearch.legacy.getClient(dataSourceId.toString()).callAPI;
+    } else {
+      // fall back to default local cluster
+      return context.notificationsContext.notificationsClient.asScoped(
+        request,
+      ).callAsCurrentUser;
+    }
+  }
+
   router.get(
     {
       path: NODE_API.GET_CONFIGS,
       validate: {
-        query: schema.object({
-          from_index: schema.number(),
-          max_items: schema.number(),
-          query: schema.maybe(schema.string()),
-          config_type: schema.oneOf([
-            schema.arrayOf(schema.string()),
-            schema.string(),
-          ]),
-          is_enabled: schema.maybe(schema.boolean()),
-          sort_field: schema.string(),
-          sort_order: schema.string(),
-          config_id_list: schema.maybe(
-            schema.oneOf([schema.arrayOf(schema.string()), schema.string()])
-          ),
-          'smtp_account.method': schema.maybe(
-            schema.oneOf([schema.arrayOf(schema.string()), schema.string()])
-          ),
-        }),
+        query: schema.object(getConfigsQuerySchema),
       },
     },
     async (context, request, response) => {
@@ -44,11 +77,12 @@ export function configRoutes(router: IRouter) {
       );
       const query = request.query.query;
       // @ts-ignore
-      const client: ILegacyScopedClusterClient = context.notificationsContext.notificationsClient.asScoped(
-        request
-      );
+      // const client: ILegacyScopedClusterClient = context.notificationsContext.notificationsClient.asScoped(
+      //   request
+      // );
+      const client = createMDSClient(request, context);
       try {
-        const resp = await client.callAsCurrentUser(
+        const resp = await client(
           'notifications.getConfigs',
           {
             from_index: request.query.from_index,
@@ -106,20 +140,19 @@ export function configRoutes(router: IRouter) {
   router.post(
     {
       path: NODE_API.CREATE_CONFIG,
-      validate: {
-        body: schema.any(),
-      },
+      validate: genericBodyAndDataSourceIdQuery,
     },
     async (context, request, response) => {
       // @ts-ignore
-      const client: ILegacyScopedClusterClient = context.notificationsContext.notificationsClient.asScoped(
-        request
-      );
+      const client = createMDSClient(request, context);
+      console.log("MDSClient is ", client.toString());
+      console.log("Request body ", request.body);
       try {
-        const resp = await client.callAsCurrentUser(
+        const resp = await client(
           'notifications.createConfig',
-          { body: request.body }
+          { body: request.body}
         );
+        console.log("Response of the API is ", resp);
         return response.ok({ body: resp });
       } catch (error) {
         return response.custom({
@@ -134,7 +167,7 @@ export function configRoutes(router: IRouter) {
     {
       path: `${NODE_API.UPDATE_CONFIG}/{configId}`,
       validate: {
-        body: schema.any(),
+        body: schema.any,
         params: schema.object({
           configId: schema.string(),
         }),
@@ -206,6 +239,7 @@ export function configRoutes(router: IRouter) {
       const client: ILegacyScopedClusterClient = context.notificationsContext.notificationsClient.asScoped(
         request
       );
+      // const client = createMDSClient(request, context);
       try {
         const resp = await client.callAsCurrentUser(
           'notifications.getServerFeatures'

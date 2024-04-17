@@ -56,6 +56,7 @@ import {
   validateRecipients,
   validateWebhookURL,
 } from './utils/validationHelper';
+import main from '../Main';
 
 interface CreateChannelsProps extends RouteComponentProps<{ id?: string }> {
   edit?: boolean;
@@ -161,6 +162,7 @@ export function CreateChannel(props: CreateChannelsProps) {
     if (typeof id !== 'string') return;
 
     try {
+      console.log("Service context is ", servicesContext);
       const response = await servicesContext.notificationService
         .getChannel(id)
         .then(async (response) => {
