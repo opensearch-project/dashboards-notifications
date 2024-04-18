@@ -92,16 +92,20 @@ export default class NotificationService extends MDSEnabledClientService {
     if (this.multiDataSourceEnabled) {
       queryObject = { ...queryObject, dataSourceId: this.dataSourceId };
     }
-    console.log("DataSourceId is ", this.dataSourceId);
-    console.log("DataSourceEnabled is ", this.multiDataSourceEnabled)
-    console.log("QueryObject from getConfigs is ", JSON.stringify(queryObject));
     return this.httpClient.get<ConfigsResponse>(NODE_API.GET_CONFIGS, {
       query: queryObject,
     });
   };
 
   getConfig = async (id: string) => {
-    return this.httpClient.get<ConfigsResponse>(`${NODE_API.GET_CONFIG}/${id}`);
+    if (this.multiDataSourceEnabled) {
+      return this.httpClient.get<ConfigsResponse>(`${NODE_API.GET_CONFIG}/${id}`,{
+        query: { dataSourceId: this.dataSourceId },
+      });
+    }
+    else {
+      return this.httpClient.get<ConfigsResponse>(`${NODE_API.GET_CONFIG}/${id}`);
+    }
   };
 
   getChannels = async (

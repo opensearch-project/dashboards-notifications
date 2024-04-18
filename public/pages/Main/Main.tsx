@@ -325,9 +325,7 @@ export default class Main extends Component<MainProps, MainState> {
                             <Route
                               path={ROUTES.EMAIL_SENDERS}
                               render={(props: RouteComponentProps) => (
-                                <EmailSenders {...props} notificationService={
-                                  services?.notificationService as NotificationService
-                                } />
+                                <EmailSenders {...props} />
                               )}
                             />
                             <Route

@@ -50,6 +50,18 @@ export function configRoutes(router: IRouter, dataSourceEnabled: boolean) {
     };
   }
 
+  let genericParamsAndDataSourceIdQuery: { params: any; query?: any } = {
+    params: schema.any(),
+  };
+  if (dataSourceEnabled) {
+    genericParamsAndDataSourceIdQuery = {
+      ...genericParamsAndDataSourceIdQuery,
+      query: schema.object({
+        dataSourceId: schema.string(),
+      }),
+    };
+  }
+
   router.get(
     {
       path: NODE_API.GET_CONFIGS,
@@ -96,19 +108,13 @@ export function configRoutes(router: IRouter, dataSourceEnabled: boolean) {
   router.get(
     {
       path: `${NODE_API.GET_CONFIG}/{configId}`,
-      validate: {
-        params: schema.object({
-          configId: schema.string(),
-        }),
-      },
+      validate: genericParamsAndDataSourceIdQuery,
     },
     async (context, request, response) => {
       // @ts-ignore
-      const client: ILegacyScopedClusterClient = context.notificationsContext.notificationsClient.asScoped(
-        request
-      );
+      const client = MDSEnabledClientService.getClient(request, context, dataSourceEnabled);
       try {
-        const resp = await client.callAsCurrentUser(
+        const resp = await client(
           'notifications.getConfigById',
           { configId: request.params.configId }
         );
@@ -219,7 +225,7 @@ export function configRoutes(router: IRouter, dataSourceEnabled: boolean) {
     async (context, request, response) => {
       // @ts-ignore
       const client = MDSEnabledClientService.getClient(request, context, dataSourceEnabled);
-      // MDSEnabledClientService.getClient(request, context, dataSourceEnabled);
+
       try {
         const resp = await client(
           'notifications.getServerFeatures'
