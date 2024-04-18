@@ -1,30 +1,16 @@
-import {
-  ILegacyCustomClusterClient,
-  LegacyCallAPIOptions,
-  OpenSearchDashboardsRequest,
-  RequestHandlerContext,
-} from "opensearch-dashboards/server";
 
 export class MDSEnabledClientService {
-  osDriver: ILegacyCustomClusterClient;
-  dataSourceEnabled: boolean;
-
-  constructor(osDriver: ILegacyCustomClusterClient, dataSourceEnabled: boolean = false) {
-    this.osDriver = osDriver;
-    this.dataSourceEnabled = dataSourceEnabled;
-  }
-
-  getClientBasedOnDataSource(
-    context: RequestHandlerContext,
-    request: OpenSearchDashboardsRequest
-  ): (endpoint: string, clientParams: Record<string, any>, options?: LegacyCallAPIOptions | undefined) => Promise<unknown> {
+  static getClient(request, context, dataSourceEnabled) {
     const { dataSourceId = "" } = (request.query || {}) as { dataSourceId?: string };
-    if (this.dataSourceEnabled && dataSourceId && dataSourceId.trim().length != 0) {
-      // non-zero data source id
-      return context.dataSource.opensearch.legacy.getClient(dataSourceId).callAPI;
+    if (dataSourceEnabled && dataSourceId && dataSourceId.trim().length != 0) {
+      console.log('DataSourceId is from getClient', dataSourceId);
+      return context.dataSource.opensearch.legacy.getClient(dataSourceId.toString()).callAPI;
     } else {
       // fall back to default local cluster
-      return this.osDriver.asScoped(request).callAsCurrentUser;
+      return context.notificationsContext.notificationsClient.asScoped(
+        request,
+      ).callAsCurrentUser;
     }
   }
 }
+

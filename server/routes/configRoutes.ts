@@ -10,6 +10,7 @@ import {
 } from '../../../../src/core/server';
 import { NODE_API } from '../../common';
 import { joinRequestParams } from '../utils/helper';
+import { MDSEnabledClientService } from '../../public/services/MDSEnabledClientService';
 export function configRoutes(router: IRouter, dataSourceEnabled: boolean) {
 
   let getConfigsQuerySchema: any = {
@@ -49,19 +50,6 @@ export function configRoutes(router: IRouter, dataSourceEnabled: boolean) {
     };
   }
 
-  function createMDSClient(request, context) {
-    const { dataSourceId = "" } = (request.query || {}) as { dataSourceId?: string };
-    if (dataSourceEnabled && dataSourceId && dataSourceId.trim().length != 0) {
-      console.log('DataSourceId is from createMDSClient', dataSourceId);
-      return context.dataSource.opensearch.legacy.getClient(dataSourceId.toString()).callAPI;
-    } else {
-      // fall back to default local cluster
-      return context.notificationsContext.notificationsClient.asScoped(
-        request,
-      ).callAsCurrentUser;
-    }
-  }
-
   router.get(
     {
       path: NODE_API.GET_CONFIGS,
@@ -76,11 +64,8 @@ export function configRoutes(router: IRouter, dataSourceEnabled: boolean) {
         request.query['smtp_account.method']
       );
       const query = request.query.query;
-      // @ts-ignore
-      // const client: ILegacyScopedClusterClient = context.notificationsContext.notificationsClient.asScoped(
-      //   request
-      // );
-      const client = createMDSClient(request, context);
+
+      const client = MDSEnabledClientService.getClient(request, context, dataSourceEnabled);
       try {
         const resp = await client(
           'notifications.getConfigs',
@@ -144,15 +129,12 @@ export function configRoutes(router: IRouter, dataSourceEnabled: boolean) {
     },
     async (context, request, response) => {
       // @ts-ignore
-      const client = createMDSClient(request, context);
-      console.log("MDSClient is ", client.toString());
-      console.log("Request body ", request.body);
+      const client = MDSEnabledClientService.getClient(request, context, dataSourceEnabled);
       try {
         const resp = await client(
           'notifications.createConfig',
-          { body: request.body}
+          { body: request.body },
         );
-        console.log("Response of the API is ", resp);
         return response.ok({ body: resp });
       } catch (error) {
         return response.custom({
@@ -236,12 +218,10 @@ export function configRoutes(router: IRouter, dataSourceEnabled: boolean) {
     },
     async (context, request, response) => {
       // @ts-ignore
-      const client: ILegacyScopedClusterClient = context.notificationsContext.notificationsClient.asScoped(
-        request
-      );
-      // const client = createMDSClient(request, context);
+      const client = MDSEnabledClientService.getClient(request, context, dataSourceEnabled);
+      // MDSEnabledClientService.getClient(request, context, dataSourceEnabled);
       try {
-        const resp = await client.callAsCurrentUser(
+        const resp = await client(
           'notifications.getServerFeatures'
         );
         return response.ok({ body: resp });
