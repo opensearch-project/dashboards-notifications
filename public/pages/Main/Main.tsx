@@ -93,33 +93,65 @@ export default class Main extends Component<MainProps, MainState> {
 
   async componentDidMount() {
     const serverFeatures = await this.context.notificationService.getServerFeatures();
-    if (serverFeatures != null) {
-      this.setState({
-        dataSourceId: '', dataSourceLabel: '', dataSourceReadOnly: false,
-        availableChannels: serverFeatures.availableChannels,
-        availableConfigTypes: serverFeatures.availableConfigTypes,
-        tooltipSupport: serverFeatures.tooltipSupport
-      });
-    } else {
-      // Feature API call failed, allow all configs to avoid UI breaking.
-      // User requests will still be validated by backend.
-      this.setState({
-        dataSourceId: '', dataSourceLabel: '', dataSourceReadOnly: false,
-        availableChannels: CHANNEL_TYPE,
-        availableConfigTypes: [
-          'slack',
-          'chime',
-          'microsoft_teams',
-          'webhook',
-          'email',
-          'sns',
-          'smtp_account',
-          'ses_account',
-          'email_group',
-        ],
-        tooltipSupport: serverFeatures.tooltipSupport
-      });
+    console.log("notification service in main ", this.context.notificationService);
+    console.log("Server Features are: ", serverFeatures);
+    if (this.props.multiDataSourceEnabled) {
+      if (serverFeatures != null) {
+        this.setState({
+          dataSourceId: this.state.dataSourceId, dataSourceLabel: this.state.dataSourceLabel, dataSourceReadOnly: false,
+          availableChannels: serverFeatures.availableChannels,
+          availableConfigTypes: serverFeatures.availableConfigTypes,
+          tooltipSupport: serverFeatures.tooltipSupport
+        });
+      } else {
+        // Feature API call failed, allow all configs to avoid UI breaking.
+        // User requests will still be validated by backend.
+        this.setState({
+          dataSourceId: this.state.dataSourceId, dataSourceLabel: this.state.dataSourceLabel, dataSourceReadOnly: false,
+          availableChannels: CHANNEL_TYPE,
+          availableConfigTypes: [
+            'slack',
+            'chime',
+            'microsoft_teams',
+            'webhook',
+            'email',
+            'sns',
+            'smtp_account',
+            'ses_account',
+            'email_group',
+          ],
+          tooltipSupport: serverFeatures.tooltipSupport
+        });
+      }
     }
+    else
+      {
+        if (serverFeatures != null) {
+          this.setState({
+            availableChannels: serverFeatures.availableChannels,
+            availableConfigTypes: serverFeatures.availableConfigTypes,
+            tooltipSupport: serverFeatures.tooltipSupport
+          });
+        } else {
+          // Feature API call failed, allow all configs to avoid UI breaking.
+          // User requests will still be validated by backend.
+          this.setState({
+            availableChannels: CHANNEL_TYPE,
+            availableConfigTypes: [
+              'slack',
+              'chime',
+              'microsoft_teams',
+              'webhook',
+              'email',
+              'sns',
+              'smtp_account',
+              'ses_account',
+              'email_group',
+            ],
+            tooltipSupport: serverFeatures.tooltipSupport
+          });
+        }
+      }
   }
 
   onSelectedDataSources = (dataSources: DataSourceOption[]) => {

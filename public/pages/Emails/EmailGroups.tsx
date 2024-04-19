@@ -9,6 +9,7 @@ import { RouteComponentProps } from 'react-router-dom';
 import { CoreServicesContext } from '../../components/coreServices';
 import { BREADCRUMBS } from '../../utils/constants';
 import { RecipientGroupsTable } from './components/tables/RecipientGroupsTable';
+import { MainContext } from '../Main/Main';
 
 interface EmailGroupsProps extends RouteComponentProps {}
 

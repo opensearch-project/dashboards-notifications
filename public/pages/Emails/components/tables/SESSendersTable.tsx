@@ -48,7 +48,6 @@ export class SESSendersTable extends Component<
 
   constructor(props: SESSendersTableProps) {
     super(props);
-
     this.state = {
       total: 0,
       from: 0,

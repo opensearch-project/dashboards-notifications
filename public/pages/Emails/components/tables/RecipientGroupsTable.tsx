@@ -156,6 +156,7 @@ export class RecipientGroupsTable extends Component<
       const recipientGroups = await this.context.notificationService.getRecipientGroups(
         queryObject
       );
+      console.log("Recepient groups are ", recipientGroups);
       this.setState({
         items: recipientGroups.items,
         total: recipientGroups.total,

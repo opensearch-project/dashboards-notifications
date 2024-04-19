@@ -62,6 +62,36 @@ export function configRoutes(router: IRouter, dataSourceEnabled: boolean) {
     };
   }
 
+  let updateQuerySchema: any = {
+    body: schema.any(),
+    params: schema.object({
+      configId: schema.string(),
+    })
+  }
+
+  if (dataSourceEnabled) {
+    updateQuerySchema = {
+      ...updateQuerySchema,
+      query: schema.object({
+        dataSourceId: schema.string(),
+      }),
+    };
+  }
+
+  let deleteQuerySchema: any = {
+    config_id_list: schema.oneOf([
+      schema.arrayOf(schema.string()),
+      schema.string(),
+    ]),
+  };
+
+  if (dataSourceEnabled) {
+    deleteQuerySchema = {
+      ...deleteQuerySchema,
+      dataSourceId: schema.string(),
+    };
+  }
+
   router.get(
     {
       path: NODE_API.GET_CONFIGS,
@@ -154,20 +184,14 @@ export function configRoutes(router: IRouter, dataSourceEnabled: boolean) {
   router.put(
     {
       path: `${NODE_API.UPDATE_CONFIG}/{configId}`,
-      validate: {
-        body: schema.any,
-        params: schema.object({
-          configId: schema.string(),
-        }),
-      },
+      validate: updateQuerySchema,
     },
     async (context, request, response) => {
       // @ts-ignore
-      const client: ILegacyScopedClusterClient = context.notificationsContext.notificationsClient.asScoped(
-        request
-      );
+      console.log("Request in Update ", request);
+      const client = MDSEnabledClientService.getClient(request, context, dataSourceEnabled);
       try {
-        const resp = await client.callAsCurrentUser(
+        const resp = await client(
           'notifications.updateConfigById',
           {
             configId: request.params.configId,
@@ -188,22 +212,15 @@ export function configRoutes(router: IRouter, dataSourceEnabled: boolean) {
     {
       path: NODE_API.DELETE_CONFIGS,
       validate: {
-        query: schema.object({
-          config_id_list: schema.oneOf([
-            schema.arrayOf(schema.string()),
-            schema.string(),
-          ]),
-        }),
-      },
+        query: schema.object(deleteQuerySchema)
+      }
     },
     async (context, request, response) => {
       // @ts-ignore
-      const client: ILegacyScopedClusterClient = context.notificationsContext.notificationsClient.asScoped(
-        request
-      );
+      const client = MDSEnabledClientService.getClient(request, context, dataSourceEnabled)
       const config_id_list = joinRequestParams(request.query.config_id_list);
       try {
-        const resp = await client.callAsCurrentUser(
+        const resp = await client(
           'notifications.deleteConfigs',
           { config_id_list }
         );

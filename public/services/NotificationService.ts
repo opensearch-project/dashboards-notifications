@@ -40,8 +40,8 @@ interface EventsResponse {
 
 export default class NotificationService extends MDSEnabledClientService {
   httpClient: HttpSetup;
-  private dataSourceId: string;
-  private multiDataSourceEnabled: boolean;
+  dataSourceId: string;
+  multiDataSourceEnabled: boolean;
 
   constructor(httpClient, dataSourceId: string, multiDataSourceEnabled: boolean) {
     super(httpClient);
@@ -51,7 +51,6 @@ export default class NotificationService extends MDSEnabledClientService {
   }
 
   createConfig = async (config: any) => {
-    console.log("DataSourceId coming in NotificationService ", this.dataSourceId);
     let queryObj;
     if(this.multiDataSourceEnabled) {
       queryObj = {
@@ -64,26 +63,38 @@ export default class NotificationService extends MDSEnabledClientService {
         body: JSON.stringify({ config: config }),
       };
     }
-    console.log("Query Object from Create Config is ", queryObj);
     const response = await this.httpClient.post(NODE_API.CREATE_CONFIG, queryObj);
     return response;
   };
 
   updateConfig = async (id: string, config: any) => {
+    let queryObj;
+    if(this.multiDataSourceEnabled) {
+      queryObj = {
+        body: JSON.stringify({ config: config }),
+        query: { dataSourceId: this.dataSourceId },
+      };
+    }
+    else {
+      queryObj = {
+        body: JSON.stringify({ config: config }),
+      };
+    }
     const response = await this.httpClient.put(
-      `${NODE_API.UPDATE_CONFIG}/${id}`,
-      {
-        body: JSON.stringify({ config }),
-      }
+      `${NODE_API.UPDATE_CONFIG}/${id}`, queryObj
     );
     return response;
   };
 
   deleteConfigs = async (ids: string[]) => {
+    let queryObject: any = {
+      config_id_list: ids,
+    };
+    if (this.multiDataSourceEnabled) {
+      queryObject = { ...queryObject, dataSourceId: this.dataSourceId };
+    }
     const response = await this.httpClient.delete(NODE_API.DELETE_CONFIGS, {
-      query: {
-        config_id_list: ids,
-      },
+      query: queryObject,
     });
     return response;
   };
@@ -266,9 +277,19 @@ export default class NotificationService extends MDSEnabledClientService {
   };
 
   getNotification = async (id: string) => {
-    const response = await this.httpClient.get<EventsResponse>(
+    let response;
+    if (this.multiDataSourceEnabled) {
+      response = await this.httpClient.get<EventsResponse>(
+        `${NODE_API.GET_EVENT}/${id}`, {
+          query: { dataSourceId: this.dataSourceId },
+        }
+      );
+    }
+    else {
+      response = await this.httpClient.get<EventsResponse>(
         `${NODE_API.GET_EVENT}/${id}`
-    );
+      );
+    }
     return eventToNotification(response.event_list[0]);
   };
 

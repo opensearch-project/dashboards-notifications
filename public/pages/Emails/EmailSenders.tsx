@@ -17,6 +17,7 @@ interface EmailSendersProps extends RouteComponentProps {}
 export function EmailSenders(props: EmailSendersProps) {
   const coreContext = useContext(CoreServicesContext)!;
   const mainStateContext = useContext(MainContext)!;
+  console.log("Main state context ", mainStateContext);
 
   useEffect(() => {
     coreContext.chrome.setBreadcrumbs([
@@ -31,7 +32,6 @@ export function EmailSenders(props: EmailSendersProps) {
       <EuiTitle size="l">
         <h1>Email senders</h1>
       </EuiTitle>
-
       {mainStateContext.availableConfigTypes.includes('smtp_account') && (
         <>
           <EuiSpacer />
