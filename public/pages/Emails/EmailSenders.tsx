@@ -11,13 +11,16 @@ import { BREADCRUMBS } from '../../utils/constants';
 import { MainContext } from '../Main/Main';
 import { SendersTable } from './components/tables/SendersTable';
 import { SESSendersTable } from './components/tables/SESSendersTable';
+import { NotificationService } from '../../services';
 
-interface EmailSendersProps extends RouteComponentProps {}
+interface EmailSendersProps extends RouteComponentProps {
+  notificationService: NotificationService;
+}
 
 export function EmailSenders(props: EmailSendersProps) {
   const coreContext = useContext(CoreServicesContext)!;
   const mainStateContext = useContext(MainContext)!;
-  console.log("Main state context ", mainStateContext);
+
 
   useEffect(() => {
     coreContext.chrome.setBreadcrumbs([
@@ -35,7 +38,7 @@ export function EmailSenders(props: EmailSendersProps) {
       {mainStateContext.availableConfigTypes.includes('smtp_account') && (
         <>
           <EuiSpacer />
-          <SendersTable coreContext={coreContext} />
+          <SendersTable coreContext={coreContext} notificationService={props.notificationService} />
         </>
       )}
 
@@ -43,7 +46,7 @@ export function EmailSenders(props: EmailSendersProps) {
       {mainStateContext.availableConfigTypes.includes('ses_account') && (
         <>
           <EuiSpacer />
-          <SESSendersTable coreContext={coreContext} />
+          <SESSendersTable coreContext={coreContext} notificationService={props.notificationService} />
         </>
       )}
     </>

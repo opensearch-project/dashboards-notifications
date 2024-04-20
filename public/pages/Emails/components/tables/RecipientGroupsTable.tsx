@@ -28,7 +28,7 @@ import {
   ContentPanelActions,
 } from '../../../../components/ContentPanel';
 import { ModalConsumer } from '../../../../components/Modal';
-import { ServicesContext } from '../../../../services';
+import { NotificationService, ServicesContext } from '../../../../services';
 import { ROUTES } from '../../../../utils/constants';
 import { getErrorMessage } from '../../../../utils/helpers';
 import { DetailsListModal } from '../../../Channels/components/modals/DetailsListModal';
@@ -37,6 +37,7 @@ import { DeleteRecipientGroupModal } from '../modals/DeleteRecipientGroupModal';
 
 interface RecipientGroupsTableProps {
   coreContext: CoreStart;
+  notificationService: NotificationService;
 }
 
 interface RecipientGroupsTableState
@@ -133,6 +134,13 @@ export class RecipientGroupsTable extends Component<
     const currQuery = RecipientGroupsTable.getQueryObjectFromState(this.state);
     if (!_.isEqual(prevQuery, currQuery)) {
       await this.refresh();
+    }
+    if(this.props.notificationService.multiDataSourceEnabled && prevProps.notificationService.multiDataSourceEnabled && this.props.notificationService && prevProps.notificationService) {
+      const prevDataSourceId = prevProps.notificationService.dataSourceId;
+      const curDataSourceId = this.props.notificationService.dataSourceId;
+      if(!_.isEqual(prevDataSourceId, curDataSourceId)) {
+        await this.refresh();
+      }
     }
   }
 

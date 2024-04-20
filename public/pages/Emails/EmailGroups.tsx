@@ -10,8 +10,11 @@ import { CoreServicesContext } from '../../components/coreServices';
 import { BREADCRUMBS } from '../../utils/constants';
 import { RecipientGroupsTable } from './components/tables/RecipientGroupsTable';
 import { MainContext } from '../Main/Main';
+import { NotificationService } from '../../services';
 
-interface EmailGroupsProps extends RouteComponentProps {}
+interface EmailGroupsProps extends RouteComponentProps {
+  notificationService: NotificationService;
+}
 
 export function EmailGroups(props: EmailGroupsProps) {
   const coreContext = useContext(CoreServicesContext)!;
@@ -30,7 +33,7 @@ export function EmailGroups(props: EmailGroupsProps) {
       </EuiTitle>
 
       <EuiSpacer />
-      <RecipientGroupsTable coreContext={coreContext} />
+      <RecipientGroupsTable coreContext={coreContext} notificationService={props.notificationService} />
     </>
   );
 }

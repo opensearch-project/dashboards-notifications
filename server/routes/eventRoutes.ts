@@ -9,26 +9,30 @@ import {
   IRouter,
 } from '../../../../src/core/server';
 import { NODE_API } from '../../common';
+import { MDSEnabledClientService } from '../../public/services/MDSEnabledClientService';
 
 export function eventRoutes(router: IRouter, dataSourceEnabled: boolean) {
-
-
+  let genericParamsAndDataSourceIdQuery: { params: any; query?: any } = {
+    params: schema.any(),
+  };
+  if (dataSourceEnabled) {
+    genericParamsAndDataSourceIdQuery = {
+      ...genericParamsAndDataSourceIdQuery,
+      query: schema.object({
+        dataSourceId: schema.string(),
+      }),
+    };
+  }
   router.get(
     {
       path: `${NODE_API.GET_EVENT}/{eventId}`,
-      validate: {
-        params: schema.object({
-          eventId: schema.string(),
-        }),
-      },
+      validate: genericParamsAndDataSourceIdQuery,
     },
     async (context, request, response) => {
       // @ts-ignore
-      const client: ILegacyScopedClusterClient = context.notificationsContext.notificationsClient.asScoped(
-        request
-      );
+      const client = MDSEnabledClientService.getClient(request, context, dataSourceEnabled);
       try {
-        const resp = await client.callAsCurrentUser(
+        const resp = await client(
           'notifications.getEventById',
           { eventId: request.params.eventId }
         );
@@ -45,19 +49,13 @@ export function eventRoutes(router: IRouter, dataSourceEnabled: boolean) {
   router.post(
     {
       path: `${NODE_API.SEND_TEST_MESSAGE}/{configId}`,
-      validate: {
-        params: schema.object({
-          configId: schema.string(),
-        }),
-      },
+      validate: genericParamsAndDataSourceIdQuery,
     },
     async (context, request, response) => {
       // @ts-ignore
-      const client: ILegacyScopedClusterClient = context.notificationsContext.notificationsClient.asScoped(
-        request
-      );
+      const client = MDSEnabledClientService.getClient(request, context, dataSourceEnabled);
       try {
-        const resp = await client.callAsCurrentUser(
+        const resp = await client(
           'notifications.sendTestMessage',
           {
             configId: request.params.configId,

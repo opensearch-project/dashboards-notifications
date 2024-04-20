@@ -38,13 +38,12 @@ interface EventsResponse {
   event_list: any[];
 }
 
-export default class NotificationService extends MDSEnabledClientService {
+export default class NotificationService {
   httpClient: HttpSetup;
-  dataSourceId: string;
-  multiDataSourceEnabled: boolean;
+  dataSourceId?: string;
+  multiDataSourceEnabled?: boolean;
 
-  constructor(httpClient, dataSourceId: string, multiDataSourceEnabled: boolean) {
-    super(httpClient);
+  constructor(httpClient, dataSourceId?: string, multiDataSourceEnabled?: boolean) {
     this.httpClient = httpClient;
     this.dataSourceId = dataSourceId;
     this.multiDataSourceEnabled = multiDataSourceEnabled;
@@ -254,7 +253,6 @@ export default class NotificationService extends MDSEnabledClientService {
       const response = await this.httpClient.get(
         NODE_API.GET_AVAILABLE_FEATURES
       );
-      console.log("Response of getServerFeatures API is ", response);
       const config_type_list = response.allowed_config_type_list as Array<
         keyof typeof CHANNEL_TYPE
       >;
@@ -296,9 +294,16 @@ export default class NotificationService extends MDSEnabledClientService {
   sendTestMessage = async (
       configId: string
   ) => {
-    const response = await this.httpClient.post(
-        `${NODE_API.SEND_TEST_MESSAGE}/${configId}`
-    );
+    let response;
+    if (this.multiDataSourceEnabled) {
+      response = this.httpClient.get<ConfigsResponse>(`${NODE_API.GET_CONFIG}/${configId}`,{
+        query: { dataSourceId: this.dataSourceId },
+      });
+    }
+    else {
+      response = this.httpClient.get<ConfigsResponse>(`${NODE_API.GET_CONFIG}/${configId}`);
+    }
+
     if (response.status_list[0].delivery_status.status_code != 200) {
       console.error(response);
       const error = new Error('Failed to send the test message.');

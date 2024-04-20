@@ -17,7 +17,7 @@ import {
 import { Criteria } from '@elastic/eui/src/components/basic_table/basic_table';
 import { Pagination } from '@elastic/eui/src/components/basic_table/pagination_bar';
 import _ from 'lodash';
-import React, { Component } from 'react';
+import React, { Component, useContext } from 'react';
 import { RouteComponentProps } from 'react-router-dom';
 import { ChannelItemType, TableState } from '../../../models/interfaces';
 import {
@@ -53,8 +53,7 @@ export class Channels extends MDSEnabledComponent<ChannelsProps, ChannelsState> 
 
   constructor(props: ChannelsProps) {
     super(props);
-
-    this.state = {
+    const state: ChannelsState = {
       total: 0,
       from: 0,
       size: 10,
@@ -66,6 +65,8 @@ export class Channels extends MDSEnabledComponent<ChannelsProps, ChannelsState> 
       selectedItems: [],
       loading: true,
     };
+
+    this.state = state;
 
     this.columns = [
       {
@@ -120,8 +121,16 @@ export class Channels extends MDSEnabledComponent<ChannelsProps, ChannelsState> 
   async componentDidUpdate(prevProps: ChannelsProps, prevState: ChannelsState) {
     const prevQuery = this.getQueryObjectFromState(prevState);
     const currQuery = this.getQueryObjectFromState(this.state);
+
     if (!_.isEqual(prevQuery, currQuery)) {
       await this.refresh();
+    }
+    if(this.props.notificationService.multiDataSourceEnabled && prevProps.notificationService.multiDataSourceEnabled && this.props.notificationService && prevProps.notificationService) {
+      const prevDataSourceId = prevProps.notificationService.dataSourceId;
+      const curDataSourceId = this.props.notificationService.dataSourceId;
+      if(!_.isEqual(prevDataSourceId, curDataSourceId)) {
+        await this.refresh();
+      }
     }
   }
 

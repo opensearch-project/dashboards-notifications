@@ -4,10 +4,10 @@
  */
 
 import { EuiPage, EuiPageBody, EuiPageSideBar, EuiSideNav } from '@elastic/eui';
-import React, { Component, createContext } from 'react';
+import React, { Component, createContext, useContext } from 'react';
 import { Redirect, Route, RouteComponentProps, Switch } from 'react-router-dom';
 import { CoreStart } from '../../../../../src/core/public';
-import { CoreServicesConsumer } from '../../components/coreServices';
+import { CoreServicesConsumer, CoreServicesContext } from '../../components/coreServices';
 import { ModalProvider, ModalRoot } from '../../components/Modal';
 import { BrowserServices } from '../../models/interfaces';
 import { ServicesConsumer, ServicesContext } from '../../services/services';
@@ -31,6 +31,7 @@ import { DataSourceOption } from "../../../../../src/plugins/data_source_managem
 import _ from "lodash";
 import { NotificationService } from '../../services';
 import { HttpSetup } from '../../../../../src/core/public';
+import * as http from 'http';
 
 enum Navigation {
   Notifications = 'Notifications',
@@ -49,7 +50,7 @@ interface MainProps extends RouteComponentProps {
   dataSourceManagement: DataSourceManagementPluginSetup;
 }
 
-export interface MainState extends Pick<DataSourceMenuProperties, "dataSourceId"> {
+export interface MainState extends Pick<DataSourceMenuProperties, "dataSourceId" | "dataSourceLabel"> {
   availableChannels: Partial<typeof CHANNEL_TYPE>;
   availableConfigTypes: string[]; // available backend config types
   tooltipSupport: boolean; // if true, IAM role for SNS is optional and helper text should be available
@@ -61,22 +62,23 @@ export const MainContext = createContext<MainState | null>(null);
 
 export default class Main extends Component<MainProps, MainState> {
   static contextType = ServicesContext;
-
   constructor(props: MainProps) {
     super(props);
     let dataSourceId = "";
+    let dataSourceLabel = "";
     if (props.multiDataSourceEnabled) {
-      const { dataSourceId: parsedDataSourceId } = queryString.parse(this.props.location.search) as {
+      const {
+        dataSourceId: parsedDataSourceId,
+        dataSourceLabel: parsedDataSourceLabel
+      } = queryString.parse(this.props.location.search) as {
         dataSourceId: string;
+        dataSourceLabel: string;
       };
       dataSourceId = parsedDataSourceId || "";
+      dataSourceLabel = parsedDataSourceLabel || "";
       this.state = {
-        dataSource: [
-          {
-            label: "",
-            id: dataSourceId,
-          },
-        ],
+        dataSourceId: dataSourceId,
+        dataSourceLabel: dataSourceLabel,
         dataSourceReadOnly: false,
         availableChannels: CHANNEL_TYPE,
         availableConfigTypes: [],
@@ -92,9 +94,10 @@ export default class Main extends Component<MainProps, MainState> {
   }
 
   async componentDidMount() {
-    const serverFeatures = await this.context.notificationService.getServerFeatures();
-    console.log("notification service in main ", this.context.notificationService);
-    console.log("Server Features are: ", serverFeatures);
+
+    const services = this.getServices(this.props.http) // Assuming this.context holds the value provided by ServicesContext
+    const serverFeatures = await services.notificationService.getServerFeatures();
+
     if (this.props.multiDataSourceEnabled) {
       if (serverFeatures != null) {
         this.setState({
@@ -168,14 +171,16 @@ export default class Main extends Component<MainProps, MainState> {
     const {
       location: { pathname },
     } = this.props;
-    const notificationService = new NotificationService(http, this.state.dataSourceId, this.props.multiDataSourceEnabled);
+    let notificationService;
+    if (this.props.multiDataSourceEnabled) {
+      notificationService = new NotificationService(http, this.state.dataSourceId, this.props.multiDataSourceEnabled);
+    }
+    else {
+      notificationService = new NotificationService(http);
+    }
     const services = {
       notificationService,
     };
-
-    if (this.props.multiDataSourceEnabled) {
-      services.notificationService = new NotificationService(http, this.state.dataSourceId, this.props.multiDataSourceEnabled);
-    }
     return services;
   }
 
@@ -357,19 +362,31 @@ export default class Main extends Component<MainProps, MainState> {
                             <Route
                               path={ROUTES.EMAIL_SENDERS}
                               render={(props: RouteComponentProps) => (
-                                <EmailSenders {...props} />
+                                <EmailSenders
+                                  {...props}
+                                  notificationService={
+                                    services?.notificationService as NotificationService
+                                  }
+                                /> // send dataSourceId as props or externally
                               )}
                             />
                             <Route
                               path={ROUTES.EMAIL_GROUPS}
                               render={(props: RouteComponentProps) => (
-                                <EmailGroups {...props} />
+                                <EmailGroups
+                                  {...props}
+                                  notificationService={
+                                    services?.notificationService as NotificationService
+                                  }
+                                />
                               )}
                             />
                             <Route
                               path={ROUTES.CREATE_SENDER}
                               render={(props: RouteComponentProps) => (
-                                <CreateSender {...props} />
+                                <CreateSender
+                                  {...props}
+                                />
                               )}
                             />
                             <Route
@@ -381,7 +398,9 @@ export default class Main extends Component<MainProps, MainState> {
                             <Route
                               path={ROUTES.CREATE_SES_SENDER}
                               render={(props: RouteComponentProps) => (
-                                <CreateSESSender {...props} />
+                                <CreateSESSender
+                                  {...props}
+                                />
                               )}
                             />
                             <Route
@@ -393,7 +412,9 @@ export default class Main extends Component<MainProps, MainState> {
                             <Route
                               path={ROUTES.CREATE_RECIPIENT_GROUP}
                               render={(props: RouteComponentProps) => (
-                                <CreateRecipientGroup {...props} />
+                                <CreateRecipientGroup
+                                  {...props}
+                                />
                               )}
                             />
                             <Route

@@ -23,7 +23,7 @@ import {
   ContentPanelActions,
 } from '../../../../components/ContentPanel';
 import { ModalConsumer } from '../../../../components/Modal';
-import { ServicesContext } from '../../../../services';
+import { NotificationService, ServicesContext } from '../../../../services';
 import { ENCRYPTION_TYPE, ROUTES } from '../../../../utils/constants';
 import { getErrorMessage } from '../../../../utils/helpers';
 import { DEFAULT_PAGE_SIZE_OPTIONS } from '../../../Notifications/utils/constants';
@@ -35,6 +35,7 @@ import {
 
 interface SendersTableProps {
   coreContext: CoreStart;
+  notificationService: NotificationService;
 }
 
 interface SendersTableState extends TableState<SenderItemType> {
@@ -119,6 +120,13 @@ export class SendersTable extends Component<
     const currQuery = SendersTable.getQueryObjectFromState(this.state);
     if (!_.isEqual(prevQuery, currQuery)) {
       await this.refresh();
+    }
+    if(this.props.notificationService.multiDataSourceEnabled && prevProps.notificationService.multiDataSourceEnabled && this.props.notificationService && prevProps.notificationService) {
+      const prevDataSourceId = prevProps.notificationService.dataSourceId;
+      const curDataSourceId = this.props.notificationService.dataSourceId;
+      if(!_.isEqual(prevDataSourceId, curDataSourceId)) {
+        await this.refresh();
+      }
     }
   }
 

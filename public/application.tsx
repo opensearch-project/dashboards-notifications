@@ -20,7 +20,6 @@ export const renderApp = (
   dataSourceManagement: DataSourceManagementPluginSetup,
   pluginStartDependencies: AppPluginStartDependencies,
 ) => {
-  const http = coreStart.http;
 
   ReactDOM.render(
     <Router>
@@ -31,6 +30,7 @@ export const renderApp = (
                 setActionMenu={params.setHeaderActionMenu}
                 multiDataSourceEnabled={!!pluginStartDependencies.dataSource}
                 dataSourceManagement={dataSourceManagement}
+                http={coreStart.http} // Pass http as a prop
               />
             </CoreServicesContext.Provider>
         )}

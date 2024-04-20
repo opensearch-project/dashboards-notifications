@@ -188,7 +188,6 @@ export function configRoutes(router: IRouter, dataSourceEnabled: boolean) {
     },
     async (context, request, response) => {
       // @ts-ignore
-      console.log("Request in Update ", request);
       const client = MDSEnabledClientService.getClient(request, context, dataSourceEnabled);
       try {
         const resp = await client(
