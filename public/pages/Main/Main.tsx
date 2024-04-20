@@ -188,9 +188,10 @@ export default class Main extends Component<MainProps, MainState> {
     const {
       location: { pathname },
     } = this.props;
-
-    const DataSourceMenuSelectable = this.props.dataSourceManagement?.ui?.getDataSourceMenu<DataSourceSelectableConfig>();
-    const DataSourceMenuView = this.props.dataSourceManagement.ui.getDataSourceMenu<DataSourceViewConfig>();
+    if (this.props.multiDataSourceEnabled) {
+      const DataSourceMenuSelectable = this.props.dataSourceManagement?.ui?.getDataSourceMenu<DataSourceSelectableConfig>();
+      const DataSourceMenuView = this.props.dataSourceManagement.ui.getDataSourceMenu<DataSourceViewConfig>();
+    }
     const sideNav = [
       {
         name: Navigation.Notifications,
