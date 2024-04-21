@@ -56,8 +56,6 @@ import {
   validateRecipients,
   validateWebhookURL,
 } from './utils/validationHelper';
-import main from '../Main';
-import { useUpdateUrlWithDataSourceProperties } from '../../components/MDSEnabledComponent/MDSEnabledComponent';
 import { DataSourceMenuContext } from '../../services/DataSourceMenuContext';
 
 interface CreateChannelsProps extends RouteComponentProps<{ id?: string }> {
@@ -536,8 +534,3 @@ export function CreateChannel(props: CreateChannelsProps) {
   );
 }
 
-export default function (props: CreateChannelsProps) {
-  const dataSourceMenuProperties = useContext(DataSourceMenuContext);
-  useUpdateUrlWithDataSourceProperties();
-  return <CreateChannel {...props} {...dataSourceMenuProperties} />;
-}

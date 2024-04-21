@@ -31,14 +31,16 @@ describe('<EmailSenders/> spec', () => {
         'email_group',
       ],
     };
+    const routerComponentPropsMock = {
+      // Mock other props as needed
+      notificationService: notificationServiceMock,
+    };
     const utils = render(
-        <ServicesContext.Provider value={notificationServiceMock}>
           <CoreServicesContext.Provider value={coreServicesMock}>
             <MainContext.Provider value={mainState}>
               <EmailSenders {...routerComponentPropsMock} />
             </MainContext.Provider>
           </CoreServicesContext.Provider>
-        </ServicesContext.Provider>
     );
     expect(utils.container.firstChild).toMatchSnapshot();
     expect(screen.queryByText('SMTP senders')).not.toBeNull();
@@ -58,14 +60,16 @@ describe('<EmailSenders/> spec', () => {
         'email_group',
       ],
     };
+    const routerComponentPropsMock = {
+      // Mock other props as needed
+      notificationService: notificationServiceMock,
+    };
     const utils = render(
-        <ServicesContext.Provider value={notificationServiceMock}>
           <CoreServicesContext.Provider value={coreServicesMock}>
             <MainContext.Provider value={mainState}>
               <EmailSenders {...routerComponentPropsMock} />
             </MainContext.Provider>
           </CoreServicesContext.Provider>
-        </ServicesContext.Provider>
     );
     expect(utils.container.firstChild).toMatchSnapshot();
     expect(screen.queryByText('SMTP senders')).toBeNull();

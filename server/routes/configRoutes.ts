@@ -11,74 +11,86 @@ import {
 import { NODE_API } from '../../common';
 import { joinRequestParams } from '../utils/helper';
 import { MDSEnabledClientService } from '../../public/services/MDSEnabledClientService';
+
+interface Schema {
+  [key: string]: any;
+}
+
+interface GenericQueryAndBody {
+  body: any;
+  query?: any;
+}
+
+interface UpdateQuerySchema {
+  body: any;
+  params: { configId: string };
+  query?: { dataSourceId: string };
+}
+
+interface DeleteQuerySchema {
+  config_id_list: string | string[];
+  dataSourceId?: string;
+}
+
 export function configRoutes(router: IRouter, dataSourceEnabled: boolean) {
 
-  let getConfigsQuerySchema: any = {
-      from_index: schema.number(),
-      max_items: schema.number(),
-      query: schema.maybe(schema.string()),
-      config_type: schema.oneOf([
-        schema.arrayOf(schema.string()),
-        schema.string(),
-      ]),
-      is_enabled: schema.maybe(schema.boolean()),
-      sort_field: schema.string(),
-      sort_order: schema.string(),
-      config_id_list: schema.maybe(
-        schema.oneOf([schema.arrayOf(schema.string()), schema.string()])
-      ),
-      'smtp_account.method': schema.maybe(
-        schema.oneOf([schema.arrayOf(schema.string()), schema.string()])
-      ),
+  const getConfigsQuerySchema: Schema = {
+    from_index: schema.number(),
+    max_items: schema.number(),
+    query: schema.maybe(schema.string()),
+    config_type: schema.oneOf([
+      schema.arrayOf(schema.string()),
+      schema.string(),
+    ]),
+    is_enabled: schema.maybe(schema.boolean()),
+    sort_field: schema.string(),
+    sort_order: schema.string(),
+    config_id_list: schema.maybe(
+      schema.oneOf([schema.arrayOf(schema.string()), schema.string()])
+    ),
+    'smtp_account.method': schema.maybe(
+      schema.oneOf([schema.arrayOf(schema.string()), schema.string()])
+    ),
   };
+
   if (dataSourceEnabled) {
-    getConfigsQuerySchema = {
-      ...getConfigsQuerySchema,
-      dataSourceId: schema.string(),
-    };
+    getConfigsQuerySchema.dataSourceId = schema.string();
   }
 
-  let genericBodyAndDataSourceIdQuery: { body: any; query?: any } = {
+  const genericBodyAndDataSourceIdQuery: GenericQueryAndBody = {
     body: schema.any(),
   };
+
   if (dataSourceEnabled) {
-    genericBodyAndDataSourceIdQuery = {
-      ...genericBodyAndDataSourceIdQuery,
-      query: schema.object({
-        dataSourceId: schema.string(),
-      }),
-    };
+    genericBodyAndDataSourceIdQuery.query = schema.object({
+      dataSourceId: schema.string(),
+    });
   }
 
-  let genericParamsAndDataSourceIdQuery: { params: any; query?: any } = {
+  const genericParamsAndDataSourceIdQuery: GenericQueryAndBody = {
     params: schema.any(),
   };
+
   if (dataSourceEnabled) {
-    genericParamsAndDataSourceIdQuery = {
-      ...genericParamsAndDataSourceIdQuery,
-      query: schema.object({
-        dataSourceId: schema.string(),
-      }),
-    };
+    genericParamsAndDataSourceIdQuery.query = schema.object({
+      dataSourceId: schema.string(),
+    });
   }
 
-  let updateQuerySchema: any = {
+  const updateQuerySchema: UpdateQuerySchema = {
     body: schema.any(),
     params: schema.object({
       configId: schema.string(),
-    })
-  }
+    }),
+  };
 
   if (dataSourceEnabled) {
-    updateQuerySchema = {
-      ...updateQuerySchema,
-      query: schema.object({
-        dataSourceId: schema.string(),
-      }),
-    };
+    updateQuerySchema.query = schema.object({
+      dataSourceId: schema.string(),
+    });
   }
 
-  let deleteQuerySchema: any = {
+  const deleteQuerySchema: DeleteQuerySchema = {
     config_id_list: schema.oneOf([
       schema.arrayOf(schema.string()),
       schema.string(),
@@ -86,10 +98,7 @@ export function configRoutes(router: IRouter, dataSourceEnabled: boolean) {
   };
 
   if (dataSourceEnabled) {
-    deleteQuerySchema = {
-      ...deleteQuerySchema,
-      dataSourceId: schema.string(),
-    };
+    deleteQuerySchema.dataSourceId = schema.string();
   }
 
   router.get(
@@ -141,7 +150,6 @@ export function configRoutes(router: IRouter, dataSourceEnabled: boolean) {
       validate: genericParamsAndDataSourceIdQuery,
     },
     async (context, request, response) => {
-      // @ts-ignore
       const client = MDSEnabledClientService.getClient(request, context, dataSourceEnabled);
       try {
         const resp = await client(
@@ -164,7 +172,6 @@ export function configRoutes(router: IRouter, dataSourceEnabled: boolean) {
       validate: genericBodyAndDataSourceIdQuery,
     },
     async (context, request, response) => {
-      // @ts-ignore
       const client = MDSEnabledClientService.getClient(request, context, dataSourceEnabled);
       try {
         const resp = await client(
@@ -181,13 +188,13 @@ export function configRoutes(router: IRouter, dataSourceEnabled: boolean) {
     }
   );
 
+
   router.put(
     {
       path: `${NODE_API.UPDATE_CONFIG}/{configId}`,
       validate: updateQuerySchema,
     },
     async (context, request, response) => {
-      // @ts-ignore
       const client = MDSEnabledClientService.getClient(request, context, dataSourceEnabled);
       try {
         const resp = await client(
@@ -215,7 +222,6 @@ export function configRoutes(router: IRouter, dataSourceEnabled: boolean) {
       }
     },
     async (context, request, response) => {
-      // @ts-ignore
       const client = MDSEnabledClientService.getClient(request, context, dataSourceEnabled)
       const config_id_list = joinRequestParams(request.query.config_id_list);
       try {
@@ -239,7 +245,6 @@ export function configRoutes(router: IRouter, dataSourceEnabled: boolean) {
       validate: false,
     },
     async (context, request, response) => {
-      // @ts-ignore
       const client = MDSEnabledClientService.getClient(request, context, dataSourceEnabled);
 
       try {

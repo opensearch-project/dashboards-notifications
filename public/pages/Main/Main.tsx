@@ -123,7 +123,7 @@ export default class Main extends Component<MainProps, MainState> {
             'ses_account',
             'email_group',
           ],
-          tooltipSupport: serverFeatures.tooltipSupport
+          tooltipSupport: false
         });
       }
     }
@@ -151,7 +151,7 @@ export default class Main extends Component<MainProps, MainState> {
               'ses_account',
               'email_group',
             ],
-            tooltipSupport: serverFeatures.tooltipSupport
+            tooltipSupport: false
           });
         }
       }
@@ -188,9 +188,10 @@ export default class Main extends Component<MainProps, MainState> {
     const {
       location: { pathname },
     } = this.props;
+    let DataSourceMenuSelectable, DataSourceMenuView;
     if (this.props.multiDataSourceEnabled) {
-      const DataSourceMenuSelectable = this.props.dataSourceManagement?.ui?.getDataSourceMenu<DataSourceSelectableConfig>();
-      const DataSourceMenuView = this.props.dataSourceManagement.ui.getDataSourceMenu<DataSourceViewConfig>();
+      DataSourceMenuSelectable = this.props.dataSourceManagement?.ui?.getDataSourceMenu<DataSourceSelectableConfig>();
+      DataSourceMenuView = this.props.dataSourceManagement.ui.getDataSourceMenu<DataSourceViewConfig>();
     }
     const sideNav = [
       {

@@ -36,8 +36,8 @@ import { DEFAULT_PAGE_SIZE_OPTIONS } from '../Notifications/utils/constants';
 import { ChannelActions } from './components/ChannelActions';
 import { ChannelControls } from './components/ChannelControls';
 import { ChannelFiltersType } from './types';
-import MDSEnabledComponent from '../../components/MDSEnabledComponent/MDSEnabledComponent';
 import { DataSourceMenuProperties } from '../../services/DataSourceMenuContext';
+import MDSEnabledComponent from '../../components/MDSEnabledComponent/MDSEnabledComponent';
 
 interface ChannelsProps extends RouteComponentProps, DataSourceMenuProperties {
   notificationService: NotificationService;
@@ -125,7 +125,7 @@ export class Channels extends MDSEnabledComponent<ChannelsProps, ChannelsState> 
     if (!_.isEqual(prevQuery, currQuery)) {
       await this.refresh();
     }
-    if(this.props.notificationService.multiDataSourceEnabled && prevProps.notificationService.multiDataSourceEnabled && this.props.notificationService && prevProps.notificationService) {
+    if(this.props.notificationService?.multiDataSourceEnabled && prevProps.notificationService?.multiDataSourceEnabled) {
       const prevDataSourceId = prevProps.notificationService.dataSourceId;
       const curDataSourceId = this.props.notificationService.dataSourceId;
       if(!_.isEqual(prevDataSourceId, curDataSourceId)) {

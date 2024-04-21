@@ -121,7 +121,7 @@ export class SendersTable extends Component<
     if (!_.isEqual(prevQuery, currQuery)) {
       await this.refresh();
     }
-    if(this.props.notificationService.multiDataSourceEnabled && prevProps.notificationService.multiDataSourceEnabled && this.props.notificationService && prevProps.notificationService) {
+    if(this.props.notificationService?.multiDataSourceEnabled && prevProps.notificationService?.multiDataSourceEnabled) {
       const prevDataSourceId = prevProps.notificationService.dataSourceId;
       const curDataSourceId = this.props.notificationService.dataSourceId;
       if(!_.isEqual(prevDataSourceId, curDataSourceId)) {

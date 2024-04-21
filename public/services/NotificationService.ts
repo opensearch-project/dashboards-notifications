@@ -26,7 +26,6 @@ import {
   configToSESSender,
   eventToNotification,
 } from './utils/helper';
-import { MDSEnabledClientService } from './MDSEnabledClientService';
 
 interface ConfigsResponse {
   total_hits: number;

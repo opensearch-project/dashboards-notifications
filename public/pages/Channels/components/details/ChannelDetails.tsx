@@ -31,7 +31,6 @@ import { MuteChannelModal } from '../modals/MuteChannelModal';
 import { ChannelDetailItems } from './ChannelDetailItems';
 import { ChannelDetailsActions } from './ChannelDetailsActions';
 import { ChannelSettingsDetails } from './ChannelSettingsDetails';
-import { useUpdateUrlWithDataSourceProperties } from "../../../../components/MDSEnabledComponent/MDSEnabledComponent";
 
 interface ChannelDetailsProps extends RouteComponentProps<{ id: string }> {
 }
@@ -125,7 +124,6 @@ export function ChannelDetails(props: ChannelDetailsProps) {
       description: renderTime(channel?.last_updated_time_ms || NaN),
     },
   ];
-  useUpdateUrlWithDataSourceProperties()
   return (
     <>
       <EuiGlobalToastList

@@ -15,39 +15,5 @@ export default class MDSEnabledComponent<
       multiDataSourceEnabled: props.multiDataSourceEnabled,
     } as State;
   }
-
-  static getDerivedStateFromProps<Props extends DataSourceMenuProperties, State extends DataSourceMenuProperties>(
-    nextProps: Props,
-    prevState: State
-  ) {
-    // static members cannot reference class type parameters
-    if (
-      nextProps.multiDataSourceEnabled &&
-      (nextProps.dataSourceId !== prevState.dataSourceId)
-    ) {
-      return {
-        dataSourceId: nextProps.dataSourceId
-      };
-    }
-    return null;
-  }
-}
-
-export function useUpdateUrlWithDataSourceProperties() {
-  const dataSourceMenuProps = useContext(DataSourceMenuContext);
-  const { dataSourceId, multiDataSourceEnabled } = dataSourceMenuProps;
-  const history = useHistory();
-  const currentSearch = history.location.search;
-  const currentQuery = queryString.parse(currentSearch);
-  useEffect(() => {
-    if (multiDataSourceEnabled) {
-      history.replace({
-        search: queryString.stringify({
-          ...currentQuery,
-          dataSourceId,
-        }),
-      });
-    }
-  }, [dataSourceId, multiDataSourceEnabled]);
 }
 

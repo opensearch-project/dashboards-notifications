@@ -6,7 +6,6 @@
 import { configure, mount } from 'enzyme';
 import Adapter from 'enzyme-adapter-react-16';
 import React from 'react';
-import { notificationServiceMock } from '../../../../test/mocks/serviceMock';
 import { DetailsTableModal } from '../components/modals/DetailsTableModal';
 
 describe('<DetailsTableModal /> spec', () => {
@@ -24,7 +23,6 @@ describe('<DetailsTableModal /> spec', () => {
         isParameters={true}
         items={items}
         onClose={onClose}
-        services={notificationServiceMock}
       />
     );
     expect(wrap).toMatchSnapshot();
@@ -42,7 +40,6 @@ describe('<DetailsTableModal /> spec', () => {
         isParameters={false}
         items={items}
         onClose={onClose}
-        services={notificationServiceMock}
       />
     );
     expect(wrap).toMatchSnapshot();
