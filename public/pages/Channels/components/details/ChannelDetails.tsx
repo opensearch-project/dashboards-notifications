@@ -32,8 +32,7 @@ import { ChannelDetailItems } from './ChannelDetailItems';
 import { ChannelDetailsActions } from './ChannelDetailsActions';
 import { ChannelSettingsDetails } from './ChannelSettingsDetails';
 
-interface ChannelDetailsProps extends RouteComponentProps<{ id: string }> {
-}
+interface ChannelDetailsProps extends RouteComponentProps<{ id: string }> {}
 
 export function ChannelDetails(props: ChannelDetailsProps) {
   const coreContext = useContext(CoreServicesContext)!;
@@ -41,6 +40,7 @@ export function ChannelDetails(props: ChannelDetailsProps) {
   const id = props.match.params.id;
   const [channel, setChannel] = useState<ChannelItemType>();
   const [toasts, setToasts] = useState<Toast[]>([]);
+
   useEffect(() => {
     coreContext.chrome.setBreadcrumbs([
       BREADCRUMBS.NOTIFICATIONS,
@@ -124,6 +124,7 @@ export function ChannelDetails(props: ChannelDetailsProps) {
       description: renderTime(channel?.last_updated_time_ms || NaN),
     },
   ];
+
   return (
     <>
       <EuiGlobalToastList
@@ -133,6 +134,7 @@ export function ChannelDetails(props: ChannelDetailsProps) {
         }}
         toastLifeTimeMs={60000}
       />
+
       <EuiFlexGroup
         alignItems="center"
         gutterSize="m"
