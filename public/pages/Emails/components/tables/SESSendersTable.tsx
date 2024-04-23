@@ -32,6 +32,7 @@ import { ROUTES } from '../../../../utils/constants';
 import { getErrorMessage } from '../../../../utils/helpers';
 import { DEFAULT_PAGE_SIZE_OPTIONS } from '../../../Notifications/utils/constants';
 import { DeleteSenderModal } from '../modals/DeleteSenderModal';
+import { isDataSourceChanged } from '../../../../components/MDSEnabledComponent/MDSEnabledComponent';
 
 interface SESSendersTableProps {
   coreContext: CoreStart;
@@ -104,12 +105,8 @@ export class SESSendersTable extends Component<
     if (!_.isEqual(prevQuery, currQuery)) {
       await this.refresh();
     }
-    if(this.props.notificationService?.multiDataSourceEnabled && prevProps.notificationService?.multiDataSourceEnabled) {
-      const prevDataSourceId = prevProps.notificationService.dataSourceId;
-      const curDataSourceId = this.props.notificationService.dataSourceId;
-      if(!_.isEqual(prevDataSourceId, curDataSourceId)) {
-        await this.refresh();
-      }
+    if (isDataSourceChanged(this.props, prevProps)) {
+      await this.refresh();
     }
   }
 

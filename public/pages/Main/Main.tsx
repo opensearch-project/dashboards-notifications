@@ -55,6 +55,7 @@ export interface MainState extends Pick<DataSourceMenuProperties, "dataSourceId"
   availableConfigTypes: string[]; // available backend config types
   tooltipSupport: boolean; // if true, IAM role for SNS is optional and helper text should be available
   dataSourceReadOnly: boolean;
+  dataSourceLoading: boolean;
   dataSourceLabel: string;
 }
 
@@ -64,32 +65,30 @@ export default class Main extends Component<MainProps, MainState> {
   static contextType = ServicesContext;
   constructor(props: MainProps) {
     super(props);
-    let dataSourceId = "";
-    let dataSourceLabel = "";
+    const initialState = {
+      availableChannels: CHANNEL_TYPE,
+      availableConfigTypes: [],
+      tooltipSupport: false,
+    };
+
     if (props.multiDataSourceEnabled) {
       const {
-        dataSourceId: parsedDataSourceId,
-        dataSourceLabel: parsedDataSourceLabel
+        dataSourceId = "",
+        dataSourceLabel = ""
       } = queryString.parse(this.props.location.search) as {
-        dataSourceId: string;
-        dataSourceLabel: string;
+        dataSourceId?: string;
+        dataSourceLabel?: string;
       };
-      dataSourceId = parsedDataSourceId || "";
-      dataSourceLabel = parsedDataSourceLabel || "";
+
       this.state = {
+        ...initialState,
         dataSourceId: dataSourceId,
         dataSourceLabel: dataSourceLabel,
         dataSourceReadOnly: false,
-        availableChannels: CHANNEL_TYPE,
-        availableConfigTypes: [],
-        tooltipSupport: false,
+        dataSourceLoading: props.multiDataSourceEnabled,
       };
     } else {
-      this.state = {
-        availableChannels: CHANNEL_TYPE,
-        availableConfigTypes: [],
-        tooltipSupport: false,
-      };
+      this.state = initialState;
     }
   }
 
@@ -98,71 +97,60 @@ export default class Main extends Component<MainProps, MainState> {
     const services = this.getServices(this.props.http) // Assuming this.context holds the value provided by ServicesContext
     const serverFeatures = await services.notificationService.getServerFeatures();
 
-    if (this.props.multiDataSourceEnabled) {
-      if (serverFeatures != null) {
-        this.setState({
-          dataSourceId: this.state.dataSourceId, dataSourceLabel: this.state.dataSourceLabel, dataSourceReadOnly: false,
-          availableChannels: serverFeatures.availableChannels,
-          availableConfigTypes: serverFeatures.availableConfigTypes,
-          tooltipSupport: serverFeatures.tooltipSupport
-        });
-      } else {
-        // Feature API call failed, allow all configs to avoid UI breaking.
-        // User requests will still be validated by backend.
-        this.setState({
-          dataSourceId: this.state.dataSourceId, dataSourceLabel: this.state.dataSourceLabel, dataSourceReadOnly: false,
-          availableChannels: CHANNEL_TYPE,
-          availableConfigTypes: [
-            'slack',
-            'chime',
-            'microsoft_teams',
-            'webhook',
-            'email',
-            'sns',
-            'smtp_account',
-            'ses_account',
-            'email_group',
-          ],
-          tooltipSupport: false
-        });
-      }
+    if (serverFeatures != null) {
+      const { availableChannels, availableConfigTypes, tooltipSupport } = serverFeatures;
+      const { dataSourceId = "", dataSourceLabel = "" } = this.state;
+      const dataSourceReadOnly = false;
+      const dataSourceLoading = this.props.multiDataSourceEnabled;
+
+      this.setState({
+        dataSourceId,
+        dataSourceLabel,
+        dataSourceReadOnly,
+        dataSourceLoading,
+        availableChannels,
+        availableConfigTypes,
+        tooltipSupport
+      });
+    } else {
+      const { dataSourceId = "", dataSourceLabel = "" } = this.state;
+      const dataSourceReadOnly = false;
+      const dataSourceLoading = this.props.multiDataSourceEnabled;
+      const defaultConfigTypes = [
+        'slack',
+        'chime',
+        'microsoft_teams',
+        'webhook',
+        'email',
+        'sns',
+        'smtp_account',
+        'ses_account',
+        'email_group',
+      ];
+
+      this.setState({
+        dataSourceId,
+        dataSourceLabel,
+        dataSourceReadOnly,
+        dataSourceLoading,
+        availableChannels: this.props.multiDataSourceEnabled ? CHANNEL_TYPE : defaultConfigTypes,
+        availableConfigTypes: defaultConfigTypes,
+        tooltipSupport: false
+      });
     }
-    else
-      {
-        if (serverFeatures != null) {
-          this.setState({
-            availableChannels: serverFeatures.availableChannels,
-            availableConfigTypes: serverFeatures.availableConfigTypes,
-            tooltipSupport: serverFeatures.tooltipSupport
-          });
-        } else {
-          // Feature API call failed, allow all configs to avoid UI breaking.
-          // User requests will still be validated by backend.
-          this.setState({
-            availableChannels: CHANNEL_TYPE,
-            availableConfigTypes: [
-              'slack',
-              'chime',
-              'microsoft_teams',
-              'webhook',
-              'email',
-              'sns',
-              'smtp_account',
-              'ses_account',
-              'email_group',
-            ],
-            tooltipSupport: false
-          });
-        }
-      }
   }
 
   onSelectedDataSources = (dataSources: DataSourceOption[]) => {
     const { id = "", label = "" } = dataSources[0] || {};
-    if (this.state.dataSourceId != id || this.state.dataSourceLabel != label) {
+    if (this.state.dataSourceId !== id || this.state.dataSourceLabel !==label) {
       this.setState({
         dataSourceId: id,
         dataSourceLabel: label,
+      });
+    }
+    if (this.state.dataSourceLoading) {
+      this.setState({
+        dataSourceLoading: false,
       });
     }
   };
@@ -189,9 +177,18 @@ export default class Main extends Component<MainProps, MainState> {
       location: { pathname },
     } = this.props;
     let DataSourceMenuSelectable, DataSourceMenuView;
+    let activeOption: DataSourceOption[] | undefined;
     if (this.props.multiDataSourceEnabled) {
       DataSourceMenuSelectable = this.props.dataSourceManagement?.ui?.getDataSourceMenu<DataSourceSelectableConfig>();
       DataSourceMenuView = this.props.dataSourceManagement.ui.getDataSourceMenu<DataSourceViewConfig>();
+      activeOption = this.state.dataSourceLoading
+        ? undefined
+        : [
+          {
+            label: this.state.dataSourceLabel,
+            id: this.state.dataSourceId,
+          },
+        ];
     }
     const sideNav = [
       {
@@ -253,13 +250,13 @@ export default class Main extends Component<MainProps, MainState> {
                                   componentType={"DataSourceView"}
                                   componentConfig={{
                                     activeOption: [{ label: this.state.dataSourceLabel, id: this.state.dataSourceId }],
-                                    fullWidth: false,
                                   }}
                                 />
                               )}
                             />
                             <Route
                               path={[
+                                "/",
                                 ROUTES.CHANNELS,
                                 ROUTES.CREATE_CHANNEL,
                                 ROUTES.CREATE_SENDER,
@@ -277,7 +274,7 @@ export default class Main extends Component<MainProps, MainState> {
                                     savedObjects: core?.savedObjects.client,
                                     notifications: core?.notifications,
                                     fullWidth: false,
-                                    activeOption: [{ label: this.state.dataSourceLabel, id: this.state.dataSourceId }],
+                                    activeOption,
                                     onSelectedDataSources: this.onSelectedDataSources,
                                   }}
                                 />
@@ -303,7 +300,7 @@ export default class Main extends Component<MainProps, MainState> {
                                       savedObjects: core?.savedObjects.client,
                                       notifications: core?.notifications,
                                       fullWidth: false,
-                                      activeOption: [{ label: this.state.dataSourceLabel, id: this.state.dataSourceId }],
+                                      activeOption,
                                       onSelectedDataSources: this.onSelectedDataSources,
                                     }}
                                   />
@@ -313,6 +310,8 @@ export default class Main extends Component<MainProps, MainState> {
                           </Switch>
                         )}
                       <EuiPage>
+                        {!this.state.dataSourceLoading && (
+                          <>
                         <ModalRoot services={services} />
                         {pathname !== ROUTES.CREATE_CHANNEL &&
                           !pathname.startsWith(ROUTES.EDIT_CHANNEL) &&
@@ -427,7 +426,8 @@ export default class Main extends Component<MainProps, MainState> {
                             />
                             <Redirect from="/" to={ROUTES.CHANNELS} />
                           </Switch>
-                        </EuiPageBody>
+                        </EuiPageBody></>
+                        )}
                       </EuiPage>
                       </DataSourceMenuContext.Provider>
                     </ModalProvider>

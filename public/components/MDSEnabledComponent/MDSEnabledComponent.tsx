@@ -17,3 +17,18 @@ export default class MDSEnabledComponent<
   }
 }
 
+export function isDataSourceChanged(prevProps, currentProps) {
+  if (
+    prevProps.notificationService?.multiDataSourceEnabled &&
+    currentProps.notificationService?.multiDataSourceEnabled
+  ) {
+    const prevDataSourceId = prevProps.notificationService.dataSourceId;
+    const currDataSourceId = currentProps.notificationService.dataSourceId;
+    if (!_.isEqual(prevDataSourceId, currDataSourceId)) {
+      return true;
+    }
+  }
+  return false;
+}
+
+

@@ -37,7 +37,7 @@ import { ChannelActions } from './components/ChannelActions';
 import { ChannelControls } from './components/ChannelControls';
 import { ChannelFiltersType } from './types';
 import { DataSourceMenuProperties } from '../../services/DataSourceMenuContext';
-import MDSEnabledComponent from '../../components/MDSEnabledComponent/MDSEnabledComponent';
+import MDSEnabledComponent, { isDataSourceChanged } from '../../components/MDSEnabledComponent/MDSEnabledComponent';
 
 interface ChannelsProps extends RouteComponentProps, DataSourceMenuProperties {
   notificationService: NotificationService;
@@ -125,12 +125,8 @@ export class Channels extends MDSEnabledComponent<ChannelsProps, ChannelsState> 
     if (!_.isEqual(prevQuery, currQuery)) {
       await this.refresh();
     }
-    if(this.props.notificationService?.multiDataSourceEnabled && prevProps.notificationService?.multiDataSourceEnabled) {
-      const prevDataSourceId = prevProps.notificationService.dataSourceId;
-      const curDataSourceId = this.props.notificationService.dataSourceId;
-      if(!_.isEqual(prevDataSourceId, curDataSourceId)) {
-        await this.refresh();
-      }
+    if (isDataSourceChanged(this.props, prevProps)) {
+      await this.refresh();
     }
   }
 

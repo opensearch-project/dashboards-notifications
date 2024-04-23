@@ -34,6 +34,7 @@ import { getErrorMessage } from '../../../../utils/helpers';
 import { DetailsListModal } from '../../../Channels/components/modals/DetailsListModal';
 import { DEFAULT_PAGE_SIZE_OPTIONS } from '../../../Notifications/utils/constants';
 import { DeleteRecipientGroupModal } from '../modals/DeleteRecipientGroupModal';
+import { isDataSourceChanged } from '../../../../components/MDSEnabledComponent/MDSEnabledComponent';
 
 interface RecipientGroupsTableProps {
   coreContext: CoreStart;
@@ -135,12 +136,8 @@ export class RecipientGroupsTable extends Component<
     if (!_.isEqual(prevQuery, currQuery)) {
       await this.refresh();
     }
-    if(this.props.notificationService?.multiDataSourceEnabled && prevProps.notificationService?.multiDataSourceEnabled) {
-      const prevDataSourceId = prevProps.notificationService.dataSourceId;
-      const curDataSourceId = this.props.notificationService.dataSourceId;
-      if(!_.isEqual(prevDataSourceId, curDataSourceId)) {
-        await this.refresh();
-      }
+    if (isDataSourceChanged(this.props, prevProps)) {
+      await this.refresh();
     }
   }
 
@@ -164,7 +161,6 @@ export class RecipientGroupsTable extends Component<
       const recipientGroups = await this.context.notificationService.getRecipientGroups(
         queryObject
       );
-      console.log("Recepient groups are ", recipientGroups);
       this.setState({
         items: recipientGroups.items,
         total: recipientGroups.total,
