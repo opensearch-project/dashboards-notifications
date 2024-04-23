@@ -56,7 +56,6 @@ import {
   validateRecipients,
   validateWebhookURL,
 } from './utils/validationHelper';
-import { DataSourceMenuContext } from '../../services/DataSourceMenuContext';
 
 interface CreateChannelsProps extends RouteComponentProps<{ id?: string }> {
   edit?: boolean;

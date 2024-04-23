@@ -250,7 +250,7 @@ export default class NotificationService {
       const response = await this.httpClient.get(
         NODE_API.GET_AVAILABLE_FEATURES
       );
-      
+
       return response;
     } catch (error) {
       console.error('error fetching available features', error);
@@ -280,14 +280,15 @@ export default class NotificationService {
   ) => {
     let response;
     if (this.multiDataSourceEnabled) {
-      response = this.httpClient.get<ConfigsResponse>(`${NODE_API.GET_CONFIG}/${configId}`,{
+      response = await this.httpClient.post(
+        `${NODE_API.SEND_TEST_MESSAGE}/${configId}`,{
         query: { dataSourceId: this.dataSourceId },
       });
     }
     else {
-      response = this.httpClient.get<ConfigsResponse>(`${NODE_API.GET_CONFIG}/${configId}`);
+      response = await this.httpClient.post(
+        `${NODE_API.SEND_TEST_MESSAGE}/${configId}`);
     }
-
     if (response.status_list[0].delivery_status.status_code != 200) {
       console.error(response);
       const error = new Error('Failed to send the test message.');
