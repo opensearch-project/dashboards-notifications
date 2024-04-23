@@ -180,7 +180,7 @@ export default class Main extends Component<MainProps, MainState> {
     let activeOption: DataSourceOption[] | undefined;
     if (this.props.multiDataSourceEnabled) {
       DataSourceMenuSelectable = this.props.dataSourceManagement?.ui?.getDataSourceMenu<DataSourceSelectableConfig>();
-      DataSourceMenuView = this.props.dataSourceManagement.ui.getDataSourceMenu<DataSourceViewConfig>();
+      DataSourceMenuView = this.props.dataSourceManagement?.ui?.getDataSourceMenu<DataSourceViewConfig>();
       activeOption = this.state.dataSourceLoading
         ? undefined
         : [
