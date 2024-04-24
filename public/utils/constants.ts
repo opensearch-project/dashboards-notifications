@@ -48,31 +48,6 @@ export const BREADCRUMBS = Object.freeze({
   EDIT_RECIPIENT_GROUP: { text: 'Edit recipient group' },
 });
 
-export const BACKEND_CHANNEL_TYPE = Object.freeze({
-  SLACK: 'slack',
-  EMAIL: 'email',
-  CHIME: 'chime',
-  MICROSOFT_TEAMS: 'microsoft_teams',
-  CUSTOM_WEBHOOK: 'webhook',
-  SNS: 'sns',
-});
-
-export const CHANNEL_TYPE = Object.freeze({
-  [BACKEND_CHANNEL_TYPE.SLACK]: 'Slack',
-  [BACKEND_CHANNEL_TYPE.EMAIL]: 'Email',
-  [BACKEND_CHANNEL_TYPE.CHIME]: 'Chime',
-  [BACKEND_CHANNEL_TYPE.MICROSOFT_TEAMS]: 'Microsoft Teams',
-  [BACKEND_CHANNEL_TYPE.CUSTOM_WEBHOOK]: 'Custom webhook',
-  [BACKEND_CHANNEL_TYPE.SNS]: 'Amazon SNS',
-}) as {
-  slack: string;
-  email: string;
-  chime: string;
-  microsoft_teams: string;
-  webhook: string;
-  sns: string;
-};
-
 export const ENCRYPTION_TYPE = Object.freeze({
   ssl: 'SSL/TLS',
   start_tls: 'STARTTLS',

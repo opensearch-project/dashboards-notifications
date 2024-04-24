@@ -11,7 +11,7 @@ import {
 import { NODE_API } from '../../common';
 import { joinRequestParams } from '../utils/helper';
 import _ from 'lodash';
-import { CHANNEL_TYPE } from '../../public/utils/constants';
+import { CHANNEL_TYPE } from '../../common/constants';
 import { MDSEnabledClientService } from '../../public/services/MDSEnabledClientService';
 
 interface Schema {
@@ -257,7 +257,7 @@ export function configRoutes(router: IRouter, dataSourceEnabled: boolean) {
           keyof typeof CHANNEL_TYPE
         >;
         const channelTypes: Partial<typeof CHANNEL_TYPE> = {};
-        
+
         for (let channel of config_type_list) {
           if (CHANNEL_TYPE[channel]) {
             channelTypes[channel] = CHANNEL_TYPE[channel]

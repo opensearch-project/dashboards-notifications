@@ -25,12 +25,11 @@ import { ContentPanel } from '../../components/ContentPanel';
 import { CoreServicesContext } from '../../components/coreServices';
 import { ServicesContext } from '../../services';
 import {
-  BACKEND_CHANNEL_TYPE,
   BREADCRUMBS,
-  CHANNEL_TYPE,
   CUSTOM_WEBHOOK_ENDPOINT_TYPE,
   ROUTES,
 } from '../../utils/constants';
+import {BACKEND_CHANNEL_TYPE,CHANNEL_TYPE } from '../../../common/constants'
 import { getErrorMessage } from '../../utils/helpers';
 import { HeaderItemType, WebhookHttpType, WebhookMethodType } from '../Channels/types';
 import { MainContext } from '../Main/Main';

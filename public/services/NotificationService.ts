@@ -13,6 +13,7 @@ import {
   SenderType,
   SESSenderItemType,
 } from '../../models/interfaces';
+import { CHANNEL_TYPE } from '../../common/constants';
 import {
   configListToChannels,
   configListToRecipientGroups,
