@@ -16,7 +16,7 @@ import _ from 'lodash';
 import React, { useContext, useEffect, useState } from 'react';
 import {
   CHANNEL_TYPE,
-} from '../../../../public/utils/constants';
+} from '../../../../common/constants';
 import { MainContext } from '../../Main/Main';
 import { ChannelFiltersType } from '../types';
 

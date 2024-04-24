@@ -10,6 +10,8 @@ import {
 } from '../../../../src/core/server';
 import { NODE_API } from '../../common';
 import { joinRequestParams } from '../utils/helper';
+import _ from 'lodash';
+import { CHANNEL_TYPE } from '../../common/constants';
 
 export function configRoutes(router: IRouter) {
   router.get(
@@ -210,7 +212,28 @@ export function configRoutes(router: IRouter) {
         const resp = await client.callAsCurrentUser(
           'notifications.getServerFeatures'
         );
+<<<<<<< HEAD
         return response.ok({ body: resp });
+=======
+        const config_type_list = resp.allowed_config_type_list as Array<
+          keyof typeof CHANNEL_TYPE
+        >;
+        const channelTypes: Partial<typeof CHANNEL_TYPE> = {};
+
+        for (let channel of config_type_list) {
+          if (CHANNEL_TYPE[channel]) {
+            channelTypes[channel] = CHANNEL_TYPE[channel]
+          }
+        }
+
+        const availableFeature = {
+          availableChannels: channelTypes,
+          availableConfigTypes: config_type_list as string[],
+          tooltipSupport:
+            _.get(response, ['plugin_features', 'tooltip_support']) === 'true',
+        };
+        return response.ok({ body: availableFeature });
+>>>>>>> e597081 (Fix broken osd functional test repo (#189))
       } catch (error) {
         return response.custom({
           statusCode: error.statusCode || 500,
