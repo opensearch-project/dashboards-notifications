@@ -28,9 +28,9 @@ import { CoreServicesContext } from '../../components/coreServices';
 import { NotificationService } from '../../services';
 import {
   BREADCRUMBS,
-  CHANNEL_TYPE,
   ROUTES,
 } from '../../utils/constants';
+import { CHANNEL_TYPE } from '../../../common/constants'
 import { getErrorMessage } from '../../utils/helpers';
 import { DEFAULT_PAGE_SIZE_OPTIONS } from '../Notifications/utils/constants';
 import { ChannelActions } from './components/ChannelActions';
@@ -107,6 +107,7 @@ export class Channels extends Component<ChannelsProps, ChannelsState> {
   }
 
   async componentDidMount() {
+    console.log("in channle this.context", this.context )
     this.context.chrome.setBreadcrumbs([
       BREADCRUMBS.NOTIFICATIONS,
       BREADCRUMBS.CHANNELS,

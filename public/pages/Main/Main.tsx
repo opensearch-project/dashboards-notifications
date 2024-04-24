@@ -11,7 +11,8 @@ import { CoreServicesConsumer } from '../../components/coreServices';
 import { ModalProvider, ModalRoot } from '../../components/Modal';
 import { BrowserServices } from '../../models/interfaces';
 import { ServicesConsumer, ServicesContext } from '../../services/services';
-import { CHANNEL_TYPE, ROUTES } from '../../utils/constants';
+import { ROUTES } from '../../utils/constants';
+import { CHANNEL_TYPE } from '../../../common/constants'
 import { Channels } from '../Channels/Channels';
 import { ChannelDetails } from '../Channels/components/details/ChannelDetails';
 import { CreateChannel } from '../CreateChannel/CreateChannel';

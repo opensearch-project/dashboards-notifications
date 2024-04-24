@@ -16,7 +16,7 @@ import _ from 'lodash';
 import React, { useContext, useEffect, useState } from 'react';
 import {
   CHANNEL_TYPE,
-} from '../../../../public/utils/constants';
+} from '../../../../common/constants';
 import { MainContext } from '../../Main/Main';
 import { ChannelFiltersType } from '../types';
 
@@ -28,12 +28,15 @@ interface ChannelControlsProps {
 
 export const ChannelControls = (props: ChannelControlsProps) => {
   const mainStateContext = useContext(MainContext)!;
+  console.log("mainStateContext", mainStateContext)
+
   const [isStatePopoverOpen, setIsStatePopoverOpen] = useState(false);
   const [stateItems, setStateItems] = useState([
     { field: 'true', display: 'Active', checked: 'off' },
     { field: 'false', display: 'Muted', checked: 'off' },
   ]);
   const [isTypePopoverOpen, setIsTypePopoverOpen] = useState(false);
+
   const [typeItems, setTypeItems] = useState(
     Object.entries(mainStateContext.availableChannels).map(([key, value]) => ({
       field: key,
@@ -41,6 +44,7 @@ export const ChannelControls = (props: ChannelControlsProps) => {
       checked: 'off',
     }))
   );
+  console.log("typeItems", typeItems)
 
   useEffect(() => {
     const newItems = typeItems.filter(
