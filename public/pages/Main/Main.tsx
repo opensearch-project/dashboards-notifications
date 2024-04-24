@@ -79,7 +79,7 @@ export default class Main extends Component<MainProps, MainState> {
           'ses_account',
           'email_group',
         ],
-        tooltipSupport: serverFeatures.tooltipSupport,
+        tooltipSupport: false,
       });
     }
   }
