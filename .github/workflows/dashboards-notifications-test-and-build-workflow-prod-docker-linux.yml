@@ -93,7 +93,7 @@ jobs:
           cd ./OpenSearch-Dashboards/
           su `id -un 1000` -c "source $NVM_DIR/nvm.sh && nvm use && node -v && yarn -v &&
                                cd ./plugins/dashboards-notifications &&
-                               whoami && yarn osd bootstrap && yarn build"
+                               whoami && yarn osd bootstrap --single-version=loose && yarn build"
 
       - name: Run unit tests
         uses: nick-fields/retry@v2
