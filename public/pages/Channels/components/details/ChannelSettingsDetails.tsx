@@ -7,7 +7,7 @@ import { EuiLink } from '@elastic/eui';
 import React from 'react';
 import { ChannelItemType } from '../../../../../models/interfaces';
 import { ModalConsumer } from '../../../../components/Modal';
-import { BACKEND_CHANNEL_TYPE, CHANNEL_TYPE } from '../../../../utils/constants';
+import { BACKEND_CHANNEL_TYPE, CHANNEL_TYPE } from '../../../../../common/constants';
 import {
   deconstructEmailObject,
   deconstructWebhookObject,
