@@ -28,7 +28,6 @@ interface ChannelControlsProps {
 
 export const ChannelControls = (props: ChannelControlsProps) => {
   const mainStateContext = useContext(MainContext)!;
-  console.log("mainStateContext", mainStateContext)
 
   const [isStatePopoverOpen, setIsStatePopoverOpen] = useState(false);
   const [stateItems, setStateItems] = useState([

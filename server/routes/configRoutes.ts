@@ -212,9 +212,11 @@ export function configRoutes(router: IRouter) {
         const resp = await client.callAsCurrentUser(
           'notifications.getServerFeatures'
         );
+
         const config_type_list = resp.allowed_config_type_list as Array<
           keyof typeof CHANNEL_TYPE
         >;
+
         const channelTypes: Partial<typeof CHANNEL_TYPE> = {};
 
         for (let channel of config_type_list) {
@@ -223,13 +225,13 @@ export function configRoutes(router: IRouter) {
           }
         }
 
+
         const availableFeature = {
           availableChannels: channelTypes,
           availableConfigTypes: config_type_list as string[],
           tooltipSupport:
             _.get(response, ['plugin_features', 'tooltip_support']) === 'true',
         };
-        console.log("availableFeature", availableFeature.availableChannels)
         return response.ok({ body: availableFeature });
       } catch (error) {
         return response.custom({
