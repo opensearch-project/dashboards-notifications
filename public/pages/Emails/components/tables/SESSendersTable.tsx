@@ -27,14 +27,16 @@ import {
   ContentPanelActions,
 } from '../../../../components/ContentPanel';
 import { ModalConsumer } from '../../../../components/Modal';
-import { ServicesContext } from '../../../../services';
+import { NotificationService, ServicesContext } from '../../../../services';
 import { ROUTES } from '../../../../utils/constants';
 import { getErrorMessage } from '../../../../utils/helpers';
 import { DEFAULT_PAGE_SIZE_OPTIONS } from '../../../Notifications/utils/constants';
 import { DeleteSenderModal } from '../modals/DeleteSenderModal';
+import { isDataSourceChanged } from '../../../../components/MDSEnabledComponent/MDSEnabledComponent';
 
 interface SESSendersTableProps {
   coreContext: CoreStart;
+  notificationService: NotificationService;
 }
 
 interface SESSendersTableState extends TableState<SESSenderItemType> {}
@@ -48,7 +50,6 @@ export class SESSendersTable extends Component<
 
   constructor(props: SESSendersTableProps) {
     super(props);
-
     this.state = {
       total: 0,
       from: 0,
@@ -102,6 +103,9 @@ export class SESSendersTable extends Component<
     const prevQuery = SESSendersTable.getQueryObjectFromState(prevState);
     const currQuery = SESSendersTable.getQueryObjectFromState(this.state);
     if (!_.isEqual(prevQuery, currQuery)) {
+      await this.refresh();
+    }
+    if (isDataSourceChanged(this.props, prevProps)) {
       await this.refresh();
     }
   }
