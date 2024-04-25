@@ -198,7 +198,7 @@ export function configRoutes(router: IRouter) {
     }
   );
 
-router.get(
+  router.get(
     {
       path: NODE_API.GET_AVAILABLE_FEATURES,
       validate: false,
