@@ -212,9 +212,6 @@ export function configRoutes(router: IRouter) {
         const resp = await client.callAsCurrentUser(
           'notifications.getServerFeatures'
         );
-<<<<<<< HEAD
-        return response.ok({ body: resp });
-=======
         const config_type_list = resp.allowed_config_type_list as Array<
           keyof typeof CHANNEL_TYPE
         >;
@@ -233,7 +230,6 @@ export function configRoutes(router: IRouter) {
             _.get(response, ['plugin_features', 'tooltip_support']) === 'true',
         };
         return response.ok({ body: availableFeature });
->>>>>>> e597081 (Fix broken osd functional test repo (#189))
       } catch (error) {
         return response.custom({
           statusCode: error.statusCode || 500,
