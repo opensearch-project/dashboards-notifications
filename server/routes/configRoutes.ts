@@ -12,7 +12,7 @@ import { NODE_API } from '../../common';
 import { joinRequestParams } from '../utils/helper';
 import _ from 'lodash';
 import { CHANNEL_TYPE } from '../../common/constants';
-import { MDSEnabledClientService } from '../../public/services/MDSEnabledClientService';
+import { MDSEnabledClientService } from '../../common/MDSEnabledClientService';
 
 interface Schema {
   [key: string]: any;

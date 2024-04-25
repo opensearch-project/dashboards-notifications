@@ -9,7 +9,7 @@ import {
   IRouter,
 } from '../../../../src/core/server';
 import { NODE_API } from '../../common';
-import { MDSEnabledClientService } from '../../public/services/MDSEnabledClientService';
+import { MDSEnabledClientService } from '../../common/MDSEnabledClientService';
 
 export function eventRoutes(router: IRouter, dataSourceEnabled: boolean) {
   let genericParamsAndDataSourceIdQuery: { params: any; query?: any } = {
