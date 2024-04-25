@@ -25,9 +25,18 @@ const coreServicesMock = ({
   },
 } as unknown) as CoreStart;
 
-const browserServicesMock = new NotificationService(httpClientMock);
+const dataSourceIdMock = 'mockDataSourceId'; // Provide a mock dataSourceId
+const multiDataSourceEnabledMock = true; // Provide a mock value for multiDataSourceEnabled
+
+const browserServicesMock = new NotificationService(httpClientMock, dataSourceIdMock, multiDataSourceEnabledMock);
+const browserServicesMockWithNoDataSource = new NotificationService(httpClientMock);
+
 const notificationServiceMock = {
   notificationService: browserServicesMock,
+};
+
+const notificationServiceMockWithoutMDSMock = {
+  notificationService: browserServicesMockWithNoDataSource,
 };
 
 const mainStateMock: MainState = {
@@ -45,4 +54,4 @@ const mainStateMock: MainState = {
   tooltipSupport: true,
 };
 
-export { notificationServiceMock, coreServicesMock, mainStateMock };
+export { notificationServiceMock, coreServicesMock, mainStateMock, notificationServiceMockWithoutMDSMock};

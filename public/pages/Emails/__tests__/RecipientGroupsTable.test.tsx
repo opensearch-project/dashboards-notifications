@@ -40,7 +40,7 @@ describe('<RecipientGroupsTable /> spec', () => {
     const utils = render(
       <ServicesContext.Provider value={notificationServiceMock}>
         <CoreServicesContext.Provider value={coreServicesMock}>
-          <RecipientGroupsTable />
+          <RecipientGroupsTable notificationService={notificationServiceMock.notificationService} />
         </CoreServicesContext.Provider>
       </ServicesContext.Provider>
     );

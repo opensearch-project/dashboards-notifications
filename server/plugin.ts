@@ -13,6 +13,11 @@ import {
 } from "./types";
 import { defineRoutes } from "./routes";
 import { NotificationsPlugin } from "./clusters/notificationsPlugin";
+import { DataSourcePluginSetup } from "../../../src/plugins/data_source/server";
+
+export interface NotificationsDashboardsPluginDependencies {
+  dataSource: DataSourcePluginSetup;
+}
 
 export class notificationsDashboardsPlugin
   implements
@@ -26,7 +31,7 @@ export class notificationsDashboardsPlugin
     this.logger = initializerContext.logger.get();
   }
 
-  public setup(core: CoreSetup) {
+  public setup(core: CoreSetup, { dataSource }: NotificationsDashboardsPluginDependencies) {
     this.logger.debug("notificationsDashboards: Setup");
     const router = core.http.createRouter();
 
@@ -37,6 +42,12 @@ export class notificationsDashboardsPlugin
       }
     );
 
+    const dataSourceEnabled = !!dataSource;
+
+    if (dataSourceEnabled) {
+      dataSource.registerCustomApiSchema(NotificationsPlugin);
+    }
+
     core.http.registerRouteHandlerContext('notificationsContext', (context, request) => {
       return {
         logger: this.logger,
@@ -45,7 +56,7 @@ export class notificationsDashboardsPlugin
     });
 
     // Register server side APIs
-    defineRoutes(router);
+    defineRoutes(router, dataSourceEnabled);
 
     return {};
   }

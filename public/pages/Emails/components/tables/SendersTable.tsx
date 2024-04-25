@@ -23,7 +23,7 @@ import {
   ContentPanelActions,
 } from '../../../../components/ContentPanel';
 import { ModalConsumer } from '../../../../components/Modal';
-import { ServicesContext } from '../../../../services';
+import { NotificationService, ServicesContext } from '../../../../services';
 import { ENCRYPTION_TYPE, ROUTES } from '../../../../utils/constants';
 import { getErrorMessage } from '../../../../utils/helpers';
 import { DEFAULT_PAGE_SIZE_OPTIONS } from '../../../Notifications/utils/constants';
@@ -32,9 +32,11 @@ import {
   SendersTableControls,
   SendersTableControlsFilterType,
 } from './SendersTableControls';
+import { isDataSourceChanged } from '../../../../components/MDSEnabledComponent/MDSEnabledComponent';
 
 interface SendersTableProps {
   coreContext: CoreStart;
+  notificationService: NotificationService;
 }
 
 interface SendersTableState extends TableState<SenderItemType> {
@@ -118,6 +120,9 @@ export class SendersTable extends Component<
     const prevQuery = SendersTable.getQueryObjectFromState(prevState);
     const currQuery = SendersTable.getQueryObjectFromState(this.state);
     if (!_.isEqual(prevQuery, currQuery)) {
+      await this.refresh();
+    }
+    if (isDataSourceChanged(this.props, prevProps)) {
       await this.refresh();
     }
   }
