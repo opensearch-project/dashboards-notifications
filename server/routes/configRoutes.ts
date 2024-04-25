@@ -198,7 +198,7 @@ export function configRoutes(router: IRouter) {
     }
   );
 
-  router.get(
+router.get(
     {
       path: NODE_API.GET_AVAILABLE_FEATURES,
       validate: false,
@@ -212,24 +212,7 @@ export function configRoutes(router: IRouter) {
         const resp = await client.callAsCurrentUser(
           'notifications.getServerFeatures'
         );
-        const config_type_list = resp.allowed_config_type_list as Array<
-          keyof typeof CHANNEL_TYPE
-        >;
-        const channelTypes: Partial<typeof CHANNEL_TYPE> = {};
-
-        for (let channel of config_type_list) {
-          if (CHANNEL_TYPE[channel]) {
-            channelTypes[channel] = CHANNEL_TYPE[channel]
-          }
-        }
-
-        const availableFeature = {
-          availableChannels: channelTypes,
-          availableConfigTypes: config_type_list as string[],
-          tooltipSupport:
-            _.get(response, ['plugin_features', 'tooltip_support']) === 'true',
-        };
-        return response.ok({ body: availableFeature });
+        return response.ok({ body: resp });
       } catch (error) {
         return response.custom({
           statusCode: error.statusCode || 500,
