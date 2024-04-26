@@ -6,7 +6,7 @@
 import { CoreStart } from 'opensearch-dashboards/public';
 import { MainState } from '../../public/pages/Main/Main';
 import { NotificationService } from '../../public/services';
-import { CHANNEL_TYPE } from '../../public/utils/constants';
+import { CHANNEL_TYPE } from '../../common/constants';
 import httpClientMock from './httpClientMock';
 
 const coreServicesMock = ({

@@ -11,7 +11,8 @@ import {
 import { NODE_API } from '../../common';
 import { joinRequestParams } from '../utils/helper';
 import _ from 'lodash';
-import { CHANNEL_TYPE } from '../../public/utils/constants';
+import { CHANNEL_TYPE } from '../../common/constants';
+
 
 export function configRoutes(router: IRouter) {
   router.get(
