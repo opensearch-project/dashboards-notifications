@@ -161,8 +161,7 @@ export class Channels extends MDSEnabledComponent<ChannelsProps, ChannelsState> 
       );
       this.setState({ items: channels.items, total: channels.total });
     } catch (error) {
-      if(isDataSourceError(error))
-      {
+      if (isDataSourceError(error)) {
         this.setState({ items: [], total: 0 });
       }
       this.context.notifications.toasts.addDanger(

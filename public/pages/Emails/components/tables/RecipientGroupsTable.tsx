@@ -169,8 +169,7 @@ export class RecipientGroupsTable extends Component<
         total: recipientGroups.total,
       });
     } catch (error) {
-      if(isDataSourceError(error))
-      {
+      if (isDataSourceError(error)) {
         this.setState({ items: [], total: 0 });
       }
       this.props.coreContext.notifications.toasts.addDanger(

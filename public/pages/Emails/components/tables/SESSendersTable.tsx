@@ -133,8 +133,7 @@ export class SESSendersTable extends Component<
       );
       this.setState({ items: senders.items, total: senders.total });
     } catch (error) {
-      if(isDataSourceError(error))
-      {
+      if (isDataSourceError(error)) {
         this.setState({ items: [], total: 0 });
       }
       this.props.coreContext.notifications.toasts.addDanger(
