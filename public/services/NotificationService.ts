@@ -4,7 +4,6 @@
  */
 
 import { SortDirection } from '@elastic/eui';
-import _ from 'lodash';
 import { HttpFetchQuery, HttpSetup } from '../../../../src/core/public';
 import { NODE_API } from '../../common';
 import {
@@ -215,21 +214,8 @@ export default class NotificationService {
       const response = await this.httpClient.get(
         NODE_API.GET_AVAILABLE_FEATURES
       );
-      const config_type_list = response.allowed_config_type_list as Array<
-        keyof typeof CHANNEL_TYPE
-      >;
-      const channelTypes: Partial<typeof CHANNEL_TYPE> = {};
-      for (let i = 0; i < config_type_list.length; i++) {
-        const channel = config_type_list[i];
-        if (!CHANNEL_TYPE[channel]) continue;
-        channelTypes[channel] = CHANNEL_TYPE[channel];
-      }
-      return {
-        availableChannels: channelTypes,
-        availableConfigTypes: config_type_list as string[],
-        tooltipSupport:
-          _.get(response, ['plugin_features', 'tooltip_support']) === 'true',
-      };
+      
+      return response;
     } catch (error) {
       console.error('error fetching available features', error);
       return null;
