@@ -34,6 +34,10 @@ import { getErrorMessage } from '../../../../utils/helpers';
 import { DetailsListModal } from '../../../Channels/components/modals/DetailsListModal';
 import { DEFAULT_PAGE_SIZE_OPTIONS } from '../../../Notifications/utils/constants';
 import { DeleteRecipientGroupModal } from '../modals/DeleteRecipientGroupModal';
+import {
+  isDataSourceError,
+  isDataSourceChanged,
+} from '../../../../components/MDSEnabledComponent/MDSEnabledComponent';
 
 interface RecipientGroupsTableProps {
   coreContext: CoreStart;
@@ -161,6 +165,9 @@ export class RecipientGroupsTable extends Component<
         total: recipientGroups.total,
       });
     } catch (error) {
+      if (isDataSourceError(error)) {
+        this.setState({ items: [], total: 0 });
+      }
       this.props.coreContext.notifications.toasts.addDanger(
         getErrorMessage(error, 'There was a problem loading recipient groups.')
       );

@@ -32,6 +32,10 @@ import {
   SendersTableControls,
   SendersTableControlsFilterType,
 } from './SendersTableControls';
+import {
+  isDataSourceError,
+  isDataSourceChanged,
+} from '../../../../components/MDSEnabledComponent/MDSEnabledComponent';
 
 interface SendersTableProps {
   coreContext: CoreStart;
@@ -146,6 +150,9 @@ export class SendersTable extends Component<
       );
       this.setState({ items: senders.items, total: senders.total });
     } catch (error) {
+      if (isDataSourceError(error)) {
+        this.setState({ items: [], total: 0 });
+      }
       this.props.coreContext.notifications.toasts.addDanger(
         getErrorMessage(error, 'There was a problem loading SMTP senders.')
       );
