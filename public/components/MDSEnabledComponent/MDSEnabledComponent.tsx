@@ -31,4 +31,8 @@ export function isDataSourceChanged(prevProps, currentProps) {
   return false;
 }
 
+export function isDataSourceError(error) {
+  return (error.body && error.body.message && error.body.message.includes("Data Source Error"));
+}
+
 

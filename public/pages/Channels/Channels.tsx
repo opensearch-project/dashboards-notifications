@@ -39,7 +39,10 @@ import { ChannelActions } from './components/ChannelActions';
 import { ChannelControls } from './components/ChannelControls';
 import { ChannelFiltersType } from './types';
 import { DataSourceMenuProperties } from '../../services/DataSourceMenuContext';
-import MDSEnabledComponent, { isDataSourceChanged } from '../../components/MDSEnabledComponent/MDSEnabledComponent';
+import MDSEnabledComponent, {
+  isDataSourceChanged,
+  isDataSourceError,
+} from '../../components/MDSEnabledComponent/MDSEnabledComponent';
 
 interface ChannelsProps extends RouteComponentProps, DataSourceMenuProperties {
   notificationService: NotificationService;
@@ -158,6 +161,9 @@ export class Channels extends MDSEnabledComponent<ChannelsProps, ChannelsState> 
       );
       this.setState({ items: channels.items, total: channels.total });
     } catch (error) {
+      if (isDataSourceError(error)) {
+        this.setState({ items: [], total: 0 });
+      }
       this.context.notifications.toasts.addDanger(
         getErrorMessage(error, 'There was a problem loading channels.')
       );
