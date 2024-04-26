@@ -28,9 +28,11 @@ import { CoreServicesContext } from '../../components/coreServices';
 import { NotificationService } from '../../services';
 import {
   BREADCRUMBS,
-  CHANNEL_TYPE,
   ROUTES,
 } from '../../utils/constants';
+import {
+  CHANNEL_TYPE,
+} from '../../../common/constants';
 import { getErrorMessage } from '../../utils/helpers';
 import { DEFAULT_PAGE_SIZE_OPTIONS } from '../Notifications/utils/constants';
 import { ChannelActions } from './components/ChannelActions';

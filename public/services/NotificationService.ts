@@ -4,7 +4,6 @@
  */
 
 import { SortDirection } from '@elastic/eui';
-import _ from 'lodash';
 import { HttpFetchQuery, HttpSetup } from '../../../../src/core/public';
 import { NODE_API } from '../../common';
 import {
@@ -14,7 +13,7 @@ import {
   SenderType,
   SESSenderItemType,
 } from '../../models/interfaces';
-import { CHANNEL_TYPE } from '../utils/constants';
+import { CHANNEL_TYPE } from '../../common/constants';
 import {
   configListToChannels,
   configListToRecipientGroups,
@@ -252,7 +251,6 @@ export default class NotificationService {
       const response = await this.httpClient.get(
         NODE_API.GET_AVAILABLE_FEATURES
       );
-
       return response;
     } catch (error) {
       console.error('error fetching available features', error);
