@@ -28,7 +28,7 @@ import {
   ContentPanelActions,
 } from '../../../../components/ContentPanel';
 import { ModalConsumer } from '../../../../components/Modal';
-import { ServicesContext } from '../../../../services';
+import { NotificationService, ServicesContext } from '../../../../services';
 import { ROUTES } from '../../../../utils/constants';
 import { getErrorMessage } from '../../../../utils/helpers';
 import { DetailsListModal } from '../../../Channels/components/modals/DetailsListModal';
@@ -41,6 +41,7 @@ import {
 
 interface RecipientGroupsTableProps {
   coreContext: CoreStart;
+  notificationService: NotificationService;
 }
 
 interface RecipientGroupsTableState
@@ -136,6 +137,9 @@ export class RecipientGroupsTable extends Component<
     const prevQuery = RecipientGroupsTable.getQueryObjectFromState(prevState);
     const currQuery = RecipientGroupsTable.getQueryObjectFromState(this.state);
     if (!_.isEqual(prevQuery, currQuery)) {
+      await this.refresh();
+    }
+    if (isDataSourceChanged(this.props, prevProps)) {
       await this.refresh();
     }
   }

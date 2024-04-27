@@ -4,14 +4,15 @@
  */
 
 import { EuiPage, EuiPageBody, EuiPageSideBar, EuiSideNav } from '@elastic/eui';
-import React, { Component, createContext } from 'react';
+import React, { Component, createContext, useContext } from 'react';
 import { Redirect, Route, RouteComponentProps, Switch } from 'react-router-dom';
 import { CoreStart } from '../../../../../src/core/public';
-import { CoreServicesConsumer } from '../../components/coreServices';
+import { CoreServicesConsumer, CoreServicesContext } from '../../components/coreServices';
 import { ModalProvider, ModalRoot } from '../../components/Modal';
 import { BrowserServices } from '../../models/interfaces';
 import { ServicesConsumer, ServicesContext } from '../../services/services';
-import { CHANNEL_TYPE, ROUTES } from '../../utils/constants';
+import { ROUTES } from '../../utils/constants';
+import { CHANNEL_TYPE } from '../../../common/constants';
 import { Channels } from '../Channels/Channels';
 import { ChannelDetails } from '../Channels/components/details/ChannelDetails';
 import { CreateChannel } from '../CreateChannel/CreateChannel';
@@ -20,6 +21,18 @@ import { CreateSender } from '../Emails/CreateSender';
 import { CreateSESSender } from '../Emails/CreateSESSender';
 import { EmailGroups } from '../Emails/EmailGroups';
 import { EmailSenders } from '../Emails/EmailSenders';
+import { DataSourceMenuContext, DataSourceMenuProperties } from "../../services/DataSourceMenuContext";
+import queryString from "query-string";
+import {
+  DataSourceManagementPluginSetup,
+  DataSourceSelectableConfig,
+  DataSourceViewConfig,
+} from "../../../../../src/plugins/data_source_management/public";
+import { DataSourceOption } from "../../../../../src/plugins/data_source_management/public/components/data_source_menu/types";
+import _ from "lodash";
+import { NotificationService } from '../../services';
+import { HttpSetup } from '../../../../../src/core/public';
+import * as http from 'http';
 
 enum Navigation {
   Notifications = 'Notifications',
@@ -32,62 +45,152 @@ enum Pathname {
   Channels = '/channels',
 }
 
-interface MainProps extends RouteComponentProps {}
+interface MainProps extends RouteComponentProps {
+  setActionMenu: (menuMount: MountPoint | undefined) => void;
+  multiDataSourceEnabled: boolean;
+  dataSourceManagement: DataSourceManagementPluginSetup;
+}
 
-export interface MainState {
+export interface MainState extends Pick<DataSourceMenuProperties, "dataSourceId" | "dataSourceLabel"> {
   availableChannels: Partial<typeof CHANNEL_TYPE>;
   availableConfigTypes: string[]; // available backend config types
   tooltipSupport: boolean; // if true, IAM role for SNS is optional and helper text should be available
+  dataSourceReadOnly: boolean;
+  dataSourceLoading: boolean;
+  dataSourceLabel: string;
 }
 
 export const MainContext = createContext<MainState | null>(null);
 
 export default class Main extends Component<MainProps, MainState> {
   static contextType = ServicesContext;
-
   constructor(props: MainProps) {
     super(props);
-    this.state = {
+    const initialState = {
       availableChannels: CHANNEL_TYPE,
       availableConfigTypes: [],
       tooltipSupport: false,
     };
+
+    if (props.multiDataSourceEnabled) {
+      const {
+        dataSourceId = "",
+        dataSourceLabel = ""
+      } = queryString.parse(this.props.location.search) as {
+        dataSourceId?: string;
+        dataSourceLabel?: string;
+      };
+
+      this.state = {
+        ...initialState,
+        dataSourceId: dataSourceId,
+        dataSourceLabel: dataSourceLabel,
+        dataSourceReadOnly: false,
+        dataSourceLoading: props.multiDataSourceEnabled,
+      };
+    } else {
+      this.state = initialState;
+    }
   }
 
   async componentDidMount() {
-    const serverFeatures = await this.context.notificationService.getServerFeatures();
+
+    const services = this.getServices(this.props.http) // Assuming this.context holds the value provided by ServicesContext
+    const serverFeatures = await services.notificationService.getServerFeatures();
+
     if (serverFeatures != null) {
+      const { availableChannels, availableConfigTypes, tooltipSupport } = serverFeatures;
+      const { dataSourceId = "", dataSourceLabel = "" } = this.state;
+      const dataSourceReadOnly = false;
+      const dataSourceLoading = this.props.multiDataSourceEnabled;
+
       this.setState({
-        availableChannels: serverFeatures.availableChannels,
-        availableConfigTypes: serverFeatures.availableConfigTypes,
-        tooltipSupport: serverFeatures.tooltipSupport,
+        dataSourceId,
+        dataSourceLabel,
+        dataSourceReadOnly,
+        dataSourceLoading,
+        availableChannels,
+        availableConfigTypes,
+        tooltipSupport
       });
     } else {
-      // Feature API call failed, allow all configs to avoid UI breaking.
-      // User requests will still be validated by backend.
+      const { dataSourceId = "", dataSourceLabel = "" } = this.state;
+      const dataSourceReadOnly = false;
+      const dataSourceLoading = this.props.multiDataSourceEnabled;
+      const defaultConfigTypes = [
+        'slack',
+        'chime',
+        'microsoft_teams',
+        'webhook',
+        'email',
+        'sns',
+        'smtp_account',
+        'ses_account',
+        'email_group',
+      ];
+
       this.setState({
-        availableChannels: CHANNEL_TYPE,
-        availableConfigTypes: [
-          'slack',
-          'chime',
-          'microsoft_teams',
-          'webhook',
-          'email',
-          'sns',
-          'smtp_account',
-          'ses_account',
-          'email_group',
-        ],
-        tooltipSupport: serverFeatures.tooltipSupport,
+        dataSourceId,
+        dataSourceLabel,
+        dataSourceReadOnly,
+        dataSourceLoading,
+        availableChannels: this.props.multiDataSourceEnabled ? CHANNEL_TYPE : defaultConfigTypes,
+        availableConfigTypes: defaultConfigTypes,
+        tooltipSupport: false
       });
     }
+  }
+
+  onSelectedDataSources = (dataSources: DataSourceOption[]) => {
+    const { id = "", label = "" } = dataSources[0] || {};
+    if (this.state.dataSourceId !== id || this.state.dataSourceLabel !==label) {
+	    this.setState({
+        dataSourceId: id,
+        dataSourceLabel: label,
+      });
+    }
+    if (this.state.dataSourceLoading) {
+      this.setState({
+        dataSourceLoading: false,
+      });
+    }
+  };
+
+  getServices(http: HttpSetup) {
+    const {
+      location: { pathname },
+    } = this.props;
+    let notificationService;
+    if (this.props.multiDataSourceEnabled) {
+      notificationService = new NotificationService(http, this.state.dataSourceId, this.props.multiDataSourceEnabled);
+    }
+    else {
+      notificationService = new NotificationService(http);
+    }
+    const services = {
+      notificationService,
+    };
+    return services;
   }
 
   render() {
     const {
       location: { pathname },
     } = this.props;
-
+    let DataSourceMenuSelectable, DataSourceMenuView;
+    let activeOption: DataSourceOption[] | undefined;
+    if (this.props.multiDataSourceEnabled) {
+      DataSourceMenuSelectable = this.props.dataSourceManagement?.ui?.getDataSourceMenu<DataSourceSelectableConfig>();
+      DataSourceMenuView = this.props.dataSourceManagement?.ui?.getDataSourceMenu<DataSourceViewConfig>();
+      activeOption = this.state.dataSourceLoading
+        ? undefined
+        : [
+          {
+            label: this.state.dataSourceLabel,
+            id: this.state.dataSourceId,
+          },
+        ];
+    }
     const sideNav = [
       {
         name: Navigation.Notifications,
@@ -119,13 +222,98 @@ export default class Main extends Component<MainProps, MainState> {
       <CoreServicesConsumer>
         {(core: CoreStart | null) =>
           core && (
-            <ServicesConsumer>
-              {(services: BrowserServices | null) =>
-                services && (
-                  <MainContext.Provider value={this.state}>
+            <ServicesContext.Provider value={this.getServices(core.http)}>
+              <ServicesConsumer>
+                {(services: BrowserServices | null) =>
+                  services && (
+                    <MainContext.Provider value={this.state}>
                     <ModalProvider>
-                      <ModalRoot services={services} />
+                      <DataSourceMenuContext.Provider
+                        value={{
+                          dataSourceId: this.state.dataSourceId,
+                          dataSourceLabel: this.state.dataSourceLabel,
+                          multiDataSourceEnabled: this.props.multiDataSourceEnabled,
+                        }}
+                      >
+                        {this.props.multiDataSourceEnabled && DataSourceMenuView && DataSourceMenuSelectable && (
+                          <Switch>
+                            <Route
+                              path={[
+                                `${ROUTES.EDIT_CHANNEL}/:id`,
+                                `${ROUTES.CHANNEL_DETAILS}/:id`,
+                                `${ROUTES.EDIT_SENDER}/:id`,
+                                `${ROUTES.EDIT_RECIPIENT_GROUP}/:id`,
+                                `${ROUTES.EDIT_SES_SENDER}/:id`
+                              ]}
+                              render={() => (
+                                <DataSourceMenuView
+                                  setMenuMountPoint={this.props.setActionMenu}
+                                  componentType={"DataSourceView"}
+                                  componentConfig={{
+                                    activeOption: [{ label: this.state.dataSourceLabel, id: this.state.dataSourceId }],
+                                  }}
+                                />
+                              )}
+                            />
+                            <Route
+                              path={[
+                                "/",
+                                ROUTES.CHANNELS,
+                                ROUTES.CREATE_CHANNEL,
+                                ROUTES.CREATE_SENDER,
+                                ROUTES.CREATE_SES_SENDER,
+                                ROUTES.CREATE_RECIPIENT_GROUP,
+                                ROUTES.EMAIL_GROUPS,
+                                ROUTES.EMAIL_SENDERS,
+                                ROUTES.NOTIFICATIONS,
+                              ]}
+                              render={() => (
+                                <DataSourceMenuSelectable
+                                  setMenuMountPoint={this.props.setActionMenu}
+                                  componentType={"DataSourceSelectable"}
+                                  componentConfig={{
+                                    savedObjects: core?.savedObjects.client,
+                                    notifications: core?.notifications,
+                                    fullWidth: false,
+                                    activeOption,
+                                    onSelectedDataSources: this.onSelectedDataSources,
+                                  }}
+                                />
+                              )}
+                            />
+                            <Route
+                              path={[ROUTES.CREATE_SES_SENDER, ROUTES.CREATE_CHANNEL, ROUTES.CREATE_RECIPIENT_GROUP, ROUTES.CREATE_SENDER]}
+                              render={() =>
+                                this.state.dataSourceReadOnly ? (
+                                  <DataSourceMenuView
+                                    setMenuMountPoint={this.props.setActionMenu}
+                                    componentType={"DataSourceView"}
+                                    componentConfig={{
+                                      activeOption: [{ label: this.state.dataSourceLabel, id: this.state.dataSourceId }],
+                                      fullWidth: false,
+                                    }}
+                                  />
+                                ) : (
+                                  <DataSourceMenuSelectable
+                                    setMenuMountPoint={this.props.setActionMenu}
+                                    componentType={"DataSourceSelectable"}
+                                    componentConfig={{
+                                      savedObjects: core?.savedObjects.client,
+                                      notifications: core?.notifications,
+                                      fullWidth: false,
+                                      activeOption,
+                                      onSelectedDataSources: this.onSelectedDataSources,
+                                    }}
+                                  />
+                                )
+                              }
+                            />
+                          </Switch>
+                        )}
                       <EuiPage>
+                        {!this.state.dataSourceLoading && (
+                          <>
+                        <ModalRoot services={services} />
                         {pathname !== ROUTES.CREATE_CHANNEL &&
                           !pathname.startsWith(ROUTES.EDIT_CHANNEL) &&
                           !pathname.startsWith(ROUTES.CHANNEL_DETAILS) &&
@@ -168,7 +356,7 @@ export default class Main extends Component<MainProps, MainState> {
                                 <Channels
                                   {...props}
                                   notificationService={
-                                    services.notificationService
+                                    services?.notificationService as NotificationService
                                   }
                                 />
                               )}
@@ -176,19 +364,31 @@ export default class Main extends Component<MainProps, MainState> {
                             <Route
                               path={ROUTES.EMAIL_SENDERS}
                               render={(props: RouteComponentProps) => (
-                                <EmailSenders {...props} />
+                                <EmailSenders
+                                  {...props}
+                                  notificationService={
+                                    services?.notificationService as NotificationService
+                                  }
+                                /> // send dataSourceId as props or externally
                               )}
                             />
                             <Route
                               path={ROUTES.EMAIL_GROUPS}
                               render={(props: RouteComponentProps) => (
-                                <EmailGroups {...props} />
+                                <EmailGroups
+                                  {...props}
+                                  notificationService={
+                                    services?.notificationService as NotificationService
+                                  }
+                                />
                               )}
                             />
                             <Route
                               path={ROUTES.CREATE_SENDER}
                               render={(props: RouteComponentProps) => (
-                                <CreateSender {...props} />
+                                <CreateSender
+                                  {...props}
+                                />
                               )}
                             />
                             <Route
@@ -200,7 +400,9 @@ export default class Main extends Component<MainProps, MainState> {
                             <Route
                               path={ROUTES.CREATE_SES_SENDER}
                               render={(props: RouteComponentProps) => (
-                                <CreateSESSender {...props} />
+                                <CreateSESSender
+                                  {...props}
+                                />
                               )}
                             />
                             <Route
@@ -212,7 +414,9 @@ export default class Main extends Component<MainProps, MainState> {
                             <Route
                               path={ROUTES.CREATE_RECIPIENT_GROUP}
                               render={(props: RouteComponentProps) => (
-                                <CreateRecipientGroup {...props} />
+                                <CreateRecipientGroup
+                                  {...props}
+                                />
                               )}
                             />
                             <Route
@@ -223,13 +427,16 @@ export default class Main extends Component<MainProps, MainState> {
                             />
                             <Redirect from="/" to={ROUTES.CHANNELS} />
                           </Switch>
-                        </EuiPageBody>
+                        </EuiPageBody></>
+                        )}
                       </EuiPage>
+                      </DataSourceMenuContext.Provider>
                     </ModalProvider>
-                  </MainContext.Provider>
-                )
-              }
-            </ServicesConsumer>
+                    </MainContext.Provider>
+                  )
+                }
+              </ServicesConsumer>
+            </ServicesContext.Provider>
           )
         }
       </CoreServicesConsumer>
