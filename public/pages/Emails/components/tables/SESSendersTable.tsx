@@ -32,7 +32,10 @@ import { ROUTES } from '../../../../utils/constants';
 import { getErrorMessage } from '../../../../utils/helpers';
 import { DEFAULT_PAGE_SIZE_OPTIONS } from '../../../Notifications/utils/constants';
 import { DeleteSenderModal } from '../modals/DeleteSenderModal';
-import { isDataSourceChanged } from '../../../../components/MDSEnabledComponent/MDSEnabledComponent';
+import {
+  isDataSourceError,
+  isDataSourceChanged,
+} from '../../../../components/MDSEnabledComponent/MDSEnabledComponent';
 
 interface SESSendersTableProps {
   coreContext: CoreStart;
@@ -130,6 +133,9 @@ export class SESSendersTable extends Component<
       );
       this.setState({ items: senders.items, total: senders.total });
     } catch (error) {
+      if (isDataSourceError(error)) {
+        this.setState({ items: [], total: 0 });
+      }
       this.props.coreContext.notifications.toasts.addDanger(
         getErrorMessage(error, 'There was a problem loading SES senders.')
       );
