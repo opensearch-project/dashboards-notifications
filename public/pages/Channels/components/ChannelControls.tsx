@@ -19,6 +19,7 @@ import {
 } from '../../../../common/constants';
 import { MainContext } from '../../Main/Main';
 import { ChannelFiltersType } from '../types';
+import { i18n } from '@osd/i18n';
 
 interface ChannelControlsProps {
   onSearchChange: (search: string) => void;
@@ -30,8 +31,14 @@ export const ChannelControls = (props: ChannelControlsProps) => {
   const mainStateContext = useContext(MainContext)!;
   const [isStatePopoverOpen, setIsStatePopoverOpen] = useState(false);
   const [stateItems, setStateItems] = useState([
-    { field: 'true', display: 'Active', checked: 'off' },
-    { field: 'false', display: 'Muted', checked: 'off' },
+    { field: 'true', display: i18n.translate('notification.notificationChannels.channelUnMuted', {
+      defaultMessage:
+      'Active',
+      }), checked: 'off' },
+    { field: 'false', display: i18n.translate('notification.notificationChannels.channelMuted', {
+      defaultMessage:
+      'Muted',
+      }), checked: 'off' },
   ]);
   const [isTypePopoverOpen, setIsTypePopoverOpen] = useState(false);
   const [typeItems, setTypeItems] = useState(
@@ -100,7 +107,10 @@ export const ChannelControls = (props: ChannelControlsProps) => {
       <EuiFlexItem>
         <EuiFieldSearch
           fullWidth={true}
-          placeholder="Search"
+          placeholder={i18n.translate('notification.notificationChannels.searchPlaceholder', {
+            defaultMessage:
+            "Search",
+            })}
           onSearch={props.onSearchChange}
         />
       </EuiFlexItem>
@@ -143,7 +153,10 @@ export const ChannelControls = (props: ChannelControlsProps) => {
                 grow={false}
                 onClick={() => setIsTypePopoverOpen(!isTypePopoverOpen)}
               >
-                {isItemSelected(typeItems) ? <b>Type</b> : 'Type'}
+                {isItemSelected(typeItems) ? <b>Type</b> : i18n.translate('tification.notificationChannels.notificationType', {
+                  defaultMessage:
+                  'Type',
+                  })}
               </EuiFilterButton>
             }
             isOpen={isTypePopoverOpen}

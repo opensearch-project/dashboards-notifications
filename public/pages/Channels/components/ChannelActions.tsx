@@ -13,6 +13,7 @@ import { ServicesContext } from '../../../services';
 import { ROUTES } from '../../../utils/constants';
 import { DeleteChannelModal } from './modals/DeleteChannelModal';
 import { MuteChannelModal } from './modals/MuteChannelModal';
+import { i18n } from '@osd/i18n';
 
 interface ChannelActionsParams {
   label: string;
@@ -38,24 +39,36 @@ export function ChannelActions(props: ChannelActionsProps) {
 
   const actions: ChannelActionsParams[] = [
     {
-      label: 'Edit',
+      label: i18n.translate('notification.notificationChannels.editToken', {
+        defaultMessage:
+        'Edit',
+        }),
       disabled: props.selected.length !== 1,
       href: `#${ROUTES.EDIT_CHANNEL}/${props.selected[0]?.config_id}`,
     },
     {
-      label: 'Delete',
+      label: i18n.translate('notification.notificationChannels.deleteToken', {
+        defaultMessage:
+        'Delete',
+        }),
       disabled: props.selected.length === 0,
       modal: DeleteChannelModal,
       modalParams: { refresh: props.refresh },
     },
     {
-      label: 'Mute',
+      label: i18n.translate('notification.notificationChannels.actionMute', {
+        defaultMessage:
+        'Mute',
+        }),
       disabled: props.selected.length !== 1 || !props.selected[0].is_enabled,
       modal: MuteChannelModal,
       modalParams: { refresh: props.refresh, setSelected: props.setSelected },
     },
     {
-      label: 'Unmute',
+      label: i18n.translate('notification.notificationChannels.actionUnmute', {
+        defaultMessage:
+        'Unmute',
+        }),
       disabled: props.selected.length !== 1 || props.selected[0].is_enabled,
       action: async () => {
         const channel = { ...props.selected[0], is_enabled: true };
@@ -63,14 +76,22 @@ export function ChannelActions(props: ChannelActionsProps) {
           .updateConfig(channel.config_id, channel)
           .then((resp) => {
             coreContext.notifications.toasts.addSuccess(
-              `Channel ${channel.name} successfully unmuted.`
+              i18n.translate('notification.notificationChannels.channelUnmutedSuccess', {
+                defaultMessage:
+                `Channel ${channel.name} successfully unmuted.`,
+                values:{name:channel.name}
+                })
+              
             );
             props.setSelected([channel]);
             setTimeout(() => props.refresh(), SERVER_DELAY);
           })
           .catch((error) => {
             coreContext.notifications.toasts.addError(error?.body || error, {
-              title: 'Failed to unmute channel',
+              title: i18n.translate('notification.notificationChannels.unmuteChannelErr', {
+                defaultMessage:
+                'Failed to unmute channel',
+                }),
             });
           });
       },
@@ -89,7 +110,10 @@ export function ChannelActions(props: ChannelActionsProps) {
               disabled={props.selected.length === 0}
               onClick={() => setIsPopoverOpen(!isPopoverOpen)}
             >
-              Actions
+              {i18n.translate('notification.notificationChannels.channelsActions', {
+              defaultMessage:
+                'Actions',
+              })}
             </EuiButton>
           }
           isOpen={isPopoverOpen}

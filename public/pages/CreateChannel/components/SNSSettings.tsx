@@ -16,6 +16,7 @@ import { DOCUMENTATION_LINK } from '../../../utils/constants';
 import { MainContext } from '../../Main/Main';
 import { CreateChannelContext } from '../CreateChannel';
 import { validateArn } from '../utils/validationHelper';
+import { i18n } from '@osd/i18n';
 
 interface SNSSettingsProps {
   topicArn: string;
@@ -31,12 +32,18 @@ export function SNSSettings(props: SNSSettingsProps) {
     <>
       <EuiSpacer />
       <EuiFormRow
-        label="SNS topic ARN"
+        label={i18n.translate('notification.notificationChannels.snsTopicArn', {
+          defaultMessage:
+          "SNS topic ARN",
+          })}
         error={context.inputErrors.topicArn.join(' ')}
         isInvalid={context.inputErrors.topicArn.length > 0}
       >
         <EuiFieldText
-          placeholder="ARN key"
+          placeholder={i18n.translate('notification.notificationChannels.arnKey', {
+            defaultMessage:
+            "ARN key",
+            })}
           data-test-subj="sns-settings-topic-arn-input"
           value={props.topicArn}
           onChange={(e) => props.setTopicArn(e.target.value)}
@@ -55,19 +62,34 @@ export function SNSSettings(props: SNSSettingsProps) {
           <EuiFormRow
             label={
               <span>
-                IAM role ARN - <i style={{ fontWeight: 'normal' }}>optional</i>
+                {i18n.translate('notification.notificationChannels.iamRoleArn', {
+                  defaultMessage:
+                    'IAM role ARN - ',
+                  })}
+                <i style={{ fontWeight: 'normal' }}>
+                {i18n.translate('notification.notificationChannels.newChannelDescriptionOptional', {
+                defaultMessage:
+                  'optional',
+                })}
+                </i>
               </span>
             }
           >
             <>
               <EuiText size="xs" color="subdued">
-                IAM role ARN can only be used for clusters running on AWS
-                network.
+              {i18n.translate('notification.notificationChannels.iamRoleDesc', {
+                defaultMessage:
+                  'IAM role ARN can only be used for clusters running on AWS network.',
+                })}
+                
               </EuiText>
               <EuiSpacer size="s" />
               <EuiFieldText
                 data-test-subj="sns-settings-role-arn-input"
-                placeholder="ARN key"
+                placeholder={i18n.translate('notification.notificationChannels.arnKey', {
+                  defaultMessage:
+                  "ARN key",
+                  })}
                 value={props.roleArn}
                 onChange={(e) => props.setRoleArn(e.target.value)}
               />
@@ -75,26 +97,42 @@ export function SNSSettings(props: SNSSettingsProps) {
           </EuiFormRow>
           <EuiSpacer />
           <EuiCallOut
-            title="Using Amazon SNS outside of AWS"
+            title={i18n.translate('notification.notificationChannels.amazonSNS', {
+              defaultMessage:
+              "Using Amazon SNS outside of AWS",
+              })}
             style={{ maxWidth: 720 }}
           >
             <div>
-              If your cluster is not running on AWS, you must configure aws
-              credentials on your OpenSearch cluster.{' '}
+            {i18n.translate('notification.notificationChannels.awsClusterRunningDesc', {
+            defaultMessage:
+              'If your cluster is not running on AWS, you must configure aws credentials on your OpenSearch cluster.',
+            })}
+
               <EuiLink href={DOCUMENTATION_LINK} target="_blank" external>
-                Learn more
+              {i18n.translate('notification.notificationChannels.readMore', {
+              defaultMessage:
+                ' Learn more',
+              })}
+
               </EuiLink>
             </div>
           </EuiCallOut>
         </>
       ) : (
         <EuiFormRow
-          label="IAM role ARN"
+          label={i18n.translate('notification.notificationChannels.iamRoleArn', {
+                defaultMessage:
+                "IAM role ARN",
+                })}
           error={context.inputErrors.roleArn.join(' ')}
           isInvalid={context.inputErrors.roleArn.length > 0}
         >
           <EuiFieldText
-            placeholder="ARN key"
+            placeholder={i18n.translate('notification.notificationChannels.arnKey', {
+              defaultMessage:
+              "ARN key",
+              })}
             data-test-subj="sns-settings-role-arn-input"
             value={props.roleArn}
             onChange={(e) => props.setRoleArn(e.target.value)}
