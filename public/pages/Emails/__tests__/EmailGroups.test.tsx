@@ -16,12 +16,15 @@ import { EmailGroups } from '../EmailGroups';
 
 describe('<EmailGroups/> spec', () => {
   it('renders the component', () => {
+    const routerComponentPropsMock = {
+      // Mock other props as needed
+      notificationService: notificationServiceMock,
+    };
+
     const utils = render(
-      <ServicesContext.Provider value={notificationServiceMock}>
         <CoreServicesContext.Provider value={coreServicesMock}>
           <EmailGroups {...routerComponentPropsMock} />
         </CoreServicesContext.Provider>
-      </ServicesContext.Provider>
     );
     expect(utils.container.firstChild).toMatchSnapshot();
   });

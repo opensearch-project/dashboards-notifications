@@ -38,45 +38,82 @@ interface EventsResponse {
 
 export default class NotificationService {
   httpClient: HttpSetup;
+  dataSourceId?: string;
+  multiDataSourceEnabled?: boolean;
 
-  constructor(httpClient: HttpSetup) {
+  constructor(httpClient, dataSourceId?: string, multiDataSourceEnabled?: boolean) {
     this.httpClient = httpClient;
+    this.dataSourceId = dataSourceId;
+    this.multiDataSourceEnabled = multiDataSourceEnabled;
   }
 
   createConfig = async (config: any) => {
-    const response = await this.httpClient.post(NODE_API.CREATE_CONFIG, {
-      body: JSON.stringify({ config: config }),
-    });
+    let queryObj;
+    if(this.multiDataSourceEnabled) {
+      queryObj = {
+        body: JSON.stringify({ config: config }),
+        query: { dataSourceId: this.dataSourceId },
+      };
+    }
+    else {
+      queryObj = {
+        body: JSON.stringify({ config: config }),
+      };
+    }
+    const response = await this.httpClient.post(NODE_API.CREATE_CONFIG, queryObj);
     return response;
   };
 
   updateConfig = async (id: string, config: any) => {
+    let queryObj;
+    if(this.multiDataSourceEnabled) {
+      queryObj = {
+        body: JSON.stringify({ config: config }),
+        query: { dataSourceId: this.dataSourceId },
+      };
+    }
+    else {
+      queryObj = {
+        body: JSON.stringify({ config: config }),
+      };
+    }
     const response = await this.httpClient.put(
-      `${NODE_API.UPDATE_CONFIG}/${id}`,
-      {
-        body: JSON.stringify({ config }),
-      }
+      `${NODE_API.UPDATE_CONFIG}/${id}`, queryObj
     );
     return response;
   };
 
   deleteConfigs = async (ids: string[]) => {
+    let queryObject: any = {
+      config_id_list: ids,
+    };
+    if (this.multiDataSourceEnabled) {
+      queryObject = { ...queryObject, dataSourceId: this.dataSourceId };
+    }
     const response = await this.httpClient.delete(NODE_API.DELETE_CONFIGS, {
-      query: {
-        config_id_list: ids,
-      },
+      query: queryObject,
     });
     return response;
   };
 
-  getConfigs = async (queryObject: HttpFetchQuery) => {
+  getConfigs = async (queryObject: any) => {
+    if (this.multiDataSourceEnabled) {
+      queryObject = { ...queryObject, dataSourceId: this.dataSourceId };
+    }
     return this.httpClient.get<ConfigsResponse>(NODE_API.GET_CONFIGS, {
       query: queryObject,
     });
   };
 
   getConfig = async (id: string) => {
-    return this.httpClient.get<ConfigsResponse>(`${NODE_API.GET_CONFIG}/${id}`);
+    if (this.multiDataSourceEnabled) {
+      return this.httpClient.get<ConfigsResponse>(`${NODE_API.GET_CONFIG}/${id}`,{
+        query: { dataSourceId: this.dataSourceId },
+      });
+    }
+    else {
+      return this.httpClient.get<ConfigsResponse>(`${NODE_API.GET_CONFIG}/${id}`);
+    }
   };
 
   getChannels = async (
@@ -214,7 +251,6 @@ export default class NotificationService {
       const response = await this.httpClient.get(
         NODE_API.GET_AVAILABLE_FEATURES
       );
-      
       return response;
     } catch (error) {
       console.error('error fetching available features', error);
@@ -223,18 +259,36 @@ export default class NotificationService {
   };
 
   getNotification = async (id: string) => {
-    const response = await this.httpClient.get<EventsResponse>(
+    let response;
+    if (this.multiDataSourceEnabled) {
+      response = await this.httpClient.get<EventsResponse>(
+        `${NODE_API.GET_EVENT}/${id}`, {
+          query: { dataSourceId: this.dataSourceId },
+        }
+      );
+    }
+    else {
+      response = await this.httpClient.get<EventsResponse>(
         `${NODE_API.GET_EVENT}/${id}`
-    );
+      );
+    }
     return eventToNotification(response.event_list[0]);
   };
 
   sendTestMessage = async (
       configId: string
   ) => {
-    const response = await this.httpClient.post(
-        `${NODE_API.SEND_TEST_MESSAGE}/${configId}`
-    );
+    let response;
+    if (this.multiDataSourceEnabled) {
+      response = await this.httpClient.post(
+        `${NODE_API.SEND_TEST_MESSAGE}/${configId}`,{
+        query: { dataSourceId: this.dataSourceId },
+      });
+    }
+    else {
+      response = await this.httpClient.post(
+        `${NODE_API.SEND_TEST_MESSAGE}/${configId}`);
+    }
     if (response.status_list[0].delivery_status.status_code != 200) {
       console.error(response);
       const error = new Error('Failed to send the test message.');

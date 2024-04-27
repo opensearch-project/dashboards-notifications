@@ -17,7 +17,7 @@ import {
 import { Criteria } from '@elastic/eui/src/components/basic_table/basic_table';
 import { Pagination } from '@elastic/eui/src/components/basic_table/pagination_bar';
 import _ from 'lodash';
-import React, { Component } from 'react';
+import React, { Component, useContext } from 'react';
 import { RouteComponentProps } from 'react-router-dom';
 import { ChannelItemType, TableState } from '../../../models/interfaces';
 import {
@@ -38,23 +38,24 @@ import { DEFAULT_PAGE_SIZE_OPTIONS } from '../Notifications/utils/constants';
 import { ChannelActions } from './components/ChannelActions';
 import { ChannelControls } from './components/ChannelControls';
 import { ChannelFiltersType } from './types';
+import { DataSourceMenuProperties } from '../../services/DataSourceMenuContext';
+import MDSEnabledComponent, { isDataSourceChanged } from '../../components/MDSEnabledComponent/MDSEnabledComponent';
 
-interface ChannelsProps extends RouteComponentProps {
+interface ChannelsProps extends RouteComponentProps, DataSourceMenuProperties {
   notificationService: NotificationService;
 }
 
-interface ChannelsState extends TableState<ChannelItemType> {
+interface ChannelsState extends TableState<ChannelItemType>, DataSourceMenuProperties {
   filters: ChannelFiltersType;
 }
 
-export class Channels extends Component<ChannelsProps, ChannelsState> {
+export class Channels extends MDSEnabledComponent<ChannelsProps, ChannelsState> {
   static contextType = CoreServicesContext;
   columns: EuiTableFieldDataColumnType<ChannelItemType>[];
 
   constructor(props: ChannelsProps) {
     super(props);
-
-    this.state = {
+    const state: ChannelsState = {
       total: 0,
       from: 0,
       size: 10,
@@ -66,6 +67,8 @@ export class Channels extends Component<ChannelsProps, ChannelsState> {
       selectedItems: [],
       loading: true,
     };
+
+    this.state = state;
 
     this.columns = [
       {
@@ -118,14 +121,18 @@ export class Channels extends Component<ChannelsProps, ChannelsState> {
   }
 
   async componentDidUpdate(prevProps: ChannelsProps, prevState: ChannelsState) {
-    const prevQuery = Channels.getQueryObjectFromState(prevState);
-    const currQuery = Channels.getQueryObjectFromState(this.state);
+    const prevQuery = this.getQueryObjectFromState(prevState);
+    const currQuery = this.getQueryObjectFromState(this.state);
+
     if (!_.isEqual(prevQuery, currQuery)) {
+      await this.refresh();
+    }
+    if (isDataSourceChanged(this.props, prevProps)) {
       await this.refresh();
     }
   }
 
-  static getQueryObjectFromState(state: ChannelsState) {
+  getQueryObjectFromState(state: ChannelsState) {
     const config_type = _.isEmpty(state.filters.type)
       ? Object.keys(CHANNEL_TYPE) // by default get all channels but not email senders/groups
       : state.filters.type;
@@ -145,7 +152,7 @@ export class Channels extends Component<ChannelsProps, ChannelsState> {
   async refresh() {
     this.setState({ loading: true });
     try {
-      const queryObject = Channels.getQueryObjectFromState(this.state);
+      const queryObject = this.getQueryObjectFromState(this.state);
       const channels = await this.props.notificationService.getChannels(
         queryObject
       );

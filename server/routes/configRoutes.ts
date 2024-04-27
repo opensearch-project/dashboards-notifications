@@ -12,31 +12,102 @@ import { NODE_API } from '../../common';
 import { joinRequestParams } from '../utils/helper';
 import _ from 'lodash';
 import { CHANNEL_TYPE } from '../../common/constants';
+import { MDSEnabledClientService } from '../../common/MDSEnabledClientService';
 
+interface Schema {
+  [key: string]: any;
+}
 
-export function configRoutes(router: IRouter) {
+interface GenericQueryAndBody {
+  body: any;
+  query?: any;
+}
+
+interface UpdateQuerySchema {
+  body: any;
+  params: { configId: string };
+  query?: { dataSourceId: string };
+}
+
+interface DeleteQuerySchema {
+  config_id_list: string | string[];
+  dataSourceId?: string;
+}
+
+export function configRoutes(router: IRouter, dataSourceEnabled: boolean) {
+
+  const getConfigsQuerySchema: Schema = {
+    from_index: schema.number(),
+    max_items: schema.number(),
+    query: schema.maybe(schema.string()),
+    config_type: schema.oneOf([
+      schema.arrayOf(schema.string()),
+      schema.string(),
+    ]),
+    is_enabled: schema.maybe(schema.boolean()),
+    sort_field: schema.string(),
+    sort_order: schema.string(),
+    config_id_list: schema.maybe(
+      schema.oneOf([schema.arrayOf(schema.string()), schema.string()])
+    ),
+    'smtp_account.method': schema.maybe(
+      schema.oneOf([schema.arrayOf(schema.string()), schema.string()])
+    ),
+  };
+
+  if (dataSourceEnabled) {
+    getConfigsQuerySchema.dataSourceId = schema.string();
+  }
+
+  const genericBodyAndDataSourceIdQuery: GenericQueryAndBody = {
+    body: schema.any(),
+  };
+
+  if (dataSourceEnabled) {
+    genericBodyAndDataSourceIdQuery.query = schema.object({
+      dataSourceId: schema.string(),
+    });
+  }
+
+  const genericParamsAndDataSourceIdQuery: GenericQueryAndBody = {
+    params: schema.any(),
+  };
+
+  if (dataSourceEnabled) {
+    genericParamsAndDataSourceIdQuery.query = schema.object({
+      dataSourceId: schema.string(),
+    });
+  }
+
+  const updateQuerySchema: UpdateQuerySchema = {
+    body: schema.any(),
+    params: schema.object({
+      configId: schema.string(),
+    }),
+  };
+
+  if (dataSourceEnabled) {
+    updateQuerySchema.query = schema.object({
+      dataSourceId: schema.string(),
+    });
+  }
+
+  const deleteQuerySchema: DeleteQuerySchema = {
+    config_id_list: schema.oneOf([
+      schema.arrayOf(schema.string()),
+      schema.string(),
+    ]),
+  };
+
+  if (dataSourceEnabled) {
+    deleteQuerySchema.dataSourceId = schema.string();
+  }
+
   router.get(
     {
       path: NODE_API.GET_CONFIGS,
       validate: {
-        query: schema.object({
-          from_index: schema.number(),
-          max_items: schema.number(),
-          query: schema.maybe(schema.string()),
-          config_type: schema.oneOf([
-            schema.arrayOf(schema.string()),
-            schema.string(),
-          ]),
-          is_enabled: schema.maybe(schema.boolean()),
-          sort_field: schema.string(),
-          sort_order: schema.string(),
-          config_id_list: schema.maybe(
-            schema.oneOf([schema.arrayOf(schema.string()), schema.string()])
-          ),
-          'smtp_account.method': schema.maybe(
-            schema.oneOf([schema.arrayOf(schema.string()), schema.string()])
-          ),
-        }),
+        query: schema.object(getConfigsQuerySchema),
       },
     },
     async (context, request, response) => {
@@ -46,12 +117,10 @@ export function configRoutes(router: IRouter) {
         request.query['smtp_account.method']
       );
       const query = request.query.query;
-      // @ts-ignore
-      const client: ILegacyScopedClusterClient = context.notificationsContext.notificationsClient.asScoped(
-        request
-      );
+
+      const client = MDSEnabledClientService.getClient(request, context, dataSourceEnabled);
       try {
-        const resp = await client.callAsCurrentUser(
+        const resp = await client(
           'notifications.getConfigs',
           {
             from_index: request.query.from_index,
@@ -80,19 +149,12 @@ export function configRoutes(router: IRouter) {
   router.get(
     {
       path: `${NODE_API.GET_CONFIG}/{configId}`,
-      validate: {
-        params: schema.object({
-          configId: schema.string(),
-        }),
-      },
+      validate: genericParamsAndDataSourceIdQuery,
     },
     async (context, request, response) => {
-      // @ts-ignore
-      const client: ILegacyScopedClusterClient = context.notificationsContext.notificationsClient.asScoped(
-        request
-      );
+      const client = MDSEnabledClientService.getClient(request, context, dataSourceEnabled);
       try {
-        const resp = await client.callAsCurrentUser(
+        const resp = await client(
           'notifications.getConfigById',
           { configId: request.params.configId }
         );
@@ -109,19 +171,14 @@ export function configRoutes(router: IRouter) {
   router.post(
     {
       path: NODE_API.CREATE_CONFIG,
-      validate: {
-        body: schema.any(),
-      },
+      validate: genericBodyAndDataSourceIdQuery,
     },
     async (context, request, response) => {
-      // @ts-ignore
-      const client: ILegacyScopedClusterClient = context.notificationsContext.notificationsClient.asScoped(
-        request
-      );
+      const client = MDSEnabledClientService.getClient(request, context, dataSourceEnabled);
       try {
-        const resp = await client.callAsCurrentUser(
+        const resp = await client(
           'notifications.createConfig',
-          { body: request.body }
+          { body: request.body },
         );
         return response.ok({ body: resp });
       } catch (error) {
@@ -133,23 +190,16 @@ export function configRoutes(router: IRouter) {
     }
   );
 
+
   router.put(
     {
       path: `${NODE_API.UPDATE_CONFIG}/{configId}`,
-      validate: {
-        body: schema.any(),
-        params: schema.object({
-          configId: schema.string(),
-        }),
-      },
+      validate: updateQuerySchema,
     },
     async (context, request, response) => {
-      // @ts-ignore
-      const client: ILegacyScopedClusterClient = context.notificationsContext.notificationsClient.asScoped(
-        request
-      );
+      const client = MDSEnabledClientService.getClient(request, context, dataSourceEnabled);
       try {
-        const resp = await client.callAsCurrentUser(
+        const resp = await client(
           'notifications.updateConfigById',
           {
             configId: request.params.configId,
@@ -170,22 +220,14 @@ export function configRoutes(router: IRouter) {
     {
       path: NODE_API.DELETE_CONFIGS,
       validate: {
-        query: schema.object({
-          config_id_list: schema.oneOf([
-            schema.arrayOf(schema.string()),
-            schema.string(),
-          ]),
-        }),
-      },
+        query: schema.object(deleteQuerySchema)
+      }
     },
     async (context, request, response) => {
-      // @ts-ignore
-      const client: ILegacyScopedClusterClient = context.notificationsContext.notificationsClient.asScoped(
-        request
-      );
+      const client = MDSEnabledClientService.getClient(request, context, dataSourceEnabled)
       const config_id_list = joinRequestParams(request.query.config_id_list);
       try {
-        const resp = await client.callAsCurrentUser(
+        const resp = await client(
           'notifications.deleteConfigs',
           { config_id_list }
         );
@@ -205,12 +247,10 @@ export function configRoutes(router: IRouter) {
       validate: false,
     },
     async (context, request, response) => {
-      // @ts-ignore
-      const client: ILegacyScopedClusterClient = context.notificationsContext.notificationsClient.asScoped(
-        request
-      );
+      const client = MDSEnabledClientService.getClient(request, context, dataSourceEnabled);
+
       try {
-        const resp = await client.callAsCurrentUser(
+        const resp = await client(
           'notifications.getServerFeatures'
         );
         const config_type_list = resp.allowed_config_type_list as Array<
