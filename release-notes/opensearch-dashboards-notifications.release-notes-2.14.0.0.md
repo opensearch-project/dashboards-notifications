@@ -16,4 +16,4 @@ Compatible with OpenSearch Dashboards 2.14.0
 * Fix broken osd functional test repo ([#189](https://github.com/opensearch-project/dashboards-notifications/pull/189))([#190](https://github.com/opensearch-project/dashboards-notifications/pull/190))
 
 ### Documentation
-* 2.14 release notes.
+* 2.14 release notes. ([#201](https://github.com/opensearch-project/dashboards-notifications/pull/201))
