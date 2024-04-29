@@ -28,15 +28,20 @@ import {
   ContentPanelActions,
 } from '../../../../components/ContentPanel';
 import { ModalConsumer } from '../../../../components/Modal';
-import { ServicesContext } from '../../../../services';
+import { NotificationService, ServicesContext } from '../../../../services';
 import { ROUTES } from '../../../../utils/constants';
 import { getErrorMessage } from '../../../../utils/helpers';
 import { DetailsListModal } from '../../../Channels/components/modals/DetailsListModal';
 import { DEFAULT_PAGE_SIZE_OPTIONS } from '../../../Notifications/utils/constants';
 import { DeleteRecipientGroupModal } from '../modals/DeleteRecipientGroupModal';
+import {
+  isDataSourceError,
+  isDataSourceChanged,
+} from '../../../../components/MDSEnabledComponent/MDSEnabledComponent';
 
 interface RecipientGroupsTableProps {
   coreContext: CoreStart;
+  notificationService: NotificationService;
 }
 
 interface RecipientGroupsTableState
@@ -134,6 +139,9 @@ export class RecipientGroupsTable extends Component<
     if (!_.isEqual(prevQuery, currQuery)) {
       await this.refresh();
     }
+    if (isDataSourceChanged(this.props, prevProps)) {
+      await this.refresh();
+    }
   }
 
   static getQueryObjectFromState(state: RecipientGroupsTableState) {
@@ -161,6 +169,9 @@ export class RecipientGroupsTable extends Component<
         total: recipientGroups.total,
       });
     } catch (error) {
+      if (isDataSourceError(error)) {
+        this.setState({ items: [], total: 0 });
+      }
       this.props.coreContext.notifications.toasts.addDanger(
         getErrorMessage(error, 'There was a problem loading recipient groups.')
       );

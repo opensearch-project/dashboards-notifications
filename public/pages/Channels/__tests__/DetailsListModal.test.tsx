@@ -7,7 +7,6 @@ import { render } from '@testing-library/react';
 import { configure, mount } from 'enzyme';
 import Adapter from 'enzyme-adapter-react-16';
 import React from 'react';
-import { notificationServiceMock } from '../../../../test/mocks/serviceMock';
 import { DetailsListModal } from '../components/modals/DetailsListModal';
 
 describe('<DetailsListModal /> spec', () => {
@@ -31,7 +30,6 @@ describe('<DetailsListModal /> spec', () => {
         title="Email addresses"
         items={items}
         onClose={onClose}
-        services={notificationServiceMock}
       />
     );
     expect(wrap).toMatchSnapshot();

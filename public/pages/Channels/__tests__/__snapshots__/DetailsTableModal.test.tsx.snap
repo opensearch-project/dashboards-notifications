@@ -17,30 +17,6 @@ exports[`<DetailsTableModal /> spec renders headers 1`] = `
     ]
   }
   onClose={[MockFunction]}
-  services={
-    Object {
-      "notificationService": NotificationService {
-        "createConfig": [Function],
-        "deleteConfigs": [Function],
-        "getChannel": [Function],
-        "getChannels": [Function],
-        "getConfig": [Function],
-        "getConfigs": [Function],
-        "getEmailConfigDetails": [Function],
-        "getNotification": [Function],
-        "getRecipientGroup": [Function],
-        "getRecipientGroups": [Function],
-        "getSESSender": [Function],
-        "getSESSenders": [Function],
-        "getSender": [Function],
-        "getSenders": [Function],
-        "getServerFeatures": [Function],
-        "httpClient": [MockFunction],
-        "sendTestMessage": [Function],
-        "updateConfig": [Function],
-      },
-    }
-  }
 >
   <EuiOverlayMask>
     <Portal
@@ -1886,30 +1862,6 @@ exports[`<DetailsTableModal /> spec renders parameters 1`] = `
     ]
   }
   onClose={[MockFunction]}
-  services={
-    Object {
-      "notificationService": NotificationService {
-        "createConfig": [Function],
-        "deleteConfigs": [Function],
-        "getChannel": [Function],
-        "getChannels": [Function],
-        "getConfig": [Function],
-        "getConfigs": [Function],
-        "getEmailConfigDetails": [Function],
-        "getNotification": [Function],
-        "getRecipientGroup": [Function],
-        "getRecipientGroups": [Function],
-        "getSESSender": [Function],
-        "getSESSenders": [Function],
-        "getSender": [Function],
-        "getSenders": [Function],
-        "getServerFeatures": [Function],
-        "httpClient": [MockFunction],
-        "sendTestMessage": [Function],
-        "updateConfig": [Function],
-      },
-    }
-  }
 >
   <EuiOverlayMask>
     <Portal
