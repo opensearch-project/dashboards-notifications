@@ -32,7 +32,6 @@ import { DataSourceOption } from "../../../../../src/plugins/data_source_managem
 import _ from "lodash";
 import { NotificationService } from '../../services';
 import { HttpSetup } from '../../../../../src/core/public';
-import * as http from 'http';
 
 enum Navigation {
   Notifications = 'Notifications',
@@ -91,19 +90,20 @@ export default class Main extends Component<MainProps, MainState> {
     } else {
       this.state = initialState;
     }
-    this.setServerFeatures = this.setServerFeatures.bind(this);
   }
 
   async componentDidMount() {
     this.setServerFeatures();
   }
+
   componentDidUpdate(prevProps, prevState) {
     if (this.props.multiDataSourceEnabled && (prevState.dataSourceId !== this.state.dataSourceId)) {
       // Call setServerFeatures when dataSourceId is updated or dataSourceComponent is loaded
       this.setServerFeatures();
     }
   }
-  async setServerFeatures() {
+
+  async setServerFeatures() : Promise<void> {
     const services = this.getServices(this.props.http);
     const serverFeatures = await services.notificationService.getServerFeatures();
     const defaultConfigTypes = [

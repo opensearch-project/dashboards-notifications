@@ -13,7 +13,6 @@ import {
   SenderType,
   SESSenderItemType,
 } from '../../models/interfaces';
-import { CHANNEL_TYPE } from '../../common/constants';
 import {
   configListToChannels,
   configListToRecipientGroups,
@@ -247,19 +246,9 @@ export default class NotificationService {
   };
 
   getServerFeatures = async () => {
-    let response;
     try {
-      if (this.multiDataSourceEnabled) {
-        response = await this.httpClient.get(
-          NODE_API.GET_AVAILABLE_FEATURES, {
-            query: { dataSourceId: this.dataSourceId },
-          }
-        );
-      } else {
-        response = await this.httpClient.get(
-          NODE_API.GET_AVAILABLE_FEATURES
-        );
-      }
+      const query = this.multiDataSourceEnabled ? { dataSourceId: this.dataSourceId } : undefined;
+      const response = await this.httpClient.get(NODE_API.GET_AVAILABLE_FEATURES, { query });
       return response;
     } catch (error) {
       console.error('error fetching available features', error);
