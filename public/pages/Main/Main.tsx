@@ -95,17 +95,16 @@ export default class Main extends Component<MainProps, MainState> {
   }
 
   async componentDidMount() {
-    const services = this.getServices(this.props.http);
-    this.setServerFeatures(services);
+    this.setServerFeatures();
   }
   componentDidUpdate(prevProps, prevState) {
     if (this.props.multiDataSourceEnabled && (prevState.dataSourceId !== this.state.dataSourceId)) {
-      const services = this.getServices(this.props.http);
       // Call setServerFeatures when dataSourceId is updated or dataSourceComponent is loaded
-      this.setServerFeatures(services);
+      this.setServerFeatures();
     }
   }
-  async setServerFeatures(services: any) {
+  async setServerFeatures() {
+    const services = this.getServices(this.props.http);
     const serverFeatures = await services.notificationService.getServerFeatures();
     const defaultConfigTypes = [
       'slack',
