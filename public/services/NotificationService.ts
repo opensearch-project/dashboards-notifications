@@ -247,11 +247,19 @@ export default class NotificationService {
   };
 
   getServerFeatures = async () => {
+    let response;
     try {
-      const response = await this.httpClient.get(
-        NODE_API.GET_AVAILABLE_FEATURES
-      );
-
+      if (this.multiDataSourceEnabled) {
+        response = await this.httpClient.get(
+          NODE_API.GET_AVAILABLE_FEATURES, {
+            query: { dataSourceId: this.dataSourceId },
+          }
+        );
+      } else {
+        response = await this.httpClient.get(
+          NODE_API.GET_AVAILABLE_FEATURES
+        );
+      }
       return response;
     } catch (error) {
       console.error('error fetching available features', error);
