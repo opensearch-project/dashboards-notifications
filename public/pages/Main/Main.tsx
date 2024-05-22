@@ -20,6 +20,17 @@ import { CreateSender } from '../Emails/CreateSender';
 import { CreateSESSender } from '../Emails/CreateSESSender';
 import { EmailGroups } from '../Emails/EmailGroups';
 import { EmailSenders } from '../Emails/EmailSenders';
+import { DataSourceMenuContext, DataSourceMenuProperties } from "../../services/DataSourceMenuContext";
+import queryString from "query-string";
+import {
+  DataSourceManagementPluginSetup,
+  DataSourceSelectableConfig,
+  DataSourceViewConfig,
+} from "../../../../../src/plugins/data_source_management/public";
+import { DataSourceOption } from "../../../../../src/plugins/data_source_management/public/components/data_source_menu/types";
+import _ from "lodash";
+import { NotificationService } from '../../services';
+import { HttpSetup } from '../../../../../src/core/public';
 
 enum Navigation {
   Notifications = 'Notifications',
@@ -55,32 +66,52 @@ export default class Main extends Component<MainProps, MainState> {
   }
 
   async componentDidMount() {
-    const serverFeatures = await this.context.notificationService.getServerFeatures();
-    if (serverFeatures != null) {
-      this.setState({
-        availableChannels: serverFeatures.availableChannels,
-        availableConfigTypes: serverFeatures.availableConfigTypes,
-        tooltipSupport: serverFeatures.tooltipSupport,
-      });
-    } else {
-      // Feature API call failed, allow all configs to avoid UI breaking.
-      // User requests will still be validated by backend.
-      this.setState({
-        availableChannels: CHANNEL_TYPE,
-        availableConfigTypes: [
-          'slack',
-          'chime',
-          'microsoft_teams',
-          'webhook',
-          'email',
-          'sns',
-          'smtp_account',
-          'ses_account',
-          'email_group',
-        ],
-        tooltipSupport: serverFeatures.tooltipSupport,
-      });
+    this.setServerFeatures();
+  }
+
+  componentDidUpdate(prevProps, prevState) {
+    if (this.props.multiDataSourceEnabled && (prevState.dataSourceId !== this.state.dataSourceId)) {
+      // Call setServerFeatures when dataSourceId is updated or dataSourceComponent is loaded
+      this.setServerFeatures();
     }
+  }
+
+  async setServerFeatures() : Promise<void> {
+    const services = this.getServices(this.props.http);
+    const serverFeatures = await services.notificationService.getServerFeatures();
+    const defaultConfigTypes = [
+      'slack',
+      'chime',
+      'microsoft_teams',
+      'webhook',
+      'email',
+      'sns',
+      'smtp_account',
+      'ses_account',
+      'email_group',
+    ];
+
+    let newState = {
+      dataSourceId: this.state.dataSourceId || '',
+      dataSourceLabel: this.state.dataSourceLabel || '',
+      dataSourceReadOnly: false,
+      dataSourceLoading: this.state.dataSourceLoading,
+      availableChannels: this.props.multiDataSourceEnabled ? CHANNEL_TYPE : defaultConfigTypes,
+      availableConfigTypes: defaultConfigTypes,
+      tooltipSupport: false,
+    };
+
+    if (serverFeatures) {
+      const { availableChannels, availableConfigTypes, tooltipSupport } = serverFeatures;
+      newState = {
+        ...newState,
+        availableChannels,
+        availableConfigTypes,
+        tooltipSupport,
+      };
+    }
+
+    this.setState(newState);
   }
 
   render() {
