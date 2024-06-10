@@ -94,51 +94,52 @@ export default class Main extends Component<MainProps, MainState> {
   }
 
   async componentDidMount() {
+    this.setServerFeatures();
+  }
 
-    const services = this.getServices(this.props.http) // Assuming this.context holds the value provided by ServicesContext
+  componentDidUpdate(prevProps, prevState) {
+    if (this.props.multiDataSourceEnabled && (prevState.dataSourceId !== this.state.dataSourceId)) {
+      // Call setServerFeatures when dataSourceId is updated or dataSourceComponent is loaded
+      this.setServerFeatures();
+    }
+  }
+
+ async setServerFeatures() : Promise<void> {
+    const services = this.getServices(this.props.http);
     const serverFeatures = await services.notificationService.getServerFeatures();
+    const defaultConfigTypes = [
+      'slack',
+      'chime',
+      'microsoft_teams',
+      'webhook',
+      'email',
+      'sns',
+      'smtp_account',
+      'ses_account',
+      'email_group',
+    ];
 
-    if (serverFeatures != null) {
+    let newState = {
+      dataSourceId: this.state.dataSourceId || '',
+      dataSourceLabel: this.state.dataSourceLabel || '',
+      dataSourceReadOnly: false,
+      dataSourceLoading: this.state.dataSourceLoading,
+      availableChannels: this.props.multiDataSourceEnabled ? CHANNEL_TYPE : defaultConfigTypes,
+      availableConfigTypes: defaultConfigTypes,
+      tooltipSupport: false,
+    };
+
+    if (serverFeatures) {
       const { availableChannels, availableConfigTypes, tooltipSupport } = serverFeatures;
-      const { dataSourceId = "", dataSourceLabel = "" } = this.state;
-      const dataSourceReadOnly = false;
-      const dataSourceLoading = this.props.multiDataSourceEnabled;
-
-      this.setState({
-        dataSourceId,
-        dataSourceLabel,
-        dataSourceReadOnly,
-        dataSourceLoading,
+      newState = {
+        ...newState,
         availableChannels,
         availableConfigTypes,
-        tooltipSupport
-      });
-    } else {
-      const { dataSourceId = "", dataSourceLabel = "" } = this.state;
-      const dataSourceReadOnly = false;
-      const dataSourceLoading = this.props.multiDataSourceEnabled;
-      const defaultConfigTypes = [
-        'slack',
-        'chime',
-        'microsoft_teams',
-        'webhook',
-        'email',
-        'sns',
-        'smtp_account',
-        'ses_account',
-        'email_group',
-      ];
-
-      this.setState({
-        dataSourceId,
-        dataSourceLabel,
-        dataSourceReadOnly,
-        dataSourceLoading,
-        availableChannels: this.props.multiDataSourceEnabled ? CHANNEL_TYPE : defaultConfigTypes,
-        availableConfigTypes: defaultConfigTypes,
-        tooltipSupport: false
-      });
+        tooltipSupport,
+      };
     }
+
+    this.setState(newState);
   }
 
   onSelectedDataSources = (dataSources: DataSourceOption[]) => {

@@ -1,8 +1,6 @@
-import React, { useContext, useEffect } from "react";
+import React from "react";
 import { DataSourceMenuContext, DataSourceMenuProperties } from "../../services/DataSourceMenuContext";
-import { useHistory } from "react-router";
-import queryString from "query-string";
-import { MainContext } from '../../pages/Main/Main';
+import _ from 'lodash'
 
 export default class MDSEnabledComponent<
   Props extends DataSourceMenuProperties,
@@ -34,5 +32,3 @@ export function isDataSourceChanged(prevProps, currentProps) {
 export function isDataSourceError(error) {
   return (error.body && error.body.message && error.body.message.includes("Data Source Error"));
 }
-
-
