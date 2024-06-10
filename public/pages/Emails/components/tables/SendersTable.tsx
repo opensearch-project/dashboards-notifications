@@ -23,7 +23,7 @@ import {
   ContentPanelActions,
 } from '../../../../components/ContentPanel';
 import { ModalConsumer } from '../../../../components/Modal';
-import { ServicesContext } from '../../../../services';
+import { NotificationService, ServicesContext } from '../../../../services';
 import { ENCRYPTION_TYPE, ROUTES } from '../../../../utils/constants';
 import { getErrorMessage } from '../../../../utils/helpers';
 import { DEFAULT_PAGE_SIZE_OPTIONS } from '../../../Notifications/utils/constants';
@@ -32,9 +32,14 @@ import {
   SendersTableControls,
   SendersTableControlsFilterType,
 } from './SendersTableControls';
+import {
+  isDataSourceError,
+  isDataSourceChanged,
+} from '../../../../components/MDSEnabledComponent/MDSEnabledComponent';
 
 interface SendersTableProps {
   coreContext: CoreStart;
+  notificationService: NotificationService;
 }
 
 interface SendersTableState extends TableState<SenderItemType> {
@@ -120,6 +125,9 @@ export class SendersTable extends Component<
     if (!_.isEqual(prevQuery, currQuery)) {
       await this.refresh();
     }
+    if (isDataSourceChanged(this.props, prevProps)) {
+      await this.refresh();
+    }
   }
 
   static getQueryObjectFromState(state: SendersTableState) {
@@ -146,6 +154,9 @@ export class SendersTable extends Component<
       );
       this.setState({ items: senders.items, total: senders.total });
     } catch (error) {
+      if (isDataSourceError(error)) {
+        this.setState({ items: [], total: 0 });
+      }
       this.props.coreContext.notifications.toasts.addDanger(
         getErrorMessage(error, 'There was a problem loading SMTP senders.')
       );

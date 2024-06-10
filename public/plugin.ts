@@ -17,6 +17,7 @@ import {
   NotificationsDashboardsSetupDeps,
 } from './types';
 import { PLUGIN_NAME } from '../common';
+import { AppPluginStartDependencies } from './types';
 
 export class notificationsDashboardsPlugin
   implements
@@ -30,7 +31,7 @@ export class notificationsDashboardsPlugin
 
   public setup(
     core: CoreSetup,
-    { managementOverview }: NotificationsDashboardsSetupDeps
+    { managementOverview, dataSourceManagement }: NotificationsDashboardsSetupDeps,
   ): notificationsDashboardsPluginSetup {
     // Register an application into the side navigation menu
     core.application.register({
@@ -44,7 +45,7 @@ export class notificationsDashboardsPlugin
         // Get start services as specified in opensearch_dashboards.json
         const [coreStart, depsStart] = await core.getStartServices();
         // Render the application
-        return renderApp(coreStart, params);
+        return renderApp(coreStart, params, dataSourceManagement, depsStart);
       },
     });
 
