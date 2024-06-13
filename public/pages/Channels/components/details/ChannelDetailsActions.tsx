@@ -17,6 +17,7 @@ import { ModalConsumer } from '../../../../components/Modal';
 import { ServicesContext } from '../../../../services';
 import { ROUTES } from '../../../../utils/constants';
 import { DeleteChannelModal } from '../modals/DeleteChannelModal';
+import { i18n } from '@osd/i18n';
 
 interface ChannelDetailsActionsParams {
   label: string;
@@ -43,30 +44,48 @@ export function ChannelDetailsActions(props: ChannelDetailsActionsProps) {
         props.channel.config_id,
       );
       coreContext.notifications.toasts.addSuccess(
-        'Successfully sent a test message.'
+        i18n.translate('notification.notificationChannels.sendTestMessageSuccess', {
+          defaultMessage:
+          'Successfully sent a test message.',
+          })
       );
     } catch (error) {
       coreContext.notifications.toasts.addError(error?.body || error, {
-        title: 'Failed to send the test message.',
-        toastMessage: 'View error details and adjust the channel settings.',
+        title: i18n.translate('notification.notificationChannels.sendTestMessageErr', {
+          defaultMessage:
+          'Failed to send the test message.',
+          }),
+        toastMessage: i18n.translate('notification.notificationChannels.sendTestMessageDetailsErr', {
+          defaultMessage:
+          'View error details and adjust the channel settings.',
+          }),
       });
     }
   };
 
   const actions: ChannelDetailsActionsParams[] = [
     {
-      label: 'Edit',
+      label: i18n.translate('notification.notificationChannels.editToken', {
+        defaultMessage:
+        'Edit',
+        }),
       href: `#${ROUTES.EDIT_CHANNEL}/${props.channel.config_id}?from=details`,
     },
     {
-      label: 'Send test message',
+      label: i18n.translate('notification.notificationChannels.sendTestMessage', {
+        defaultMessage:
+        'Send test message',
+        }),
       disabled:
         !props.channel.config_id ||
         !props.channel.is_enabled,
       action: sendTestMessage,
     },
     {
-      label: 'Delete',
+      label: i18n.translate('notification.notificationChannels.deleteToken', {
+        defaultMessage:
+        'Delete',
+        }),
       color: 'danger',
       modal: DeleteChannelModal,
       modalParams: {
@@ -86,7 +105,11 @@ export function ChannelDetailsActions(props: ChannelDetailsActionsProps) {
               iconSide="right"
               onClick={() => setIsPopoverOpen(!isPopoverOpen)}
             >
-              Actions
+              {i18n.translate('notification.notificationChannels.channelsActions', {
+              defaultMessage:
+                'Actions',
+              })}
+              
             </EuiButton>
           }
           isOpen={isPopoverOpen}

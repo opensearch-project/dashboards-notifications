@@ -25,8 +25,8 @@ export class notificationsDashboardsPlugin
       notificationsDashboardsPluginSetup,
       notificationsDashboardsPluginStart
     > {
-  private title = i18n.translate('notification.notificationTitle', {
-    defaultMessage: 'Notifications',
+      private title = i18n.translate('notification.notificationCore.Title', {
+        defaultMessage: 'Notifications',
   });
 
   public setup(
@@ -54,7 +54,7 @@ export class notificationsDashboardsPlugin
         id: PLUGIN_NAME,
         title: this.title,
         order: 9060,
-        description: i18n.translate('notification.notificationDescription', {
+        description: i18n.translate('notification.notificationCore.Description', {
           defaultMessage:
             'Connect with your communication services to receive notifications from supported OpenSearch plugins.',
         }),

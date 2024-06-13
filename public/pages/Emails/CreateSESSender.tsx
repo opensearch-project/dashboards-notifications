@@ -28,6 +28,7 @@ import {
   validateRoleArn,
   validateSenderName,
 } from './utils/validationHelper';
+import { i18n } from '@osd/i18n';
 
 interface CreateSESSenderProps extends RouteComponentProps<{ id?: string }> {
   edit?: boolean;
@@ -108,7 +109,10 @@ export function CreateSESSender(props: CreateSESSenderProps) {
       <EuiSpacer />
       <ContentPanel
         bodyStyles={{ padding: 'initial' }}
-        title="Configure sender"
+        title={i18n.translate('notification.notificationChannels.sesConfigurationPage', {
+          defaultMessage:
+          "Configure sender",
+          })}
         titleSize="s"
         panelStyles={{ maxWidth: 1000 }}
       >
@@ -130,7 +134,10 @@ export function CreateSESSender(props: CreateSESSenderProps) {
       <EuiFlexGroup justifyContent="flexEnd" style={{ maxWidth: 1024 }}>
         <EuiFlexItem grow={false}>
           <EuiButtonEmpty href={`#${ROUTES.EMAIL_SENDERS}`}>
-            Cancel
+          {i18n.translate('notification.notificationChannels.information.doCreateSenderCancel', {
+              defaultMessage:
+                'Cancel',
+              })}
           </EuiButtonEmpty>
         </EuiFlexItem>
         <EuiFlexItem grow={false}>
@@ -160,9 +167,13 @@ export function CreateSESSender(props: CreateSESSenderProps) {
               await request
                 .then((response) => {
                   coreContext.notifications.toasts.addSuccess(
-                    `Sender ${senderName} successfully ${
-                      props.edit ? 'updated' : 'created'
-                    }.`
+                    i18n.translate('notification.notificationChannels.information.senderUpdatedCreatedInfo', {
+                      defaultMessage:
+                      `Sender ${senderName} successfully ${
+                        props.edit ? 'updated' : 'created'
+                      }.`,
+                      })
+                    
                   );
                   setTimeout(
                     () => (location.hash = `#${ROUTES.EMAIL_SENDERS}`),
@@ -172,14 +183,24 @@ export function CreateSESSender(props: CreateSESSenderProps) {
                 .catch((error) => {
                   setLoading(false);
                   coreContext.notifications.toasts.addError(error?.body || error, {
-                    title: `Failed to ${
-                      props.edit ? 'update' : 'create'
-                    } sender.`,
+                    title: i18n.translate('notification.notificationChannels.information.senderUpdatedCreatedInfoError', {
+                      defaultMessage:
+                      `Failed to ${
+                        props.edit ? 'update' : 'create'
+                      } sender.`,
+                      })
+                    ,
                   });
                 });
             }}
           >
-            {props.edit ? 'Save' : 'Create'}
+            {props.edit ? i18n.translate('notification.notificationChannels.saveToken', {
+              defaultMessage:
+              'Save',
+              }) : i18n.translate('notification.notificationChannels.createToken', {
+                defaultMessage:
+                'Create',
+                })}
           </EuiButton>
         </EuiFlexItem>
       </EuiFlexGroup>

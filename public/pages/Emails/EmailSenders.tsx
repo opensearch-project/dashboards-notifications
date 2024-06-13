@@ -12,6 +12,7 @@ import { MainContext } from '../Main/Main';
 import { SendersTable } from './components/tables/SendersTable';
 import { SESSendersTable } from './components/tables/SESSendersTable';
 import { NotificationService } from '../../services';
+import { i18n } from '@osd/i18n';
 
 interface EmailSendersProps extends RouteComponentProps {
   notificationService: NotificationService;
@@ -33,7 +34,13 @@ export function EmailSenders(props: EmailSendersProps) {
   return (
     <>
       <EuiTitle size="l">
-        <h1>Email senders</h1>
+      <h1>
+        {
+          i18n.translate('notification.notificationChannels.emailSenders', {
+          defaultMessage:
+          'Email senders',
+        })}
+        </h1>
       </EuiTitle>
       {mainStateContext.availableConfigTypes.includes('smtp_account') && (
         <>

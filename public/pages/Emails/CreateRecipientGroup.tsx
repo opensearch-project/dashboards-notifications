@@ -26,6 +26,7 @@ import {
   validateRecipientGroupEmails,
   validateRecipientGroupName,
 } from './utils/validationHelper';
+import { i18n } from '@osd/i18n';
 
 interface CreateRecipientGroupProps
   extends RouteComponentProps<{ id?: string }> {
@@ -96,7 +97,10 @@ export function CreateRecipientGroup(props: CreateRecipientGroupProps) {
       );
     } catch (error) {
       coreContext.notifications.toasts.addDanger(
-        getErrorMessage(error, 'There was a problem loading recipient group.')
+        getErrorMessage(error, i18n.translate('notification.notificationChannels.recipientGroupLoadingErr', {
+          defaultMessage:
+          'There was a problem loading recipient group.',
+          }))
       );
     }
   };
@@ -104,13 +108,24 @@ export function CreateRecipientGroup(props: CreateRecipientGroupProps) {
   return (
     <>
       <EuiTitle size="l">
-        <h1>{`${props.edit ? 'Edit' : 'Create'} recipient group`}</h1>
+        <h1>
+          {`${props.edit ? i18n.translate('notification.notificationChannels.editRecipientGroup', {
+            defaultMessage:
+            'Edit recipient group',
+            }) : i18n.translate('notification.notificationChannels.createRecipientGroup', {
+            defaultMessage:
+            'Create recipient group',
+            })}`}
+          </h1>
       </EuiTitle>
 
       <EuiSpacer />
       <ContentPanel
         bodyStyles={{ padding: 'initial' }}
-        title="Configure recipient group"
+        title={i18n.translate('notification.notificationChannels.recipientsConfiguration', {
+          defaultMessage:
+          "Configure recipient group",
+          })}
         titleSize="s"
         panelStyles={{ maxWidth: 1000 }}
       >
@@ -131,7 +146,10 @@ export function CreateRecipientGroup(props: CreateRecipientGroupProps) {
       <EuiFlexGroup justifyContent="flexEnd" style={{ maxWidth: 1024 }}>
         <EuiFlexItem grow={false}>
           <EuiButtonEmpty href={`#${ROUTES.EMAIL_GROUPS}`}>
-            Cancel
+          {i18n.translate('notification.notificationChannels.cancelToken', {
+          defaultMessage:
+            'Cancel',
+          })}
           </EuiButtonEmpty>
         </EuiFlexItem>
         <EuiFlexItem grow={false}>
@@ -141,16 +159,21 @@ export function CreateRecipientGroup(props: CreateRecipientGroupProps) {
             onClick={async () => {
               if (!isInputValid()) {
                 coreContext.notifications.toasts.addDanger(
-                  'Some fields are invalid. Fix all highlighted error(s) before continuing.'
+                  i18n.translate('notification.notificationChannels.information.fieldInvalid', {
+                    defaultMessage:
+                    'Some fields are invalid. Fix all highlighted error(s) before continuing.',
+                    })
                 );
                 return;
               }
+              
               setLoading(true);
               const config = createRecipientGroupConfigObject(
                 name,
                 description,
                 selectedEmailOptions
               );
+              let ret:string
               const request = props.edit
                 ? servicesContext.notificationService.updateConfig(
                     props.match.params.id!,
@@ -160,9 +183,19 @@ export function CreateRecipientGroup(props: CreateRecipientGroupProps) {
               await request
                 .then((response) => {
                   coreContext.notifications.toasts.addSuccess(
-                    `Recipient group ${name} successfully ${
-                      props.edit ? 'updated' : 'created'
-                    }.`
+                    i18n.translate('notification.notificationChannels.recipientsGroupCreatedUpdated', {
+                      defaultMessage:
+                      `Recipient group ${name} successfully ${
+                        props.edit ?  ret=i18n.translate('notification.notificationChannels.recipientupdatedToken', {
+                          defaultMessage:
+                          'updated',
+                          }) : ret=i18n.translate('notification.notificationChannels.recipientcreatedToken', {
+                            defaultMessage:
+                              'created',
+                            })
+                      }.`,
+                      values:{action:ret}
+                      })
                   );
                   setTimeout(
                     () => (location.hash = `#${ROUTES.EMAIL_GROUPS}`),
@@ -174,15 +207,26 @@ export function CreateRecipientGroup(props: CreateRecipientGroupProps) {
                   coreContext.notifications.toasts.addError(
                     error?.body || error,
                     {
-                      title: `Failed to ${
-                        props.edit ? 'update' : 'create'
-                      } recipient group.`,
+                      title: i18n.translate('notification.notificationChannels.failedCreateUpdateRecipientsGroup', {
+                        defaultMessage:
+                        `Failed to ${
+                          props.edit ? 'update' : 'create'
+                        } recipient group.`,
+                        })
+                      
+                      ,
                     }
                   );
                 });
             }}
           >
-            {props.edit ? 'Save' : 'Create'}
+            {props.edit ? i18n.translate('notification.notificationChannels.saveToken', {
+            defaultMessage:
+            'Save',
+            }) : i18n.translate('notification.notificationChannels.createToken', {
+              defaultMessage:
+              'Create',
+              })}
           </EuiButton>
         </EuiFlexItem>
       </EuiFlexGroup>

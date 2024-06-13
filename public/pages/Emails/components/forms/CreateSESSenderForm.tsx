@@ -18,6 +18,7 @@ import {
   validateRoleArn,
   validateSenderName,
 } from '../../utils/validationHelper';
+import { i18n } from '@osd/i18n';
 
 interface CreateSESSenderFormProps {
   senderName: string;
@@ -37,15 +38,24 @@ export function CreateSESSenderForm(props: CreateSESSenderFormProps) {
   return (
     <>
       <EuiFormRow
-        label="Sender name"
+        label={i18n.translate('notification.notificationChannels.notificationName', {
+          defaultMessage:
+          "Sender name",
+          })}
         style={{ maxWidth: '650px' }}
-        helpText="Use a unique, descriptive name. The sender name must contain from 2 to 50 characters. Valid characters are lowercase a-z, 0-9, - (hyphen) and _ (underscore)."
+        helpText={i18n.translate('notification.notificationChannels.sesServersHelper', {
+          defaultMessage:
+          "Use a unique, descriptive name. The sender name must contain from 2 to 50 characters. Valid characters are lowercase a-z, 0-9, - (hyphen) and _ (underscore).",
+          })}
         error={props.inputErrors.senderName.join(' ')}
         isInvalid={props.inputErrors.senderName.length > 0}
       >
         <EuiFieldText
           fullWidth
-          placeholder="Enter sender name"
+          placeholder={i18n.translate('notification.notificationChannels.notificationName', {
+            defaultMessage:
+            "Enter sender name",
+            })}
           data-test-subj="create-ses-sender-form-name-input"
           value={props.senderName}
           onChange={(e) => props.setSenderName(e.target.value)}
@@ -61,7 +71,10 @@ export function CreateSESSenderForm(props: CreateSESSenderFormProps) {
 
       <EuiSpacer size="m" />
       <EuiFormRow
-        label="Email address"
+        label={i18n.translate('notification.notificationChannels.params.senderEmail', {
+          defaultMessage:
+          "Email address",
+          })}
         style={{ maxWidth: '650px' }}
         error={props.inputErrors.email.join(' ')}
         isInvalid={props.inputErrors.email.length > 0}
@@ -89,18 +102,31 @@ export function CreateSESSenderForm(props: CreateSESSenderFormProps) {
             label={
               mainStateContext.tooltipSupport ? (
                 <span>
-                  IAM Role ARN -{' '}
-                  <i style={{ fontWeight: 'normal' }}>optional</i>
+                  {i18n.translate('notification.notificationChannels.iamRoleArn', {
+                    defaultMessage:
+                      'IAM Role ARN - ',
+                    })}
+                  <i style={{ fontWeight: 'normal' }}>
+                  {i18n.translate('notification.notificationChannels.newChannelDescriptionOptional', {
+                    defaultMessage:
+                      ' optional',
+                    })}</i>
                 </span>
               ) : (
-                'IAM Role ARN'
+                i18n.translate('notification.notificationChannels.iamRoleArn', {
+                  defaultMessage:
+                  'IAM Role ARN',
+                  })
               )
             }
             error={props.inputErrors.roleArn.join(' ')}
             isInvalid={props.inputErrors.roleArn.length > 0}
           >
             <EuiFieldText
-              placeholder="ARN key"
+              placeholder={i18n.translate('notification.notificationChannels.arnKey', {
+                defaultMessage:
+                "ARN key",
+                })}
               data-test-subj="create-ses-sender-form-role-arn-input"
               value={props.roleArn}
               onChange={(e) => props.setRoleArn(e.target.value)}
@@ -118,7 +144,10 @@ export function CreateSESSenderForm(props: CreateSESSenderFormProps) {
         </EuiFlexItem>
         <EuiFlexItem grow={4}>
           <EuiFormRow
-            label="AWS region"
+            label={i18n.translate('notification.notificationChannels.awsRegion', {
+              defaultMessage:
+              "AWS region",
+              })}
             error={props.inputErrors.awsRegion.join(' ')}
             isInvalid={props.inputErrors.awsRegion.length > 0}
           >

@@ -23,6 +23,7 @@ import React, { useContext, useState } from 'react';
 import { RecipientGroupItemType } from '../../../../../models/interfaces';
 import { CoreServicesContext } from '../../../../components/coreServices';
 import { ModalRootProps } from '../../../../components/Modal/ModalRoot';
+import { i18n } from '@osd/i18n';
 
 interface DeleteRecipientGroupModalProps extends ModalRootProps {
   recipientGroups: RecipientGroupItemType[];
@@ -38,19 +39,33 @@ export const DeleteRecipientGroupModal = (
   const coreContext = useContext(CoreServicesContext)!;
   const [input, setInput] = useState('');
   const num = props.recipientGroups.length;
-  const name =
-    num >= 2 ? `${num} recipient groups` : props.recipientGroups[0].name;
-  const message = `Delete ${
-    num >= 2 ? 'the following recipient groups' : name
-  } permanently? Any channels using ${
-    num >= 2 ? 'these email recipient groups' : 'this email recipient group'
-  } will not be able to receive notifications.`;
+  const name = i18n.translate('notification.notificationChannels.RecipientGroupSummaryDelete', {
+              defaultMessage:
+              num >= 2 ? `${num} recipient groups` : props.recipientGroups[0].name,
+              values:{num: num, name: props.recipientGroups[0].name}
+              });
+
+  const message = i18n.translate('notification.notificationChannels.RecipientGroupSummaryDelete2', {
+              defaultMessage:
+              `Delete ${
+                num >= 2 ? 'the following recipient groups' : name
+              } permanently? Any channels using ${
+                num >= 2 ? 'these email recipient groups' : 'this email recipient group'
+              } will not be able to receive notifications.`,
+              values: {num: num, name: name}
+              });
 
   return (
     <EuiOverlayMask>
       <EuiModal onClose={props.onClose} maxWidth={500}>
         <EuiModalHeader>
-          <EuiModalHeaderTitle>{`Delete ${name}?`}</EuiModalHeaderTitle>
+          <EuiModalHeaderTitle>
+          {i18n.translate('notification.notificationChannels.deleteRecipientConfirm', {
+              defaultMessage:
+                'Delete {name}?',
+                values: {name: name}
+              } )}
+            </EuiModalHeaderTitle>
         </EuiModalHeader>
         <EuiModalBody>
           <EuiText>{message}</EuiText>
@@ -80,7 +95,12 @@ export const DeleteRecipientGroupModal = (
         <EuiModalFooter>
           <EuiFlexGroup justifyContent="flexEnd">
             <EuiFlexItem grow={false}>
-              <EuiButtonEmpty onClick={props.onClose}>Cancel</EuiButtonEmpty>
+              <EuiButtonEmpty onClick={props.onClose}>
+              {i18n.translate('notification.notificationChannels.information.doCreateSenderCancel', {
+              defaultMessage:
+                'Cancel',
+              })}
+              </EuiButtonEmpty>
             </EuiFlexItem>
             <EuiFlexItem grow={false}>
               <EuiButton
@@ -94,24 +114,35 @@ export const DeleteRecipientGroupModal = (
                     )
                     .then((resp) => {
                       coreContext.notifications.toasts.addSuccess(
-                        `${props.recipientGroups.length > 1
-                          ? props.recipientGroups.length + ' recipient groups'
-                          : 'Recipient group ' + props.recipientGroups[0].name
-                        } successfully deleted.`
+                        i18n.translate('notification.notificationChannels.deleteRecipientGroupModal', {
+                          defaultMessage:
+                          `${props.recipientGroups.length > 1
+                            ? props.recipientGroups.length + ' recipient groups'
+                            : 'Recipient group ' + props.recipientGroups[0].name
+                          } successfully deleted.`,
+                          values: {name: props.recipientGroups[0].name}
+                          })
+                        
                       );
                       props.onClose();
                       setTimeout(() => props.refresh(), SERVER_DELAY);
                     })
                     .catch((error) => {
                       coreContext.notifications.toasts.addError(error?.body || error, {
-                        title: 'Failed to delete one or more recipient groups.',
+                        title: i18n.translate('notification.notificationChannels.deleteRecipientGroupFailedErr', {
+                          defaultMessage:
+                          'Failed to delete one or more recipient groups.',
+                          }),
                       });
                       props.onClose();
                     });
                 }}
                 disabled={input !== 'delete'}
               >
-                Delete
+                {i18n.translate('notification.notificationChannels.deleteToken', {
+                defaultMessage:
+                  'Delete',
+                })}
               </EuiButton>
             </EuiFlexItem>
           </EuiFlexGroup>

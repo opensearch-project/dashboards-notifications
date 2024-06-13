@@ -26,6 +26,7 @@ import {
   validateWebhookURL,
 } from '../utils/validationHelper';
 import { WebhookHeaders } from './WebhookHeaders';
+import { i18n } from '@osd/i18n';
 
 interface CustomWebhookSettingsProps {
   webhookTypeIdSelected: keyof typeof CUSTOM_WEBHOOK_ENDPOINT_TYPE;
@@ -86,7 +87,11 @@ export function CustomWebhookSettings(props: CustomWebhookSettingsProps) {
   const renderCustomURL = () => {
     return (
       <>
-        <EuiFormRow label="Type">
+        <EuiFormRow label={
+          i18n.translate('notification.notificationChannels.notificationType', {
+          defaultMessage:
+          'Type',
+          })}>
           <EuiSuperSelect
             options={[
               { value: 'HTTPS', inputDisplay: 'HTTPS' },
@@ -118,14 +123,30 @@ export function CustomWebhookSettings(props: CustomWebhookSettingsProps) {
         <EuiFormRow
           label={
             <span>
-              Port - <i style={{ fontWeight: 'normal' }}>optional</i>
+              {
+                i18n.translate('notification.notificationChannels.enterPortPlaceholder', {
+                defaultMessage:
+                'Port -',
+              })}
+	
+               <i style={{ fontWeight: 'normal' }}>
+               {
+               i18n.translate('notification.notificationChannels.newChannelDescriptionOptional', {
+                defaultMessage:
+                  'optional',
+                })}
+	
+                </i>
             </span>
           }
           error={context.inputErrors.customURLPort.join(' ')}
           isInvalid={context.inputErrors.customURLPort.length > 0}
         >
           <EuiFieldNumber
-            placeholder="Enter port"
+            placeholder={i18n.translate('notification.notificationChannels.enterPortPlaceholder', {
+              defaultMessage:
+              "Enter port",
+              })}
             data-test-subj="custom-webhook-port-input"
             value={props.customURLPort}
             onChange={(e) => props.setCustomURLPort(e.target.value)}
@@ -146,7 +167,10 @@ export function CustomWebhookSettings(props: CustomWebhookSettingsProps) {
           }
         >
           <EuiFieldText
-            placeholder="Enter path"
+            placeholder={i18n.translate('notification.notificationChannels.webhookPathPlaceholder', {
+              defaultMessage:
+                'Enter path',
+              })}
             data-test-subj="custom-webhook-path-input"
             value={props.customURLPath}
             onChange={(e) => props.setCustomURLPath(e.target.value)}
@@ -165,7 +189,10 @@ export function CustomWebhookSettings(props: CustomWebhookSettingsProps) {
 
   return (
     <>
-      <EuiFormRow label="Method" style={{ maxWidth: '700px' }}>
+      <EuiFormRow label={i18n.translate('notification.notificationChannels.webhookMethod', {
+        defaultMessage:
+          'Method',
+        })} style={{ maxWidth: '700px' }}>
         <EuiSuperSelect
           options={[
             { value: 'POST', inputDisplay: 'POST' },
@@ -177,7 +204,10 @@ export function CustomWebhookSettings(props: CustomWebhookSettingsProps) {
         />
       </EuiFormRow>
 
-      <EuiFormRow label="Define endpoints by" style={{ maxWidth: '700px' }}>
+      <EuiFormRow label={i18n.translate('notification.notificationChannels.webhookEndpoints', {
+        defaultMessage:
+        'Define endpoints by',
+        })} style={{ maxWidth: '700px' }}>
         <EuiRadioGroup
           options={webhookTypeOptions}
           idSelected={props.webhookTypeIdSelected}

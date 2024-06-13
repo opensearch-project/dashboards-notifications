@@ -23,6 +23,7 @@ import { SERVER_DELAY } from '../../../../../common';
 import { SenderItemType } from '../../../../../models/interfaces';
 import { CoreServicesContext } from '../../../../components/coreServices';
 import { ModalRootProps } from '../../../../components/Modal/ModalRoot';
+import { i18n } from '@osd/i18n';
 
 interface DeleteSenderModalProps extends ModalRootProps {
   senders: SenderItemType[];
@@ -37,17 +38,27 @@ export const DeleteSenderModal = (props: DeleteSenderModalProps) => {
   const [input, setInput] = useState('');
   const num = props.senders.length;
   const name = num >= 2 ? `${num} senders` : props.senders[0].name;
-  const message = `Delete ${
-    num >= 2 ? 'the following senders' : name
-  } permanently? Any channels using ${
-    num >= 2 ? 'these email senders' : 'this email sender'
-  } will not be able to send notifications.`;
+  const message = i18n.translate('notification.notificationChannels.deleteSendersSummary', {
+    defaultMessage:
+    `Delete ${
+      num >= 2 ? 'the following senders' : name
+    } permanently? Any channels using ${
+      num >= 2 ? 'these email senders' : 'this email sender'
+    } will not be able to send notifications.`,
+    values:{name: name}
+    });
 
   return (
     <EuiOverlayMask>
       <EuiModal onClose={props.onClose} maxWidth={500}>
         <EuiModalHeader>
-          <EuiModalHeaderTitle>{`Delete ${name}?`}</EuiModalHeaderTitle>
+          <EuiModalHeaderTitle>
+          {i18n.translate('notification.notificationChannels.deleteSenderTitle', {
+            defaultMessage:
+            `Delete ${name}?`,
+            values: {name:name}
+            })}
+            </EuiModalHeaderTitle>
         </EuiModalHeader>
         <EuiModalBody>
           <EuiText>{message}</EuiText>
@@ -66,7 +77,10 @@ export const DeleteSenderModal = (props: DeleteSenderModalProps) => {
           )}
           <EuiSpacer />
           <EuiText>
-            To confirm delete, type <i>delete</i> in the field.
+          {i18n.translate('notification.notificationChannels.deleteChannelConfirmation', {
+          defaultMessage:
+            'To confirm delete, type delete in the field.',
+          })}
           </EuiText>
           <EuiFieldText
             placeholder="delete"
@@ -77,7 +91,12 @@ export const DeleteSenderModal = (props: DeleteSenderModalProps) => {
         <EuiModalFooter>
           <EuiFlexGroup justifyContent="flexEnd">
             <EuiFlexItem grow={false}>
-              <EuiButtonEmpty onClick={props.onClose}>Cancel</EuiButtonEmpty>
+              <EuiButtonEmpty onClick={props.onClose}>
+              {i18n.translate('notification.notificationChannels.information.doCreateSenderCancel', {
+              defaultMessage:
+                'Cancel',
+              })}
+              </EuiButtonEmpty>
             </EuiFlexItem>
             <EuiFlexItem grow={false}>
               <EuiButton
@@ -91,25 +110,37 @@ export const DeleteSenderModal = (props: DeleteSenderModalProps) => {
                     )
                     .then((resp) => {
                       coreContext.notifications.toasts.addSuccess(
-                        `${
-                          props.senders.length > 1
-                            ? props.senders.length + ' senders'
-                            : 'Sender ' + props.senders[0].name
-                        } successfully deleted.`
+                        i18n.translate('notification.notificationChannels.deleteSenderToastSuccess', {
+                          defaultMessage:
+                          `${
+                            props.senders.length > 1
+                              ? props.senders.length + ' senders'
+                              : 'Sender ' + props.senders[0].name
+                          } successfully deleted.`,
+                          values:{name:props.senders[0].name}
+                          })
+                        
                       );
                       props.onClose();
                       setTimeout(() => props.refresh(), SERVER_DELAY);
                     })
                     .catch((error) => {
                       coreContext.notifications.toasts.addError(error?.body || error, {
-                        title: 'Failed to delete one or more senders.',
+                        title: i18n.translate('notification.notificationChannels.deleteSenderFailedErr', {
+                          defaultMessage:
+                          'Failed to delete one or more senders.',
+                          }),
                       });
                       props.onClose();
                     });
                 }}
                 disabled={input !== 'delete'}
               >
-                Delete
+                {i18n.translate('notification.notificationChannels.deleteToken', {
+                  defaultMessage:
+                    'Delete',
+                  })}
+                
               </EuiButton>
             </EuiFlexItem>
           </EuiFlexGroup>

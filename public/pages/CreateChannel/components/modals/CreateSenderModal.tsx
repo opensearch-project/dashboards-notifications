@@ -27,6 +27,8 @@ import {
   validateSenderName,
 } from '../../../Emails/utils/validationHelper';
 
+import { i18n } from '@osd/i18n';
+
 interface CreateSenderModalProps extends ModalRootProps {
   addSenderOptionAndSelect: (
     senderOption: EuiComboBoxOptionOption<string>
@@ -68,7 +70,14 @@ export function CreateSenderModal(props: CreateSenderModalProps) {
     <EuiOverlayMask>
       <EuiModal onClose={props.onClose} style={{ width: 750 }}>
         <EuiModalHeader>
-          <EuiModalHeaderTitle>Create SMTP sender</EuiModalHeaderTitle>
+          <EuiModalHeaderTitle>
+            
+          {i18n.translate('notification.notificationChannels.createSmtpSender', {
+    defaultMessage:
+      'Create SMTP sender',
+    })}
+
+          </EuiModalHeaderTitle>
         </EuiModalHeader>
 
         <EuiModalBody>
@@ -89,14 +98,23 @@ export function CreateSenderModal(props: CreateSenderModalProps) {
         </EuiModalBody>
 
         <EuiModalFooter>
-          <EuiButtonEmpty onClick={props.onClose}>Cancel</EuiButtonEmpty>
+          <EuiButtonEmpty onClick={props.onClose}>
+          {i18n.translate('notification.notificationChannels.information.doCreateSenderCancel', {
+    defaultMessage:
+      'Create',
+    })}
+
+          </EuiButtonEmpty>
           <EuiButton
             data-test-subj="create-sender-modal-create-button"
             fill
             onClick={async () => {
               if (!isInputValid()) {
                 coreContext.notifications.toasts.addDanger(
-                  'Some fields are invalid. Fix all highlighted error(s) before continuing.'
+                  i18n.translate('notification.notificationChannels.information.fieldInvalid', {
+                    defaultMessage:
+                    'Some fields are invalid. Fix all highlighted error(s) before continuing.',
+                    })
                 );
                 return;
               }
@@ -111,7 +129,10 @@ export function CreateSenderModal(props: CreateSenderModalProps) {
                 .createConfig(config)
                 .then((response) => {
                   coreContext.notifications.toasts.addSuccess(
-                    `Sender ${senderName} successfully created. You can select ${senderName} from the list of senders.`
+                    i18n.translate('notification.notificationChannels.information.senderCreated', {
+                      defaultMessage:
+                      `Sender ${senderName} successfully created. You can select ${senderName} from the list of senders.`,
+                      })
                   );
                   props.addSenderOptionAndSelect({
                     label: senderName,
@@ -121,12 +142,18 @@ export function CreateSenderModal(props: CreateSenderModalProps) {
                 })
                 .catch((error) => {
                   coreContext.notifications.toasts.addError(error?.body || error, {
-                    title: 'Failed to create sender.',
+                    title: i18n.translate('notification.notificationChannels.information.failedCreateSender', {
+                      defaultMessage:
+                      'Failed to create sender.',
+                      }),
                   });
                 });
             }}
           >
-            Create
+            {i18n.translate('notification.notificationChannels.information.doCreateSender', {
+    defaultMessage:
+      'Utwórz',
+    })}
           </EuiButton>
         </EuiModalFooter>
       </EuiModal>

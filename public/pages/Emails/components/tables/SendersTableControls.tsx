@@ -15,6 +15,7 @@ import {
 import _ from 'lodash';
 import React, { useState } from 'react';
 import { ENCRYPTION_TYPE } from '../../../../utils/constants';
+import { i18n } from '@osd/i18n';
 
 interface SendersTableControlsProps {
   onSearchChange: (search: string) => void;
@@ -68,7 +69,10 @@ export const SendersTableControls = (props: SendersTableControlsProps) => {
         <EuiFieldSearch
           data-test-subj="senders-table-search-input"
           fullWidth={true}
-          placeholder="Search"
+          placeholder={i18n.translate('notification.notificationChannels.searchPlaceholder', {
+            defaultMessage:
+            "Search",
+            })}
           onSearch={props.onSearchChange}
         />
       </EuiFlexItem>
@@ -85,9 +89,15 @@ export const SendersTableControls = (props: SendersTableControlsProps) => {
                 }
               >
                 {isItemSelected(encryptionItems) ? (
-                  <b>Encryption method</b>
+                  <b>{i18n.translate('notification.notificationChannels.params.senderEncryptionMethod', {
+                    defaultMessage:
+                      'Encryption method',
+                    })}</b>
                 ) : (
-                  'Encryption method'
+                  i18n.translate('notification.notificationChannels.params.senderEncryptionMethod', {
+                    defaultMessage:
+                    'Encryption method',
+                    })
                 )}
               </EuiFilterButton>
             }

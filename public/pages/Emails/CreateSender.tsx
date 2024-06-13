@@ -27,6 +27,7 @@ import {
   validatePort,
   validateSenderName,
 } from './utils/validationHelper';
+import { i18n } from '@osd/i18n';
 
 interface CreateSenderProps extends RouteComponentProps<{ id?: string }> {
   edit?: boolean;
@@ -99,13 +100,22 @@ export function CreateSender(props: CreateSenderProps) {
   return (
     <>
       <EuiTitle size="l">
-        <h1>{`${props.edit ? 'Edit' : 'Create'} SMTP sender`}</h1>
+        <h1>{`${props.edit ? i18n.translate('notification.notificationChannels.information.doEditSender', {
+    defaultMessage:
+    'Edit',
+    }) : i18n.translate('notification.notificationChannels.information.doCreateSender', {
+      defaultMessage:
+      'Create',
+      })} SMTP sender`}</h1>
       </EuiTitle>
 
       <EuiSpacer />
       <ContentPanel
         bodyStyles={{ padding: 'initial' }}
-        title="Configure sender"
+        title={i18n.translate('notification.notificationChannels.configureSender', {
+          defaultMessage:
+            'Configure sender',
+          })}
         titleSize="s"
         panelStyles={{ maxWidth: 1000 }}
       >
@@ -129,7 +139,10 @@ export function CreateSender(props: CreateSenderProps) {
       <EuiFlexGroup justifyContent="flexEnd" style={{ maxWidth: 1024 }}>
         <EuiFlexItem grow={false}>
           <EuiButtonEmpty href={`#${ROUTES.EMAIL_SENDERS}`}>
-            Cancel
+          {i18n.translate('notification.notificationChannels.information.doCreateSenderCancel', {
+              defaultMessage:
+                'Cancel',
+              })}
           </EuiButtonEmpty>
         </EuiFlexItem>
         <EuiFlexItem grow={false}>
@@ -139,7 +152,10 @@ export function CreateSender(props: CreateSenderProps) {
             onClick={async () => {
               if (!isInputValid()) {
                 coreContext.notifications.toasts.addDanger(
-                  'Some fields are invalid. Fix all highlighted error(s) before continuing.'
+                  i18n.translate('notification.notificationChannels.information.fieldInvalid', {
+                    defaultMessage:
+                    'Some fields are invalid. Fix all highlighted error(s) before continuing.',
+                    })
                 );
                 return;
               }
@@ -160,9 +176,15 @@ export function CreateSender(props: CreateSenderProps) {
               await request
                 .then((response) => {
                   coreContext.notifications.toasts.addSuccess(
-                    `Sender ${senderName} successfully ${
-                      props.edit ? 'updated' : 'created'
-                    }.`
+                    i18n.translate('notification.notificationChannels.information.senderUpdatedCreatedInfo', {
+                      defaultMessage:
+                      `Sender ${senderName} successfully ${
+                        props.edit ? 'updated' : 'created'
+                      }.`,
+                      })
+
+
+
                   );
                   setTimeout(
                     () => location.hash = `#${ROUTES.EMAIL_SENDERS}`,
@@ -172,14 +194,23 @@ export function CreateSender(props: CreateSenderProps) {
                 .catch((error) => {
                   setLoading(false);
                   coreContext.notifications.toasts.addError(error?.body || error, {
-                    title: `Failed to ${
-                      props.edit ? 'update' : 'create'
-                    } sender.`,
+                    title: i18n.translate('notification.notificationChannels.information.senderUpdatedCreatedInfoError', {
+                      defaultMessage:
+                      `Failed to ${
+                        props.edit ? 'update' : 'create'
+                      } sender.`,
+                      }),
                   });
                 });
             }}
           >
-            {props.edit ? 'Save' : 'Create'}
+            {props.edit ? i18n.translate('notification.notificationChannels.information.doSaveSender', {
+    defaultMessage:
+    'Save',
+    }) : i18n.translate('notification.notificationChannels.information.doCreateSender', {
+      defaultMessage:
+      'Create',
+      })}
           </EuiButton>
         </EuiFlexItem>
       </EuiFlexGroup>

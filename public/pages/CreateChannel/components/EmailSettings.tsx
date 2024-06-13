@@ -30,6 +30,7 @@ import {
 import { CreateRecipientGroupModal } from './modals/CreateRecipientGroupModal';
 import { CreateSenderModal } from './modals/CreateSenderModal';
 import { CreateSESSenderModal } from './modals/CreateSESSenderModal';
+import { i18n } from '@osd/i18n';
 
 interface EmailSettingsProps {
   senderType: SenderType;
@@ -134,16 +135,25 @@ export function EmailSettings(props: EmailSettingsProps) {
   return (
     <>
       {smtpAvailable && (
-        <EuiFormRow label="Sender type">
+        <EuiFormRow label={i18n.translate('notification.notificationChannels.newChannelName', {
+          defaultMessage:
+          "Sender type",
+          })}>
           <EuiRadioGroup
             options={[
               {
                 id: 'smtp_account',
-                label: 'SMTP sender',
+                label: i18n.translate('notification.notificationChannels.senderSmtpType', {
+                  defaultMessage:
+                  'SMTP sender',
+                  }),
               },
               {
                 id: 'ses_account',
-                label: 'SES sender',
+                label: i18n.translate('notification.notificationChannels.senderSesType', {
+                  defaultMessage:
+                  'SES sender',
+                  }),
               },
             ]}
             idSelected={props.senderType}
@@ -158,13 +168,19 @@ export function EmailSettings(props: EmailSettingsProps) {
           <EuiFlexGroup>
             <EuiFlexItem style={{ maxWidth: 400 }}>
               <EuiFormRow
-                label="SES sender"
+                label={i18n.translate('notification.notificationChannels.senderSesType', {
+                  defaultMessage:
+                  "SES sender",
+                  })}
                 helpText={`A destination only allows one SES sender. Use "Create SES sender" to create a sender with its email address, IAM role, AWS region.`}
                 error={context.inputErrors.sesSender.join(' ')}
                 isInvalid={context.inputErrors.sesSender.length > 0}
               >
                 <EuiComboBox
-                  placeholder="Sender name"
+                  placeholder={i18n.translate('notification.notificationChannels.notificationName', {
+                    defaultMessage:
+                    "Sender name",
+                    })}
                   fullWidth
                   singleSelection
                   options={sesSenderOptions}
@@ -206,7 +222,10 @@ export function EmailSettings(props: EmailSettingsProps) {
                         })
                       }
                     >
-                      Create SES sender
+                      {i18n.translate('notification.notificationChannels.createSesSender', {
+                      defaultMessage:
+                        'Create SES sender',
+                      })}
                     </EuiButton>
                   )}
                 </ModalConsumer>
@@ -220,13 +239,22 @@ export function EmailSettings(props: EmailSettingsProps) {
           <EuiFlexGroup>
             <EuiFlexItem style={{ maxWidth: 400 }}>
               <EuiFormRow
-                label="SMTP sender"
-                helpText={`A destination only allows one SMTP sender. Use "Create SMTP sender" to create a sender with its email address, host, port, encryption method.`}
+                label={i18n.translate('notification.notificationChannels.senderSmtpType', {
+                  defaultMessage:
+                  "SMTP sender",
+                  })}
+                helpText={i18n.translate('notification.notificationChannels.smtpHelpText', {
+                  defaultMessage:
+                    'A destination only allows one SMTP sender. Use "Create SMTP sender" to create a sender with its email address, host, port, encryption method.',
+                  })}
                 error={context.inputErrors.smtpSender.join(' ')}
                 isInvalid={context.inputErrors.smtpSender.length > 0}
               >
                 <EuiComboBox
-                  placeholder="Sender name"
+                  placeholder={i18n.translate('notification.notificationChannels.notificationName', {
+                    defaultMessage:
+                    "Sender name",
+                    })}
                   fullWidth
                   singleSelection
                   options={smtpSenderOptions}
@@ -268,7 +296,10 @@ export function EmailSettings(props: EmailSettingsProps) {
                         })
                       }
                     >
-                      Create SMTP sender
+                      {i18n.translate('notification.notificationChannels.createSmtpSender', {
+                      defaultMessage:
+                        'Create SMTP sender',
+                      })}
                     </EuiButton>
                   )}
                 </ModalConsumer>
@@ -281,13 +312,22 @@ export function EmailSettings(props: EmailSettingsProps) {
       <EuiFlexGroup>
         <EuiFlexItem style={{ maxWidth: 400 }}>
           <EuiFormRow
-            label="Default recipients"
-            helpText={`Add recipient(s) using an email address or pre-created email group. Use "Create email group" to create an email group.`}
+            label={i18n.translate('notification.notificationChannels.defaultEmailRecipients', {
+              defaultMessage:
+              "Default recipients",
+              })}
+            helpText={i18n.translate('notification.notificationChannels.defaultEmailRecipientsDesc', {
+              defaultMessage:
+                'Add recipient(s) using an email address or pre-created email group. Use "Create email group" to create an email group.',
+              })}
             error={context.inputErrors.recipients.join(' ')}
             isInvalid={context.inputErrors.recipients.length > 0}
           >
             <EuiComboBox
-              placeholder="Email address, recipient group name"
+              placeholder={i18n.translate('notification.notificationChannels.defaultEmailRecipientsPlaceholder', {
+                defaultMessage:
+                "Email address, recipient group name",
+                })}
               fullWidth
               options={recipientGroupOptions}
               selectedOptions={props.selectedRecipientGroupOptions}
@@ -307,7 +347,11 @@ export function EmailSettings(props: EmailSettingsProps) {
                     })
                 )
               }
-              customOptionText={'Add {searchValue} as a default recipient'}
+              customOptionText={i18n.translate('notification.notificationChannels.addDefaultRecipient', {
+                defaultMessage:
+                  `Add {searchValue} as a default recipient`,
+                  values:{searchValue:`{searchValue}`}
+                })}
               isClearable={true}
               isInvalid={context.inputErrors.recipients.length > 0}
               onBlur={() => {
@@ -347,7 +391,10 @@ export function EmailSettings(props: EmailSettingsProps) {
                     })
                   }
                 >
-                  Create recipient group
+                  {i18n.translate('notification.notificationChannels.createRecipientGroup', {
+                    defaultMessage:
+                      `Create recipient group`,
+                    })}
                 </EuiButton>
               )}
             </ModalConsumer>

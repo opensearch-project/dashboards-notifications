@@ -31,6 +31,7 @@ import { MuteChannelModal } from '../modals/MuteChannelModal';
 import { ChannelDetailItems } from './ChannelDetailItems';
 import { ChannelDetailsActions } from './ChannelDetailsActions';
 import { ChannelSettingsDetails } from './ChannelSettingsDetails';
+import { i18n } from '@osd/i18n';
 
 interface ChannelDetailsProps extends RouteComponentProps<{ id: string }> {}
 
@@ -59,7 +60,10 @@ export function ChannelDetails(props: ChannelDetailsProps) {
           );
           if (channel.email?.invalid_ids?.length) {
             coreContext.notifications.toasts.addDanger(
-              'The sender and/or some recipient groups might have been deleted.'
+              i18n.translate('notification.notificationChannels.recipientsMayBeDeleted', {
+                defaultMessage:
+                'The sender and/or some recipient groups might have been deleted.',
+                })
             );
           }
           return channel;
@@ -80,7 +84,10 @@ export function ChannelDetails(props: ChannelDetailsProps) {
       .catch((error) => {
         const newToast: Toast = {
           id: 'channel-not-found-toast',
-          title: 'Channel not found',
+          title: i18n.translate('notification.notificationChannels.channelNotFound', {
+            defaultMessage:
+            'Channel not found',
+            }),
           color: 'danger',
           iconType: 'alert',
           text: (
@@ -94,12 +101,19 @@ export function ChannelDetails(props: ChannelDetailsProps) {
                   marginBottom: 20,
                 }}
               >
-                The channel might have been deleted.
+                {i18n.translate('notification.notificationChannels.channelMayBeDeleted', {
+                defaultMessage:
+                  'The channel might have been deleted.',
+                })}
               </EuiText>
               <EuiFlexGroup justifyContent="flexEnd">
                 <EuiFlexItem grow={false}>
                   <EuiButton size="s" href={`#${ROUTES.NOTIFICATIONS}`}>
-                    View Notifications dashboard
+                  {i18n.translate('notification.notificationChannels.viewNotificationDashboard', {
+                  defaultMessage:
+                    'View Notifications dashboard',
+                  })}
+                    
                   </EuiButton>
                 </EuiFlexItem>
               </EuiFlexGroup>
@@ -112,15 +126,24 @@ export function ChannelDetails(props: ChannelDetailsProps) {
 
   const nameList: Array<ListItemType> = [
     {
-      title: 'Channel name',
+      title: i18n.translate('notification.notificationChannels.channelNameTitle', {
+        defaultMessage:
+        'Channel name',
+        }),
       description: channel?.name || '-',
     },
     {
-      title: 'Description',
+      title: i18n.translate('notification.notificationChannels.channelNameDesc', {
+        defaultMessage:
+        'Description',
+        }),
       description: channel?.description || '-',
     },
     {
-      title: 'Last updated',
+      title: i18n.translate('notification.notificationChannels.channelLastUpdated', {
+        defaultMessage:
+        'Last updated',
+        }),
       description: renderTime(channel?.last_updated_time_ms || NaN),
     },
   ];
@@ -149,9 +172,19 @@ export function ChannelDetails(props: ChannelDetailsProps) {
             </EuiFlexItem>
             <EuiFlexItem grow={false} style={{ paddingBottom: 5 }}>
               {channel?.is_enabled === undefined ? null : channel.is_enabled ? (
-                <EuiHealth color="success">Active</EuiHealth>
+                <EuiHealth color="success">
+                  {i18n.translate('notification.notificationChannels.channelsStatusActive', {
+                  defaultMessage:
+                    'Active',
+                  })}
+    </EuiHealth>
               ) : (
-                <EuiHealth color="subdued">Muted</EuiHealth>
+                <EuiHealth color="subdued">
+                  {i18n.translate('notification.notificationChannels.channelMuted', {
+                    defaultMessage:
+                      'Muted',
+                    })}
+                  </EuiHealth>
               )}
             </EuiFlexItem>
           </EuiFlexGroup>
@@ -181,14 +214,25 @@ export function ChannelDetails(props: ChannelDetailsProps) {
                         .updateConfig(channel.config_id, newChannel)
                         .then((resp) => {
                           coreContext.notifications.toasts.addSuccess(
-                            `Channel ${channel.name} successfully unmuted.`
+                            i18n.translate('notification.notificationChannels.channelUnmuted', {
+                              defaultMessage:
+                              `Channel ${channel.name} successfully unmuted.`,
+                              values:{name:channel.name}
+                              })
+                            
                           );
                           setChannel(newChannel);
                         });
                     }
                   }}
                 >
-                  {channel?.is_enabled ? 'Mute channel' : 'Unmute channel'}
+                  {channel?.is_enabled ? i18n.translate('notification.notificationChannels.actionMuteChannel', {
+                    defaultMessage:
+                    'Mute channel',
+                    }) : i18n.translate('notification.notificationChannels.actionUnmuteChannel', {
+                      defaultMessage:
+                      'Unmute channel',
+                      })}
                 </EuiButton>
               )}
             </ModalConsumer>
@@ -199,7 +243,10 @@ export function ChannelDetails(props: ChannelDetailsProps) {
       <EuiSpacer />
       <ContentPanel
         bodyStyles={{ padding: 'initial' }}
-        title="Name and description"
+        title={i18n.translate('notification.notificationChannels.channelNameAndDescription', {
+          defaultMessage:
+          "Name and description",
+          })}
         titleSize="s"
         panelStyles={{ maxWidth: 1300 }}
       >
@@ -210,7 +257,10 @@ export function ChannelDetails(props: ChannelDetailsProps) {
 
       <ContentPanel
         bodyStyles={{ padding: 'initial' }}
-        title="Configurations"
+        title={i18n.translate('notification.notificationChannels.configurationsSummary', {
+          defaultMessage:
+          "Configurations",
+          })}
         titleSize="s"
         panelStyles={{ maxWidth: 1300 }}
       >

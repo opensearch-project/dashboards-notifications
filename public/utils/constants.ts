@@ -2,6 +2,7 @@
  * Copyright OpenSearch Contributors
  * SPDX-License-Identifier: Apache-2.0
  */
+import { i18n } from '@osd/i18n';
 
 export const DOCUMENTATION_LINK = '';
 export const ALERTING_DOCUMENTATION_LINK =
@@ -24,28 +25,69 @@ export const ROUTES = Object.freeze({
 });
 
 export const BREADCRUMBS = Object.freeze({
-  NOTIFICATIONS: { text: 'Notifications', href: '#/' },
-  CHANNELS: { text: 'Channels', href: `#${ROUTES.CHANNELS}` },
-  CHANNEL_DETAILS: { text: 'Channels', href: `#${ROUTES.CHANNEL_DETAILS}` },
-  CREATE_CHANNEL: { text: 'Create channel', href: `#${ROUTES.CREATE_CHANNEL}` },
-  EDIT_CHANNEL: { text: 'Edit channel' },
-  EMAIL_SENDERS: { text: 'Email senders', href: `#${ROUTES.EMAIL_SENDERS}` },
-  EMAIL_GROUPS: { text: 'Email recipient groups', href: `#${ROUTES.EMAIL_GROUPS}` },
+  NOTIFICATIONS: { text: i18n.translate('notification.notificationCore.BreadcrumpTitle', {
+    defaultMessage:
+    'Notifications',
+    }), href: '#/' },
+
+  CHANNELS: { text: i18n.translate('notification.notificationChannels.Title', {
+    defaultMessage:
+      'Channels',
+    }), href: `#${ROUTES.CHANNELS}` },
+  CHANNEL_DETAILS: { text: i18n.translate('notification.notificationChannels.Details', {
+    defaultMessage:
+      'Channels',
+  }), href: `#${ROUTES.CHANNEL_DETAILS}` },
+  CREATE_CHANNEL: { text: i18n.translate('notification.notificationChannels.newChannel', {
+    defaultMessage:
+      'New channel',
+    }), href: `#${ROUTES.CREATE_CHANNEL}` },
+  EDIT_CHANNEL: { text: i18n.translate('notification.notificationChannels.editChannel', {
+    defaultMessage:
+      'Edit channel',
+    }) },
+  EMAIL_SENDERS: { text: i18n.translate('notification.notificationChannels.emailSenders', {
+    defaultMessage:
+      'Email senders',
+    }), href: `#${ROUTES.EMAIL_SENDERS}` },
+  EMAIL_GROUPS: { text: i18n.translate('notification.notificationChannels.emailRecipientsGroupsList', {
+    defaultMessage:
+    'Email recipient groups',
+    }), href: `#${ROUTES.EMAIL_GROUPS}` },
+
   CREATE_SENDER: {
-    text: 'Create SMTP sender',
+    text: i18n.translate('notification.notificationChannels.createSmtpSender', {
+      defaultMessage:
+      'Create SMTP sender',
+      }),
     href: `#${ROUTES.CREATE_SENDER}`,
   },
-  EDIT_SENDER: { text: 'Edit SMTP sender' },
+  EDIT_SENDER: { text: i18n.translate('notification.notificationChannels.editSmtpSender', {
+    defaultMessage:
+      'Edit SMTP sender',
+    }) },
   CREATE_SES_SENDER: {
-    text: 'Create SES sender',
+    text: i18n.translate('notification.notificationChannels.createSesSender', {
+      defaultMessage:
+        'Create SES sender',
+      }),
     href: `#${ROUTES.CREATE_SENDER}`,
   },
-  EDIT_SES_SENDER: { text: 'Edit SES sender' },
+  EDIT_SES_SENDER: { text: i18n.translate('notification.notificationChannels.editSesSender', {
+    defaultMessage:
+    'Edit SES sender' ,
+    })},
   CREATE_RECIPIENT_GROUP: {
-    text: 'Create recipient group',
+    text: i18n.translate('notification.notificationChannels.createRecipientGroup', {
+      defaultMessage:
+      'Create recipient group',
+      }),
     href: `#${ROUTES.CREATE_RECIPIENT_GROUP}`,
   },
-  EDIT_RECIPIENT_GROUP: { text: 'Edit recipient group' },
+  EDIT_RECIPIENT_GROUP: { text: i18n.translate('notification.notificationChannels.editRecipientGroup', {
+    defaultMessage:
+    'Edit recipient group',
+    }) },
 });
 
 export const ENCRYPTION_TYPE = Object.freeze({
@@ -63,5 +105,8 @@ export const SEVERITY_TYPE = Object.freeze({
 
 export const CUSTOM_WEBHOOK_ENDPOINT_TYPE = Object.freeze({
   WEBHOOK_URL: 'Webhook URL',
-  CUSTOM_URL: 'Custom attributes URL',
+  CUSTOM_URL: i18n.translate('notification.notificationChannels.CustomWebhookUrl', {
+    defaultMessage:
+      'Custom Webhook URL',
+    }),
 });
