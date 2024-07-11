@@ -8,7 +8,7 @@ import {
   EuiFieldText,
   EuiFlexGroup,
   EuiFlexItem,
-  EuiFormRow,
+  EuiCompressedFormRow,
   EuiLink,
   EuiSpacer,
   EuiSuperSelect,
@@ -51,7 +51,7 @@ export function CreateSenderForm(props: CreateSenderFormProps) {
 
   return (
     <>
-      <EuiFormRow
+      <EuiCompressedFormRow
         label="Sender name"
         style={{ maxWidth: '650px' }}
         helpText="Use a unique, descriptive name. The sender name must contain from 2 to 50 characters. Valid characters are lowercase a-z, 0-9, - (hyphen) and _ (underscore)."
@@ -72,12 +72,12 @@ export function CreateSenderForm(props: CreateSenderFormProps) {
             });
           }}
         />
-      </EuiFormRow>
+      </EuiCompressedFormRow>
 
       <EuiSpacer size="m" />
       <EuiFlexGroup gutterSize="s" style={{ maxWidth: '658px' }}>
         <EuiFlexItem grow={4}>
-          <EuiFormRow
+          <EuiCompressedFormRow
             label="Email address"
             error={props.inputErrors.email.join(' ')}
             isInvalid={props.inputErrors.email.length > 0}
@@ -95,10 +95,10 @@ export function CreateSenderForm(props: CreateSenderFormProps) {
                 });
               }}
             />
-          </EuiFormRow>
+          </EuiCompressedFormRow>
         </EuiFlexItem>
         <EuiFlexItem grow={4}>
-          <EuiFormRow
+          <EuiCompressedFormRow
             label="Host"
             error={props.inputErrors.host.join(' ')}
             isInvalid={props.inputErrors.host.length > 0}
@@ -116,10 +116,10 @@ export function CreateSenderForm(props: CreateSenderFormProps) {
                 });
               }}
             />
-          </EuiFormRow>
+          </EuiCompressedFormRow>
         </EuiFlexItem>
         <EuiFlexItem grow={2}>
-          <EuiFormRow
+          <EuiCompressedFormRow
             label="Port"
             error={props.inputErrors.port.join(' ')}
             isInvalid={props.inputErrors.port.length > 0}
@@ -137,12 +137,12 @@ export function CreateSenderForm(props: CreateSenderFormProps) {
                 });
               }}
             />
-          </EuiFormRow>
+          </EuiCompressedFormRow>
         </EuiFlexItem>
       </EuiFlexGroup>
 
       <EuiSpacer size="m" />
-      <EuiFormRow
+      <EuiCompressedFormRow
         label="Encryption method"
         style={{ maxWidth: '650px' }}
         helpText={
@@ -167,7 +167,7 @@ export function CreateSenderForm(props: CreateSenderFormProps) {
           valueOfSelected={props.encryption}
           onChange={props.setEncryption}
         />
-      </EuiFormRow>
+      </EuiCompressedFormRow>
 
       <EuiSpacer size="m" />
     </>

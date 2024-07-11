@@ -9,7 +9,7 @@ import {
   EuiComboBoxOptionOption,
   EuiFlexGroup,
   EuiFlexItem,
-  EuiFormRow,
+  EuiCompressedFormRow,
   EuiRadioGroup,
   EuiSpacer,
   SortDirection,
@@ -134,7 +134,7 @@ export function EmailSettings(props: EmailSettingsProps) {
   return (
     <>
       {smtpAvailable && (
-        <EuiFormRow label="Sender type">
+        <EuiCompressedFormRow label="Sender type">
           <EuiRadioGroup
             options={[
               {
@@ -150,14 +150,14 @@ export function EmailSettings(props: EmailSettingsProps) {
             onChange={(id) => props.setSenderType(id as SenderType)}
             name="sender type radio group"
           />
-        </EuiFormRow>
+        </EuiCompressedFormRow>
       )}
       {props.senderType === 'ses_account' ? (
         <>
           <EuiSpacer size="m" />
           <EuiFlexGroup>
             <EuiFlexItem style={{ maxWidth: 400 }}>
-              <EuiFormRow
+              <EuiCompressedFormRow
                 label="SES sender"
                 helpText={`A destination only allows one SES sender. Use "Create SES sender" to create a sender with its email address, IAM role, AWS region.`}
                 error={context.inputErrors.sesSender.join(' ')}
@@ -181,10 +181,10 @@ export function EmailSettings(props: EmailSettingsProps) {
                     });
                   }}
                 />
-              </EuiFormRow>
+              </EuiCompressedFormRow>
             </EuiFlexItem>
             <EuiFlexItem grow={false}>
-              <EuiFormRow hasEmptyLabelSpace>
+              <EuiCompressedFormRow hasEmptyLabelSpace>
                 <ModalConsumer>
                   {({ onShow }) => (
                     <EuiSmallButton
@@ -210,7 +210,7 @@ export function EmailSettings(props: EmailSettingsProps) {
                     </EuiSmallButton>
                   )}
                 </ModalConsumer>
-              </EuiFormRow>
+              </EuiCompressedFormRow>
             </EuiFlexItem>
           </EuiFlexGroup>
         </>
@@ -219,7 +219,7 @@ export function EmailSettings(props: EmailSettingsProps) {
           <EuiSpacer size="m" />
           <EuiFlexGroup>
             <EuiFlexItem style={{ maxWidth: 400 }}>
-              <EuiFormRow
+              <EuiCompressedFormRow
                 label="SMTP sender"
                 helpText={`A destination only allows one SMTP sender. Use "Create SMTP sender" to create a sender with its email address, host, port, encryption method.`}
                 error={context.inputErrors.smtpSender.join(' ')}
@@ -243,10 +243,10 @@ export function EmailSettings(props: EmailSettingsProps) {
                     });
                   }}
                 />
-              </EuiFormRow>
+              </EuiCompressedFormRow>
             </EuiFlexItem>
             <EuiFlexItem grow={false}>
-              <EuiFormRow hasEmptyLabelSpace>
+              <EuiCompressedFormRow hasEmptyLabelSpace>
                 <ModalConsumer>
                   {({ onShow }) => (
                     <EuiSmallButton
@@ -272,7 +272,7 @@ export function EmailSettings(props: EmailSettingsProps) {
                     </EuiSmallButton>
                   )}
                 </ModalConsumer>
-              </EuiFormRow>
+              </EuiCompressedFormRow>
             </EuiFlexItem>
           </EuiFlexGroup>
         </>
@@ -280,7 +280,7 @@ export function EmailSettings(props: EmailSettingsProps) {
 
       <EuiFlexGroup>
         <EuiFlexItem style={{ maxWidth: 400 }}>
-          <EuiFormRow
+          <EuiCompressedFormRow
             label="Default recipients"
             helpText={`Add recipient(s) using an email address or pre-created email group. Use "Create email group" to create an email group.`}
             error={context.inputErrors.recipients.join(' ')}
@@ -319,10 +319,10 @@ export function EmailSettings(props: EmailSettingsProps) {
                 });
               }}
             />
-          </EuiFormRow>
+          </EuiCompressedFormRow>
         </EuiFlexItem>
         <EuiFlexItem grow={false}>
-          <EuiFormRow hasEmptyLabelSpace>
+          <EuiCompressedFormRow hasEmptyLabelSpace>
             <ModalConsumer>
               {({ onShow }) => (
                 <EuiSmallButton
@@ -351,7 +351,7 @@ export function EmailSettings(props: EmailSettingsProps) {
                 </EuiSmallButton>
               )}
             </ModalConsumer>
-          </EuiFormRow>
+          </EuiCompressedFormRow>
         </EuiFlexItem>
       </EuiFlexGroup>
     </>

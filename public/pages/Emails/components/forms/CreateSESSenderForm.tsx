@@ -7,7 +7,7 @@ import {
   EuiFieldText,
   EuiFlexGroup,
   EuiFlexItem,
-  EuiFormRow,
+  EuiCompressedFormRow,
   EuiSpacer,
 } from '@elastic/eui';
 import React, { useContext } from 'react';
@@ -36,7 +36,7 @@ export function CreateSESSenderForm(props: CreateSESSenderFormProps) {
   const mainStateContext = useContext(MainContext)!;
   return (
     <>
-      <EuiFormRow
+      <EuiCompressedFormRow
         label="Sender name"
         style={{ maxWidth: '650px' }}
         helpText="Use a unique, descriptive name. The sender name must contain from 2 to 50 characters. Valid characters are lowercase a-z, 0-9, - (hyphen) and _ (underscore)."
@@ -57,10 +57,10 @@ export function CreateSESSenderForm(props: CreateSESSenderFormProps) {
             });
           }}
         />
-      </EuiFormRow>
+      </EuiCompressedFormRow>
 
       <EuiSpacer size="m" />
-      <EuiFormRow
+      <EuiCompressedFormRow
         label="Email address"
         style={{ maxWidth: '650px' }}
         error={props.inputErrors.email.join(' ')}
@@ -80,12 +80,12 @@ export function CreateSESSenderForm(props: CreateSESSenderFormProps) {
             });
           }}
         />
-      </EuiFormRow>
+      </EuiCompressedFormRow>
 
       <EuiSpacer size="m" />
       <EuiFlexGroup gutterSize="s" style={{ maxWidth: '658px' }}>
         <EuiFlexItem grow={6}>
-          <EuiFormRow
+          <EuiCompressedFormRow
             label={
               mainStateContext.tooltipSupport ? (
                 <span>
@@ -114,10 +114,10 @@ export function CreateSESSenderForm(props: CreateSESSenderFormProps) {
                 }
               }}
             />
-          </EuiFormRow>
+          </EuiCompressedFormRow>
         </EuiFlexItem>
         <EuiFlexItem grow={4}>
-          <EuiFormRow
+          <EuiCompressedFormRow
             label="AWS region"
             error={props.inputErrors.awsRegion.join(' ')}
             isInvalid={props.inputErrors.awsRegion.length > 0}
@@ -135,7 +135,7 @@ export function CreateSESSenderForm(props: CreateSESSenderFormProps) {
                 });
               }}
             />
-          </EuiFormRow>
+          </EuiCompressedFormRow>
         </EuiFlexItem>
       </EuiFlexGroup>
 

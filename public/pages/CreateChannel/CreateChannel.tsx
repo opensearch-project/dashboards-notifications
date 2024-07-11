@@ -9,7 +9,7 @@ import {
   EuiComboBoxOptionOption,
   EuiFlexGroup,
   EuiFlexItem,
-  EuiFormRow,
+  EuiCompressedFormRow,
   EuiSpacer,
   EuiSuperSelect,
   EuiSuperSelectOption,
@@ -383,7 +383,7 @@ export function CreateChannel(props: CreateChannelsProps) {
           title="Configurations"
           titleSize="s"
         >
-          <EuiFormRow label="Channel type">
+          <EuiCompressedFormRow label="Channel type">
             {props.edit ? (
               <EuiText size="s">{CHANNEL_TYPE[channelType]}</EuiText>
             ) : (
@@ -399,7 +399,7 @@ export function CreateChannel(props: CreateChannelsProps) {
                 />
               </>
             )}
-          </EuiFormRow>
+          </EuiCompressedFormRow>
           {channelType === BACKEND_CHANNEL_TYPE.SLACK ? (
             <SlackSettings
               slackWebhook={slackWebhook}
