@@ -4,7 +4,7 @@
  */
 
 import {
-  EuiComboBox,
+  EuiCompressedComboBox,
   EuiComboBoxOptionOption,
   EuiCompressedFieldText,
   EuiCompressedFormRow,
@@ -95,7 +95,7 @@ export function CreateRecipientGroupForm(props: CreateRecipientGroupFormProps) {
           <EuiText size="xs" color="subdued">
             Select or type in one or more email addresses.
           </EuiText>
-          <EuiComboBox
+          <EuiCompressedComboBox
             placeholder="Email addresses"
             data-test-subj="create-recipient-group-form-emails-input"
             fullWidth
