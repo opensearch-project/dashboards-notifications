@@ -6,7 +6,7 @@
 import { SERVER_DELAY } from '../../../../../common';
 import {
   EuiSmallButton,
-  EuiButtonEmpty,
+  EuiSmallButtonEmpty,
   EuiFieldText,
   EuiFlexGroup,
   EuiFlexItem,
@@ -80,7 +80,7 @@ export const DeleteRecipientGroupModal = (
         <EuiModalFooter>
           <EuiFlexGroup justifyContent="flexEnd">
             <EuiFlexItem grow={false}>
-              <EuiButtonEmpty onClick={props.onClose}>Cancel</EuiButtonEmpty>
+              <EuiSmallButtonEmpty onClick={props.onClose}>Cancel</EuiSmallButtonEmpty>
             </EuiFlexItem>
             <EuiFlexItem grow={false}>
               <EuiSmallButton

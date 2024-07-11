@@ -5,7 +5,7 @@
 
 import {
   EuiSmallButton,
-  EuiButtonEmpty,
+  EuiSmallButtonEmpty,
   EuiFieldText,
   EuiFlexGroup,
   EuiFlexItem,
@@ -77,7 +77,7 @@ export const DeleteSenderModal = (props: DeleteSenderModalProps) => {
         <EuiModalFooter>
           <EuiFlexGroup justifyContent="flexEnd">
             <EuiFlexItem grow={false}>
-              <EuiButtonEmpty onClick={props.onClose}>Cancel</EuiButtonEmpty>
+              <EuiSmallButtonEmpty onClick={props.onClose}>Cancel</EuiSmallButtonEmpty>
             </EuiFlexItem>
             <EuiFlexItem grow={false}>
               <EuiSmallButton
