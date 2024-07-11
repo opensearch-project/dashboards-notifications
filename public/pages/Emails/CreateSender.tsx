@@ -5,7 +5,7 @@
 
 import {
   EuiSmallButton,
-  EuiButtonEmpty,
+  EuiSmallButtonEmpty,
   EuiFlexGroup,
   EuiFlexItem,
   EuiSpacer,
@@ -128,9 +128,9 @@ export function CreateSender(props: CreateSenderProps) {
       <EuiSpacer />
       <EuiFlexGroup justifyContent="flexEnd" style={{ maxWidth: 1024 }}>
         <EuiFlexItem grow={false}>
-          <EuiButtonEmpty href={`#${ROUTES.EMAIL_SENDERS}`}>
+          <EuiSmallButtonEmpty href={`#${ROUTES.EMAIL_SENDERS}`}>
             Cancel
-          </EuiButtonEmpty>
+          </EuiSmallButtonEmpty>
         </EuiFlexItem>
         <EuiFlexItem grow={false}>
           <EuiSmallButton

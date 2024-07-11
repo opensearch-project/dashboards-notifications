@@ -5,7 +5,7 @@
 
 import {
   EuiSmallButton,
-  EuiButtonEmpty,
+  EuiSmallButtonEmpty,
   EuiComboBoxOptionOption,
   EuiFlexGroup,
   EuiFlexItem,
@@ -462,7 +462,7 @@ export function CreateChannel(props: CreateChannelsProps) {
         <EuiSpacer />
         <EuiFlexGroup gutterSize="m" justifyContent="flexEnd">
           <EuiFlexItem grow={false}>
-            <EuiButtonEmpty href={prevURL}>Cancel</EuiButtonEmpty>
+            <EuiSmallButtonEmpty href={prevURL}>Cancel</EuiSmallButtonEmpty>
           </EuiFlexItem>
           <EuiFlexItem grow={false}>
             <EuiSmallButton
