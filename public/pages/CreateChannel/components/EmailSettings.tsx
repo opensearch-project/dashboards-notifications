@@ -5,7 +5,7 @@
 
 import {
   EuiSmallButton,
-  EuiComboBox,
+  EuiCompressedComboBox,
   EuiComboBoxOptionOption,
   EuiFlexGroup,
   EuiFlexItem,
@@ -163,7 +163,7 @@ export function EmailSettings(props: EmailSettingsProps) {
                 error={context.inputErrors.sesSender.join(' ')}
                 isInvalid={context.inputErrors.sesSender.length > 0}
               >
-                <EuiComboBox
+                <EuiCompressedComboBox
                   placeholder="Sender name"
                   fullWidth
                   singleSelection
@@ -225,7 +225,7 @@ export function EmailSettings(props: EmailSettingsProps) {
                 error={context.inputErrors.smtpSender.join(' ')}
                 isInvalid={context.inputErrors.smtpSender.length > 0}
               >
-                <EuiComboBox
+                <EuiCompressedComboBox
                   placeholder="Sender name"
                   fullWidth
                   singleSelection
@@ -286,7 +286,7 @@ export function EmailSettings(props: EmailSettingsProps) {
             error={context.inputErrors.recipients.join(' ')}
             isInvalid={context.inputErrors.recipients.length > 0}
           >
-            <EuiComboBox
+            <EuiCompressedComboBox
               placeholder="Email address, recipient group name"
               fullWidth
               options={recipientGroupOptions}
