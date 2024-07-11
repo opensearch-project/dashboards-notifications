@@ -7,7 +7,7 @@ import { SERVER_DELAY } from '../../../../../common';
 import {
   EuiSmallButton,
   EuiSmallButtonEmpty,
-  EuiFieldText,
+  EuiCompressedFieldText,
   EuiFlexGroup,
   EuiFlexItem,
   EuiModal,
@@ -71,7 +71,7 @@ export const DeleteRecipientGroupModal = (
           <EuiText>
             To confirm delete, type <i>delete</i> in the field.
           </EuiText>
-          <EuiFieldText
+          <EuiCompressedFieldText
             placeholder="delete"
             value={input}
             onChange={(e) => setInput(e.target.value)}

@@ -4,7 +4,7 @@
  */
 
 import {
-  EuiFieldText,
+  EuiCompressedFieldText,
   EuiFlexGroup,
   EuiFlexItem,
   EuiCompressedFormRow,
@@ -43,7 +43,7 @@ export function CreateSESSenderForm(props: CreateSESSenderFormProps) {
         error={props.inputErrors.senderName.join(' ')}
         isInvalid={props.inputErrors.senderName.length > 0}
       >
-        <EuiFieldText
+        <EuiCompressedFieldText
           fullWidth
           placeholder="Enter sender name"
           data-test-subj="create-ses-sender-form-name-input"
@@ -66,7 +66,7 @@ export function CreateSESSenderForm(props: CreateSESSenderFormProps) {
         error={props.inputErrors.email.join(' ')}
         isInvalid={props.inputErrors.email.length > 0}
       >
-        <EuiFieldText
+        <EuiCompressedFieldText
           fullWidth
           placeholder="name@example.com"
           data-test-subj="create-ses-sender-form-email-input"
@@ -99,7 +99,7 @@ export function CreateSESSenderForm(props: CreateSESSenderFormProps) {
             error={props.inputErrors.roleArn.join(' ')}
             isInvalid={props.inputErrors.roleArn.length > 0}
           >
-            <EuiFieldText
+            <EuiCompressedFieldText
               placeholder="ARN key"
               data-test-subj="create-ses-sender-form-role-arn-input"
               value={props.roleArn}
@@ -122,7 +122,7 @@ export function CreateSESSenderForm(props: CreateSESSenderFormProps) {
             error={props.inputErrors.awsRegion.join(' ')}
             isInvalid={props.inputErrors.awsRegion.length > 0}
           >
-            <EuiFieldText
+            <EuiCompressedFieldText
               placeholder="us-east-1"
               data-test-subj="create-ses-sender-form-aws-region-input"
               value={props.awsRegion}

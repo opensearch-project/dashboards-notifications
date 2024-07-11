@@ -5,7 +5,7 @@
 
 import {
   EuiCallOut,
-  EuiFieldText,
+  EuiCompressedFieldText,
   EuiCompressedFormRow,
   EuiLink,
   EuiSpacer,
@@ -35,7 +35,7 @@ export function SNSSettings(props: SNSSettingsProps) {
         error={context.inputErrors.topicArn.join(' ')}
         isInvalid={context.inputErrors.topicArn.length > 0}
       >
-        <EuiFieldText
+        <EuiCompressedFieldText
           placeholder="ARN key"
           data-test-subj="sns-settings-topic-arn-input"
           value={props.topicArn}
@@ -65,7 +65,7 @@ export function SNSSettings(props: SNSSettingsProps) {
                 network.
               </EuiText>
               <EuiSpacer size="s" />
-              <EuiFieldText
+              <EuiCompressedFieldText
                 data-test-subj="sns-settings-role-arn-input"
                 placeholder="ARN key"
                 value={props.roleArn}
@@ -93,7 +93,7 @@ export function SNSSettings(props: SNSSettingsProps) {
           error={context.inputErrors.roleArn.join(' ')}
           isInvalid={context.inputErrors.roleArn.length > 0}
         >
-          <EuiFieldText
+          <EuiCompressedFieldText
             placeholder="ARN key"
             data-test-subj="sns-settings-role-arn-input"
             value={props.roleArn}

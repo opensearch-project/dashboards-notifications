@@ -7,7 +7,7 @@ import {
   EuiBasicTable,
   EuiSmallButton,
   EuiEmptyPrompt,
-  EuiFieldSearch,
+  EuiCompressedFieldSearch,
   EuiHorizontalRule,
   EuiLink,
   EuiTableFieldDataColumnType,
@@ -274,7 +274,7 @@ export class RecipientGroupsTable extends Component<
           titleSize="m"
           total={this.state.total}
         >
-          <EuiFieldSearch
+          <EuiCompressedFieldSearch
             data-test-subj="recipient-groups-table-search-input"
             fullWidth={true}
             placeholder="Search"

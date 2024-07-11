@@ -5,7 +5,7 @@
 
 import {
   EuiSmallButton,
-  EuiFieldText,
+  EuiCompressedFieldText,
   EuiFlexGroup,
   EuiFlexItem,
   EuiCompressedFormRow,
@@ -58,7 +58,7 @@ export function WebhookHeaders(props: WebhookHeadersProps) {
             <EuiFlexGroup style={{ maxWidth: 639 }}>
               <EuiFlexItem>
                 <EuiCompressedFormRow label="Key">
-                  <EuiFieldText
+                  <EuiCompressedFieldText
                     placeholder=""
                     value={header.key}
                     onChange={(e) => setHeader(e.target.value, null, i)}
@@ -72,7 +72,7 @@ export function WebhookHeaders(props: WebhookHeadersProps) {
               </EuiFlexItem>
               <EuiFlexItem>
                 <EuiCompressedFormRow label="Value">
-                  <EuiFieldText
+                  <EuiCompressedFieldText
                     placeholder=""
                     value={header.value}
                     onChange={(e) => setHeader(null, e.target.value, i)}

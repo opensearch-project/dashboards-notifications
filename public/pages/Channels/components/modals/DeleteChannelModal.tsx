@@ -6,7 +6,7 @@
 import {
   EuiSmallButton,
   EuiSmallButtonEmpty,
-  EuiFieldText,
+  EuiCompressedFieldText,
   EuiFlexGroup,
   EuiFlexItem,
   EuiModal,
@@ -69,7 +69,7 @@ export const DeleteChannelModal = (props: DeleteChannelModalProps) => {
           <EuiText>
             To confirm delete, type <i>delete</i> in the field.
           </EuiText>
-          <EuiFieldText
+          <EuiCompressedFieldText
             placeholder="delete"
             value={input}
             onChange={(e) => setInput(e.target.value)}

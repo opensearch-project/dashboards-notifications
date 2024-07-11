@@ -4,8 +4,8 @@
  */
 
 import {
-  EuiFieldNumber,
-  EuiFieldText,
+  EuiCompressedFieldNumber,
+  EuiCompressedFieldText,
   EuiCompressedFormRow,
   EuiRadioGroup,
   EuiRadioGroupOption,
@@ -66,7 +66,7 @@ export function CustomWebhookSettings(props: CustomWebhookSettingsProps) {
         error={context.inputErrors.webhookURL.join(' ')}
         isInvalid={context.inputErrors.webhookURL.length > 0}
       >
-        <EuiFieldText
+        <EuiCompressedFieldText
           placeholder="https://name.example.com/XXXXX..."
           data-test-subj="custom-webhook-url-input"
           value={props.webhookURL}
@@ -101,7 +101,7 @@ export function CustomWebhookSettings(props: CustomWebhookSettingsProps) {
           error={context.inputErrors.customURLHost.join(' ')}
           isInvalid={context.inputErrors.customURLHost.length > 0}
         >
-          <EuiFieldText
+          <EuiCompressedFieldText
             placeholder="name.example.com"
             data-test-subj="custom-webhook-host-input"
             value={props.customURLHost}
@@ -124,7 +124,7 @@ export function CustomWebhookSettings(props: CustomWebhookSettingsProps) {
           error={context.inputErrors.customURLPort.join(' ')}
           isInvalid={context.inputErrors.customURLPort.length > 0}
         >
-          <EuiFieldNumber
+          <EuiCompressedFieldNumber
             placeholder="Enter port"
             data-test-subj="custom-webhook-port-input"
             value={props.customURLPort}
@@ -145,7 +145,7 @@ export function CustomWebhookSettings(props: CustomWebhookSettingsProps) {
             </span>
           }
         >
-          <EuiFieldText
+          <EuiCompressedFieldText
             placeholder="Enter path"
             data-test-subj="custom-webhook-path-input"
             value={props.customURLPath}
