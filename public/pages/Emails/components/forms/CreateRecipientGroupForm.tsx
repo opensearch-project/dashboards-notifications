@@ -10,7 +10,7 @@ import {
   EuiCompressedFormRow,
   EuiSpacer,
   EuiText,
-  EuiTextArea,
+  EuiCompressedTextArea,
 } from '@elastic/eui';
 import React from 'react';
 import { onComboBoxCreateOption } from '../../utils/helper';
@@ -73,7 +73,7 @@ export function CreateRecipientGroupForm(props: CreateRecipientGroupFormProps) {
           <EuiText size="xs" color="subdued">
             Describe the purpose of the channel.
           </EuiText>
-          <EuiTextArea
+          <EuiCompressedTextArea
             fullWidth
             data-test-subj="create-recipient-group-form-description-input"
             placeholder="What is the purpose of this recipient group?"
