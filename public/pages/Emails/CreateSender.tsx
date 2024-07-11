@@ -4,7 +4,7 @@
  */
 
 import {
-  EuiButton,
+  EuiSmallButton,
   EuiButtonEmpty,
   EuiFlexGroup,
   EuiFlexItem,
@@ -133,7 +133,7 @@ export function CreateSender(props: CreateSenderProps) {
           </EuiButtonEmpty>
         </EuiFlexItem>
         <EuiFlexItem grow={false}>
-          <EuiButton
+          <EuiSmallButton
             fill
             isLoading={loading}
             onClick={async () => {
@@ -180,7 +180,7 @@ export function CreateSender(props: CreateSenderProps) {
             }}
           >
             {props.edit ? 'Save' : 'Create'}
-          </EuiButton>
+          </EuiSmallButton>
         </EuiFlexItem>
       </EuiFlexGroup>
     </>

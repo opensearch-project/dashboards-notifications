@@ -4,7 +4,7 @@
  */
 
 import {
-  EuiButton,
+  EuiSmallButton,
   EuiButtonEmpty,
   EuiComboBoxOptionOption,
   EuiFlexGroup,
@@ -135,7 +135,7 @@ export function CreateRecipientGroup(props: CreateRecipientGroupProps) {
           </EuiButtonEmpty>
         </EuiFlexItem>
         <EuiFlexItem grow={false}>
-          <EuiButton
+          <EuiSmallButton
             fill
             isLoading={loading}
             onClick={async () => {
@@ -183,7 +183,7 @@ export function CreateRecipientGroup(props: CreateRecipientGroupProps) {
             }}
           >
             {props.edit ? 'Save' : 'Create'}
-          </EuiButton>
+          </EuiSmallButton>
         </EuiFlexItem>
       </EuiFlexGroup>
     </>

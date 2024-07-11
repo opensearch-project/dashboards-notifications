@@ -4,7 +4,7 @@
  */
 
 import {
-  EuiButton,
+  EuiSmallButton,
   EuiButtonEmpty,
   EuiComboBoxOptionOption,
   EuiModal,
@@ -86,7 +86,7 @@ export function CreateRecipientGroupModal(
 
         <EuiModalFooter>
           <EuiButtonEmpty onClick={props.onClose}>Cancel</EuiButtonEmpty>
-          <EuiButton
+          <EuiSmallButton
             data-test-subj="create-recipient-group-modal-create-button"
             fill
             onClick={async () => {
@@ -121,7 +121,7 @@ export function CreateRecipientGroupModal(
             }}
           >
             Create
-          </EuiButton>
+          </EuiSmallButton>
         </EuiModalFooter>
       </EuiModal>
     </EuiOverlayMask>

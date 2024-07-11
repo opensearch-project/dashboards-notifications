@@ -4,7 +4,7 @@
  */
 
 import {
-  EuiButton,
+  EuiSmallButton,
   EuiButtonEmpty,
   EuiComboBoxOptionOption,
   EuiFlexGroup,
@@ -465,7 +465,7 @@ export function CreateChannel(props: CreateChannelsProps) {
             <EuiButtonEmpty href={prevURL}>Cancel</EuiButtonEmpty>
           </EuiFlexItem>
           <EuiFlexItem grow={false}>
-            <EuiButton
+            <EuiSmallButton
               data-test-subj="create-channel-send-test-message-button"
               onClick={() => {
                 if (!isInputValid()) {
@@ -478,10 +478,10 @@ export function CreateChannel(props: CreateChannelsProps) {
               }}
             >
               Send test message
-            </EuiButton>
+            </EuiSmallButton>
           </EuiFlexItem>
           <EuiFlexItem grow={false}>
-            <EuiButton
+            <EuiSmallButton
               fill
               data-test-subj="create-channel-create-button"
               isLoading={loading}
@@ -523,7 +523,7 @@ export function CreateChannel(props: CreateChannelsProps) {
               }}
             >
               {props.edit ? 'Save' : 'Create'}
-            </EuiButton>
+            </EuiSmallButton>
           </EuiFlexItem>
         </EuiFlexGroup>
       </CreateChannelContext.Provider>

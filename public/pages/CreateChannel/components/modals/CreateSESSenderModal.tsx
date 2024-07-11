@@ -4,7 +4,7 @@
  */
 
 import {
-  EuiButton,
+  EuiSmallButton,
   EuiButtonEmpty,
   EuiComboBoxOptionOption,
   EuiModal,
@@ -90,7 +90,7 @@ export function CreateSESSenderModal(props: CreateSESSenderModalProps) {
 
         <EuiModalFooter>
           <EuiButtonEmpty onClick={props.onClose}>Cancel</EuiButtonEmpty>
-          <EuiButton
+          <EuiSmallButton
             data-test-subj="create-ses-sender-modal-create-button"
             fill
             onClick={async () => {
@@ -126,7 +126,7 @@ export function CreateSESSenderModal(props: CreateSESSenderModalProps) {
             }}
           >
             Create
-          </EuiButton>
+          </EuiSmallButton>
         </EuiModalFooter>
       </EuiModal>
     </EuiOverlayMask>
