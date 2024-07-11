@@ -10,7 +10,7 @@ import {
   EuiFlexGroup,
   EuiFlexItem,
   EuiCompressedFormRow,
-  EuiRadioGroup,
+  EuiCompressedRadioGroup,
   EuiSpacer,
   SortDirection,
 } from '@elastic/eui';
@@ -135,7 +135,7 @@ export function EmailSettings(props: EmailSettingsProps) {
     <>
       {smtpAvailable && (
         <EuiCompressedFormRow label="Sender type">
-          <EuiRadioGroup
+          <EuiCompressedRadioGroup
             options={[
               {
                 id: 'smtp_account',
