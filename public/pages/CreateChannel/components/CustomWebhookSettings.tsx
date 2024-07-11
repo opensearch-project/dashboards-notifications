@@ -7,7 +7,7 @@ import {
   EuiCompressedFieldNumber,
   EuiCompressedFieldText,
   EuiCompressedFormRow,
-  EuiRadioGroup,
+  EuiCompressedRadioGroup,
   EuiRadioGroupOption,
   EuiSpacer,
   EuiCompressedSuperSelect,
@@ -178,7 +178,7 @@ export function CustomWebhookSettings(props: CustomWebhookSettingsProps) {
       </EuiCompressedFormRow>
 
       <EuiCompressedFormRow label="Define endpoints by" style={{ maxWidth: '700px' }}>
-        <EuiRadioGroup
+        <EuiCompressedRadioGroup
           options={webhookTypeOptions}
           idSelected={props.webhookTypeIdSelected}
           onChange={(id: string) =>
