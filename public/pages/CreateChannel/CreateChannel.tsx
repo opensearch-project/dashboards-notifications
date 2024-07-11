@@ -11,7 +11,7 @@ import {
   EuiFlexItem,
   EuiCompressedFormRow,
   EuiSpacer,
-  EuiSuperSelect,
+  EuiCompressedSuperSelect,
   EuiSuperSelectOption,
   EuiText,
   EuiTitle,
@@ -391,7 +391,7 @@ export function CreateChannel(props: CreateChannelsProps) {
                 <EuiText size="xs" color="subdued">
                   Channel type cannot be changed after the channel is created.
                 </EuiText>
-                <EuiSuperSelect
+                <EuiCompressedSuperSelect
                   options={channelTypeOptions}
                   valueOfSelected={channelType}
                   onChange={setChannelType}

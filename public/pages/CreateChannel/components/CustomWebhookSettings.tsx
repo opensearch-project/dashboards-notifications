@@ -10,7 +10,7 @@ import {
   EuiRadioGroup,
   EuiRadioGroupOption,
   EuiSpacer,
-  EuiSuperSelect,
+  EuiCompressedSuperSelect,
 } from '@elastic/eui';
 import React, { useContext } from 'react';
 import { CUSTOM_WEBHOOK_ENDPOINT_TYPE } from '../../../utils/constants';
@@ -87,7 +87,7 @@ export function CustomWebhookSettings(props: CustomWebhookSettingsProps) {
     return (
       <>
         <EuiCompressedFormRow label="Type">
-          <EuiSuperSelect
+          <EuiCompressedSuperSelect
             options={[
               { value: 'HTTPS', inputDisplay: 'HTTPS' },
               { value: 'HTTP', inputDisplay: 'HTTP' },
@@ -166,7 +166,7 @@ export function CustomWebhookSettings(props: CustomWebhookSettingsProps) {
   return (
     <>
       <EuiCompressedFormRow label="Method" style={{ maxWidth: '700px' }}>
-        <EuiSuperSelect
+        <EuiCompressedSuperSelect
           options={[
             { value: 'POST', inputDisplay: 'POST' },
             { value: 'PUT', inputDisplay: 'PUT' },

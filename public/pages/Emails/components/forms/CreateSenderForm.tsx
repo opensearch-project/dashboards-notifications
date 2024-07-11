@@ -11,7 +11,7 @@ import {
   EuiCompressedFormRow,
   EuiLink,
   EuiSpacer,
-  EuiSuperSelect,
+  EuiCompressedSuperSelect,
   EuiSuperSelectOption,
 } from '@elastic/eui';
 import React from 'react';
@@ -160,7 +160,7 @@ export function CreateSenderForm(props: CreateSenderFormProps) {
           </div>
         }
       >
-        <EuiSuperSelect
+        <EuiCompressedSuperSelect
           fullWidth
           data-test-subj="create-sender-form-encryption-input"
           options={encryptionOptions}
