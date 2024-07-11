@@ -7,7 +7,7 @@ import {
   EuiBasicTable,
   EuiSmallButton,
   EuiEmptyPrompt,
-  EuiFieldSearch,
+  EuiCompressedFieldSearch,
   EuiHorizontalRule,
   EuiTableFieldDataColumnType,
   EuiTableSortingType,
@@ -237,7 +237,7 @@ export class SESSendersTable extends Component<
         titleSize="m"
         total={this.state.total}
       >
-        <EuiFieldSearch
+        <EuiCompressedFieldSearch
           data-test-subj="ses-senders-table-search-input"
           fullWidth={true}
           placeholder="Search"

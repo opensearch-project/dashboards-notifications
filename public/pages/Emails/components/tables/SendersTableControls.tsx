@@ -4,7 +4,7 @@
  */
 
 import {
-  EuiFieldSearch,
+  EuiCompressedFieldSearch,
   EuiFilterButton,
   EuiFilterGroup,
   EuiFilterSelectItem,
@@ -65,7 +65,7 @@ export const SendersTableControls = (props: SendersTableControlsProps) => {
   return (
     <EuiFlexGroup>
       <EuiFlexItem>
-        <EuiFieldSearch
+        <EuiCompressedFieldSearch
           data-test-subj="senders-table-search-input"
           fullWidth={true}
           placeholder="Search"

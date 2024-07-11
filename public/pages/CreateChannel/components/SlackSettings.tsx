@@ -3,7 +3,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { EuiFieldText, EuiCompressedFormRow } from '@elastic/eui';
+import { EuiCompressedFieldText, EuiCompressedFormRow } from '@elastic/eui';
 import React, { useContext } from 'react';
 import { CreateChannelContext } from '../CreateChannel';
 import { validateWebhookURL } from '../utils/validationHelper';
@@ -23,7 +23,7 @@ export function SlackSettings(props: SlackSettingsProps) {
       error={context.inputErrors.slackWebhook.join(' ')}
       isInvalid={context.inputErrors.slackWebhook.length > 0}
     >
-      <EuiFieldText
+      <EuiCompressedFieldText
         fullWidth
         data-test-subj="create-channel-slack-webhook-input"
         placeholder="https://hooks.slack.com/services/XXXXX/XXXXX/XXXXX..."

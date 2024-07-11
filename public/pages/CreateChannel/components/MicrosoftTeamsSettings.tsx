@@ -3,7 +3,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { EuiFieldText, EuiCompressedFormRow } from '@elastic/eui';
+import { EuiCompressedFieldText, EuiCompressedFormRow } from '@elastic/eui';
 import React, { useContext } from 'react';
 import { CreateChannelContext } from '../CreateChannel';
 import { validateWebhookURL } from '../utils/validationHelper';
@@ -23,7 +23,7 @@ export function MicrosoftTeamsSettings(props: MicrosoftTeamsSettingsProps) {
       error={context.inputErrors.microsoftTeamsWebhook.join(' ')}
       isInvalid={context.inputErrors.microsoftTeamsWebhook.length > 0}
     >
-      <EuiFieldText
+      <EuiCompressedFieldText
         fullWidth
         data-test-subj="create-channel-microsoftTeams-webhook-input"
         placeholder="https://xxxxx.webhook.office.com/webhookb2/xxxxx/IncomingWebhook/xxxxx..."

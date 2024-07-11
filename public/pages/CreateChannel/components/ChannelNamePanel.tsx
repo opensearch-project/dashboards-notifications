@@ -3,7 +3,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { EuiFieldText, EuiCompressedFormRow, EuiTextArea } from '@elastic/eui';
+import { EuiCompressedFieldText, EuiCompressedFormRow, EuiTextArea } from '@elastic/eui';
 import React, { useContext } from 'react';
 import { ContentPanel } from '../../../components/ContentPanel';
 import { CreateChannelContext } from '../CreateChannel';
@@ -30,7 +30,7 @@ export function ChannelNamePanel(props: ChannelNamePanelProps) {
           error={context.inputErrors.name.join(' ')}
           isInvalid={context.inputErrors.name.length > 0}
         >
-          <EuiFieldText
+          <EuiCompressedFieldText
             data-test-subj="create-channel-name-input"
             placeholder="Enter channel name"
             value={props.name}

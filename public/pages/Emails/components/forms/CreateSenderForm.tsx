@@ -4,8 +4,8 @@
  */
 
 import {
-  EuiFieldNumber,
-  EuiFieldText,
+  EuiCompressedFieldNumber,
+  EuiCompressedFieldText,
   EuiFlexGroup,
   EuiFlexItem,
   EuiCompressedFormRow,
@@ -58,7 +58,7 @@ export function CreateSenderForm(props: CreateSenderFormProps) {
         error={props.inputErrors.senderName.join(' ')}
         isInvalid={props.inputErrors.senderName.length > 0}
       >
-        <EuiFieldText
+        <EuiCompressedFieldText
           fullWidth
           placeholder="Enter sender name"
           data-test-subj="create-sender-form-name-input"
@@ -82,7 +82,7 @@ export function CreateSenderForm(props: CreateSenderFormProps) {
             error={props.inputErrors.email.join(' ')}
             isInvalid={props.inputErrors.email.length > 0}
           >
-            <EuiFieldText
+            <EuiCompressedFieldText
               placeholder="name@example.com"
               data-test-subj="create-sender-form-email-input"
               value={props.email}
@@ -103,7 +103,7 @@ export function CreateSenderForm(props: CreateSenderFormProps) {
             error={props.inputErrors.host.join(' ')}
             isInvalid={props.inputErrors.host.length > 0}
           >
-            <EuiFieldText
+            <EuiCompressedFieldText
               placeholder="smtp.example.com"
               data-test-subj="create-sender-form-host-input"
               value={props.host}
@@ -124,7 +124,7 @@ export function CreateSenderForm(props: CreateSenderFormProps) {
             error={props.inputErrors.port.join(' ')}
             isInvalid={props.inputErrors.port.length > 0}
           >
-            <EuiFieldNumber
+            <EuiCompressedFieldNumber
               placeholder="465"
               data-test-subj="create-sender-form-port-input"
               value={props.port}

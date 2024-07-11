@@ -6,7 +6,7 @@
 import {
   EuiComboBox,
   EuiComboBoxOptionOption,
-  EuiFieldText,
+  EuiCompressedFieldText,
   EuiCompressedFormRow,
   EuiSpacer,
   EuiText,
@@ -44,7 +44,7 @@ export function CreateRecipientGroupForm(props: CreateRecipientGroupFormProps) {
         error={props.inputErrors.name.join(' ')}
         isInvalid={props.inputErrors.name.length > 0}
       >
-        <EuiFieldText
+        <EuiCompressedFieldText
           fullWidth
           data-test-subj="create-recipient-group-form-name-input"
           placeholder="Enter recipient group name"

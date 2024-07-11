@@ -4,7 +4,7 @@
  */
 
 import {
-  EuiFieldSearch,
+  EuiCompressedFieldSearch,
   EuiFilterButton,
   EuiFilterGroup,
   EuiFilterSelectItem,
@@ -98,7 +98,7 @@ export const ChannelControls = (props: ChannelControlsProps) => {
   return (
     <EuiFlexGroup>
       <EuiFlexItem>
-        <EuiFieldSearch
+        <EuiCompressedFieldSearch
           fullWidth={true}
           placeholder="Search"
           onSearch={props.onSearchChange}
