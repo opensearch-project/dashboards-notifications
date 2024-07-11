@@ -4,7 +4,7 @@
  */
 
 import {
-  EuiButton,
+  EuiSmallButton,
   EuiFieldText,
   EuiFlexGroup,
   EuiFlexItem,
@@ -81,7 +81,7 @@ export function WebhookHeaders(props: WebhookHeadersProps) {
               </EuiFlexItem>
               <EuiFlexItem>
                 <EuiFormRow hasEmptyLabelSpace>
-                  <EuiButton
+                  <EuiSmallButton
                     onClick={() => {
                       const newHeaders = [...props.headers];
                       newHeaders.splice(i, 1);
@@ -94,7 +94,7 @@ export function WebhookHeaders(props: WebhookHeadersProps) {
                     }
                   >
                     {`Remove ${props.type}`}
-                  </EuiButton>
+                  </EuiSmallButton>
                 </EuiFormRow>
               </EuiFlexItem>
             </EuiFlexGroup>
@@ -103,13 +103,13 @@ export function WebhookHeaders(props: WebhookHeadersProps) {
       })}
 
       <EuiSpacer size="m" />
-      <EuiButton
+      <EuiSmallButton
         onClick={() => {
           props.setHeaders([...props.headers, { key: '', value: '' }]);
         }}
       >
         {`Add ${props.type}`}
-      </EuiButton>
+      </EuiSmallButton>
     </>
   );
 }

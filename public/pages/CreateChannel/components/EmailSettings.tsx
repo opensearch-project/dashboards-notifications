@@ -4,7 +4,7 @@
  */
 
 import {
-  EuiButton,
+  EuiSmallButton,
   EuiComboBox,
   EuiComboBoxOptionOption,
   EuiFlexGroup,
@@ -187,7 +187,7 @@ export function EmailSettings(props: EmailSettingsProps) {
               <EuiFormRow hasEmptyLabelSpace>
                 <ModalConsumer>
                   {({ onShow }) => (
-                    <EuiButton
+                    <EuiSmallButton
                       onClick={() =>
                         onShow(CreateSESSenderModal, {
                           addSenderOptionAndSelect: (
@@ -207,7 +207,7 @@ export function EmailSettings(props: EmailSettingsProps) {
                       }
                     >
                       Create SES sender
-                    </EuiButton>
+                    </EuiSmallButton>
                   )}
                 </ModalConsumer>
               </EuiFormRow>
@@ -249,7 +249,7 @@ export function EmailSettings(props: EmailSettingsProps) {
               <EuiFormRow hasEmptyLabelSpace>
                 <ModalConsumer>
                   {({ onShow }) => (
-                    <EuiButton
+                    <EuiSmallButton
                       onClick={() =>
                         onShow(CreateSenderModal, {
                           addSenderOptionAndSelect: (
@@ -269,7 +269,7 @@ export function EmailSettings(props: EmailSettingsProps) {
                       }
                     >
                       Create SMTP sender
-                    </EuiButton>
+                    </EuiSmallButton>
                   )}
                 </ModalConsumer>
               </EuiFormRow>
@@ -325,7 +325,7 @@ export function EmailSettings(props: EmailSettingsProps) {
           <EuiFormRow hasEmptyLabelSpace>
             <ModalConsumer>
               {({ onShow }) => (
-                <EuiButton
+                <EuiSmallButton
                   onClick={() =>
                     onShow(CreateRecipientGroupModal, {
                       addRecipientGroupOptionAndSelect: (
@@ -348,7 +348,7 @@ export function EmailSettings(props: EmailSettingsProps) {
                   }
                 >
                   Create recipient group
-                </EuiButton>
+                </EuiSmallButton>
               )}
             </ModalConsumer>
           </EuiFormRow>

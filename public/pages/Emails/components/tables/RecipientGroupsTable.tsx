@@ -5,7 +5,7 @@
 
 import {
   EuiBasicTable,
-  EuiButton,
+  EuiSmallButton,
   EuiEmptyPrompt,
   EuiFieldSearch,
   EuiHorizontalRule,
@@ -228,7 +228,7 @@ export class RecipientGroupsTable extends Component<
                   component: (
                     <ModalConsumer>
                       {({ onShow }) => (
-                        <EuiButton
+                        <EuiSmallButton
                           data-test-subj="recipient-groups-table-delete-button"
                           disabled={this.state.selectedItems.length === 0}
                           onClick={() =>
@@ -239,14 +239,14 @@ export class RecipientGroupsTable extends Component<
                           }
                         >
                           Delete
-                        </EuiButton>
+                        </EuiSmallButton>
                       )}
                     </ModalConsumer>
                   ),
                 },
                 {
                   component: (
-                    <EuiButton
+                    <EuiSmallButton
                       data-test-subj="recipient-groups-table-edit-button"
                       disabled={this.state.selectedItems.length !== 1}
                       onClick={() =>
@@ -256,14 +256,14 @@ export class RecipientGroupsTable extends Component<
                       }
                     >
                       Edit
-                    </EuiButton>
+                    </EuiSmallButton>
                   ),
                 },
                 {
                   component: (
-                    <EuiButton fill href={`#${ROUTES.CREATE_RECIPIENT_GROUP}`}>
+                    <EuiSmallButton fill href={`#${ROUTES.CREATE_RECIPIENT_GROUP}`}>
                       Create recipient group
-                    </EuiButton>
+                    </EuiSmallButton>
                   ),
                 },
               ]}
@@ -293,9 +293,9 @@ export class RecipientGroupsTable extends Component<
                 title={<h2>No recipient groups to display</h2>}
                 body="Use an email group to manage a list of email addresses you frequently send at a time. You can select recipient groups when configuring email channels."
                 actions={
-                  <EuiButton href={`#${ROUTES.CREATE_RECIPIENT_GROUP}`}>
+                  <EuiSmallButton href={`#${ROUTES.CREATE_RECIPIENT_GROUP}`}>
                     Create recipient group
-                  </EuiButton>
+                  </EuiSmallButton>
                 }
               />
             }

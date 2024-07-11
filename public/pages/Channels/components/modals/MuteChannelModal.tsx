@@ -4,7 +4,7 @@
  */
 
 import {
-  EuiButton,
+  EuiSmallButton,
   EuiButtonEmpty,
   EuiFlexGroup,
   EuiFlexItem,
@@ -51,7 +51,7 @@ export const MuteChannelModal = (props: MuteChannelModalProps) => {
               <EuiButtonEmpty onClick={props.onClose}>Cancel</EuiButtonEmpty>
             </EuiFlexItem>
             <EuiFlexItem grow={false}>
-              <EuiButton
+              <EuiSmallButton
                 fill
                 data-test-subj="mute-channel-modal-mute-button"
                 onClick={async () => {
@@ -75,7 +75,7 @@ export const MuteChannelModal = (props: MuteChannelModalProps) => {
                 }}
               >
                 Mute
-              </EuiButton>
+              </EuiSmallButton>
             </EuiFlexItem>
           </EuiFlexGroup>
         </EuiModalFooter>
