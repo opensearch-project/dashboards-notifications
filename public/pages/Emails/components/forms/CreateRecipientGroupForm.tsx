@@ -7,7 +7,7 @@ import {
   EuiComboBox,
   EuiComboBoxOptionOption,
   EuiFieldText,
-  EuiFormRow,
+  EuiCompressedFormRow,
   EuiSpacer,
   EuiText,
   EuiTextArea,
@@ -37,7 +37,7 @@ interface CreateRecipientGroupFormProps {
 export function CreateRecipientGroupForm(props: CreateRecipientGroupFormProps) {
   return (
     <>
-      <EuiFormRow
+      <EuiCompressedFormRow
         label="Name"
         style={{ maxWidth: '650px' }}
         helpText="The name must contain 2 to 50 characters. Valid characters are A-Z, a-z, 0-9, (_) underscore, (-) hyphen and unicode characters."
@@ -58,10 +58,10 @@ export function CreateRecipientGroupForm(props: CreateRecipientGroupFormProps) {
             });
           }}
         />
-      </EuiFormRow>
+      </EuiCompressedFormRow>
 
       <EuiSpacer size="m" />
-      <EuiFormRow
+      <EuiCompressedFormRow
         label={
           <span>
             Description - <i style={{ fontWeight: 'normal' }}>optional</i>
@@ -82,10 +82,10 @@ export function CreateRecipientGroupForm(props: CreateRecipientGroupFormProps) {
             onChange={(e) => props.setDescription(e.target.value)}
           />
         </>
-      </EuiFormRow>
+      </EuiCompressedFormRow>
 
       <EuiSpacer size="m" />
-      <EuiFormRow
+      <EuiCompressedFormRow
         label="Emails"
         style={{ maxWidth: '650px' }}
         error={props.inputErrors.emailOptions.join(' ')}
@@ -130,7 +130,7 @@ export function CreateRecipientGroupForm(props: CreateRecipientGroupFormProps) {
             }}
           />
         </>
-      </EuiFormRow>
+      </EuiCompressedFormRow>
 
       <EuiSpacer size="m" />
     </>

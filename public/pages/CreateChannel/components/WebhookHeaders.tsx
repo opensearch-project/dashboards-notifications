@@ -8,7 +8,7 @@ import {
   EuiFieldText,
   EuiFlexGroup,
   EuiFlexItem,
-  EuiFormRow,
+  EuiCompressedFormRow,
   EuiSpacer,
   EuiText,
   EuiTitle,
@@ -57,7 +57,7 @@ export function WebhookHeaders(props: WebhookHeadersProps) {
             <EuiSpacer size="s" />
             <EuiFlexGroup style={{ maxWidth: 639 }}>
               <EuiFlexItem>
-                <EuiFormRow label="Key">
+                <EuiCompressedFormRow label="Key">
                   <EuiFieldText
                     placeholder=""
                     value={header.key}
@@ -68,19 +68,19 @@ export function WebhookHeaders(props: WebhookHeadersProps) {
                       header.key === 'Content-Type'
                     } // first header needs to be Content-Type
                   />
-                </EuiFormRow>
+                </EuiCompressedFormRow>
               </EuiFlexItem>
               <EuiFlexItem>
-                <EuiFormRow label="Value">
+                <EuiCompressedFormRow label="Value">
                   <EuiFieldText
                     placeholder=""
                     value={header.value}
                     onChange={(e) => setHeader(null, e.target.value, i)}
                   />
-                </EuiFormRow>
+                </EuiCompressedFormRow>
               </EuiFlexItem>
               <EuiFlexItem>
-                <EuiFormRow hasEmptyLabelSpace>
+                <EuiCompressedFormRow hasEmptyLabelSpace>
                   <EuiSmallButton
                     onClick={() => {
                       const newHeaders = [...props.headers];
@@ -95,7 +95,7 @@ export function WebhookHeaders(props: WebhookHeadersProps) {
                   >
                     {`Remove ${props.type}`}
                   </EuiSmallButton>
-                </EuiFormRow>
+                </EuiCompressedFormRow>
               </EuiFlexItem>
             </EuiFlexGroup>
           </div>

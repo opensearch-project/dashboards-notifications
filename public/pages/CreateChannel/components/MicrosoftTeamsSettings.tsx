@@ -3,7 +3,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { EuiFieldText, EuiFormRow } from '@elastic/eui';
+import { EuiFieldText, EuiCompressedFormRow } from '@elastic/eui';
 import React, { useContext } from 'react';
 import { CreateChannelContext } from '../CreateChannel';
 import { validateWebhookURL } from '../utils/validationHelper';
@@ -17,7 +17,7 @@ export function MicrosoftTeamsSettings(props: MicrosoftTeamsSettingsProps) {
   const context = useContext(CreateChannelContext)!;
 
   return (
-    <EuiFormRow
+    <EuiCompressedFormRow
       label="Webhook URL"
       style={{ maxWidth: '700px' }}
       error={context.inputErrors.microsoftTeamsWebhook.join(' ')}
@@ -37,6 +37,6 @@ export function MicrosoftTeamsSettings(props: MicrosoftTeamsSettingsProps) {
           });
         }}
       />
-    </EuiFormRow>
+    </EuiCompressedFormRow>
   );
 }
