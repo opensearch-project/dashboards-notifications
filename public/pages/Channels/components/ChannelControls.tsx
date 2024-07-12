@@ -5,7 +5,7 @@
 
 import {
   EuiCompressedFieldSearch,
-  EuiFilterButton,
+  EuiSmallFilterButton,
   EuiFilterGroup,
   EuiFilterSelectItem,
   EuiFlexGroup,
@@ -109,13 +109,13 @@ export const ChannelControls = (props: ChannelControlsProps) => {
         <EuiFilterGroup>
           <EuiPopover
             button={
-              <EuiFilterButton
+              <EuiSmallFilterButton
                 iconType="arrowDown"
                 grow={false}
                 onClick={() => setIsStatePopoverOpen(!isStatePopoverOpen)}
               >
                 {isItemSelected(stateItems) ? <b>Status</b> : 'Status'}
-              </EuiFilterButton>
+              </EuiSmallFilterButton>
             }
             isOpen={isStatePopoverOpen}
             closePopover={() => setIsStatePopoverOpen(false)}
@@ -138,13 +138,13 @@ export const ChannelControls = (props: ChannelControlsProps) => {
           </EuiPopover>
           <EuiPopover
             button={
-              <EuiFilterButton
+              <EuiSmallFilterButton
                 iconType="arrowDown"
                 grow={false}
                 onClick={() => setIsTypePopoverOpen(!isTypePopoverOpen)}
               >
                 {isItemSelected(typeItems) ? <b>Type</b> : 'Type'}
-              </EuiFilterButton>
+              </EuiSmallFilterButton>
             }
             isOpen={isTypePopoverOpen}
             closePopover={() => setIsTypePopoverOpen(false)}
