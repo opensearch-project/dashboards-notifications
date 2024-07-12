@@ -5,7 +5,7 @@
 
 import {
   EuiCompressedFieldSearch,
-  EuiFilterButton,
+  EuiSmallFilterButton,
   EuiFilterGroup,
   EuiFilterSelectItem,
   EuiFlexGroup,
@@ -77,7 +77,7 @@ export const SendersTableControls = (props: SendersTableControlsProps) => {
         <EuiFilterGroup>
           <EuiPopover
             button={
-              <EuiFilterButton
+              <EuiSmallFilterButton
                 iconType="arrowDown"
                 grow={false}
                 onClick={() =>
@@ -89,7 +89,7 @@ export const SendersTableControls = (props: SendersTableControlsProps) => {
                 ) : (
                   'Encryption method'
                 )}
-              </EuiFilterButton>
+              </EuiSmallFilterButton>
             }
             isOpen={isEncryptionPopoverOpen}
             closePopover={() => setIsEncryptionPopoverOpen(false)}
