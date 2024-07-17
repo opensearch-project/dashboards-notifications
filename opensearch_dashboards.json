@@ -14,6 +14,6 @@
   ],
   "server": true,
   "ui": true,
-  "supportedOSDataSourceVersions": ">=2.3.0",
+  "supportedOSDataSourceVersions": ">=2.0.0",
   "requiredOSDataSourcePlugins": ["opensearch-notifications"]
 }
