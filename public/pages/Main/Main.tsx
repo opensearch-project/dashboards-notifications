@@ -6,7 +6,7 @@
 import { EuiPage, EuiPageBody, EuiPageSideBar, EuiSideNav } from '@elastic/eui';
 import React, { Component, createContext, useContext } from 'react';
 import { Redirect, Route, RouteComponentProps, Switch } from 'react-router-dom';
-import { CoreStart } from '../../../../../src/core/public';
+import { CoreStart, SavedObject } from '../../../../../src/core/public';
 import { CoreServicesConsumer, CoreServicesContext } from '../../components/coreServices';
 import { ModalProvider, ModalRoot } from '../../components/Modal';
 import { BrowserServices } from '../../models/interfaces';
@@ -32,6 +32,9 @@ import { DataSourceOption } from "../../../../../src/plugins/data_source_managem
 import _ from "lodash";
 import { NotificationService } from '../../services';
 import { HttpSetup } from '../../../../../src/core/public';
+import * as pluginManifest from "../../../opensearch_dashboards.json";
+import { DataSourceAttributes } from "../../../../../src/plugins/data_source/common/data_sources";
+import semver from "semver";
 
 enum Navigation {
   Notifications = 'Notifications',
@@ -156,6 +159,15 @@ export default class Main extends Component<MainProps, MainState> {
     }
   };
 
+  dataSourceFilterFn = (dataSource: SavedObject<DataSourceAttributes>) => {
+    const dataSourceVersion = dataSource?.attributes?.dataSourceVersion || "";
+    const installedPlugins = dataSource?.attributes?.installedPlugins || [];
+    return (
+      semver.satisfies(dataSourceVersion, pluginManifest.supportedOSDataSourceVersions) &&
+      pluginManifest.requiredOSDataSourcePlugins.every((plugin) => installedPlugins.includes(plugin))
+    );
+  };
+
   getServices(http: HttpSetup) {
     const {
       location: { pathname },
@@ -251,6 +263,7 @@ export default class Main extends Component<MainProps, MainState> {
                                   componentType={"DataSourceView"}
                                   componentConfig={{
                                     activeOption: [{ label: this.state.dataSourceLabel, id: this.state.dataSourceId }],
+                                    dataSourceFilter: this.dataSourceFilterFn,
                                   }}
                                 />
                               )}
@@ -277,6 +290,7 @@ export default class Main extends Component<MainProps, MainState> {
                                     fullWidth: false,
                                     activeOption,
                                     onSelectedDataSources: this.onSelectedDataSources,
+                                    dataSourceFilter: this.dataSourceFilterFn,
                                   }}
                                 />
                               )}
@@ -291,6 +305,7 @@ export default class Main extends Component<MainProps, MainState> {
                                     componentConfig={{
                                       activeOption: [{ label: this.state.dataSourceLabel, id: this.state.dataSourceId }],
                                       fullWidth: false,
+                                      dataSourceFilter: this.dataSourceFilterFn,
                                     }}
                                   />
                                 ) : (
@@ -303,6 +318,7 @@ export default class Main extends Component<MainProps, MainState> {
                                       fullWidth: false,
                                       activeOption,
                                       onSelectedDataSources: this.onSelectedDataSources,
+                                      dataSourceFilter: this.dataSourceFilterFn,
                                     }}
                                   />
                                 )
