@@ -6,9 +6,11 @@
 import { Direction } from '@elastic/eui';
 import { WebhookMethodType } from '../public/pages/Channels/types';
 import {
-  CHANNEL_TYPE,
   ENCRYPTION_TYPE,
 } from '../public/utils/constants';
+import {
+  CHANNEL_TYPE,
+} from '../common/constants';
 
 export interface ChannelStatus {
   config_id: string;

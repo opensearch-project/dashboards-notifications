@@ -126,8 +126,8 @@ jobs:
 
       - name: OpenSearch Dashboards Plugin Bootstrap
         run: |
-          cd OpenSearch-Dashboards/plugins/dashboards-notifications
-          yarn osd bootstrap
+          cd ./OpenSearch-Dashboards/plugins/dashboards-notifications
+          yarn osd bootstrap --single-version=loose
 
       - name: Build Artifact
         run: |
