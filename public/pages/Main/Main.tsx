@@ -341,7 +341,7 @@ export default class Main extends Component<MainProps, MainState> {
                                   pathname !== ROUTES.CREATE_RECIPIENT_GROUP &&
                                   !pathname.startsWith(ROUTES.EDIT_RECIPIENT_GROUP) &&
                                   // Conditionally render sidebar based on the feature flag
-                                  !core.chrome.navGroup.getNavGroupEnabled() && (
+                                  !core.chrome?.navGroup?.getNavGroupEnabled() && (
                                     <EuiPageSideBar style={{ minWidth: 155 }}>
                                       <EuiSideNav
                                         style={{ width: 155 }}
@@ -444,7 +444,7 @@ export default class Main extends Component<MainProps, MainState> {
                                         <CreateRecipientGroup {...props} edit={true} />
                                       )}
                                     />
-                                    <Redirect from="/" to={core.chrome.navGroup.getNavGroupEnabled() ? this.props.defaultRoute : ROUTES.CHANNELS} />
+                                    <Redirect from="/" to={core.chrome?.navGroup?.getNavGroupEnabled() ? this.props.defaultRoute : ROUTES.CHANNELS} />
                                   </Switch>
                                 </EuiPageBody></>
                             )}
