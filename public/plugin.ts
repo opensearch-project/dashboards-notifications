@@ -5,6 +5,7 @@
 
 import { i18n } from '@osd/i18n';
 import {
+  AppCategory,
   AppMountParameters,
   CoreSetup,
   CoreStart,
@@ -46,7 +47,7 @@ export class notificationsDashboardsPlugin
     core.application.register({
       id: PLUGIN_NAME,
       title: this.title,
-      category: DEFAULT_APP_CATEGORIES.management,
+      category: core.chrome?.navGroup?.getNavGroupEnabled() ? undefined : DEFAULT_APP_CATEGORIES.management,
       order: 9060,
       workspaceAvailability: WorkspaceAvailability.outsideWorkspace,
       async mount(params: AppMountParameters) {
@@ -71,45 +72,46 @@ export class notificationsDashboardsPlugin
       });
     }
 
-    // register applications with category and use case information
-    core.chrome.navGroup.addNavLinksToGroup(DEFAULT_NAV_GROUPS.observability, [
-      {
-        id: PLUGIN_NAME,
-        showInAllNavGroup: false
-      }
-    ])
-    core.chrome.navGroup.addNavLinksToGroup(DEFAULT_NAV_GROUPS['security-analytics'], [
-      {
-        id: PLUGIN_NAME,
-        showInAllNavGroup: false
-      }
-    ])
-    core.chrome.navGroup.addNavLinksToGroup(DEFAULT_NAV_GROUPS.analytics, [
-      {
-        id: PLUGIN_NAME,
-        showInAllNavGroup: false
-      }
-    ])
-    core.chrome.navGroup.addNavLinksToGroup(DEFAULT_NAV_GROUPS.settingsAndSetup, [
-      {
-        id: PLUGIN_NAME,
-        showInAllNavGroup: true
-      }
-    ])
-    core.chrome.navGroup.addNavLinksToGroup(DEFAULT_NAV_GROUPS.search, [
-      {
-        id: PLUGIN_NAME,
-        showInAllNavGroup: false
-      }
-    ])
-    core.chrome.navGroup.addNavLinksToGroup(DEFAULT_NAV_GROUPS.dataAdministration, [
-      {
-        id: PLUGIN_NAME,
-        showInAllNavGroup: false
-      }
-    ])
-
     if (core.chrome.navGroup.getNavGroupEnabled()) {
+
+      // register applications with category and use case information
+      core.chrome.navGroup.addNavLinksToGroup(DEFAULT_NAV_GROUPS.observability, [
+        {
+          id: PLUGIN_NAME,
+          showInAllNavGroup: false
+        }
+      ])
+      core.chrome.navGroup.addNavLinksToGroup(DEFAULT_NAV_GROUPS['security-analytics'], [
+        {
+          id: PLUGIN_NAME,
+          showInAllNavGroup: false
+        }
+      ])
+      core.chrome.navGroup.addNavLinksToGroup(DEFAULT_NAV_GROUPS.analytics, [
+        {
+          id: PLUGIN_NAME,
+          showInAllNavGroup: false
+        }
+      ])
+      core.chrome.navGroup.addNavLinksToGroup(DEFAULT_NAV_GROUPS.settingsAndSetup, [
+        {
+          id: PLUGIN_NAME,
+          showInAllNavGroup: true
+        }
+      ])
+      core.chrome.navGroup.addNavLinksToGroup(DEFAULT_NAV_GROUPS.search, [
+        {
+          id: PLUGIN_NAME,
+          showInAllNavGroup: false
+        }
+      ])
+      core.chrome.navGroup.addNavLinksToGroup(DEFAULT_NAV_GROUPS.dataAdministration, [
+        {
+          id: PLUGIN_NAME,
+          showInAllNavGroup: false
+        }
+      ])
+
       // channels route
       core.application.register({
         id: `channels`,
