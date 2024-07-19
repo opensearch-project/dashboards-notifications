@@ -111,20 +111,17 @@ export class notificationsDashboardsPlugin
         },
       });
 
-      const navLinks = [
-        {
-          id: `channels`,
-          parentNavLinkId: PLUGIN_NAME
-        },
-        {
-          id: `email_senders`,
-          parentNavLinkId: PLUGIN_NAME
-        },
-        {
-          id: `email_groups`,
-          parentNavLinkId: PLUGIN_NAME
-        },
-      ];
+      const navlinks = [
+        { id: 'channels', parent: PLUGIN_NAME },
+        { id: 'email_senders', parent: PLUGIN_NAME },
+        { id: 'email_groups', parent: PLUGIN_NAME }
+      ]
+
+      const navLinks = navlinks.map(item => ({
+        id: item.id,
+        parentNavLinkId: item.parent
+      }));
+
       core.chrome.navGroup.addNavLinksToGroup(
         DEFAULT_NAV_GROUPS.settingsAndSetup,
         navLinks
