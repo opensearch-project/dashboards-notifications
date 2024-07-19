@@ -72,42 +72,11 @@ export class notificationsDashboardsPlugin
     }
 
     if (core.chrome.navGroup.getNavGroupEnabled()) {
-
       // register applications with category and use case information
-      core.chrome.navGroup.addNavLinksToGroup(DEFAULT_NAV_GROUPS.observability, [
-        {
-          id: PLUGIN_NAME,
-          showInAllNavGroup: false
-        }
-      ])
-      core.chrome.navGroup.addNavLinksToGroup(DEFAULT_NAV_GROUPS['security-analytics'], [
-        {
-          id: PLUGIN_NAME,
-          showInAllNavGroup: false
-        }
-      ])
-      core.chrome.navGroup.addNavLinksToGroup(DEFAULT_NAV_GROUPS.analytics, [
-        {
-          id: PLUGIN_NAME,
-          showInAllNavGroup: false
-        }
-      ])
       core.chrome.navGroup.addNavLinksToGroup(DEFAULT_NAV_GROUPS.settingsAndSetup, [
         {
           id: PLUGIN_NAME,
           showInAllNavGroup: true
-        }
-      ])
-      core.chrome.navGroup.addNavLinksToGroup(DEFAULT_NAV_GROUPS.search, [
-        {
-          id: PLUGIN_NAME,
-          showInAllNavGroup: false
-        }
-      ])
-      core.chrome.navGroup.addNavLinksToGroup(DEFAULT_NAV_GROUPS.dataAdministration, [
-        {
-          id: PLUGIN_NAME,
-          showInAllNavGroup: false
         }
       ])
 
@@ -158,26 +127,6 @@ export class notificationsDashboardsPlugin
       ];
       core.chrome.navGroup.addNavLinksToGroup(
         DEFAULT_NAV_GROUPS.settingsAndSetup,
-        navLinks
-      );
-      core.chrome.navGroup.addNavLinksToGroup(
-        DEFAULT_NAV_GROUPS.search,
-        navLinks
-      );
-      core.chrome.navGroup.addNavLinksToGroup(
-        DEFAULT_NAV_GROUPS['security-analytics'],
-        navLinks
-      );
-      core.chrome.navGroup.addNavLinksToGroup(
-        DEFAULT_NAV_GROUPS.analytics,
-        navLinks
-      );
-      core.chrome.navGroup.addNavLinksToGroup(
-        DEFAULT_NAV_GROUPS.dataAdministration,
-        navLinks
-      );
-      core.chrome.navGroup.addNavLinksToGroup(
-        DEFAULT_NAV_GROUPS.observability,
         navLinks
       );
     }
