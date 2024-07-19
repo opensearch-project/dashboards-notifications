@@ -5,7 +5,6 @@
 
 import { i18n } from '@osd/i18n';
 import {
-  AppCategory,
   AppMountParameters,
   CoreSetup,
   CoreStart,
