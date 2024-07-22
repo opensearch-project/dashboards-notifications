@@ -76,7 +76,6 @@ export class notificationsDashboardsPlugin
       core.chrome.navGroup.addNavLinksToGroup(DEFAULT_NAV_GROUPS.settingsAndSetup, [
         {
           id: PLUGIN_NAME,
-          showInAllNavGroup: true
         }
       ])
 
