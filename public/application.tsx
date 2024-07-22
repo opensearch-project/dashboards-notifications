@@ -9,8 +9,6 @@ import { HashRouter as Router, Route } from 'react-router-dom';
 import { AppMountParameters, CoreStart } from '../../../src/core/public';
 import { CoreServicesContext } from './components/coreServices';
 import Main from './pages/Main';
-import { NotificationService } from './services';
-import { ServicesContext } from './services/services';
 import { DataSourceManagementPluginSetup } from '../../../src/plugins/data_source_management/public';
 import { AppPluginStartDependencies } from "./types";
 
@@ -19,6 +17,7 @@ export const renderApp = (
   params: AppMountParameters,
   dataSourceManagement: DataSourceManagementPluginSetup,
   pluginStartDependencies: AppPluginStartDependencies,
+  defaultRoute?: string,
 ) => {
 
   ReactDOM.render(
@@ -31,6 +30,7 @@ export const renderApp = (
                 multiDataSourceEnabled={!!pluginStartDependencies.dataSource}
                 dataSourceManagement={dataSourceManagement}
                 http={coreStart.http} // Pass http as a prop
+                defaultRoute={defaultRoute}
               />
             </CoreServicesContext.Provider>
         )}
