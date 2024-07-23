@@ -10,4 +10,4 @@ Compatible with OpenSearch Dashboards 2.16.0
 * Backport/backporting to 2.x ([#223](https://github.com/opensearch-project/dashboards-notifications/pull/223))
 
 ### Documentation
-* 2.16 release notes. ([#226](https://github.com/opensearch-project/dashboards-notifications/pull/226))
+* 2.16 release notes. ([#227](https://github.com/opensearch-project/dashboards-notifications/pull/227))
