@@ -23,6 +23,7 @@ import { SERVER_DELAY } from '../../../../../common';
 import { ChannelItemType } from '../../../../../models/interfaces';
 import { CoreServicesContext } from '../../../../components/coreServices';
 import { ModalRootProps } from '../../../../components/Modal/ModalRoot';
+import { i18n } from '@osd/i18n';
 
 interface DeleteChannelModalProps extends ModalRootProps {
   selected: ChannelItemType[];
@@ -38,17 +39,26 @@ export const DeleteChannelModal = (props: DeleteChannelModalProps) => {
   const [input, setInput] = useState('');
   const num = props.selected.length;
   const name = num >= 2 ? `${num} channels` : props.selected[0].name;
-  const message = `Delete ${
-    num >= 2 ? 'the following channels' : name
-  } permanently? Any notify actions will no longer be able to send notifications using ${
-    num >= 2 ? 'these channels' : 'this channel'
-  }.`;
+  const message = i18n.translate('notification.notificationChannels.deleteChannelsQuery', {
+          defaultMessage:
+          `Delete ${
+            num >= 2 ? 'the following channels' : name
+          } permanently? Any notify actions will no longer be able to send notifications using ${
+            num >= 2 ? 'these channels' : 'this channel'
+          }.`,
+          });
 
   return (
     <EuiOverlayMask>
       <EuiModal onClose={props.onClose} maxWidth={500}>
         <EuiModalHeader>
-          <EuiModalHeaderTitle>{`Delete ${name}?`}</EuiModalHeaderTitle>
+          <EuiModalHeaderTitle>
+          {i18n.translate('notification.notificationChannels.deletechannelTitleModal', {
+          defaultMessage:
+          `Delete ${name}?`,
+          values: {name: name}
+          })}
+            </EuiModalHeaderTitle>
         </EuiModalHeader>
         <EuiModalBody>
           <EuiText>{message}</EuiText>
@@ -67,7 +77,11 @@ export const DeleteChannelModal = (props: DeleteChannelModalProps) => {
           )}
           <EuiSpacer />
           <EuiText>
-            To confirm delete, type <i>delete</i> in the field.
+            {i18n.translate('notification.notificationChannels.deleteChannelConfirmation', {
+              defaultMessage:
+                'To confirm delete, type <i>delete</i> in the field.',
+              })}
+            
           </EuiText>
           <EuiFieldText
             placeholder="delete"
@@ -78,7 +92,12 @@ export const DeleteChannelModal = (props: DeleteChannelModalProps) => {
         <EuiModalFooter>
           <EuiFlexGroup justifyContent="flexEnd">
             <EuiFlexItem grow={false}>
-              <EuiButtonEmpty onClick={props.onClose}>Cancel</EuiButtonEmpty>
+              <EuiButtonEmpty onClick={props.onClose}>
+              {i18n.translate('notification.notificationChannels.information.doCreateSenderCancel', {
+              defaultMessage:
+                'Cancel',
+              })}
+    </EuiButtonEmpty>
             </EuiFlexItem>
             <EuiFlexItem grow={false}>
               <EuiButton
@@ -92,11 +111,14 @@ export const DeleteChannelModal = (props: DeleteChannelModalProps) => {
                     )
                     .then((resp) => {
                       coreContext.notifications.toasts.addSuccess(
-                        `${
-                          props.selected.length > 1
-                            ? props.selected.length + ' channels'
-                            : 'Channel ' + props.selected[0].name
-                        } successfully deleted.`
+                        i18n.translate('notification.notificationChannels.channelDeletedConfirmation', {
+                          defaultMessage:
+                          `${
+                            props.selected.length > 1
+                              ? props.selected.length + ' channels'
+                              : 'Channel ' + props.selected[0].name
+                          } successfully deleted.`,
+                          })
                       );
                       props.onClose();
                       if (props.href)
@@ -109,14 +131,21 @@ export const DeleteChannelModal = (props: DeleteChannelModalProps) => {
                     })
                     .catch((error) => {
                       coreContext.notifications.toasts.addError(error?.body || error, {
-                        title: 'Failed to delete one or more channels.',
+                        title: i18n.translate('notification.notificationChannels.channelsDeleteFailedErr', {
+                          defaultMessage:
+                          'Failed to delete one or more channels.',
+                          }),
                       });
                       props.onClose();
                     });
                 }}
                 disabled={input !== 'delete'}
               >
-                Delete
+                {i18n.translate('notification.notificationChannels.deleteToken', {
+                defaultMessage:
+                  'Delete',
+                })}
+                
               </EuiButton>
             </EuiFlexItem>
           </EuiFlexGroup>

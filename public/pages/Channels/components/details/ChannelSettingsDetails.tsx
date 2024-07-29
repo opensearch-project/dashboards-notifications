@@ -16,6 +16,7 @@ import { HeaderItemType, ListItemType } from '../../types';
 import { DetailsListModal } from '../modals/DetailsListModal';
 import { DetailsTableModal } from '../modals/DetailsTableModal';
 import { ChannelDetailItems } from './ChannelDetailItems';
+import { i18n } from '@osd/i18n';
 
 interface ChannelSettingsDetailsProps {
   channel: ChannelItemType | undefined;
@@ -118,21 +119,41 @@ export function ChannelSettingsDetails(props: ChannelSettingsDetailsProps) {
     const emailObject = deconstructEmailObject(props.channel.email!);
     const recipientsDescription = getModalComponent(
       emailObject.selectedRecipientGroupOptions.map((group) => group.label),
-      'Default recipients',
-      'Recipients'
+      i18n.translate('notification.notificationChannels.defaultEmailRecipients', {
+        defaultMessage:
+        'Default recipients',
+        })
+    ,
+    i18n.translate('notification.notificationChannels.EmailRecipients', {
+      defaultMessage:
+      'Recipients',
+      })
+  
     );
     settingsList.push(
       ...[
         {
-          title: 'Channel type',
+          title: i18n.translate('notification.notificationChannels.channelType', {
+            defaultMessage:
+            'Channel type',
+            })
+        ,
           description: CHANNEL_TYPE.email,
         },
         {
-          title: 'Sender',
+          title: i18n.translate('notification.notificationChannels.senderType', {
+            defaultMessage:
+              'Sender',
+            })
+        ,
           description: emailObject.selectedSenderOptions[0].label || '-',
         },
         {
-          title: 'Default recipients',
+          title: i18n.translate('notification.notificationChannels.defaultEmailRecipients', {
+            defaultMessage:
+            'Default recipients',
+            })
+        ,
           description: recipientsDescription,
         },
       ]
@@ -141,14 +162,22 @@ export function ChannelSettingsDetails(props: ChannelSettingsDetailsProps) {
     const webhookObject = deconstructWebhookObject(props.channel.webhook!);
     const parametersDescription = getModalComponent(
       webhookObject.webhookParams,
-      'Query parameters',
+      i18n.translate('notification.notificationChannels.queryParameters', {
+        defaultMessage:
+        'Query parameters',
+        })
+    ,
       undefined,
       '\n',
       true
     );
     const headersDescription = getModalComponent(
       webhookObject.webhookHeaders,
-      'Webhook headers',
+      i18n.translate('notification.notificationChannels.webhookHeaders', {
+        defaultMessage:
+        'Webhook headers',
+        })
+    ,
       undefined,
       '\n',
       false

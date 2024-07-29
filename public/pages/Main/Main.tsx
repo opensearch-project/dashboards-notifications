@@ -36,11 +36,30 @@ import * as pluginManifest from "../../../opensearch_dashboards.json";
 import { DataSourceAttributes } from "../../../../../src/plugins/data_source/common/data_sources";
 import semver from "semver";
 
+import * as http from 'http';
+import { i18n } from '@osd/i18n';
+
+
 enum Navigation {
-  Notifications = 'Notifications',
-  Channels = 'Channels',
-  EmailSenders = 'Email senders',
-  EmailGroups = 'Email recipient groups',
+  Notifications = i18n.translate('notification.notificationChannels.notificationsTitle', {
+    defaultMessage:
+      'Notifications',
+    }),
+  Channels = i18n.translate('notification.notificationChannels.', {
+    defaultMessage:
+    i18n.translate('notification.notificationChannels.channelsList', {
+      defaultMessage:
+      'Channels',
+      }), 
+    }),
+  EmailSenders = i18n.translate('notification.notificationChannels.emailSenders', {
+    defaultMessage:
+    'Email senders',
+    }),
+  EmailGroups = i18n.translate('notification.notificationChannels.emailRecipientsGroupsList', {
+    defaultMessage:
+    'Email recipient groups',
+    }),
 }
 
 enum Pathname {
