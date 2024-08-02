@@ -38,7 +38,7 @@ exports[`<SendersTable /> spec renders empty state 1`] = `
               class="euiFlexItem euiFlexItem--flexGrowZero"
             >
               <button
-                class="euiButton euiButton--primary euiButton-isDisabled"
+                class="euiButton euiButton--primary euiButton--small euiButton-isDisabled"
                 data-test-subj="senders-table-delete-button"
                 disabled=""
                 type="button"
@@ -58,7 +58,7 @@ exports[`<SendersTable /> spec renders empty state 1`] = `
               class="euiFlexItem euiFlexItem--flexGrowZero"
             >
               <button
-                class="euiButton euiButton--primary euiButton-isDisabled"
+                class="euiButton euiButton--primary euiButton--small euiButton-isDisabled"
                 data-test-subj="senders-table-edit-button"
                 disabled=""
                 type="button"
@@ -78,7 +78,7 @@ exports[`<SendersTable /> spec renders empty state 1`] = `
               class="euiFlexItem euiFlexItem--flexGrowZero"
             >
               <a
-                class="euiButton euiButton--primary euiButton--fill"
+                class="euiButton euiButton--primary euiButton--small euiButton--fill"
                 href="#/create-smtp-sender"
                 rel="noreferrer"
               >
@@ -111,13 +111,13 @@ exports[`<SendersTable /> spec renders empty state 1`] = `
         class="euiFlexItem"
       >
         <div
-          class="euiFormControlLayout euiFormControlLayout--fullWidth"
+          class="euiFormControlLayout euiFormControlLayout--fullWidth euiFormControlLayout--compressed"
         >
           <div
             class="euiFormControlLayout__childrenWrapper"
           >
             <input
-              class="euiFieldSearch euiFieldSearch--fullWidth"
+              class="euiFieldSearch euiFieldSearch--fullWidth euiFieldSearch--compressed"
               data-test-subj="senders-table-search-input"
               placeholder="Search"
               type="search"
@@ -130,7 +130,7 @@ exports[`<SendersTable /> spec renders empty state 1`] = `
               >
                 <svg
                   aria-hidden="true"
-                  class="euiIcon euiIcon--medium euiIcon-isLoading euiFormControlLayoutCustomIcon__icon"
+                  class="euiIcon euiIcon--small euiIcon-isLoading euiFormControlLayoutCustomIcon__icon"
                   focusable="false"
                   height="16"
                   role="img"
@@ -160,7 +160,7 @@ exports[`<SendersTable /> spec renders empty state 1`] = `
               class="euiPopover__anchor"
             >
               <button
-                class="euiButtonEmpty euiButtonEmpty--text euiFilterButton euiFilterButton--hasIcon euiFilterButton--noGrow"
+                class="euiButtonEmpty euiButtonEmpty--text euiButtonEmpty--small euiFilterButton euiFilterButton--hasIcon euiFilterButton--noGrow"
                 type="button"
               >
                 <span
@@ -491,7 +491,7 @@ exports[`<SendersTable /> spec renders empty state 1`] = `
                         class="euiSpacer euiSpacer--l"
                       />
                       <a
-                        class="euiButton euiButton--primary"
+                        class="euiButton euiButton--primary euiButton--small"
                         href="#/create-smtp-sender"
                         rel="noreferrer"
                       >

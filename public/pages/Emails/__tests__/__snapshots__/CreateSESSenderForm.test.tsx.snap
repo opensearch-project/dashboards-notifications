@@ -2,7 +2,7 @@
 
 exports[`<CreateSESSenderForm/> spec renders errors 1`] = `
 <div
-  class="euiFormRow"
+  class="euiFormRow euiFormRow--compressed"
   id="random_html_id-row"
   style="max-width: 650px;"
 >
@@ -21,14 +21,14 @@ exports[`<CreateSESSenderForm/> spec renders errors 1`] = `
     class="euiFormRow__fieldWrapper"
   >
     <div
-      class="euiFormControlLayout euiFormControlLayout--fullWidth"
+      class="euiFormControlLayout euiFormControlLayout--fullWidth euiFormControlLayout--compressed"
     >
       <div
         class="euiFormControlLayout__childrenWrapper"
       >
         <input
           aria-describedby="random_html_id-help-0 random_html_id-error-0"
-          class="euiFieldText euiFieldText--fullWidth"
+          class="euiFieldText euiFieldText--fullWidth euiFieldText--compressed"
           data-test-subj="create-ses-sender-form-name-input"
           id="random_html_id"
           placeholder="Enter sender name"
@@ -56,7 +56,7 @@ exports[`<CreateSESSenderForm/> spec renders errors 1`] = `
 
 exports[`<CreateSESSenderForm/> spec renders the component 1`] = `
 <div
-  class="euiFormRow"
+  class="euiFormRow euiFormRow--compressed"
   id="random_html_id-row"
   style="max-width: 650px;"
 >
@@ -75,14 +75,14 @@ exports[`<CreateSESSenderForm/> spec renders the component 1`] = `
     class="euiFormRow__fieldWrapper"
   >
     <div
-      class="euiFormControlLayout euiFormControlLayout--fullWidth"
+      class="euiFormControlLayout euiFormControlLayout--fullWidth euiFormControlLayout--compressed"
     >
       <div
         class="euiFormControlLayout__childrenWrapper"
       >
         <input
           aria-describedby="random_html_id-help-0"
-          class="euiFieldText euiFieldText--fullWidth"
+          class="euiFieldText euiFieldText--fullWidth euiFieldText--compressed"
           data-test-subj="create-ses-sender-form-name-input"
           id="random_html_id"
           placeholder="Enter sender name"
