@@ -2,7 +2,7 @@
 
 exports[`<CustomWebhookSettings /> spec renders the component 1`] = `
 <div
-  class="euiFormRow"
+  class="euiFormRow euiFormRow--compressed"
   id="random_html_id-row"
   style="max-width: 700px;"
 >
@@ -32,7 +32,7 @@ exports[`<CustomWebhookSettings /> spec renders the component 1`] = `
             value=""
           />
           <div
-            class="euiFormControlLayout"
+            class="euiFormControlLayout euiFormControlLayout--compressed"
           >
             <div
               class="euiFormControlLayout__childrenWrapper"
@@ -46,7 +46,7 @@ exports[`<CustomWebhookSettings /> spec renders the component 1`] = `
               <button
                 aria-haspopup="true"
                 aria-labelledby="random_html_id random_html_id"
-                class="euiSuperSelectControl"
+                class="euiSuperSelectControl euiSuperSelectControl--compressed"
                 type="button"
               />
               <div
@@ -57,7 +57,7 @@ exports[`<CustomWebhookSettings /> spec renders the component 1`] = `
                 >
                   <svg
                     aria-hidden="true"
-                    class="euiIcon euiIcon--medium euiIcon-isLoading euiFormControlLayoutCustomIcon__icon"
+                    class="euiIcon euiIcon--small euiIcon-isLoading euiFormControlLayoutCustomIcon__icon"
                     focusable="false"
                     height="16"
                     role="img"
@@ -82,7 +82,7 @@ exports[`<CustomWebhookSettings /> spec renders the component 1`] = `
 
 exports[`<CustomWebhookSettings /> spec renders the component 2`] = `
 <div
-  class="euiFormRow"
+  class="euiFormRow euiFormRow--compressed"
   id="random_html_id-row"
   style="max-width: 700px;"
 >
@@ -112,7 +112,7 @@ exports[`<CustomWebhookSettings /> spec renders the component 2`] = `
             value=""
           />
           <div
-            class="euiFormControlLayout"
+            class="euiFormControlLayout euiFormControlLayout--compressed"
           >
             <div
               class="euiFormControlLayout__childrenWrapper"
@@ -126,7 +126,7 @@ exports[`<CustomWebhookSettings /> spec renders the component 2`] = `
               <button
                 aria-haspopup="true"
                 aria-labelledby="random_html_id random_html_id"
-                class="euiSuperSelectControl"
+                class="euiSuperSelectControl euiSuperSelectControl--compressed"
                 type="button"
               />
               <div
@@ -137,7 +137,7 @@ exports[`<CustomWebhookSettings /> spec renders the component 2`] = `
                 >
                   <svg
                     aria-hidden="true"
-                    class="euiIcon euiIcon--medium euiIcon-isLoading euiFormControlLayoutCustomIcon__icon"
+                    class="euiIcon euiIcon--small euiIcon-isLoading euiFormControlLayoutCustomIcon__icon"
                     focusable="false"
                     height="16"
                     role="img"
@@ -162,7 +162,7 @@ exports[`<CustomWebhookSettings /> spec renders the component 2`] = `
 
 exports[`<CustomWebhookSettings /> spec renders the component with errors 1`] = `
 <div
-  class="euiFormRow"
+  class="euiFormRow euiFormRow--compressed"
   id="random_html_id-row"
   style="max-width: 700px;"
 >
@@ -192,7 +192,7 @@ exports[`<CustomWebhookSettings /> spec renders the component with errors 1`] = 
             value=""
           />
           <div
-            class="euiFormControlLayout"
+            class="euiFormControlLayout euiFormControlLayout--compressed"
           >
             <div
               class="euiFormControlLayout__childrenWrapper"
@@ -206,7 +206,7 @@ exports[`<CustomWebhookSettings /> spec renders the component with errors 1`] = 
               <button
                 aria-haspopup="true"
                 aria-labelledby="random_html_id random_html_id"
-                class="euiSuperSelectControl"
+                class="euiSuperSelectControl euiSuperSelectControl--compressed"
                 type="button"
               />
               <div
@@ -217,7 +217,7 @@ exports[`<CustomWebhookSettings /> spec renders the component with errors 1`] = 
                 >
                   <svg
                     aria-hidden="true"
-                    class="euiIcon euiIcon--medium euiFormControlLayoutCustomIcon__icon"
+                    class="euiIcon euiIcon--small euiFormControlLayoutCustomIcon__icon"
                     focusable="false"
                     height="16"
                     role="img"
@@ -243,7 +243,7 @@ exports[`<CustomWebhookSettings /> spec renders the component with errors 1`] = 
 
 exports[`<CustomWebhookSettings /> spec renders the component with errors 2`] = `
 <div
-  class="euiFormRow"
+  class="euiFormRow euiFormRow--compressed"
   id="random_html_id-row"
   style="max-width: 700px;"
 >
@@ -273,7 +273,7 @@ exports[`<CustomWebhookSettings /> spec renders the component with errors 2`] = 
             value=""
           />
           <div
-            class="euiFormControlLayout"
+            class="euiFormControlLayout euiFormControlLayout--compressed"
           >
             <div
               class="euiFormControlLayout__childrenWrapper"
@@ -287,7 +287,7 @@ exports[`<CustomWebhookSettings /> spec renders the component with errors 2`] = 
               <button
                 aria-haspopup="true"
                 aria-labelledby="random_html_id random_html_id"
-                class="euiSuperSelectControl"
+                class="euiSuperSelectControl euiSuperSelectControl--compressed"
                 type="button"
               />
               <div
@@ -298,7 +298,7 @@ exports[`<CustomWebhookSettings /> spec renders the component with errors 2`] = 
                 >
                   <svg
                     aria-hidden="true"
-                    class="euiIcon euiIcon--medium euiFormControlLayoutCustomIcon__icon"
+                    class="euiIcon euiIcon--small euiFormControlLayoutCustomIcon__icon"
                     focusable="false"
                     height="16"
                     role="img"

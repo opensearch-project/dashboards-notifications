@@ -3,7 +3,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { EuiButton, EuiContextMenuItem, EuiPopover } from '@elastic/eui';
+import { EuiSmallButton, EuiContextMenuItem, EuiPopover } from '@elastic/eui';
 import React, { useContext, useState } from 'react';
 import { SERVER_DELAY } from '../../../../common';
 import { ChannelItemType } from '../../../../models/interfaces';
@@ -83,14 +83,14 @@ export function ChannelActions(props: ChannelActionsProps) {
         <EuiPopover
           panelPaddingSize="none"
           button={
-            <EuiButton
+            <EuiSmallButton
               iconType="arrowDown"
               iconSide="right"
               disabled={props.selected.length === 0}
               onClick={() => setIsPopoverOpen(!isPopoverOpen)}
             >
               Actions
-            </EuiButton>
+            </EuiSmallButton>
           }
           isOpen={isPopoverOpen}
           closePopover={() => setIsPopoverOpen(false)}

@@ -4,14 +4,14 @@
  */
 
 import {
-  EuiFieldNumber,
-  EuiFieldText,
+  EuiCompressedFieldNumber,
+  EuiCompressedFieldText,
   EuiFlexGroup,
   EuiFlexItem,
-  EuiFormRow,
+  EuiCompressedFormRow,
   EuiLink,
   EuiSpacer,
-  EuiSuperSelect,
+  EuiCompressedSuperSelect,
   EuiSuperSelectOption,
 } from '@elastic/eui';
 import React from 'react';
@@ -51,14 +51,14 @@ export function CreateSenderForm(props: CreateSenderFormProps) {
 
   return (
     <>
-      <EuiFormRow
+      <EuiCompressedFormRow
         label="Sender name"
         style={{ maxWidth: '650px' }}
         helpText="Use a unique, descriptive name. The sender name must contain from 2 to 50 characters. Valid characters are lowercase a-z, 0-9, - (hyphen) and _ (underscore)."
         error={props.inputErrors.senderName.join(' ')}
         isInvalid={props.inputErrors.senderName.length > 0}
       >
-        <EuiFieldText
+        <EuiCompressedFieldText
           fullWidth
           placeholder="Enter sender name"
           data-test-subj="create-sender-form-name-input"
@@ -72,17 +72,17 @@ export function CreateSenderForm(props: CreateSenderFormProps) {
             });
           }}
         />
-      </EuiFormRow>
+      </EuiCompressedFormRow>
 
       <EuiSpacer size="m" />
       <EuiFlexGroup gutterSize="s" style={{ maxWidth: '658px' }}>
         <EuiFlexItem grow={4}>
-          <EuiFormRow
+          <EuiCompressedFormRow
             label="Email address"
             error={props.inputErrors.email.join(' ')}
             isInvalid={props.inputErrors.email.length > 0}
           >
-            <EuiFieldText
+            <EuiCompressedFieldText
               placeholder="name@example.com"
               data-test-subj="create-sender-form-email-input"
               value={props.email}
@@ -95,15 +95,15 @@ export function CreateSenderForm(props: CreateSenderFormProps) {
                 });
               }}
             />
-          </EuiFormRow>
+          </EuiCompressedFormRow>
         </EuiFlexItem>
         <EuiFlexItem grow={4}>
-          <EuiFormRow
+          <EuiCompressedFormRow
             label="Host"
             error={props.inputErrors.host.join(' ')}
             isInvalid={props.inputErrors.host.length > 0}
           >
-            <EuiFieldText
+            <EuiCompressedFieldText
               placeholder="smtp.example.com"
               data-test-subj="create-sender-form-host-input"
               value={props.host}
@@ -116,15 +116,15 @@ export function CreateSenderForm(props: CreateSenderFormProps) {
                 });
               }}
             />
-          </EuiFormRow>
+          </EuiCompressedFormRow>
         </EuiFlexItem>
         <EuiFlexItem grow={2}>
-          <EuiFormRow
+          <EuiCompressedFormRow
             label="Port"
             error={props.inputErrors.port.join(' ')}
             isInvalid={props.inputErrors.port.length > 0}
           >
-            <EuiFieldNumber
+            <EuiCompressedFieldNumber
               placeholder="465"
               data-test-subj="create-sender-form-port-input"
               value={props.port}
@@ -137,12 +137,12 @@ export function CreateSenderForm(props: CreateSenderFormProps) {
                 });
               }}
             />
-          </EuiFormRow>
+          </EuiCompressedFormRow>
         </EuiFlexItem>
       </EuiFlexGroup>
 
       <EuiSpacer size="m" />
-      <EuiFormRow
+      <EuiCompressedFormRow
         label="Encryption method"
         style={{ maxWidth: '650px' }}
         helpText={
@@ -160,14 +160,14 @@ export function CreateSenderForm(props: CreateSenderFormProps) {
           </div>
         }
       >
-        <EuiSuperSelect
+        <EuiCompressedSuperSelect
           fullWidth
           data-test-subj="create-sender-form-encryption-input"
           options={encryptionOptions}
           valueOfSelected={props.encryption}
           onChange={props.setEncryption}
         />
-      </EuiFormRow>
+      </EuiCompressedFormRow>
 
       <EuiSpacer size="m" />
     </>

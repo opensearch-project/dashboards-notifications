@@ -3,7 +3,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { EuiFieldText, EuiFormRow } from '@elastic/eui';
+import { EuiCompressedFieldText, EuiCompressedFormRow } from '@elastic/eui';
 import React, { useContext } from 'react';
 import { CreateChannelContext } from '../CreateChannel';
 import { validateWebhookURL } from '../utils/validationHelper';
@@ -17,13 +17,13 @@ export function ChimeSettings(props: ChimeSettingsProps) {
   const context = useContext(CreateChannelContext)!;
 
   return (
-    <EuiFormRow
+    <EuiCompressedFormRow
       label="Webhook URL"
       style={{ maxWidth: '700px' }}
       error={context.inputErrors.chimeWebhook.join(' ')}
       isInvalid={context.inputErrors.chimeWebhook.length > 0}
     >
-      <EuiFieldText
+      <EuiCompressedFieldText
         fullWidth
         data-test-subj="create-channel-chime-webhook-input"
         placeholder="https://hooks.chime.aws/incomingwebhooks/XXXXX..."
@@ -37,6 +37,6 @@ export function ChimeSettings(props: ChimeSettingsProps) {
           });
         }}
       />
-    </EuiFormRow>
+    </EuiCompressedFormRow>
   );
 }

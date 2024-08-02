@@ -5,9 +5,9 @@
 
 import {
   EuiBasicTable,
-  EuiButton,
+  EuiSmallButton,
   EuiEmptyPrompt,
-  EuiFieldSearch,
+  EuiCompressedFieldSearch,
   EuiHorizontalRule,
   EuiTableFieldDataColumnType,
   EuiTableSortingType,
@@ -191,7 +191,7 @@ export class SESSendersTable extends Component<
                 component: (
                   <ModalConsumer>
                     {({ onShow }) => (
-                      <EuiButton
+                      <EuiSmallButton
                         data-test-subj="ses-senders-table-delete-button"
                         disabled={this.state.selectedItems.length === 0}
                         onClick={() =>
@@ -202,14 +202,14 @@ export class SESSendersTable extends Component<
                         }
                       >
                         Delete
-                      </EuiButton>
+                      </EuiSmallButton>
                     )}
                   </ModalConsumer>
                 ),
               },
               {
                 component: (
-                  <EuiButton
+                  <EuiSmallButton
                     data-test-subj="ses-senders-table-edit-button"
                     disabled={this.state.selectedItems.length !== 1}
                     onClick={() =>
@@ -219,14 +219,14 @@ export class SESSendersTable extends Component<
                     }
                   >
                     Edit
-                  </EuiButton>
+                  </EuiSmallButton>
                 ),
               },
               {
                 component: (
-                  <EuiButton fill href={`#${ROUTES.CREATE_SES_SENDER}`}>
+                  <EuiSmallButton fill href={`#${ROUTES.CREATE_SES_SENDER}`}>
                     Create SES sender
-                  </EuiButton>
+                  </EuiSmallButton>
                 ),
               },
             ]}
@@ -237,7 +237,7 @@ export class SESSendersTable extends Component<
         titleSize="m"
         total={this.state.total}
       >
-        <EuiFieldSearch
+        <EuiCompressedFieldSearch
           data-test-subj="ses-senders-table-search-input"
           fullWidth={true}
           placeholder="Search"
@@ -256,9 +256,9 @@ export class SESSendersTable extends Component<
               title={<h2>No SES senders to display</h2>}
               body="Set up an outbound email server by creating a sender. You will select a sender when configuring email channels."
               actions={
-                <EuiButton href={`#${ROUTES.CREATE_SES_SENDER}`}>
+                <EuiSmallButton href={`#${ROUTES.CREATE_SES_SENDER}`}>
                   Create SES sender
-                </EuiButton>
+                </EuiSmallButton>
               }
             />
           }

@@ -5,6 +5,7 @@
 
 import {
   EuiButton,
+  EuiSmallButton,
   EuiFlexGroup,
   EuiFlexItem,
   EuiGlobalToastList,
@@ -164,7 +165,7 @@ export function ChannelDetails(props: ChannelDetailsProps) {
           {channel && (
             <ModalConsumer>
               {({ onShow }) => (
-                <EuiButton
+                <EuiSmallButton
                   data-test-subj="channel-details-mute-button"
                   iconType={channel?.is_enabled ? 'bellSlash' : 'bell'}
                   onClick={() => {
@@ -189,7 +190,7 @@ export function ChannelDetails(props: ChannelDetailsProps) {
                   }}
                 >
                   {channel?.is_enabled ? 'Mute channel' : 'Unmute channel'}
-                </EuiButton>
+                </EuiSmallButton>
               )}
             </ModalConsumer>
           )}

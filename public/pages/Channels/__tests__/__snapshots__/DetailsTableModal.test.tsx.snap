@@ -230,7 +230,7 @@ exports[`<DetailsTableModal /> spec renders headers 1`] = `
                         class="euiModalFooter"
                       >
                         <button
-                          class="euiButton euiButton--primary euiButton--fill"
+                          class="euiButton euiButton--primary euiButton--small euiButton--fill"
                           type="button"
                         >
                           <span
@@ -525,7 +525,7 @@ exports[`<DetailsTableModal /> spec renders headers 1`] = `
                                 class="euiModalFooter"
                               >
                                 <button
-                                  class="euiButton euiButton--primary euiButton--fill"
+                                  class="euiButton euiButton--primary euiButton--small euiButton--fill"
                                   type="button"
                                 >
                                   <span
@@ -752,7 +752,7 @@ exports[`<DetailsTableModal /> spec renders headers 1`] = `
                                   class="euiModalFooter"
                                 >
                                   <button
-                                    class="euiButton euiButton--primary euiButton--fill"
+                                    class="euiButton euiButton--primary euiButton--small euiButton--fill"
                                     type="button"
                                   >
                                     <span
@@ -979,7 +979,7 @@ exports[`<DetailsTableModal /> spec renders headers 1`] = `
                                     class="euiModalFooter"
                                   >
                                     <button
-                                      class="euiButton euiButton--primary euiButton--fill"
+                                      class="euiButton euiButton--primary euiButton--small euiButton--fill"
                                       type="button"
                                     >
                                       <span
@@ -1194,7 +1194,7 @@ exports[`<DetailsTableModal /> spec renders headers 1`] = `
                                       class="euiModalFooter"
                                     >
                                       <button
-                                        class="euiButton euiButton--primary euiButton--fill"
+                                        class="euiButton euiButton--primary euiButton--small euiButton--fill"
                                         type="button"
                                       >
                                         <span
@@ -1715,52 +1715,59 @@ exports[`<DetailsTableModal /> spec renders headers 1`] = `
                               <div
                                 className="euiModalFooter"
                               >
-                                <EuiButton
+                                <EuiSmallButton
                                   fill={true}
                                   onClick={[MockFunction]}
                                 >
-                                  <EuiButtonDisplay
-                                    baseClassName="euiButton"
-                                    disabled={false}
-                                    element="button"
+                                  <EuiButton
                                     fill={true}
-                                    isDisabled={false}
                                     onClick={[MockFunction]}
-                                    type="button"
+                                    size="s"
                                   >
-                                    <button
-                                      className="euiButton euiButton--primary euiButton--fill"
+                                    <EuiButtonDisplay
+                                      baseClassName="euiButton"
                                       disabled={false}
+                                      element="button"
+                                      fill={true}
+                                      isDisabled={false}
                                       onClick={[MockFunction]}
-                                      style={
-                                        Object {
-                                          "minWidth": undefined,
-                                        }
-                                      }
+                                      size="s"
                                       type="button"
                                     >
-                                      <EuiButtonContent
-                                        className="euiButton__content"
-                                        iconSide="left"
-                                        textProps={
+                                      <button
+                                        className="euiButton euiButton--primary euiButton--small euiButton--fill"
+                                        disabled={false}
+                                        onClick={[MockFunction]}
+                                        style={
                                           Object {
-                                            "className": "euiButton__text",
+                                            "minWidth": undefined,
                                           }
                                         }
+                                        type="button"
                                       >
-                                        <span
-                                          className="euiButtonContent euiButton__content"
+                                        <EuiButtonContent
+                                          className="euiButton__content"
+                                          iconSide="left"
+                                          textProps={
+                                            Object {
+                                              "className": "euiButton__text",
+                                            }
+                                          }
                                         >
                                           <span
-                                            className="euiButton__text"
+                                            className="euiButtonContent euiButton__content"
                                           >
-                                            Close
+                                            <span
+                                              className="euiButton__text"
+                                            >
+                                              Close
+                                            </span>
                                           </span>
-                                        </span>
-                                      </EuiButtonContent>
-                                    </button>
-                                  </EuiButtonDisplay>
-                                </EuiButton>
+                                        </EuiButtonContent>
+                                      </button>
+                                    </EuiButtonDisplay>
+                                  </EuiButton>
+                                </EuiSmallButton>
                               </div>
                             </EuiModalFooter>
                           </div>
@@ -2075,7 +2082,7 @@ exports[`<DetailsTableModal /> spec renders parameters 1`] = `
                         class="euiModalFooter"
                       >
                         <button
-                          class="euiButton euiButton--primary euiButton--fill"
+                          class="euiButton euiButton--primary euiButton--small euiButton--fill"
                           type="button"
                         >
                           <span
@@ -2370,7 +2377,7 @@ exports[`<DetailsTableModal /> spec renders parameters 1`] = `
                                 class="euiModalFooter"
                               >
                                 <button
-                                  class="euiButton euiButton--primary euiButton--fill"
+                                  class="euiButton euiButton--primary euiButton--small euiButton--fill"
                                   type="button"
                                 >
                                   <span
@@ -2597,7 +2604,7 @@ exports[`<DetailsTableModal /> spec renders parameters 1`] = `
                                   class="euiModalFooter"
                                 >
                                   <button
-                                    class="euiButton euiButton--primary euiButton--fill"
+                                    class="euiButton euiButton--primary euiButton--small euiButton--fill"
                                     type="button"
                                   >
                                     <span
@@ -2824,7 +2831,7 @@ exports[`<DetailsTableModal /> spec renders parameters 1`] = `
                                     class="euiModalFooter"
                                   >
                                     <button
-                                      class="euiButton euiButton--primary euiButton--fill"
+                                      class="euiButton euiButton--primary euiButton--small euiButton--fill"
                                       type="button"
                                     >
                                       <span
@@ -3039,7 +3046,7 @@ exports[`<DetailsTableModal /> spec renders parameters 1`] = `
                                       class="euiModalFooter"
                                     >
                                       <button
-                                        class="euiButton euiButton--primary euiButton--fill"
+                                        class="euiButton euiButton--primary euiButton--small euiButton--fill"
                                         type="button"
                                       >
                                         <span
@@ -3560,52 +3567,59 @@ exports[`<DetailsTableModal /> spec renders parameters 1`] = `
                               <div
                                 className="euiModalFooter"
                               >
-                                <EuiButton
+                                <EuiSmallButton
                                   fill={true}
                                   onClick={[MockFunction]}
                                 >
-                                  <EuiButtonDisplay
-                                    baseClassName="euiButton"
-                                    disabled={false}
-                                    element="button"
+                                  <EuiButton
                                     fill={true}
-                                    isDisabled={false}
                                     onClick={[MockFunction]}
-                                    type="button"
+                                    size="s"
                                   >
-                                    <button
-                                      className="euiButton euiButton--primary euiButton--fill"
+                                    <EuiButtonDisplay
+                                      baseClassName="euiButton"
                                       disabled={false}
+                                      element="button"
+                                      fill={true}
+                                      isDisabled={false}
                                       onClick={[MockFunction]}
-                                      style={
-                                        Object {
-                                          "minWidth": undefined,
-                                        }
-                                      }
+                                      size="s"
                                       type="button"
                                     >
-                                      <EuiButtonContent
-                                        className="euiButton__content"
-                                        iconSide="left"
-                                        textProps={
+                                      <button
+                                        className="euiButton euiButton--primary euiButton--small euiButton--fill"
+                                        disabled={false}
+                                        onClick={[MockFunction]}
+                                        style={
                                           Object {
-                                            "className": "euiButton__text",
+                                            "minWidth": undefined,
                                           }
                                         }
+                                        type="button"
                                       >
-                                        <span
-                                          className="euiButtonContent euiButton__content"
+                                        <EuiButtonContent
+                                          className="euiButton__content"
+                                          iconSide="left"
+                                          textProps={
+                                            Object {
+                                              "className": "euiButton__text",
+                                            }
+                                          }
                                         >
                                           <span
-                                            className="euiButton__text"
+                                            className="euiButtonContent euiButton__content"
                                           >
-                                            Close
+                                            <span
+                                              className="euiButton__text"
+                                            >
+                                              Close
+                                            </span>
                                           </span>
-                                        </span>
-                                      </EuiButtonContent>
-                                    </button>
-                                  </EuiButtonDisplay>
-                                </EuiButton>
+                                        </EuiButtonContent>
+                                      </button>
+                                    </EuiButtonDisplay>
+                                  </EuiButton>
+                                </EuiSmallButton>
                               </div>
                             </EuiModalFooter>
                           </div>

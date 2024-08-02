@@ -25,7 +25,7 @@ exports[`<ChannelNamePanel/> spec renders errors 1`] = `
     style="padding: initial;"
   >
     <div
-      class="euiFormRow"
+      class="euiFormRow euiFormRow--compressed"
       id="random_html_id-row"
     >
       <div
@@ -43,14 +43,14 @@ exports[`<ChannelNamePanel/> spec renders errors 1`] = `
         class="euiFormRow__fieldWrapper"
       >
         <div
-          class="euiFormControlLayout"
+          class="euiFormControlLayout euiFormControlLayout--compressed"
         >
           <div
             class="euiFormControlLayout__childrenWrapper"
           >
             <input
               aria-describedby="random_html_id-error-0"
-              class="euiFieldText"
+              class="euiFieldText euiFieldText--compressed"
               data-test-subj="create-channel-name-input"
               id="random_html_id"
               placeholder="Enter channel name"
@@ -69,7 +69,7 @@ exports[`<ChannelNamePanel/> spec renders errors 1`] = `
       </div>
     </div>
     <div
-      class="euiFormRow"
+      class="euiFormRow euiFormRow--compressed"
       id="random_html_id-row"
     >
       <div
@@ -93,10 +93,10 @@ exports[`<ChannelNamePanel/> spec renders errors 1`] = `
         class="euiFormRow__fieldWrapper"
       >
         <textarea
-          class="euiTextArea euiTextArea--resizeVertical"
+          class="euiTextArea euiTextArea--resizeVertical euiTextArea--compressed"
           data-test-subj="create-channel-description-input"
           placeholder="What is the purpose of this channel?"
-          rows="6"
+          rows="3"
           style="height: 4.1rem;"
         >
           test description
@@ -132,7 +132,7 @@ exports[`<ChannelNamePanel/> spec renders the component 1`] = `
     style="padding: initial;"
   >
     <div
-      class="euiFormRow"
+      class="euiFormRow euiFormRow--compressed"
       id="random_html_id-row"
     >
       <div
@@ -150,13 +150,13 @@ exports[`<ChannelNamePanel/> spec renders the component 1`] = `
         class="euiFormRow__fieldWrapper"
       >
         <div
-          class="euiFormControlLayout"
+          class="euiFormControlLayout euiFormControlLayout--compressed"
         >
           <div
             class="euiFormControlLayout__childrenWrapper"
           >
             <input
-              class="euiFieldText"
+              class="euiFieldText euiFieldText--compressed"
               data-test-subj="create-channel-name-input"
               id="random_html_id"
               placeholder="Enter channel name"
@@ -168,7 +168,7 @@ exports[`<ChannelNamePanel/> spec renders the component 1`] = `
       </div>
     </div>
     <div
-      class="euiFormRow"
+      class="euiFormRow euiFormRow--compressed"
       id="random_html_id-row"
     >
       <div
@@ -192,10 +192,10 @@ exports[`<ChannelNamePanel/> spec renders the component 1`] = `
         class="euiFormRow__fieldWrapper"
       >
         <textarea
-          class="euiTextArea euiTextArea--resizeVertical"
+          class="euiTextArea euiTextArea--resizeVertical euiTextArea--compressed"
           data-test-subj="create-channel-description-input"
           placeholder="What is the purpose of this channel?"
-          rows="6"
+          rows="3"
           style="height: 4.1rem;"
         >
           test description

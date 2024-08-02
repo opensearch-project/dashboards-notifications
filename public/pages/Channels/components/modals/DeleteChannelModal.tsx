@@ -4,9 +4,9 @@
  */
 
 import {
-  EuiButton,
-  EuiButtonEmpty,
-  EuiFieldText,
+  EuiSmallButton,
+  EuiSmallButtonEmpty,
+  EuiCompressedFieldText,
   EuiFlexGroup,
   EuiFlexItem,
   EuiModal,
@@ -69,7 +69,7 @@ export const DeleteChannelModal = (props: DeleteChannelModalProps) => {
           <EuiText>
             To confirm delete, type <i>delete</i> in the field.
           </EuiText>
-          <EuiFieldText
+          <EuiCompressedFieldText
             placeholder="delete"
             value={input}
             onChange={(e) => setInput(e.target.value)}
@@ -78,10 +78,10 @@ export const DeleteChannelModal = (props: DeleteChannelModalProps) => {
         <EuiModalFooter>
           <EuiFlexGroup justifyContent="flexEnd">
             <EuiFlexItem grow={false}>
-              <EuiButtonEmpty onClick={props.onClose}>Cancel</EuiButtonEmpty>
+              <EuiSmallButtonEmpty onClick={props.onClose}>Cancel</EuiSmallButtonEmpty>
             </EuiFlexItem>
             <EuiFlexItem grow={false}>
-              <EuiButton
+              <EuiSmallButton
                 fill
                 data-test-subj="delete-channel-modal-delete-button"
                 color="danger"
@@ -117,7 +117,7 @@ export const DeleteChannelModal = (props: DeleteChannelModalProps) => {
                 disabled={input !== 'delete'}
               >
                 Delete
-              </EuiButton>
+              </EuiSmallButton>
             </EuiFlexItem>
           </EuiFlexGroup>
         </EuiModalFooter>
