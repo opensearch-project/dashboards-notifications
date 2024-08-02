@@ -8,13 +8,13 @@ exports[`<SendersTableControls /> spec renders the component 1`] = `
     class="euiFlexItem"
   >
     <div
-      class="euiFormControlLayout euiFormControlLayout--fullWidth"
+      class="euiFormControlLayout euiFormControlLayout--fullWidth euiFormControlLayout--compressed"
     >
       <div
         class="euiFormControlLayout__childrenWrapper"
       >
         <input
-          class="euiFieldSearch euiFieldSearch--fullWidth"
+          class="euiFieldSearch euiFieldSearch--fullWidth euiFieldSearch--compressed"
           data-test-subj="senders-table-search-input"
           placeholder="Search"
           type="search"
@@ -27,7 +27,7 @@ exports[`<SendersTableControls /> spec renders the component 1`] = `
           >
             <svg
               aria-hidden="true"
-              class="euiIcon euiIcon--medium euiIcon-isLoading euiFormControlLayoutCustomIcon__icon"
+              class="euiIcon euiIcon--small euiIcon-isLoading euiFormControlLayoutCustomIcon__icon"
               focusable="false"
               height="16"
               role="img"
@@ -57,7 +57,7 @@ exports[`<SendersTableControls /> spec renders the component 1`] = `
           class="euiPopover__anchor"
         >
           <button
-            class="euiButtonEmpty euiButtonEmpty--text euiFilterButton euiFilterButton--hasIcon euiFilterButton--noGrow"
+            class="euiButtonEmpty euiButtonEmpty--text euiButtonEmpty--small euiFilterButton euiFilterButton--hasIcon euiFilterButton--noGrow"
             type="button"
           >
             <span
