@@ -31,6 +31,7 @@ export const renderApp = (
                 dataSourceManagement={dataSourceManagement}
                 http={coreStart.http} // Pass http as a prop
                 defaultRoute={defaultRoute}
+                navigation={pluginStartDependencies.navigation}
               />
             </CoreServicesContext.Provider>
         )}

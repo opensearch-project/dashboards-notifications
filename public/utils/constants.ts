@@ -24,10 +24,10 @@ export const ROUTES = Object.freeze({
 });
 
 export const BREADCRUMBS = Object.freeze({
-  NOTIFICATIONS: { text: 'Notifications', href: '#/' },
+  NOTIFICATIONS: { text: 'Notification channels', href: '#/' },
   CHANNELS: { text: 'Channels', href: `#${ROUTES.CHANNELS}` },
   CHANNEL_DETAILS: { text: 'Channels', href: `#${ROUTES.CHANNEL_DETAILS}` },
-  CREATE_CHANNEL: { text: 'Create channel', href: `#${ROUTES.CREATE_CHANNEL}` },
+  CREATE_CHANNEL: { text: '', href: `#${ROUTES.CREATE_CHANNEL}` },
   EDIT_CHANNEL: { text: 'Edit channel' },
   EMAIL_SENDERS: { text: 'Email senders', href: `#${ROUTES.EMAIL_SENDERS}` },
   EMAIL_GROUPS: { text: 'Email recipient groups', href: `#${ROUTES.EMAIL_GROUPS}` },

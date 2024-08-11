@@ -29,7 +29,7 @@ import {
   CUSTOM_WEBHOOK_ENDPOINT_TYPE,
   ROUTES,
 } from '../../utils/constants';
-import {BACKEND_CHANNEL_TYPE,CHANNEL_TYPE } from '../../../common/constants'
+import { BACKEND_CHANNEL_TYPE, CHANNEL_TYPE } from '../../../common/constants'
 import { getErrorMessage } from '../../utils/helpers';
 import { HeaderItemType, WebhookHttpType, WebhookMethodType } from '../Channels/types';
 import { MainContext } from '../Main/Main';
@@ -55,9 +55,14 @@ import {
   validateRecipients,
   validateWebhookURL,
 } from './utils/validationHelper';
+import { NavigationPublicPluginStart } from 'src/plugins/navigation/public';
+import { ApplicationStart } from 'opensearch-dashboards/public';
 
 interface CreateChannelsProps extends RouteComponentProps<{ id?: string }> {
   edit?: boolean;
+  navigationUI: NavigationPublicPluginStart['ui'];
+  showActionsInHeader: boolean;
+  application: ApplicationStart;
 }
 
 type InputErrorsType = { [key: string]: string[] };
@@ -141,6 +146,10 @@ export function CreateChannel(props: CreateChannelsProps) {
     topicArn: [],
     roleArn: [],
   });
+
+  const { HeaderControl } = props.navigationUI;
+  const showActionsInHeader = props.showActionsInHeader;
+  const { setAppDescriptionControls } = props.application;
 
   useEffect(() => {
     coreContext.chrome.setBreadcrumbs([
@@ -365,9 +374,16 @@ export function CreateChannel(props: CreateChannelsProps) {
       <CreateChannelContext.Provider
         value={{ edit: props.edit, inputErrors, setInputErrors }}
       >
-        <EuiTitle size="l">
-          <h1>{`${props.edit ? 'Edit' : 'Create'} channel`}</h1>
-        </EuiTitle>
+        {showActionsInHeader ? (
+          <HeaderControl
+            controls={[{ description }]}
+            setMountPoint={setAppDescriptionControls}
+          />
+        ) : (
+          <EuiTitle size="l">
+            <h1>{`${props.edit ? 'Edit' : 'Create'} channel`}</h1>
+          </EuiTitle>
+        )}
 
         <EuiSpacer />
         <ChannelNamePanel
@@ -415,7 +431,7 @@ export function CreateChannel(props: CreateChannelsProps) {
               microsoftTeamsWebhook={microsoftTeamsWebhook}
               setMicrosoftTeamsWebhook={setMicrosoftTeamsWebhook}
             />
-          ): channelType === BACKEND_CHANNEL_TYPE.EMAIL ? (
+          ) : channelType === BACKEND_CHANNEL_TYPE.EMAIL ? (
             <EmailSettings
               senderType={senderType}
               setSenderType={setSenderType}
@@ -496,15 +512,14 @@ export function CreateChannel(props: CreateChannelsProps) {
                 const config = createConfigObject();
                 const request = props.edit
                   ? servicesContext.notificationService.updateConfig(
-                      id!,
-                      config
-                    )
+                    id!,
+                    config
+                  )
                   : servicesContext.notificationService.createConfig(config);
                 await request
                   .then((response) => {
                     coreContext.notifications.toasts.addSuccess(
-                      `Channel ${name} successfully ${
-                        props.edit ? 'updated' : 'created'
+                      `Channel ${name} successfully ${props.edit ? 'updated' : 'created'
                       }.`
                     );
                     setTimeout(() => (location.hash = prevURL), SERVER_DELAY);
@@ -514,9 +529,8 @@ export function CreateChannel(props: CreateChannelsProps) {
                     coreContext.notifications.toasts.addError(
                       error?.body || error,
                       {
-                        title: `Failed to ${
-                          props.edit ? 'update' : 'create'
-                        } channel.`,
+                        title: `Failed to ${props.edit ? 'update' : 'create'
+                          } channel.`,
                       }
                     );
                   });

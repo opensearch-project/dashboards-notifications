@@ -43,9 +43,14 @@ import MDSEnabledComponent, {
   isDataSourceChanged,
   isDataSourceError,
 } from '../../components/MDSEnabledComponent/MDSEnabledComponent';
+import { NavigationPublicPluginStart, TopNavControlButtonData } from 'src/plugins/navigation/public';
+import { ApplicationStart } from 'opensearch-dashboards/public';
 
 interface ChannelsProps extends RouteComponentProps, DataSourceMenuProperties {
   notificationService: NotificationService;
+  navigationUI: NavigationPublicPluginStart['ui'];
+  showActionsInHeader: boolean;
+  application: ApplicationStart;
 }
 
 interface ChannelsState extends TableState<ChannelItemType>, DataSourceMenuProperties {
@@ -215,6 +220,33 @@ export class Channels extends MDSEnabledComponent<ChannelsProps, ChannelsState> 
       onSelectionChange: this.onSelectionChange,
     };
 
+    const { HeaderControl } = this.props.navigationUI;
+    const showActionsInHeader = this.props.showActionsInHeader;
+    const { setAppRightControls } = this.props.application;
+
+    const headerControls = [
+      {
+        renderComponent: (
+          <ChannelActions
+            selected={this.state.selectedItems}
+            setSelected={(selectedItems) => this.setState({ selectedItems })}
+            items={this.state.items}
+            setItems={(items) => this.setState({ items })}
+            refresh={this.refresh}
+          />
+        ),
+      },
+      {
+        id: 'Create Channel',
+        label: 'Create channel',
+        iconType: 'plus',
+        fill: true,
+        href: `#${ROUTES.CREATE_CHANNEL}`,
+        testId: 'createButton',
+        controlType: 'button',
+      },
+    ];
+
     return (
       <>
         <ContentPanel
@@ -222,34 +254,35 @@ export class Channels extends MDSEnabledComponent<ChannelsProps, ChannelsState> 
             <ContentPanelActions
               actions={[
                 {
-                  component: (
+                  component: showActionsInHeader ? (
+                    <HeaderControl
+                      setMountPoint={setAppRightControls}
+                      controls={headerControls}
+                      bodyStyles={{ padding: 'initial' }}
+                      title="Channels"
+                      titleSize="m"
+                      total={this.state.total}
+                    />
+                  ) : (
                     <ChannelActions
                       selected={this.state.selectedItems}
-                      setSelected={(selectedItems: ChannelItemType[]) =>
-                        this.setState({ selectedItems })
-                      }
+                      setSelected={(selectedItems) => this.setState({ selectedItems })}
                       items={this.state.items}
-                      setItems={(items: ChannelItemType[]) =>
-                        this.setState({ items })
-                      }
+                      setItems={(items) => this.setState({ items })}
                       refresh={this.refresh}
                     />
                   ),
                 },
                 {
-                  component: (
+                  component: !showActionsInHeader ? (
                     <EuiButton fill href={`#${ROUTES.CREATE_CHANNEL}`}>
                       Create channel
                     </EuiButton>
-                  ),
+                  ) : null,
                 },
               ]}
             />
           }
-          bodyStyles={{ padding: 'initial' }}
-          title="Channels"
-          titleSize="m"
-          total={this.state.total}
         >
           <ChannelControls
             onSearchChange={this.onSearchChange}
@@ -257,12 +290,11 @@ export class Channels extends MDSEnabledComponent<ChannelsProps, ChannelsState> 
             onFiltersChange={this.onFiltersChange}
           />
           <EuiHorizontalRule margin="s" />
-
           <EuiBasicTable
             columns={this.columns}
             items={this.state.items}
             itemId="config_id"
-            isSelectable={true}
+            isSelectable
             selection={selection}
             noItemsMessage={
               <EuiEmptyPrompt
