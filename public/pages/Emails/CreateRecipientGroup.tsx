@@ -26,10 +26,15 @@ import {
   validateRecipientGroupEmails,
   validateRecipientGroupName,
 } from './utils/validationHelper';
+import { NavigationPublicPluginStart } from 'src/plugins/navigation/public';
+import { ApplicationStart } from 'opensearch-dashboards/public';
 
 interface CreateRecipientGroupProps
   extends RouteComponentProps<{ id?: string }> {
   edit?: boolean;
+  navigationUI: NavigationPublicPluginStart['ui'];
+  showActionsInHeader: boolean;
+  application: ApplicationStart;
 }
 
 export function CreateRecipientGroup(props: CreateRecipientGroupProps) {
@@ -103,9 +108,11 @@ export function CreateRecipientGroup(props: CreateRecipientGroupProps) {
 
   return (
     <>
-      <EuiTitle size="l">
-        <h1>{`${props.edit ? 'Edit' : 'Create'} recipient group`}</h1>
-      </EuiTitle>
+      {!props.showActionsInHeader && (
+        <EuiTitle size="l">
+          <h1>{`${props.edit ? 'Edit' : 'Create'} recipient group`}</h1>
+        </EuiTitle>
+      )}
 
       <EuiSpacer />
       <ContentPanel
@@ -153,15 +160,14 @@ export function CreateRecipientGroup(props: CreateRecipientGroupProps) {
               );
               const request = props.edit
                 ? servicesContext.notificationService.updateConfig(
-                    props.match.params.id!,
-                    config
-                  )
+                  props.match.params.id!,
+                  config
+                )
                 : servicesContext.notificationService.createConfig(config);
               await request
                 .then((response) => {
                   coreContext.notifications.toasts.addSuccess(
-                    `Recipient group ${name} successfully ${
-                      props.edit ? 'updated' : 'created'
+                    `Recipient group ${name} successfully ${props.edit ? 'updated' : 'created'
                     }.`
                   );
                   setTimeout(
@@ -174,9 +180,8 @@ export function CreateRecipientGroup(props: CreateRecipientGroupProps) {
                   coreContext.notifications.toasts.addError(
                     error?.body || error,
                     {
-                      title: `Failed to ${
-                        props.edit ? 'update' : 'create'
-                      } recipient group.`,
+                      title: `Failed to ${props.edit ? 'update' : 'create'
+                        } recipient group.`,
                     }
                   );
                 });

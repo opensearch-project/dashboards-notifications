@@ -28,9 +28,14 @@ import {
   validateRoleArn,
   validateSenderName,
 } from './utils/validationHelper';
+import { NavigationPublicPluginStart } from 'src/plugins/navigation/public';
+import { ApplicationStart } from 'opensearch-dashboards/public';
 
 interface CreateSESSenderProps extends RouteComponentProps<{ id?: string }> {
   edit?: boolean;
+  navigationUI: NavigationPublicPluginStart['ui'];
+  showActionsInHeader: boolean;
+  application: ApplicationStart;
 }
 
 export function CreateSESSender(props: CreateSESSenderProps) {
@@ -101,9 +106,11 @@ export function CreateSESSender(props: CreateSESSenderProps) {
 
   return (
     <>
-      <EuiTitle size="l">
-        <h1>{`${props.edit ? 'Edit' : 'Create'} SES sender`}</h1>
-      </EuiTitle>
+      {!props.showActionsInHeader && (
+        <EuiTitle size="l">
+          <h1>{`${props.edit ? 'Edit' : 'Create'} SES sender`}</h1>
+        </EuiTitle>
+      )}
 
       <EuiSpacer />
       <ContentPanel

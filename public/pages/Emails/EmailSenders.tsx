@@ -12,9 +12,14 @@ import { MainContext } from '../Main/Main';
 import { SendersTable } from './components/tables/SendersTable';
 import { SESSendersTable } from './components/tables/SESSendersTable';
 import { NotificationService } from '../../services';
+import { NavigationPublicPluginStart } from 'src/plugins/navigation/public';
+import { ApplicationStart } from 'opensearch-dashboards/public';
 
 interface EmailSendersProps extends RouteComponentProps {
   notificationService: NotificationService;
+  navigationUI: NavigationPublicPluginStart['ui'];
+  showActionsInHeader: boolean;
+  application: ApplicationStart;
 }
 
 export function EmailSenders(props: EmailSendersProps) {
@@ -30,15 +35,21 @@ export function EmailSenders(props: EmailSendersProps) {
     window.scrollTo(0, 0);
   }, []);
 
+  const showActionsInHeader = props.showActionsInHeader;
+
   return (
     <>
-      <EuiTitle size="l">
-        <h1>Email senders</h1>
-      </EuiTitle>
+      {!showActionsInHeader && (
+        <EuiTitle size="l">
+          <h1>Email senders</h1>
+        </EuiTitle>
+      )}
       {mainStateContext.availableConfigTypes.includes('smtp_account') && (
         <>
           <EuiSpacer />
-          <SendersTable coreContext={coreContext} notificationService={props.notificationService} />
+          <SendersTable coreContext={coreContext}
+            notificationService={props.notificationService}
+          />
         </>
       )}
 
@@ -46,7 +57,9 @@ export function EmailSenders(props: EmailSendersProps) {
       {mainStateContext.availableConfigTypes.includes('ses_account') && (
         <>
           <EuiSpacer />
-          <SESSendersTable coreContext={coreContext} notificationService={props.notificationService} />
+          <SESSendersTable coreContext={coreContext}
+            notificationService={props.notificationService}
+          />
         </>
       )}
     </>

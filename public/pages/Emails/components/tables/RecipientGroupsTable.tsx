@@ -18,7 +18,7 @@ import { Criteria } from '@elastic/eui/src/components/basic_table/basic_table';
 import { Pagination } from '@elastic/eui/src/components/basic_table/pagination_bar';
 import _ from 'lodash';
 import React, { Component } from 'react';
-import { CoreStart } from '../../../../../../../src/core/public';
+import { ApplicationStart, CoreStart } from '../../../../../../../src/core/public';
 import {
   RecipientGroupItemType,
   TableState,
@@ -38,10 +38,14 @@ import {
   isDataSourceError,
   isDataSourceChanged,
 } from '../../../../components/MDSEnabledComponent/MDSEnabledComponent';
+import { NavigationPublicPluginStart } from 'src/plugins/navigation/public';
 
 interface RecipientGroupsTableProps {
   coreContext: CoreStart;
   notificationService: NotificationService;
+  navigationUI: NavigationPublicPluginStart['ui'];
+  showActionsInHeader: boolean;
+  application: ApplicationStart;
 }
 
 interface RecipientGroupsTableState
@@ -218,6 +222,22 @@ export class RecipientGroupsTable extends Component<
       onSelectionChange: this.onSelectionChange,
     };
 
+    const { HeaderControl } = this.props.navigationUI;
+    const showActionsInHeader = this.props.showActionsInHeader;
+    const { setAppRightControls } = this.props.application;
+
+    const headerControls = [
+      {
+        id: 'Create recipient group',
+        label: 'Create recipient group',
+        iconType: 'plus',
+        fill: true,
+        href: `#${ROUTES.CREATE_RECIPIENT_GROUP}`,
+        testId: 'createButton',
+        controlType: 'button',
+      },
+    ];
+
     return (
       <>
         <ContentPanel
@@ -260,12 +280,17 @@ export class RecipientGroupsTable extends Component<
                   ),
                 },
                 {
-                  component: (
+                  component: showActionsInHeader ? (
+                    <HeaderControl
+                      setMountPoint={setAppRightControls}
+                      controls={headerControls}
+                    />
+                  ) : (
                     <EuiButton fill href={`#${ROUTES.CREATE_RECIPIENT_GROUP}`}>
-                      Create recipient group
-                    </EuiButton>
+                    Create recipient group
+                  </EuiButton>
                   ),
-                },
+                }
               ]}
             />
           }

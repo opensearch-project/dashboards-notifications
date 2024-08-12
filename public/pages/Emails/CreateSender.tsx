@@ -27,9 +27,14 @@ import {
   validatePort,
   validateSenderName,
 } from './utils/validationHelper';
+import { NavigationPublicPluginStart } from 'src/plugins/navigation/public';
+import { ApplicationStart } from 'opensearch-dashboards/public';
 
 interface CreateSenderProps extends RouteComponentProps<{ id?: string }> {
   edit?: boolean;
+  navigationUI: NavigationPublicPluginStart['ui'];
+  showActionsInHeader: boolean;
+  application: ApplicationStart;
 }
 
 export function CreateSender(props: CreateSenderProps) {
@@ -98,9 +103,11 @@ export function CreateSender(props: CreateSenderProps) {
 
   return (
     <>
-      <EuiTitle size="l">
-        <h1>{`${props.edit ? 'Edit' : 'Create'} SMTP sender`}</h1>
-      </EuiTitle>
+      {!props.showActionsInHeader && (
+        <EuiTitle size="l">
+          <h1>{`${props.edit ? 'Edit' : 'Create'} SMTP sender`}</h1>
+        </EuiTitle>
+      )}
 
       <EuiSpacer />
       <ContentPanel
@@ -153,15 +160,14 @@ export function CreateSender(props: CreateSenderProps) {
               );
               const request = props.edit
                 ? servicesContext.notificationService.updateConfig(
-                    props.match.params.id!,
-                    config
-                  )
+                  props.match.params.id!,
+                  config
+                )
                 : servicesContext.notificationService.createConfig(config);
               await request
                 .then((response) => {
                   coreContext.notifications.toasts.addSuccess(
-                    `Sender ${senderName} successfully ${
-                      props.edit ? 'updated' : 'created'
+                    `Sender ${senderName} successfully ${props.edit ? 'updated' : 'created'
                     }.`
                   );
                   setTimeout(
@@ -172,9 +178,8 @@ export function CreateSender(props: CreateSenderProps) {
                 .catch((error) => {
                   setLoading(false);
                   coreContext.notifications.toasts.addError(error?.body || error, {
-                    title: `Failed to ${
-                      props.edit ? 'update' : 'create'
-                    } sender.`,
+                    title: `Failed to ${props.edit ? 'update' : 'create'
+                      } sender.`,
                   });
                 });
             }}

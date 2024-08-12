@@ -43,7 +43,7 @@ import MDSEnabledComponent, {
   isDataSourceChanged,
   isDataSourceError,
 } from '../../components/MDSEnabledComponent/MDSEnabledComponent';
-import { NavigationPublicPluginStart, TopNavControlButtonData } from 'src/plugins/navigation/public';
+import { NavigationPublicPluginStart } from 'src/plugins/navigation/public';
 import { ApplicationStart } from 'opensearch-dashboards/public';
 
 interface ChannelsProps extends RouteComponentProps, DataSourceMenuProperties {

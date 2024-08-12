@@ -31,7 +31,6 @@ import { MuteChannelModal } from '../modals/MuteChannelModal';
 import { ChannelDetailItems } from './ChannelDetailItems';
 import { ChannelDetailsActions } from './ChannelDetailsActions';
 import { ChannelSettingsDetails } from './ChannelSettingsDetails';
-import { NavigationPublicPlugin } from 'src/plugins/navigation/public/plugin';
 import { NavigationPublicPluginStart } from 'src/plugins/navigation/public';
 import { ApplicationStart } from 'opensearch-dashboards/public';
 

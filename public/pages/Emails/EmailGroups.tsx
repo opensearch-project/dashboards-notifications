@@ -9,11 +9,15 @@ import { RouteComponentProps } from 'react-router-dom';
 import { CoreServicesContext } from '../../components/coreServices';
 import { BREADCRUMBS } from '../../utils/constants';
 import { RecipientGroupsTable } from './components/tables/RecipientGroupsTable';
-import { MainContext } from '../Main/Main';
 import { NotificationService } from '../../services';
+import { NavigationPublicPluginStart } from 'src/plugins/navigation/public';
+import { ApplicationStart } from 'opensearch-dashboards/public';
 
 interface EmailGroupsProps extends RouteComponentProps {
   notificationService: NotificationService;
+  navigationUI: NavigationPublicPluginStart['ui'];
+  showActionsInHeader: boolean;
+  application: ApplicationStart;
 }
 
 export function EmailGroups(props: EmailGroupsProps) {
@@ -28,12 +32,19 @@ export function EmailGroups(props: EmailGroupsProps) {
 
   return (
     <>
-      <EuiTitle size="l">
-        <h1>Email recipient groups</h1>
-      </EuiTitle>
+      {!props.showActionsInHeader && (
+        <EuiTitle size="l">
+          <h1>Email recipient groups</h1>
+        </EuiTitle>
+      )}
 
       <EuiSpacer />
-      <RecipientGroupsTable coreContext={coreContext} notificationService={props.notificationService} />
+      <RecipientGroupsTable coreContext={coreContext} 
+      notificationService={props.notificationService} 
+      navigationUI={props.navigationUI} // Pass values from NavigationMenuContext
+      showActionsInHeader={props.showActionsInHeader} // Pass values from NavigationMenuContext
+      application={props.application} // Pass values from NavigationMenuContext
+      />
     </>
   );
 }
