@@ -82,7 +82,7 @@ export class notificationsDashboardsPlugin
       // channels route
       core.application.register({
         id: `channels`,
-        title: 'Channels',
+        title: 'Notification channels',
         order: 9070,
         workspaceAvailability: WorkspaceAvailability.outsideWorkspace,
         mount: async (params: AppMountParameters) => {
