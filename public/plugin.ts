@@ -76,13 +76,14 @@ export class notificationsDashboardsPlugin
       core.chrome.navGroup.addNavLinksToGroup(DEFAULT_NAV_GROUPS.settingsAndSetup, [
         {
           id: PLUGIN_NAME,
+          title: 'Notification channels'
         }
       ])
 
       // channels route
       core.application.register({
         id: `channels`,
-        title: 'Notification channels',
+        title: 'Channels',
         order: 9070,
         workspaceAvailability: WorkspaceAvailability.outsideWorkspace,
         mount: async (params: AppMountParameters) => {
