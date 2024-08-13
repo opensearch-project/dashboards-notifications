@@ -38,7 +38,7 @@ import {
   isDataSourceError,
   isDataSourceChanged,
 } from '../../../../components/MDSEnabledComponent/MDSEnabledComponent';
-import { NavigationPublicPluginStart } from 'src/plugins/navigation/public';
+import { NavigationPublicPluginStart, TopNavControlTextData } from 'src/plugins/navigation/public';
 
 interface RecipientGroupsTableProps {
   coreContext: CoreStart;
@@ -221,15 +221,16 @@ export class RecipientGroupsTable extends Component<
       selectable: () => true,
       onSelectionChange: this.onSelectionChange,
     };
+    
 
     const { HeaderControl } = this.props.navigationUI;
     const showActionsInHeader = this.props.showActionsInHeader;
-    const { setAppRightControls } = this.props.application;
+    const { setAppRightControls, setAppLeftControls } = this.props.application;
 
     const headerControls = [
       {
         id: 'Create recipient group',
-        label: 'Create recipient group',
+        label: `Create recipient group`,
         iconType: 'plus',
         fill: true,
         href: `#${ROUTES.CREATE_RECIPIENT_GROUP}`,
@@ -241,72 +242,57 @@ export class RecipientGroupsTable extends Component<
     return (
       <>
         <ContentPanel
-          actions={
-            <ContentPanelActions
-              actions={[
-                {
-                  component: (
-                    <ModalConsumer>
-                      {({ onShow }) => (
-                        <EuiButton
-                          data-test-subj="recipient-groups-table-delete-button"
-                          disabled={this.state.selectedItems.length === 0}
-                          onClick={() =>
-                            onShow(DeleteRecipientGroupModal, {
-                              recipientGroups: this.state.selectedItems,
-                              refresh: this.refresh,
-                            })
-                          }
-                        >
-                          Delete
-                        </EuiButton>
-                      )}
-                    </ModalConsumer>
-                  ),
-                },
-                {
-                  component: (
-                    <EuiButton
-                      data-test-subj="recipient-groups-table-edit-button"
-                      disabled={this.state.selectedItems.length !== 1}
-                      onClick={() =>
-                        location.assign(
-                          `#${ROUTES.EDIT_RECIPIENT_GROUP}/${this.state.selectedItems[0]?.config_id}`
-                        )
-                      }
-                    >
-                      Edit
-                    </EuiButton>
-                  ),
-                },
-                {
-                  component: showActionsInHeader ? (
-                    <HeaderControl
-                      setMountPoint={setAppRightControls}
-                      controls={headerControls}
-                    />
-                  ) : (
-                    <EuiButton fill href={`#${ROUTES.CREATE_RECIPIENT_GROUP}`}>
-                    Create recipient group
-                  </EuiButton>
-                  ),
-                }
-              ]}
-            />
-          }
-          bodyStyles={{ padding: 'initial' }}
-          title="Recipient groups"
+          bodyStyles={!showActionsInHeader ? { padding: 'initial' } : undefined}
+          title={!showActionsInHeader ? "Recipient groups" : undefined}
           titleSize="m"
-          total={this.state.total}
+          total={!showActionsInHeader ? this.state.total : undefined}
         >
-          <EuiFieldSearch
-            data-test-subj="recipient-groups-table-search-input"
-            fullWidth={true}
-            placeholder="Search"
-            onSearch={this.onSearchChange}
-          />
+          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+            <EuiFieldSearch
+              data-test-subj="recipient-groups-table-search-input"
+              fullWidth={true}
+              placeholder="Search"
+              onSearch={this.onSearchChange}
+            />
+    
+            {/* Always Render Actions but adjust layout based on showActionsInHeader */}
+            <div style={{ marginLeft: 'auto', display: 'flex', gap: '8px' }}>
+              <ModalConsumer>
+                {({ onShow }) => (
+                  <EuiButton
+                    data-test-subj="recipient-groups-table-delete-button"
+                    disabled={this.state.selectedItems.length === 0}
+                    onClick={() =>
+                      onShow(DeleteRecipientGroupModal, {
+                        recipientGroups: this.state.selectedItems,
+                        refresh: this.refresh,
+                      })
+                    }
+                  >
+                    Delete
+                  </EuiButton>
+                )}
+              </ModalConsumer>
+              <EuiButton
+                data-test-subj="recipient-groups-table-edit-button"
+                disabled={this.state.selectedItems.length !== 1}
+                onClick={() =>
+                  location.assign(
+                    `#${ROUTES.EDIT_RECIPIENT_GROUP}/${this.state.selectedItems[0]?.config_id}`
+                  )
+                }
+              >
+                Edit
+              </EuiButton>
+              {!showActionsInHeader && (
+                <EuiButton fill href={`#${ROUTES.CREATE_RECIPIENT_GROUP}`}>
+                  Create recipient group
+                </EuiButton>
+              )}
+            </div>
+          </div>
           <EuiHorizontalRule margin="s" />
-
+    
           <EuiBasicTable
             columns={this.columns}
             items={this.state.items}
@@ -329,6 +315,22 @@ export class RecipientGroupsTable extends Component<
             sorting={sorting}
           />
         </ContentPanel>
+    
+        {/* Header control should be displayed if showActionsInHeader is true */}
+        {showActionsInHeader && (
+          <HeaderControl
+            setMountPoint={setAppLeftControls}
+            controls={[{
+              text: `(${this.state.total})`,
+            } as TopNavControlTextData]}
+          />
+        )}
+        {showActionsInHeader && (
+          <HeaderControl
+            setMountPoint={setAppRightControls}
+            controls={headerControls}
+          />
+        )}
       </>
     );
   }

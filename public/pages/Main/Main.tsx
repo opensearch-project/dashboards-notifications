@@ -28,7 +28,7 @@ import {
   DataSourceSelectableConfig,
   DataSourceViewConfig,
 } from "../../../../../src/plugins/data_source_management/public";
-import { DataSourceOption } from "../../../../../src/plugins/data_source_management/public/components/data_source_menu/types";
+import { DataSourceMenuProps, DataSourceOption } from "../../../../../src/plugins/data_source_management/public/components/data_source_menu/types";
 import _ from "lodash";
 import { NotificationService } from '../../services';
 import { HttpSetup } from '../../../../../src/core/public';
@@ -37,6 +37,7 @@ import { DataSourceAttributes } from "../../../../../src/plugins/data_source/com
 import semver from "semver";
 import { NavigationPublicPluginStart } from 'src/plugins/navigation/public';
 import { NavigationMenuContext } from '../../services/NavigationContext';
+import { ComponentType } from 'react';
 
 enum Navigation {
   Notifications = 'Notifications',
@@ -193,7 +194,7 @@ export default class Main extends Component<MainProps, MainState> {
     const {
       location: { pathname },
     } = this.props;
-    let DataSourceMenuSelectable, DataSourceMenuView;
+    let DataSourceMenuSelectable: React.JSX.IntrinsicAttributes | ComponentType<DataSourceMenuProps<DataSourceSelectableConfig>>, DataSourceMenuView: React.JSX.IntrinsicAttributes | ComponentType<DataSourceMenuProps<DataSourceViewConfig>>;
     let activeOption: DataSourceOption[] | undefined;
     if (this.props.multiDataSourceEnabled) {
       DataSourceMenuSelectable = this.props.dataSourceManagement?.ui?.getDataSourceMenu<DataSourceSelectableConfig>();
