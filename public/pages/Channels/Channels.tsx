@@ -256,9 +256,19 @@ export class Channels extends MDSEnabledComponent<ChannelsProps, ChannelsState> 
                 },
                 {
                   component: !showActionsInHeader && (
-                    <EuiButton fill href={`#${ROUTES.CREATE_CHANNEL}`}>
-                      Create channel
-                    </EuiButton>
+                    <div style={{ display: 'flex', alignItems: 'center' }}>
+                      {/* Channel Actions next to Create Channel button */}
+                      <ChannelActions
+                        selected={this.state.selectedItems}
+                        setSelected={(selectedItems) => this.setState({ selectedItems })}
+                        items={this.state.items}
+                        setItems={(items) => this.setState({ items })}
+                        refresh={this.refresh}
+                      />
+                      <EuiButton fill href={`#${ROUTES.CREATE_CHANNEL}`} style={{ marginLeft: '10px' }}>
+                        Create channel
+                      </EuiButton>
+                    </div>
                   ),
                 },
               ]}
@@ -266,45 +276,26 @@ export class Channels extends MDSEnabledComponent<ChannelsProps, ChannelsState> 
           }
         >
           <div style={{ marginBottom: '10px' }}>
-            {showActionsInHeader ? (
-              <div style={{ display: 'flex', alignItems: 'center' }}>
-                {/* Channel Controls with Status and Type dropdowns */}
-                <ChannelControls
-                  onSearchChange={this.onSearchChange}
-                  filters={this.state.filters}
-                  onFiltersChange={this.onFiltersChange}
-                />
-                {/* Channel Actions next to Status and Type dropdowns */}
-                <ChannelActions
-                  selected={this.state.selectedItems}
-                  setSelected={(selectedItems) => this.setState({ selectedItems })}
-                  items={this.state.items}
-                  setItems={(items) => this.setState({ items })}
-                  refresh={this.refresh}
-                />
-              </div>
-            ) : (
-              <div style={{ display: 'flex', alignItems: 'center' }}>
-                {/* Channel Controls with Status and Type dropdowns */}
-                <ChannelControls
-                  onSearchChange={this.onSearchChange}
-                  filters={this.state.filters}
-                  onFiltersChange={this.onFiltersChange}
-                />
-                <EuiHorizontalRule margin="s" />
-                {/* Channel Actions next to Create Channel button */}
-                <ChannelActions
-                  selected={this.state.selectedItems}
-                  setSelected={(selectedItems) => this.setState({ selectedItems })}
-                  items={this.state.items}
-                  setItems={(items) => this.setState({ items })}
-                  refresh={this.refresh}
-                />
-                <EuiButton fill href={`#${ROUTES.CREATE_CHANNEL}`} style={{ marginLeft: '10px' }}>
-                  Create channel
-                </EuiButton>
-              </div>
-            )}
+            <div style={{ display: 'flex', alignItems: 'center' }}>
+              {/* Channel Controls with Status and Type dropdowns */}
+              <ChannelControls
+                onSearchChange={this.onSearchChange}
+                filters={this.state.filters}
+                onFiltersChange={this.onFiltersChange}
+              />
+              {showActionsInHeader && (
+                <div style={{ marginLeft: '10px' }}>
+                  {/* Channel Actions next to Status and Type dropdowns */}
+                  <ChannelActions
+                    selected={this.state.selectedItems}
+                    setSelected={(selectedItems) => this.setState({ selectedItems })}
+                    items={this.state.items}
+                    setItems={(items) => this.setState({ items })}
+                    refresh={this.refresh}
+                  />
+                </div>
+              )}
+            </div>
           </div>
           <EuiHorizontalRule margin="s" />
           <EuiBasicTable
