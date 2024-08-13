@@ -64,7 +64,11 @@ export function ChannelDetails(props: ChannelDetailsProps) {
         </EuiFlexItem>
         <EuiFlexItem />
         <EuiFlexItem grow={false}>
-          {channel && <ChannelDetailsActions channel={channel} />}
+          {channel && 
+          <ChannelDetailsActions
+            channel={channel}
+            showActionsInHeader={showActionsInHeader}
+          />}
         </EuiFlexItem>
         <EuiFlexItem grow={false}>
           {channel && (
@@ -102,6 +106,22 @@ export function ChannelDetails(props: ChannelDetailsProps) {
       </EuiFlexGroup>
     );
   };
+
+  const sendTestMessage = async () => {
+    try {
+      await servicesContext.notificationService.sendTestMessage(
+        props.channel.config_id,
+      );
+      coreContext.notifications.toasts.addSuccess(
+        'Successfully sent a test message.'
+      );
+    } catch (error) {
+      coreContext.notifications.toasts.addError(error?.body || error, {
+        title: 'Failed to send the test message.',
+        toastMessage: 'View error details and adjust the channel settings.',
+      });
+    }
+  }
 
 
   useEffect(() => {
@@ -206,6 +226,20 @@ export function ChannelDetails(props: ChannelDetailsProps) {
                   <ChannelHeaderContent channel={channel} setChannel={setChannel} />
                 ),
               },
+              {
+                renderComponent: (
+                  <div style={{ display: 'flex', alignItems: 'center' }}>
+                    <EuiButton
+                      data-test-subj="send-test-message-button"
+                      onClick={sendTestMessage}
+                      style={{ marginLeft: '10px' }}
+                      disabled={!channel?.is_enabled}
+                    >
+                      Send test message
+                    </EuiButton>
+                  </div>
+                ),
+              },
             ]}
             bodyStyles={{ padding: 'initial' }}
             title="Channel Details"
@@ -227,7 +261,10 @@ export function ChannelDetails(props: ChannelDetailsProps) {
             </EuiFlexItem>
             <EuiFlexItem />
             <EuiFlexItem grow={false}>
-              {channel && <ChannelDetailsActions channel={channel} />}
+              <ChannelDetailsActions
+                channel={channel}
+                showAcionsInHeader={showActionsInHeader}
+              />
             </EuiFlexItem>
             <EuiFlexItem grow={false}>
               {channel && (
@@ -286,8 +323,8 @@ export function ChannelDetails(props: ChannelDetailsProps) {
       >
         <ChannelSettingsDetails channel={channel} />
       </ContentPanel>
-
     </>
   );
+
 };
 

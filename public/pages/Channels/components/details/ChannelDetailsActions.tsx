@@ -30,6 +30,7 @@ interface ChannelDetailsActionsParams {
 
 interface ChannelDetailsActionsProps {
   channel: ChannelItemType;
+  showActionsInHeader: Boolean;
 }
 
 export function ChannelDetailsActions(props: ChannelDetailsActionsProps) {
@@ -59,13 +60,6 @@ export function ChannelDetailsActions(props: ChannelDetailsActionsProps) {
       href: `#${ROUTES.EDIT_CHANNEL}/${props.channel.config_id}?from=details`,
     },
     {
-      label: 'Send test message',
-      disabled:
-        !props.channel.config_id ||
-        !props.channel.is_enabled,
-      action: sendTestMessage,
-    },
-    {
       label: 'Delete',
       color: 'danger',
       modal: DeleteChannelModal,
@@ -74,6 +68,17 @@ export function ChannelDetailsActions(props: ChannelDetailsActionsProps) {
       },
     },
   ];
+
+  // Add Send Test Message action only if showActionsInHeader is false
+  if (!props.showActionsInHeader) {
+    actions.splice(1, 0, {
+      label: 'Send test message',
+      disabled:
+        !props.channel.config_id ||
+        !props.channel.is_enabled,
+      action: sendTestMessage,
+    });
+  }
 
   return (
     <ModalConsumer>

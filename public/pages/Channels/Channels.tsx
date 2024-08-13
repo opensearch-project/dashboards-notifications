@@ -17,7 +17,7 @@ import {
 import { Criteria } from '@elastic/eui/src/components/basic_table/basic_table';
 import { Pagination } from '@elastic/eui/src/components/basic_table/pagination_bar';
 import _ from 'lodash';
-import React, { Component, useContext } from 'react';
+import React from 'react';
 import { RouteComponentProps } from 'react-router-dom';
 import { ChannelItemType, TableState } from '../../../models/interfaces';
 import {
@@ -43,7 +43,7 @@ import MDSEnabledComponent, {
   isDataSourceChanged,
   isDataSourceError,
 } from '../../components/MDSEnabledComponent/MDSEnabledComponent';
-import { NavigationPublicPluginStart } from 'src/plugins/navigation/public';
+import { NavigationPublicPluginStart, TopNavControlButtonData } from 'src/plugins/navigation/public';
 import { ApplicationStart } from 'opensearch-dashboards/public';
 
 interface ChannelsProps extends RouteComponentProps, DataSourceMenuProperties {
@@ -233,7 +233,7 @@ export class Channels extends MDSEnabledComponent<ChannelsProps, ChannelsState> 
         href: `#${ROUTES.CREATE_CHANNEL}`,
         testId: 'createButton',
         controlType: 'button',
-      },
+      } as TopNavControlButtonData,
     ];
     
     return (
