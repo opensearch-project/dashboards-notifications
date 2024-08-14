@@ -49,6 +49,9 @@ export function EmailSenders(props: EmailSendersProps) {
           <EuiSpacer />
           <SendersTable coreContext={coreContext}
             notificationService={props.notificationService}
+            navigationUI={props.navigationUI}
+            showActionsInHeader={props.showActionsInHeader}
+            application={props.application}
           />
         </>
       )}
@@ -59,6 +62,9 @@ export function EmailSenders(props: EmailSendersProps) {
           <EuiSpacer />
           <SESSendersTable coreContext={coreContext}
             notificationService={props.notificationService}
+            navigationUI={props.navigationUI}
+            showActionsInHeader={props.showActionsInHeader}
+            application={props.application}
           />
         </>
       )}

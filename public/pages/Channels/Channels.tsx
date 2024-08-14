@@ -7,11 +7,14 @@ import {
   EuiBasicTable,
   EuiButton,
   EuiEmptyPrompt,
+  EuiFlexGroup,
+  EuiFlexItem,
   EuiHealth,
   EuiHorizontalRule,
   EuiLink,
   EuiTableFieldDataColumnType,
   EuiTableSortingType,
+  EuiTitle,
   SortDirection,
 } from '@elastic/eui';
 import { Criteria } from '@elastic/eui/src/components/basic_table/basic_table';
@@ -222,7 +225,7 @@ export class Channels extends MDSEnabledComponent<ChannelsProps, ChannelsState> 
 
     const { HeaderControl } = this.props.navigationUI;
     const showActionsInHeader = this.props.showActionsInHeader;
-    const { setAppRightControls } = this.props.application;
+    const { setAppRightControls, setAppLeftControls } = this.props.application;
 
     const headerControls = [
       {
@@ -235,96 +238,162 @@ export class Channels extends MDSEnabledComponent<ChannelsProps, ChannelsState> 
         controlType: 'button',
       } as TopNavControlButtonData,
     ];
-    
+
+    const totalChannnels = (
+      <EuiTitle size="m">
+        <h2>({this.state.total})</h2>
+      </EuiTitle>
+    )
+
     return (
       <>
-        <ContentPanel
-          actions={
-            <ContentPanelActions
-              actions={[
-                {
-                  component: showActionsInHeader ? (
-                    <HeaderControl
-                      setMountPoint={setAppRightControls}
-                      controls={headerControls}
-                      bodyStyles={{ padding: 'initial' }}
-                      title="Channels"
-                      titleSize="m"
-                      total={this.state.total}
-                    />
-                  ) : null,
-                },
-                {
-                  component: !showActionsInHeader && (
-                    <div style={{ display: 'flex', alignItems: 'center' }}>
-                      {/* Channel Actions next to Create Channel button */}
-                      <ChannelActions
-                        selected={this.state.selectedItems}
-                        setSelected={(selectedItems) => this.setState({ selectedItems })}
-                        items={this.state.items}
-                        setItems={(items) => this.setState({ items })}
-                        refresh={this.refresh}
+        {showActionsInHeader ? (
+          <ContentPanel
+            actions={
+              <ContentPanelActions
+                actions={[
+                  {
+                    component: (
+                      <HeaderControl
+                        setMountPoint={setAppRightControls}
+                        controls={headerControls}
                       />
-                      <EuiButton fill href={`#${ROUTES.CREATE_CHANNEL}`} style={{ marginLeft: '10px' }}>
-                        Create channel
-                      </EuiButton>
-                    </div>
-                  ),
-                },
-              ]}
-            />
-          }
-        >
-          <div style={{ marginBottom: '10px' }}>
-            <div style={{ display: 'flex', alignItems: 'center' }}>
-              {/* Channel Controls with Status and Type dropdowns */}
-              <ChannelControls
-                onSearchChange={this.onSearchChange}
-                filters={this.state.filters}
-                onFiltersChange={this.onFiltersChange}
+                    ),
+                  },
+                  {
+                    component: (
+                      <HeaderControl
+                        setMountPoint={setAppLeftControls}
+                        controls={[
+                          { renderComponent: totalChannnels },
+                        ]}
+                      />
+                    )
+                  }
+                ]}
               />
-              {showActionsInHeader && (
+            }
+          >
+
+            <div style={{ marginBottom: '10px' }}>
+              <div style={{ display: 'flex', alignItems: 'center' }}>
+                <ChannelControls
+                  onSearchChange={this.onSearchChange}
+                  filters={this.state.filters}
+                  onFiltersChange={this.onFiltersChange}
+                />
                 <div style={{ marginLeft: '10px' }}>
-                  {/* Channel Actions next to Status and Type dropdowns */}
                   <ChannelActions
                     selected={this.state.selectedItems}
-                    setSelected={(selectedItems) => this.setState({ selectedItems })}
+                    setSelected={(selectedItems: ChannelItemType[]) =>
+                      this.setState({ selectedItems })
+                    }
                     items={this.state.items}
-                    setItems={(items) => this.setState({ items })}
+                    setItems={(items: ChannelItemType[]) =>
+                      this.setState({ items })
+                    }
                     refresh={this.refresh}
                   />
                 </div>
-              )}
+              </div>
             </div>
-          </div>
-          <EuiHorizontalRule margin="s" />
-          <EuiBasicTable
-            columns={this.columns}
-            items={this.state.items}
-            itemId="config_id"
-            isSelectable
-            selection={selection}
-            noItemsMessage={
-              <EuiEmptyPrompt
-                title={<h2>No channels to display</h2>}
-                body="To send or receive notifications, you will need to create a notification channel."
-                actions={
-                  <EuiButton href={`#${ROUTES.CREATE_CHANNEL}`}>
-                    Create channel
-                  </EuiButton>
-                }
+            <EuiHorizontalRule margin="s" />
+            <EuiBasicTable
+              columns={this.columns}
+              items={this.state.items}
+              itemId="config_id"
+              isSelectable={true}
+              selection={selection}
+              noItemsMessage={
+                <EuiEmptyPrompt
+                  title={<h2>No channels to display</h2>}
+                  body="To send or receive notifications, you will need to create a notification channel."
+                  actions={
+                    <EuiButton href={`#${ROUTES.CREATE_CHANNEL}`}>
+                      Create channel
+                    </EuiButton>
+                  }
+                />
+              }
+              onChange={this.onTableChange}
+              pagination={pagination}
+              sorting={sorting}
+              tableLayout="auto"
+              loading={this.state.loading}
+            />
+          </ContentPanel>
+
+
+        ) : (
+          <ContentPanel
+            actions={
+              <ContentPanelActions
+                actions={[
+                  {
+                    component: (
+                      <ChannelActions
+                        selected={this.state.selectedItems}
+                        setSelected={(selectedItems: ChannelItemType[]) =>
+                          this.setState({ selectedItems })
+                        }
+                        items={this.state.items}
+                        setItems={(items: ChannelItemType[]) =>
+                          this.setState({ items })
+                        }
+                        refresh={this.refresh}
+                      />
+                    ),
+                  },
+                  {
+                    component: (
+                      <EuiButton fill href={`#${ROUTES.CREATE_CHANNEL}`}>
+                        Create channel
+                      </EuiButton>
+                    ),
+                  },
+                ]}
               />
             }
-            onChange={this.onTableChange}
-            pagination={pagination}
-            sorting={sorting}
-            tableLayout="auto"
-            loading={this.state.loading}
-          />
-        </ContentPanel>
+            bodyStyles={{ padding: 'initial' }}
+            title="Channels"
+            titleSize="m"
+            total={this.state.total}
+          >
+            <ChannelControls
+              onSearchChange={this.onSearchChange}
+              filters={this.state.filters}
+              onFiltersChange={this.onFiltersChange}
+            />
+            <EuiHorizontalRule margin="s" />
+
+            <EuiBasicTable
+              columns={this.columns}
+              items={this.state.items}
+              itemId="config_id"
+              isSelectable={true}
+              selection={selection}
+              noItemsMessage={
+                <EuiEmptyPrompt
+                  title={<h2>No channels to display</h2>}
+                  body="To send or receive notifications, you will need to create a notification channel."
+                  actions={
+                    <EuiButton href={`#${ROUTES.CREATE_CHANNEL}`}>
+                      Create channel
+                    </EuiButton>
+                  }
+                />
+              }
+              onChange={this.onTableChange}
+              pagination={pagination}
+              sorting={sorting}
+              tableLayout="auto"
+              loading={this.state.loading}
+            />
+          </ContentPanel>
+
+        )}
       </>
     );
-    
-    
   }
-}
+};
+

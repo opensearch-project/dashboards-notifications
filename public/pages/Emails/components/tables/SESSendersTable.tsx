@@ -6,9 +6,14 @@
 import {
   EuiBasicTable,
   EuiButton,
+  EuiContextMenuItem,
   EuiEmptyPrompt,
   EuiFieldSearch,
+  EuiFlexGroup,
+  EuiFlexItem,
   EuiHorizontalRule,
+  EuiPopover,
+  EuiSelect,
   EuiTableFieldDataColumnType,
   EuiTableSortingType,
   SortDirection,
@@ -16,15 +21,14 @@ import {
 import { Criteria } from '@elastic/eui/src/components/basic_table/basic_table';
 import { Pagination } from '@elastic/eui/src/components/basic_table/pagination_bar';
 import _ from 'lodash';
-import React, { Component } from 'react';
-import { CoreStart } from '../../../../../../../src/core/public';
+import React, { Component, useContext, useState } from 'react';
+import { ApplicationStart, CoreStart } from '../../../../../../../src/core/public';
 import {
   SESSenderItemType,
   TableState,
 } from '../../../../../models/interfaces';
 import {
-  ContentPanel,
-  ContentPanelActions,
+  ContentPanel, ContentPanelActions,
 } from '../../../../components/ContentPanel';
 import { ModalConsumer } from '../../../../components/Modal';
 import { NotificationService, ServicesContext } from '../../../../services';
@@ -36,13 +40,17 @@ import {
   isDataSourceError,
   isDataSourceChanged,
 } from '../../../../components/MDSEnabledComponent/MDSEnabledComponent';
+import { NavigationPublicPluginStart, TopNavControlButtonData } from 'src/plugins/navigation/public';
 
 interface SESSendersTableProps {
   coreContext: CoreStart;
   notificationService: NotificationService;
+  navigationUI: NavigationPublicPluginStart['ui'];
+  showActionsInHeader: boolean;
+  application: ApplicationStart;
 }
 
-interface SESSendersTableState extends TableState<SESSenderItemType> {}
+interface SESSendersTableState extends TableState<SESSenderItemType> { }
 
 export class SESSendersTable extends Component<
   SESSendersTableProps,
@@ -63,6 +71,7 @@ export class SESSendersTable extends Component<
       items: [],
       selectedItems: [],
       loading: true,
+      isPopoverOpen: false, // Initialize popover state
     };
 
     this.columns = [
@@ -160,6 +169,12 @@ export class SESSendersTable extends Component<
     this.setState({ from: 0, search });
   };
 
+  togglePopover = () => {
+    this.setState((prevState) => ({
+      isPopoverOpen: !prevState.isPopoverOpen,
+    }));
+  };
+
   render() {
     const page = Math.floor(this.state.from / this.state.size);
 
@@ -182,93 +197,216 @@ export class SESSendersTable extends Component<
       onSelectionChange: this.onSelectionChange,
     };
 
+    const showActionsInHeader = this.props.showActionsInHeader;
+
+    const actions = [
+      {
+        label: 'Edit',
+        disabled: this.state.selectedItems.length !== 1,
+        action: () => {
+          location.assign(`#${ROUTES.EDIT_SES_SENDER}/${this.state.selectedItems[0]?.config_id}`);
+        },
+      },
+      {
+        label: 'Delete',
+        disabled: this.state.selectedItems.length === 0,
+        modal: DeleteSenderModal,
+        modalParams: {
+          senders: this.state.selectedItems,
+          refresh: this.refresh,
+        },
+      },
+    ];
+
     return (
-      <ContentPanel
-        actions={
-          <ContentPanelActions
-            actions={[
-              {
-                component: (
-                  <ModalConsumer>
-                    {({ onShow }) => (
+      <>
+        {showActionsInHeader ? (
+          <ContentPanel
+            actions={
+              <ContentPanelActions
+                actions={[
+                  {
+                    component: (
+                      <EuiButton fill href={`#${ROUTES.CREATE_SES_SENDER}`} iconType='plus'>
+                        Create SES sender
+                      </EuiButton>
+                    ),
+                  },
+                ]}
+              />
+            }
+            bodyStyles={{ padding: 'initial' }}
+            title="SES senders"
+            titleSize="m"
+            total={this.state.total}
+          >
+            <EuiFlexGroup>
+              <EuiFlexItem>
+                <EuiFieldSearch
+                  data-test-subj="ses-senders-table-search-input"
+                  fullWidth={true}
+                  placeholder="Search"
+                  onSearch={this.onSearchChange}
+                />
+              </EuiFlexItem>
+              <EuiFlexItem grow={false}>
+                <EuiPopover
+                  panelPaddingSize="none"
+                  button={
+                    <EuiButton
+                      iconType="arrowDown"
+                      iconSide="right"
+                      onClick={this.togglePopover}
+                      style={{ marginLeft: '10px' }} // Ensure spacing is correct
+                    >
+                      Actions
+                    </EuiButton>
+                  }
+                  isOpen={this.state.isPopoverOpen}
+                  closePopover={() => this.setState({ isPopoverOpen: false })}
+                >
+                  {actions.map((action) => (
+                    <ModalConsumer key={action.label}>
+                      {({ onShow }) => (
+                        <EuiContextMenuItem
+                          key={action.label}
+                          disabled={action.disabled}
+                          onClick={() => {
+                            this.setState({ isPopoverOpen: false });
+                            if (action.modal) {
+                              onShow(action.modal, {
+                                ...(action.modalParams || {}),
+                              });
+                            } else if (action.action) {
+                              action.action();
+                            }
+                          }}
+                        >
+                          {action.label}
+                        </EuiContextMenuItem>
+                      )}
+                    </ModalConsumer>
+                  ))}
+                </EuiPopover>
+              </EuiFlexItem>
+            </EuiFlexGroup>
+            <EuiHorizontalRule margin="s" />
+
+            <EuiBasicTable
+              columns={this.columns}
+              items={this.state.items}
+              itemId="config_id"
+              isSelectable={true}
+              selection={selection}
+              noItemsMessage={
+                <EuiEmptyPrompt
+                  title={<h2>No SES senders to display</h2>}
+                  body="Set up an outbound email server by creating a sender. You will select a sender when configuring email channels."
+                  actions={
+                    <EuiButton href={`#${ROUTES.CREATE_SES_SENDER}`}>
+                      Create SES sender
+                    </EuiButton>
+                  }
+                />
+              }
+              onChange={this.onTableChange}
+              pagination={pagination}
+              sorting={sorting}
+              loading={this.state.loading}
+              tableLayout="auto"
+            />
+          </ContentPanel>
+        ) : (
+          <ContentPanel
+            actions={
+              <ContentPanelActions
+                actions={[
+                  {
+                    component: (
+                      <ModalConsumer>
+                        {({ onShow }) => (
+                          <EuiButton
+                            data-test-subj="ses-senders-table-delete-button"
+                            disabled={this.state.selectedItems.length === 0}
+                            onClick={() =>
+                              onShow(DeleteSenderModal, {
+                                senders: this.state.selectedItems,
+                                refresh: this.refresh,
+                              })
+                            }
+                          >
+                            Delete
+                          </EuiButton>
+                        )}
+                      </ModalConsumer>
+                    ),
+                  },
+                  {
+                    component: (
                       <EuiButton
-                        data-test-subj="ses-senders-table-delete-button"
-                        disabled={this.state.selectedItems.length === 0}
+                        data-test-subj="ses-senders-table-edit-button"
+                        disabled={this.state.selectedItems.length !== 1}
                         onClick={() =>
-                          onShow(DeleteSenderModal, {
-                            senders: this.state.selectedItems,
-                            refresh: this.refresh,
-                          })
+                          location.assign(
+                            `#${ROUTES.EDIT_SES_SENDER}/${this.state.selectedItems[0]?.config_id}`
+                          )
                         }
                       >
-                        Delete
+                        Edit
                       </EuiButton>
-                    )}
-                  </ModalConsumer>
-                ),
-              },
-              {
-                component: (
-                  <EuiButton
-                    data-test-subj="ses-senders-table-edit-button"
-                    disabled={this.state.selectedItems.length !== 1}
-                    onClick={() =>
-                      location.assign(
-                        `#${ROUTES.EDIT_SES_SENDER}/${this.state.selectedItems[0]?.config_id}`
-                      )
-                    }
-                  >
-                    Edit
-                  </EuiButton>
-                ),
-              },
-              {
-                component: (
-                  <EuiButton fill href={`#${ROUTES.CREATE_SES_SENDER}`}>
-                    Create SES sender
-                  </EuiButton>
-                ),
-              },
-            ]}
-          />
-        }
-        bodyStyles={{ padding: 'initial' }}
-        title="SES senders"
-        titleSize="m"
-        total={this.state.total}
-      >
-        <EuiFieldSearch
-          data-test-subj="ses-senders-table-search-input"
-          fullWidth={true}
-          placeholder="Search"
-          onSearch={this.onSearchChange}
-        />
-        <EuiHorizontalRule margin="s" />
-
-        <EuiBasicTable
-          columns={this.columns}
-          items={this.state.items}
-          itemId="config_id"
-          isSelectable={true}
-          selection={selection}
-          noItemsMessage={
-            <EuiEmptyPrompt
-              title={<h2>No SES senders to display</h2>}
-              body="Set up an outbound email server by creating a sender. You will select a sender when configuring email channels."
-              actions={
-                <EuiButton href={`#${ROUTES.CREATE_SES_SENDER}`}>
-                  Create SES sender
-                </EuiButton>
-              }
+                    ),
+                  },
+                  {
+                    component: (
+                      <EuiButton fill href={`#${ROUTES.CREATE_SES_SENDER}`}>
+                        Create SES sender
+                      </EuiButton>
+                    ),
+                  },
+                ]}
+              />
+            }
+            bodyStyles={{ padding: 'initial' }}
+            title="SES senders"
+            titleSize="m"
+            total={this.state.total}
+          >
+            <EuiFieldSearch
+              data-test-subj="ses-senders-table-search-input"
+              fullWidth={true}
+              placeholder="Search"
+              onSearch={this.onSearchChange}
             />
-          }
-          onChange={this.onTableChange}
-          pagination={pagination}
-          sorting={sorting}
-          loading={this.state.loading}
-          tableLayout="auto"
-        />
-      </ContentPanel>
+            <EuiHorizontalRule margin="s" />
+
+            <EuiBasicTable
+              columns={this.columns}
+              items={this.state.items}
+              itemId="config_id"
+              isSelectable={true}
+              selection={selection}
+              noItemsMessage={
+                <EuiEmptyPrompt
+                  title={<h2>No SES senders to display</h2>}
+                  body="Set up an outbound email server by creating a sender. You will select a sender when configuring email channels."
+                  actions={
+                    <EuiButton href={`#${ROUTES.CREATE_SES_SENDER}`}>
+                      Create SES sender
+                    </EuiButton>
+                  }
+                />
+              }
+              onChange={this.onTableChange}
+              pagination={pagination}
+              sorting={sorting}
+              loading={this.state.loading}
+              tableLayout="auto"
+            />
+          </ContentPanel>
+
+        )}
+      </>
     );
+
   }
-}
+};
