@@ -147,9 +147,11 @@ export function CreateChannel(props: CreateChannelsProps) {
     roleArn: [],
   });
 
-  const { HeaderControl } = props.navigationUI;
+  const navigationUI = props?.navigationUI || {};
+  const { HeaderControl } = navigationUI;
   const showActionsInHeader = props.showActionsInHeader;
-  const { setAppDescriptionControls } = props.application;
+  const appllication = props?.application || {};
+  const { setAppDescriptionControls } = appllication;
 
   useEffect(() => {
     coreContext.chrome.setBreadcrumbs([

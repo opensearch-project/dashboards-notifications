@@ -2,45 +2,29 @@
 
 exports[`<ChannelDetails/> spec handles a non-existing channel 1`] = `
 <div>
-  <div
-    aria-live="polite"
-    class="euiGlobalToastList euiGlobalToastList--right"
-    role="region"
-  />
-  <div
-    class="euiFlexGroup euiFlexGroup--gutterMedium euiFlexGroup--alignItemsCenter euiFlexGroup--directionRow euiFlexGroup--responsive"
-    style="max-width: 1316px;"
-  >
+  <div>
+    <h1
+      class="euiTitle euiTitle--large"
+    >
+      -
+    </h1>
     <div
-      class="euiFlexItem euiFlexItem--flexGrowZero"
+      class="euiFlexGroup euiFlexGroup--gutterMedium euiFlexGroup--alignItemsFlexEnd euiFlexGroup--directionRow euiFlexGroup--responsive"
     >
       <div
-        class="euiFlexGroup euiFlexGroup--gutterMedium euiFlexGroup--alignItemsFlexEnd euiFlexGroup--directionRow euiFlexGroup--responsive"
-      >
-        <div
-          class="euiFlexItem euiFlexItem--flexGrowZero"
-        >
-          <h1
-            class="euiTitle euiTitle--large"
-          >
-            -
-          </h1>
-        </div>
-        <div
-          class="euiFlexItem euiFlexItem--flexGrowZero"
-          style="padding-bottom: 5px;"
-        />
-      </div>
+        class="euiFlexItem euiFlexItem--flexGrowZero"
+        style="padding-bottom: 5px;"
+      />
+      <div
+        class="euiFlexItem"
+      />
+      <div
+        class="euiFlexItem euiFlexItem--flexGrowZero"
+      />
+      <div
+        class="euiFlexItem euiFlexItem--flexGrowZero"
+      />
     </div>
-    <div
-      class="euiFlexItem"
-    />
-    <div
-      class="euiFlexItem euiFlexItem--flexGrowZero"
-    />
-    <div
-      class="euiFlexItem euiFlexItem--flexGrowZero"
-    />
   </div>
   <div
     class="euiSpacer euiSpacer--l"
@@ -173,45 +157,29 @@ exports[`<ChannelDetails/> spec handles a non-existing channel 1`] = `
 
 exports[`<ChannelDetails/> spec renders a specific channel 1`] = `
 <div>
-  <div
-    aria-live="polite"
-    class="euiGlobalToastList euiGlobalToastList--right"
-    role="region"
-  />
-  <div
-    class="euiFlexGroup euiFlexGroup--gutterMedium euiFlexGroup--alignItemsCenter euiFlexGroup--directionRow euiFlexGroup--responsive"
-    style="max-width: 1316px;"
-  >
+  <div>
+    <h1
+      class="euiTitle euiTitle--large"
+    >
+      -
+    </h1>
     <div
-      class="euiFlexItem euiFlexItem--flexGrowZero"
+      class="euiFlexGroup euiFlexGroup--gutterMedium euiFlexGroup--alignItemsFlexEnd euiFlexGroup--directionRow euiFlexGroup--responsive"
     >
       <div
-        class="euiFlexGroup euiFlexGroup--gutterMedium euiFlexGroup--alignItemsFlexEnd euiFlexGroup--directionRow euiFlexGroup--responsive"
-      >
-        <div
-          class="euiFlexItem euiFlexItem--flexGrowZero"
-        >
-          <h1
-            class="euiTitle euiTitle--large"
-          >
-            -
-          </h1>
-        </div>
-        <div
-          class="euiFlexItem euiFlexItem--flexGrowZero"
-          style="padding-bottom: 5px;"
-        />
-      </div>
+        class="euiFlexItem euiFlexItem--flexGrowZero"
+        style="padding-bottom: 5px;"
+      />
+      <div
+        class="euiFlexItem"
+      />
+      <div
+        class="euiFlexItem euiFlexItem--flexGrowZero"
+      />
+      <div
+        class="euiFlexItem euiFlexItem--flexGrowZero"
+      />
     </div>
-    <div
-      class="euiFlexItem"
-    />
-    <div
-      class="euiFlexItem euiFlexItem--flexGrowZero"
-    />
-    <div
-      class="euiFlexItem euiFlexItem--flexGrowZero"
-    />
   </div>
   <div
     class="euiSpacer euiSpacer--l"
@@ -343,9 +311,28 @@ exports[`<ChannelDetails/> spec renders a specific channel 1`] = `
 `;
 
 exports[`<ChannelDetails/> spec renders the component 1`] = `
-<div
-  aria-live="polite"
-  class="euiGlobalToastList euiGlobalToastList--right"
-  role="region"
-/>
+<div>
+  <h1
+    class="euiTitle euiTitle--large"
+  >
+    -
+  </h1>
+  <div
+    class="euiFlexGroup euiFlexGroup--gutterMedium euiFlexGroup--alignItemsFlexEnd euiFlexGroup--directionRow euiFlexGroup--responsive"
+  >
+    <div
+      class="euiFlexItem euiFlexItem--flexGrowZero"
+      style="padding-bottom: 5px;"
+    />
+    <div
+      class="euiFlexItem"
+    />
+    <div
+      class="euiFlexItem euiFlexItem--flexGrowZero"
+    />
+    <div
+      class="euiFlexItem euiFlexItem--flexGrowZero"
+    />
+  </div>
+</div>
 `;

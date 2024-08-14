@@ -199,9 +199,11 @@ export function ChannelDetails(props: ChannelDetailsProps) {
     },
   ];
 
-  const { HeaderControl } = props.navigationUI;
+  const navigationUI = props?.navigationUI || {};
+  const { HeaderControl } = navigationUI;
   const showActionsInHeader = props.showActionsInHeader;
-  const { setAppRightControls, setAppLeftControls } = props.application;
+  const appllication = props?.application || {};
+  const { setAppRightControls, setAppLeftControls } = appllication;
 
   return (
     <>

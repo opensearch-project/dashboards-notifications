@@ -223,9 +223,11 @@ export class Channels extends MDSEnabledComponent<ChannelsProps, ChannelsState> 
       onSelectionChange: this.onSelectionChange,
     };
 
-    const { HeaderControl } = this.props.navigationUI;
+    const navigationUI = this.props?.navigationUI || {};
+    const { HeaderControl } = navigationUI;
     const showActionsInHeader = this.props.showActionsInHeader;
-    const { setAppRightControls, setAppLeftControls } = this.props.application;
+    const appllication = this.props?.application || {};
+    const { setAppRightControls, setAppLeftControls } = appllication;
 
     const headerControls = [
       {
