@@ -28,6 +28,7 @@ import {
   BREADCRUMBS,
   CUSTOM_WEBHOOK_ENDPOINT_TYPE,
   ROUTES,
+  setBreadcrumbs,
 } from '../../utils/constants';
 import { BACKEND_CHANNEL_TYPE, CHANNEL_TYPE } from '../../../common/constants'
 import { getErrorMessage } from '../../utils/helpers';
@@ -55,14 +56,9 @@ import {
   validateRecipients,
   validateWebhookURL,
 } from './utils/validationHelper';
-import { NavigationPublicPluginStart } from 'src/plugins/navigation/public';
-import { ApplicationStart } from 'opensearch-dashboards/public';
-
+import { getUseUpdatedUx } from '../../services/utils/constants';
 interface CreateChannelsProps extends RouteComponentProps<{ id?: string }> {
   edit?: boolean;
-  navigationUI: NavigationPublicPluginStart['ui'];
-  showActionsInHeader: boolean;
-  application: ApplicationStart;
 }
 
 type InputErrorsType = { [key: string]: string[] };
@@ -147,18 +143,10 @@ export function CreateChannel(props: CreateChannelsProps) {
     roleArn: [],
   });
 
-  const navigationUI = props?.navigationUI || {};
-  const { HeaderControl } = navigationUI;
-  const showActionsInHeader = props.showActionsInHeader;
-  const appllication = props?.application || {};
-  const { setAppDescriptionControls } = appllication;
-
   useEffect(() => {
-    coreContext.chrome.setBreadcrumbs([
-      BREADCRUMBS.NOTIFICATIONS,
+    setBreadcrumbs([ BREADCRUMBS.NOTIFICATIONS,
       BREADCRUMBS.CHANNELS,
-      props.edit ? BREADCRUMBS.EDIT_CHANNEL : BREADCRUMBS.CREATE_CHANNEL,
-    ]);
+      props.edit ? BREADCRUMBS.EDIT_CHANNEL : BREADCRUMBS.CREATE_CHANNEL]);
     window.scrollTo(0, 0);
 
     if (props.edit) {
@@ -376,12 +364,7 @@ export function CreateChannel(props: CreateChannelsProps) {
       <CreateChannelContext.Provider
         value={{ edit: props.edit, inputErrors, setInputErrors }}
       >
-        {showActionsInHeader ? (
-          <HeaderControl
-            controls={[{ description }]}
-            setMountPoint={setAppDescriptionControls}
-          />
-        ) : (
+       {!getUseUpdatedUx() && (
           <EuiTitle size="l">
             <h1>{`${props.edit ? 'Edit' : 'Create'} channel`}</h1>
           </EuiTitle>
@@ -433,7 +416,7 @@ export function CreateChannel(props: CreateChannelsProps) {
               microsoftTeamsWebhook={microsoftTeamsWebhook}
               setMicrosoftTeamsWebhook={setMicrosoftTeamsWebhook}
             />
-          ) : channelType === BACKEND_CHANNEL_TYPE.EMAIL ? (
+          ): channelType === BACKEND_CHANNEL_TYPE.EMAIL ? (
             <EmailSettings
               senderType={senderType}
               setSenderType={setSenderType}
@@ -514,14 +497,15 @@ export function CreateChannel(props: CreateChannelsProps) {
                 const config = createConfigObject();
                 const request = props.edit
                   ? servicesContext.notificationService.updateConfig(
-                    id!,
-                    config
-                  )
+                      id!,
+                      config
+                    )
                   : servicesContext.notificationService.createConfig(config);
                 await request
                   .then((response) => {
                     coreContext.notifications.toasts.addSuccess(
-                      `Channel ${name} successfully ${props.edit ? 'updated' : 'created'
+                      `Channel ${name} successfully ${
+                        props.edit ? 'updated' : 'created'
                       }.`
                     );
                     setTimeout(() => (location.hash = prevURL), SERVER_DELAY);
@@ -531,8 +515,9 @@ export function CreateChannel(props: CreateChannelsProps) {
                     coreContext.notifications.toasts.addError(
                       error?.body || error,
                       {
-                        title: `Failed to ${props.edit ? 'update' : 'create'
-                          } channel.`,
+                        title: `Failed to ${
+                          props.edit ? 'update' : 'create'
+                        } channel.`,
                       }
                     );
                   });
@@ -546,4 +531,3 @@ export function CreateChannel(props: CreateChannelsProps) {
     </>
   );
 }
-

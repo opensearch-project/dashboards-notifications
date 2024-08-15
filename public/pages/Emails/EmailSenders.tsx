@@ -7,19 +7,15 @@ import { EuiSpacer, EuiTitle } from '@elastic/eui';
 import React, { useContext, useEffect } from 'react';
 import { RouteComponentProps } from 'react-router-dom';
 import { CoreServicesContext } from '../../components/coreServices';
-import { BREADCRUMBS } from '../../utils/constants';
+import { BREADCRUMBS, setBreadcrumbs } from '../../utils/constants';
 import { MainContext } from '../Main/Main';
 import { SendersTable } from './components/tables/SendersTable';
 import { SESSendersTable } from './components/tables/SESSendersTable';
 import { NotificationService } from '../../services';
-import { NavigationPublicPluginStart } from 'src/plugins/navigation/public';
-import { ApplicationStart } from 'opensearch-dashboards/public';
+import { getUseUpdatedUx } from '../../services/utils/constants';
 
 interface EmailSendersProps extends RouteComponentProps {
   notificationService: NotificationService;
-  navigationUI: NavigationPublicPluginStart['ui'];
-  showActionsInHeader: boolean;
-  application: ApplicationStart;
 }
 
 export function EmailSenders(props: EmailSendersProps) {
@@ -28,18 +24,16 @@ export function EmailSenders(props: EmailSendersProps) {
 
 
   useEffect(() => {
-    coreContext.chrome.setBreadcrumbs([
+    setBreadcrumbs([
       BREADCRUMBS.NOTIFICATIONS,
       BREADCRUMBS.EMAIL_SENDERS,
     ]);
     window.scrollTo(0, 0);
   }, []);
 
-  const showActionsInHeader = props.showActionsInHeader;
-
   return (
     <>
-      {!showActionsInHeader && (
+      {!getUseUpdatedUx() && (
         <EuiTitle size="l">
           <h1>Email senders</h1>
         </EuiTitle>
@@ -49,9 +43,6 @@ export function EmailSenders(props: EmailSendersProps) {
           <EuiSpacer />
           <SendersTable coreContext={coreContext}
             notificationService={props.notificationService}
-            navigationUI={props.navigationUI}
-            showActionsInHeader={props.showActionsInHeader}
-            application={props.application}
           />
         </>
       )}
@@ -62,9 +53,6 @@ export function EmailSenders(props: EmailSendersProps) {
           <EuiSpacer />
           <SESSendersTable coreContext={coreContext}
             notificationService={props.notificationService}
-            navigationUI={props.navigationUI}
-            showActionsInHeader={props.showActionsInHeader}
-            application={props.application}
           />
         </>
       )}

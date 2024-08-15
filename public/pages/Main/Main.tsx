@@ -6,7 +6,7 @@
 import { EuiPage, EuiPageBody, EuiPageSideBar, EuiSideNav } from '@elastic/eui';
 import React, { Component, createContext, useContext } from 'react';
 import { Redirect, Route, RouteComponentProps, Switch } from 'react-router-dom';
-import { CoreStart, SavedObject } from '../../../../../src/core/public';
+import { CoreStart, MountPoint, SavedObject } from '../../../../../src/core/public';
 import { CoreServicesConsumer, CoreServicesContext } from '../../components/coreServices';
 import { ModalProvider, ModalRoot } from '../../components/Modal';
 import { BrowserServices } from '../../models/interfaces';
@@ -35,8 +35,6 @@ import { HttpSetup } from '../../../../../src/core/public';
 import * as pluginManifest from "../../../opensearch_dashboards.json";
 import { DataSourceAttributes } from "../../../../../src/plugins/data_source/common/data_sources";
 import semver from "semver";
-import { NavigationPublicPluginStart } from 'src/plugins/navigation/public';
-import { NavigationMenuContext } from '../../services/NavigationContext';
 import { ComponentType } from 'react';
 
 enum Navigation {
@@ -55,7 +53,6 @@ interface MainProps extends RouteComponentProps {
   multiDataSourceEnabled: boolean;
   dataSourceManagement: DataSourceManagementPluginSetup;
   defaultRoute?: string;
-  navigation: NavigationPublicPluginStart;
 }
 
 export interface MainState extends Pick<DataSourceMenuProperties, "dataSourceId" | "dataSourceLabel"> {
@@ -104,7 +101,7 @@ export default class Main extends Component<MainProps, MainState> {
     this.setServerFeatures();
   }
 
-  componentDidUpdate(prevProps, prevState) {
+  componentDidUpdate(prevProps: any, prevState: { dataSourceId: string; }) {
     if (this.props.multiDataSourceEnabled && (prevState.dataSourceId !== this.state.dataSourceId)) {
       // Call setServerFeatures when dataSourceId is updated or dataSourceComponent is loaded
       this.setServerFeatures();
@@ -247,13 +244,6 @@ export default class Main extends Component<MainProps, MainState> {
                   services && (
                     <MainContext.Provider value={this.state}>
                       <ModalProvider>
-                        <NavigationMenuContext.Provider
-                          value={{
-                            navigationUI: this.props.navigation?.ui,
-                            showActionsInHeader: core.uiSettings.get('home:useNewHomePage'),
-                            application: core.application
-                          }}
-                        >
                           <DataSourceMenuContext.Provider
                             value={{
                               dataSourceId: this.state.dataSourceId,
@@ -373,9 +363,6 @@ export default class Main extends Component<MainProps, MainState> {
                                         render={(routeProps: RouteComponentProps) => (
                                           <CreateChannel
                                             {...routeProps}
-                                            navigationUI={this.props.navigation?.ui} // Pass values from NavigationMenuContext
-                                            showActionsInHeader={core.uiSettings.get('home:useNewHomePage')} // Pass values from NavigationMenuContext
-                                            application={core.application} // Pass values from NavigationMenuContext
                                           />
                                         )}
                                       />
@@ -385,9 +372,6 @@ export default class Main extends Component<MainProps, MainState> {
                                           <CreateChannel
                                             {...routeProps}
                                             edit={true}
-                                            navigationUI={this.props.navigation?.ui} // Pass values from NavigationMenuContext
-                                            showActionsInHeader={core.uiSettings.get('home:useNewHomePage')} // Pass values from NavigationMenuContext
-                                            application={core.application} // Pass values from NavigationMenuContext
                                           />
                                         )}
                                       />
@@ -396,9 +380,6 @@ export default class Main extends Component<MainProps, MainState> {
                                         render={(routeProps: RouteComponentProps<{ id: string }>) => (
                                           <ChannelDetails
                                             {...routeProps}
-                                            navigationUI={this.props.navigation?.ui} // Pass values from NavigationMenuContext
-                                            showActionsInHeader={core.uiSettings.get('home:useNewHomePage')} // Pass values from NavigationMenuContext
-                                            application={core.application} // Pass values from NavigationMenuContext
                                           />
                                         )}
                                       />
@@ -408,9 +389,6 @@ export default class Main extends Component<MainProps, MainState> {
                                           <Channels
                                             {...routeProps}
                                             notificationService={services?.notificationService as NotificationService}
-                                            navigationUI={this.props.navigation?.ui} // Pass values from NavigationMenuContext
-                                            showActionsInHeader={core.uiSettings.get('home:useNewHomePage')} // Pass values from NavigationMenuContext
-                                            application={core.application} // Pass values from NavigationMenuContext
                                           />
                                         )}
                                       />
@@ -420,9 +398,6 @@ export default class Main extends Component<MainProps, MainState> {
                                           <EmailSenders
                                             {...routeProps}
                                             notificationService={services?.notificationService as NotificationService}
-                                            navigationUI={this.props.navigation?.ui} // Pass values from NavigationMenuContext
-                                            showActionsInHeader={core.uiSettings.get('home:useNewHomePage')} // Pass values from NavigationMenuContext
-                                            application={core.application} // Pass values from NavigationMenuContext
                                           />
                                         )}
                                       />
@@ -432,9 +407,6 @@ export default class Main extends Component<MainProps, MainState> {
                                           <EmailGroups
                                             {...routeProps}
                                             notificationService={services?.notificationService as NotificationService}
-                                            navigationUI={this.props.navigation?.ui} // Pass values from NavigationMenuContext
-                                            showActionsInHeader={core.uiSettings.get('home:useNewHomePage')} // Pass values from NavigationMenuContext
-                                            application={core.application} // Pass values from NavigationMenuContext
                                           />
                                         )}
                                       />
@@ -443,9 +415,6 @@ export default class Main extends Component<MainProps, MainState> {
                                         render={(routeProps: RouteComponentProps) => (
                                           <CreateSender
                                             {...routeProps}
-                                            navigationUI={this.props.navigation?.ui} // Pass values from NavigationMenuContext
-                                            showActionsInHeader={core.uiSettings.get('home:useNewHomePage')} // Pass values from NavigationMenuContext
-                                            application={core.application} // Pass values from NavigationMenuContext
                                           />
                                         )}
                                       />
@@ -455,9 +424,6 @@ export default class Main extends Component<MainProps, MainState> {
                                           <CreateSender
                                             {...routeProps}
                                             edit={true}
-                                            navigationUI={this.props.navigation?.ui} // Pass values from NavigationMenuContext
-                                            showActionsInHeader={core.uiSettings.get('home:useNewHomePage')} // Pass values from NavigationMenuContext
-                                            application={core.application} // Pass values from NavigationMenuContext
                                           />
                                         )}
                                       />
@@ -466,9 +432,6 @@ export default class Main extends Component<MainProps, MainState> {
                                         render={(routeProps: RouteComponentProps) => (
                                           <CreateSESSender
                                             {...routeProps}
-                                            navigationUI={this.props.navigation?.ui} // Pass values from NavigationMenuContext
-                                            showActionsInHeader={core.uiSettings.get('home:useNewHomePage')} // Pass values from NavigationMenuContext
-                                            application={core.application} // Pass values from NavigationMenuContext
                                           />
                                         )}
                                       />
@@ -478,9 +441,6 @@ export default class Main extends Component<MainProps, MainState> {
                                           <CreateSESSender
                                             {...routeProps}
                                             edit={true}
-                                            navigationUI={this.props.navigation?.ui} // Pass values from NavigationMenuContext
-                                            showActionsInHeader={core.uiSettings.get('home:useNewHomePage')} // Pass values from NavigationMenuContext
-                                            application={core.application} // Pass values from NavigationMenuContext
                                           />
                                         )}
                                       />
@@ -489,9 +449,6 @@ export default class Main extends Component<MainProps, MainState> {
                                         render={(routeProps: RouteComponentProps) => (
                                           <CreateRecipientGroup
                                             {...routeProps}
-                                            navigationUI={this.props.navigation?.ui} // Pass values from NavigationMenuContext
-                                            showActionsInHeader={core.uiSettings.get('home:useNewHomePage')} // Pass values from NavigationMenuContext
-                                            application={core.application} // Pass values from NavigationMenuContext
                                           />
                                         )}
                                       />
@@ -501,9 +458,6 @@ export default class Main extends Component<MainProps, MainState> {
                                           <CreateRecipientGroup
                                             {...routeProps}
                                             edit={true}
-                                            navigationUI={this.props.navigation?.ui} // Pass values from NavigationMenuContext
-                                            showActionsInHeader={core.uiSettings.get('home:useNewHomePage')} // Pass values from NavigationMenuContext
-                                            application={core.application} // Pass values from NavigationMenuContext
                                           />
                                         )}
                                       />
@@ -514,7 +468,6 @@ export default class Main extends Component<MainProps, MainState> {
                               )}
                             </EuiPage>
                           </DataSourceMenuContext.Provider>
-                        </NavigationMenuContext.Provider>
                       </ModalProvider>
                     </MainContext.Provider>
                   )

@@ -17,7 +17,7 @@ import { SERVER_DELAY } from '../../../common';
 import { ContentPanel } from '../../components/ContentPanel';
 import { CoreServicesContext } from '../../components/coreServices';
 import { ServicesContext } from '../../services';
-import { BREADCRUMBS, ROUTES } from '../../utils/constants';
+import { BREADCRUMBS, ROUTES, setBreadcrumbs } from '../../utils/constants';
 import { getErrorMessage } from '../../utils/helpers';
 import { MainContext } from '../Main/Main';
 import { CreateSESSenderForm } from './components/forms/CreateSESSenderForm';
@@ -28,14 +28,9 @@ import {
   validateRoleArn,
   validateSenderName,
 } from './utils/validationHelper';
-import { NavigationPublicPluginStart } from 'src/plugins/navigation/public';
-import { ApplicationStart } from 'opensearch-dashboards/public';
-
+import { getUseUpdatedUx } from '../../services/utils/constants';
 interface CreateSESSenderProps extends RouteComponentProps<{ id?: string }> {
   edit?: boolean;
-  navigationUI: NavigationPublicPluginStart['ui'];
-  showActionsInHeader: boolean;
-  application: ApplicationStart;
 }
 
 export function CreateSESSender(props: CreateSESSenderProps) {
@@ -56,7 +51,7 @@ export function CreateSESSender(props: CreateSESSenderProps) {
   });
 
   useEffect(() => {
-    coreContext.chrome.setBreadcrumbs([
+    setBreadcrumbs([
       BREADCRUMBS.NOTIFICATIONS,
       BREADCRUMBS.EMAIL_SENDERS,
       props.edit ? BREADCRUMBS.EDIT_SES_SENDER : BREADCRUMBS.CREATE_SES_SENDER,
@@ -106,7 +101,7 @@ export function CreateSESSender(props: CreateSESSenderProps) {
 
   return (
     <>
-      {!props.showActionsInHeader && (
+      {!getUseUpdatedUx() && (
         <EuiTitle size="l">
           <h1>{`${props.edit ? 'Edit' : 'Create'} SES sender`}</h1>
         </EuiTitle>

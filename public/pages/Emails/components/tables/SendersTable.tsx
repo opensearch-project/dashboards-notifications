@@ -21,7 +21,7 @@ import { Criteria } from '@elastic/eui/src/components/basic_table/basic_table';
 import { Pagination } from '@elastic/eui/src/components/basic_table/pagination_bar';
 import _ from 'lodash';
 import React, { Component } from 'react';
-import { ApplicationStart, CoreStart } from '../../../../../../../src/core/public';
+import {  CoreStart } from '../../../../../../../src/core/public';
 import { SenderItemType, TableState } from '../../../../../models/interfaces';
 import {
   ContentPanel,
@@ -41,14 +41,11 @@ import {
   isDataSourceError,
   isDataSourceChanged,
 } from '../../../../components/MDSEnabledComponent/MDSEnabledComponent';
-import { NavigationPublicPluginStart } from 'src/plugins/navigation/public';
+import { getUseUpdatedUx } from '../../../../../public/services/utils/constants';
 
 interface SendersTableProps {
   coreContext: CoreStart;
   notificationService: NotificationService;
-  navigationUI: NavigationPublicPluginStart['ui'];
-  showActionsInHeader: boolean;
-  application: ApplicationStart;
 }
 
 interface SendersTableState extends TableState<SenderItemType> {
@@ -219,8 +216,6 @@ export class SendersTable extends Component<
       onSelectionChange: this.onSelectionChange,
     };
 
-    const showActionsInHeader = this.props.showActionsInHeader;
-
     const actions = [
       {
         label: 'Edit',
@@ -242,7 +237,7 @@ export class SendersTable extends Component<
 
     return (
       <>
-        {showActionsInHeader ? (
+        {getUseUpdatedUx() ? (
           <ContentPanel
             actions={
               <ContentPanelActions

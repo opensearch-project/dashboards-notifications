@@ -8,6 +8,11 @@ import React from 'react';
 import { mainStateMock } from '../../../../test/mocks/serviceMock';
 import { MainContext } from '../../Main/Main';
 import { SendersTableControls } from '../components/tables/SendersTableControls';
+import { setupCoreStart } from '../../../../test/utils/helpers';
+
+beforeAll(() => {
+  setupCoreStart();
+});
 
 describe('<SendersTableControls /> spec', () => {
   it('renders the component', () => {

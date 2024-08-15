@@ -18,7 +18,7 @@ import { SERVER_DELAY } from '../../../common';
 import { ContentPanel } from '../../components/ContentPanel';
 import { CoreServicesContext } from '../../components/coreServices';
 import { ServicesContext } from '../../services';
-import { BREADCRUMBS, ROUTES } from '../../utils/constants';
+import { BREADCRUMBS, ROUTES, setBreadcrumbs } from '../../utils/constants';
 import { getErrorMessage } from '../../utils/helpers';
 import { CreateRecipientGroupForm } from './components/forms/CreateRecipientGroupForm';
 import { createRecipientGroupConfigObject } from './utils/helper';
@@ -26,15 +26,11 @@ import {
   validateRecipientGroupEmails,
   validateRecipientGroupName,
 } from './utils/validationHelper';
-import { NavigationPublicPluginStart } from 'src/plugins/navigation/public';
-import { ApplicationStart } from 'opensearch-dashboards/public';
+import { getUseUpdatedUx } from '../../services/utils/constants';
 
 interface CreateRecipientGroupProps
   extends RouteComponentProps<{ id?: string }> {
   edit?: boolean;
-  navigationUI: NavigationPublicPluginStart['ui'];
-  showActionsInHeader: boolean;
-  application: ApplicationStart;
 }
 
 export function CreateRecipientGroup(props: CreateRecipientGroupProps) {
@@ -70,7 +66,7 @@ export function CreateRecipientGroup(props: CreateRecipientGroupProps) {
   };
 
   useEffect(() => {
-    coreContext.chrome.setBreadcrumbs([
+    setBreadcrumbs([
       BREADCRUMBS.NOTIFICATIONS,
       BREADCRUMBS.EMAIL_GROUPS,
       props.edit
@@ -108,7 +104,7 @@ export function CreateRecipientGroup(props: CreateRecipientGroupProps) {
 
   return (
     <>
-      {!props.showActionsInHeader && (
+      {!getUseUpdatedUx() && (
         <EuiTitle size="l">
           <h1>{`${props.edit ? 'Edit' : 'Create'} recipient group`}</h1>
         </EuiTitle>

@@ -13,7 +13,6 @@ import {
   EuiFlexItem,
   EuiHorizontalRule,
   EuiPopover,
-  EuiSelect,
   EuiTableFieldDataColumnType,
   EuiTableSortingType,
   SortDirection,
@@ -21,8 +20,8 @@ import {
 import { Criteria } from '@elastic/eui/src/components/basic_table/basic_table';
 import { Pagination } from '@elastic/eui/src/components/basic_table/pagination_bar';
 import _ from 'lodash';
-import React, { Component, useContext, useState } from 'react';
-import { ApplicationStart, CoreStart } from '../../../../../../../src/core/public';
+import React, { Component } from 'react';
+import { CoreStart } from '../../../../../../../src/core/public';
 import {
   SESSenderItemType,
   TableState,
@@ -40,14 +39,11 @@ import {
   isDataSourceError,
   isDataSourceChanged,
 } from '../../../../components/MDSEnabledComponent/MDSEnabledComponent';
-import { NavigationPublicPluginStart, TopNavControlButtonData } from 'src/plugins/navigation/public';
+import { getUseUpdatedUx } from '../../../../../public/services/utils/constants';
 
 interface SESSendersTableProps {
   coreContext: CoreStart;
   notificationService: NotificationService;
-  navigationUI: NavigationPublicPluginStart['ui'];
-  showActionsInHeader: boolean;
-  application: ApplicationStart;
 }
 
 interface SESSendersTableState extends TableState<SESSenderItemType> { }
@@ -197,8 +193,6 @@ export class SESSendersTable extends Component<
       onSelectionChange: this.onSelectionChange,
     };
 
-    const showActionsInHeader = this.props.showActionsInHeader;
-
     const actions = [
       {
         label: 'Edit',
@@ -220,7 +214,7 @@ export class SESSendersTable extends Component<
 
     return (
       <>
-        {showActionsInHeader ? (
+        {getUseUpdatedUx() ? (
           <ContentPanel
             actions={
               <ContentPanelActions

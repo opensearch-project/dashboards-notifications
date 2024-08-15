@@ -17,7 +17,7 @@ import { SERVER_DELAY } from '../../../common';
 import { ContentPanel } from '../../components/ContentPanel';
 import { CoreServicesContext } from '../../components/coreServices';
 import { ServicesContext } from '../../services';
-import { BREADCRUMBS, ENCRYPTION_TYPE, ROUTES } from '../../utils/constants';
+import { BREADCRUMBS, ENCRYPTION_TYPE, ROUTES, setBreadcrumbs } from '../../utils/constants';
 import { getErrorMessage } from '../../utils/helpers';
 import { CreateSenderForm } from './components/forms/CreateSenderForm';
 import { createSenderConfigObject } from './utils/helper';
@@ -27,14 +27,9 @@ import {
   validatePort,
   validateSenderName,
 } from './utils/validationHelper';
-import { NavigationPublicPluginStart } from 'src/plugins/navigation/public';
-import { ApplicationStart } from 'opensearch-dashboards/public';
-
+import { getUseUpdatedUx } from '../../services/utils/constants';
 interface CreateSenderProps extends RouteComponentProps<{ id?: string }> {
   edit?: boolean;
-  navigationUI: NavigationPublicPluginStart['ui'];
-  showActionsInHeader: boolean;
-  application: ApplicationStart;
 }
 
 export function CreateSender(props: CreateSenderProps) {
@@ -57,7 +52,7 @@ export function CreateSender(props: CreateSenderProps) {
   });
 
   useEffect(() => {
-    coreContext.chrome.setBreadcrumbs([
+    setBreadcrumbs([
       BREADCRUMBS.NOTIFICATIONS,
       BREADCRUMBS.EMAIL_SENDERS,
       props.edit ? BREADCRUMBS.EDIT_SENDER : BREADCRUMBS.CREATE_SENDER,
@@ -103,7 +98,7 @@ export function CreateSender(props: CreateSenderProps) {
 
   return (
     <>
-      {!props.showActionsInHeader && (
+      {!getUseUpdatedUx() && (
         <EuiTitle size="l">
           <h1>{`${props.edit ? 'Edit' : 'Create'} SMTP sender`}</h1>
         </EuiTitle>

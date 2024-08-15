@@ -43,14 +43,13 @@ import {
   isDataSourceError,
   isDataSourceChanged,
 } from '../../../../components/MDSEnabledComponent/MDSEnabledComponent';
-import { NavigationPublicPluginStart, TopNavControlButtonData, TopNavControlTextData } from 'src/plugins/navigation/public';
+import { TopNavControlButtonData } from 'src/plugins/navigation/public';
+import { getUseUpdatedUx } from '../../../../../public/services/utils/constants';
+import PageHeader from '../../../../../public/components/PageHeader/PageHeader';
 
 interface RecipientGroupsTableProps {
   coreContext: CoreStart;
   notificationService: NotificationService;
-  navigationUI: NavigationPublicPluginStart['ui'];
-  showActionsInHeader: boolean;
-  application: ApplicationStart;
 }
 
 interface RecipientGroupsTableState
@@ -233,12 +232,6 @@ export class RecipientGroupsTable extends Component<
       onSelectionChange: this.onSelectionChange,
     };
 
-    const navigationUI = this.props?.navigationUI || {};
-    const { HeaderControl } = navigationUI;
-    const showActionsInHeader = this.props.showActionsInHeader;
-    const appllication = this.props?.application || {};
-    const { setAppRightControls, setAppLeftControls } = appllication;
-
     const actions = [
       {
         label: 'Edit',
@@ -278,7 +271,7 @@ export class RecipientGroupsTable extends Component<
 
     return (
       <>
-        {showActionsInHeader ? (
+        {getUseUpdatedUx() ? (
 
           <ContentPanel
             actions={
@@ -286,21 +279,13 @@ export class RecipientGroupsTable extends Component<
                 actions={[
                   {
                     component: (
-                      <HeaderControl
-                        setMountPoint={setAppRightControls}
-                        controls={headerControls}
-                      />
-                    ),
-                  },
-                  {
-                    component: (
-                      <HeaderControl
-                        setMountPoint={setAppLeftControls}
-                        controls={[
-                          { renderComponent: totalEmailGroups},
+                      <PageHeader
+                        appRightControls={headerControls}
+                        appLeftControls={[
+                          { renderComponent: totalEmailGroups },
                         ]}
                       />
-                    )
+                    ),
                   }
                 ]}
               />

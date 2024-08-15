@@ -10,14 +10,10 @@ import { CoreServicesContext } from '../../components/coreServices';
 import { BREADCRUMBS } from '../../utils/constants';
 import { RecipientGroupsTable } from './components/tables/RecipientGroupsTable';
 import { NotificationService } from '../../services';
-import { NavigationPublicPluginStart } from 'src/plugins/navigation/public';
-import { ApplicationStart } from 'opensearch-dashboards/public';
+import { getUseUpdatedUx } from '../../services/utils/constants';
 
 interface EmailGroupsProps extends RouteComponentProps {
   notificationService: NotificationService;
-  navigationUI: NavigationPublicPluginStart['ui'];
-  showActionsInHeader: boolean;
-  application: ApplicationStart;
 }
 
 export function EmailGroups(props: EmailGroupsProps) {
@@ -32,7 +28,7 @@ export function EmailGroups(props: EmailGroupsProps) {
 
   return (
     <>
-      {!props.showActionsInHeader && (
+      {!getUseUpdatedUx() && (
         <EuiTitle size="l">
           <h1>Email recipient groups</h1>
         </EuiTitle>
@@ -41,9 +37,6 @@ export function EmailGroups(props: EmailGroupsProps) {
       <EuiSpacer />
       <RecipientGroupsTable coreContext={coreContext} 
       notificationService={props.notificationService} 
-      navigationUI={props.navigationUI} // Pass values from NavigationMenuContext
-      showActionsInHeader={props.showActionsInHeader} // Pass values from NavigationMenuContext
-      application={props.application} // Pass values from NavigationMenuContext
       />
     </>
   );

@@ -17,6 +17,7 @@ import { ModalConsumer } from '../../../../components/Modal';
 import { ServicesContext } from '../../../../services';
 import { ROUTES } from '../../../../utils/constants';
 import { DeleteChannelModal } from '../modals/DeleteChannelModal';
+import { getUseUpdatedUx } from '../../../../services/utils/constants';
 
 interface ChannelDetailsActionsParams {
   label: string;
@@ -30,7 +31,6 @@ interface ChannelDetailsActionsParams {
 
 interface ChannelDetailsActionsProps {
   channel: ChannelItemType;
-  showActionsInHeader: Boolean;
 }
 
 export function ChannelDetailsActions(props: ChannelDetailsActionsProps) {
@@ -69,8 +69,8 @@ export function ChannelDetailsActions(props: ChannelDetailsActionsProps) {
     },
   ];
 
-  // Add Send Test Message action only if showActionsInHeader is false
-  if (!props.showActionsInHeader) {
+  // Add Send Test Message action only if getUseUpdatedUx is false
+  if (!getUseUpdatedUx()) {
     actions.splice(1, 0, {
       label: 'Send test message',
       disabled:

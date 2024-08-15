@@ -7,8 +7,6 @@ import {
   EuiBasicTable,
   EuiButton,
   EuiEmptyPrompt,
-  EuiFlexGroup,
-  EuiFlexItem,
   EuiHealth,
   EuiHorizontalRule,
   EuiLink,
@@ -32,6 +30,7 @@ import { NotificationService } from '../../services';
 import {
   BREADCRUMBS,
   ROUTES,
+  setBreadcrumbs,
 } from '../../utils/constants';
 import {
   CHANNEL_TYPE,
@@ -46,14 +45,12 @@ import MDSEnabledComponent, {
   isDataSourceChanged,
   isDataSourceError,
 } from '../../components/MDSEnabledComponent/MDSEnabledComponent';
-import { NavigationPublicPluginStart, TopNavControlButtonData } from 'src/plugins/navigation/public';
-import { ApplicationStart } from 'opensearch-dashboards/public';
+import PageHeader from "../../components/PageHeader/PageHeader"
+import { getUseUpdatedUx } from '../../services/utils/constants';
+import { TopNavControlButtonData } from 'src/plugins/navigation/public';
 
 interface ChannelsProps extends RouteComponentProps, DataSourceMenuProperties {
   notificationService: NotificationService;
-  navigationUI: NavigationPublicPluginStart['ui'];
-  showActionsInHeader: boolean;
-  application: ApplicationStart;
 }
 
 interface ChannelsState extends TableState<ChannelItemType>, DataSourceMenuProperties {
@@ -123,7 +120,7 @@ export class Channels extends MDSEnabledComponent<ChannelsProps, ChannelsState> 
   }
 
   async componentDidMount() {
-    this.context.chrome.setBreadcrumbs([
+    setBreadcrumbs([
       BREADCRUMBS.NOTIFICATIONS,
       BREADCRUMBS.CHANNELS,
     ]);
@@ -223,12 +220,6 @@ export class Channels extends MDSEnabledComponent<ChannelsProps, ChannelsState> 
       onSelectionChange: this.onSelectionChange,
     };
 
-    const navigationUI = this.props?.navigationUI || {};
-    const { HeaderControl } = navigationUI;
-    const showActionsInHeader = this.props.showActionsInHeader;
-    const appllication = this.props?.application || {};
-    const { setAppRightControls, setAppLeftControls } = appllication;
-
     const headerControls = [
       {
         id: 'Create Channel',
@@ -241,7 +232,7 @@ export class Channels extends MDSEnabledComponent<ChannelsProps, ChannelsState> 
       } as TopNavControlButtonData,
     ];
 
-    const totalChannnels = (
+    const totalChannels = (
       <EuiTitle size="m">
         <h2>({this.state.total})</h2>
       </EuiTitle>
@@ -249,34 +240,25 @@ export class Channels extends MDSEnabledComponent<ChannelsProps, ChannelsState> 
 
     return (
       <>
-        {showActionsInHeader ? (
+        {getUseUpdatedUx() ? (
           <ContentPanel
             actions={
               <ContentPanelActions
                 actions={[
                   {
                     component: (
-                      <HeaderControl
-                        setMountPoint={setAppRightControls}
-                        controls={headerControls}
-                      />
-                    ),
-                  },
-                  {
-                    component: (
-                      <HeaderControl
-                        setMountPoint={setAppLeftControls}
-                        controls={[
-                          { renderComponent: totalChannnels },
+                      <PageHeader
+                        appRightControls={headerControls}
+                        appLeftControls={[
+                          { renderComponent: totalChannels },
                         ]}
                       />
-                    )
+                    ),
                   }
                 ]}
               />
             }
           >
-
             <div style={{ marginBottom: '10px' }}>
               <div style={{ display: 'flex', alignItems: 'center' }}>
                 <ChannelControls
