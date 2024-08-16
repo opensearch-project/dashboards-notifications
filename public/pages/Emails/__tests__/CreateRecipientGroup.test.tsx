@@ -15,6 +15,11 @@ import {
 import { CoreServicesContext } from '../../../components/coreServices';
 import { ServicesContext } from '../../../services';
 import { CreateRecipientGroup } from '../CreateRecipientGroup';
+import { setupCoreStart } from '../../../../test/utils/helpers';
+
+beforeAll(() => {
+  setupCoreStart();
+});
 
 describe('<CreateRecipientGroup/> spec', () => {
   it('renders the component', () => {

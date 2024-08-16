@@ -16,6 +16,11 @@ import { CoreServicesContext } from '../../../components/coreServices';
 import { ServicesContext } from '../../../services';
 import { MainContext } from '../../Main/Main';
 import { CreateChannel } from '../CreateChannel';
+import { setupCoreStart } from '../../../../test/utils/helpers';
+
+beforeAll(() => {
+  setupCoreStart();
+});
 
 describe('<CreateChannel/> spec', () => {
     const updateConfigSuccess = jest.fn(async (configId: string, config: any) =>

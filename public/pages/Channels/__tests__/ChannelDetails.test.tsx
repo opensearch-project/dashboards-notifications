@@ -18,6 +18,11 @@ import {
 import { CoreServicesContext } from '../../../components/coreServices';
 import { ServicesContext } from '../../../services';
 import { ChannelDetails } from '../components/details/ChannelDetails';
+import { setupCoreStart } from '../../../../test/utils/helpers';
+
+beforeAll(() => {
+  setupCoreStart();
+});
 
 describe('<ChannelDetails/> spec', () => {
   configure({ adapter: new Adapter() });
