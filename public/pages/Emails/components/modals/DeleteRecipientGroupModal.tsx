@@ -5,9 +5,9 @@
 
 import { SERVER_DELAY } from '../../../../../common';
 import {
-  EuiButton,
-  EuiButtonEmpty,
-  EuiFieldText,
+  EuiSmallButton,
+  EuiSmallButtonEmpty,
+  EuiCompressedFieldText,
   EuiFlexGroup,
   EuiFlexItem,
   EuiModal,
@@ -71,7 +71,7 @@ export const DeleteRecipientGroupModal = (
           <EuiText>
             To confirm delete, type <i>delete</i> in the field.
           </EuiText>
-          <EuiFieldText
+          <EuiCompressedFieldText
             placeholder="delete"
             value={input}
             onChange={(e) => setInput(e.target.value)}
@@ -80,10 +80,10 @@ export const DeleteRecipientGroupModal = (
         <EuiModalFooter>
           <EuiFlexGroup justifyContent="flexEnd">
             <EuiFlexItem grow={false}>
-              <EuiButtonEmpty onClick={props.onClose}>Cancel</EuiButtonEmpty>
+              <EuiSmallButtonEmpty onClick={props.onClose}>Cancel</EuiSmallButtonEmpty>
             </EuiFlexItem>
             <EuiFlexItem grow={false}>
-              <EuiButton
+              <EuiSmallButton
                 data-test-subj="delete-recipient-group-modal-delete-button"
                 fill
                 color="danger"
@@ -112,7 +112,7 @@ export const DeleteRecipientGroupModal = (
                 disabled={input !== 'delete'}
               >
                 Delete
-              </EuiButton>
+              </EuiSmallButton>
             </EuiFlexItem>
           </EuiFlexGroup>
         </EuiModalFooter>

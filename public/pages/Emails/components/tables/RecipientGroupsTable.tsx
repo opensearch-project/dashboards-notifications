@@ -6,11 +6,16 @@
 import {
   EuiBasicTable,
   EuiSmallButton,
+<<<<<<< HEAD
   EuiContextMenuItem,
   EuiEmptyPrompt,
   EuiCompressedFieldSearch,
   EuiFlexGroup,
   EuiFlexItem,
+=======
+  EuiEmptyPrompt,
+  EuiCompressedFieldSearch,
+>>>>>>> main
   EuiHorizontalRule,
   EuiLink,
   EuiPopover,

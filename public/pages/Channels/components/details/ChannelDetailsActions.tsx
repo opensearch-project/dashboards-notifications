@@ -4,7 +4,7 @@
  */
 
 import {
-  EuiButton,
+  EuiSmallButton,
   EuiContextMenuItem,
   EuiPopover,
   EuiTextColor,
@@ -86,13 +86,13 @@ export function ChannelDetailsActions(props: ChannelDetailsActionsProps) {
         <EuiPopover
           panelPaddingSize="none"
           button={
-            <EuiButton
+            <EuiSmallButton
               iconType="arrowDown"
               iconSide="right"
               onClick={() => setIsPopoverOpen(!isPopoverOpen)}
             >
               Actions
-            </EuiButton>
+            </EuiSmallButton>
           }
           isOpen={isPopoverOpen}
           closePopover={() => setIsPopoverOpen(false)}

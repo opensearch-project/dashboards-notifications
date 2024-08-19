@@ -4,8 +4,8 @@
  */
 
 import {
-  EuiButton,
-  EuiButtonEmpty,
+  EuiSmallButton,
+  EuiSmallButtonEmpty,
   EuiComboBoxOptionOption,
   EuiFlexGroup,
   EuiFlexItem,
@@ -133,12 +133,12 @@ export function CreateRecipientGroup(props: CreateRecipientGroupProps) {
       <EuiSpacer />
       <EuiFlexGroup justifyContent="flexEnd" style={{ maxWidth: 1024 }}>
         <EuiFlexItem grow={false}>
-          <EuiButtonEmpty href={`#${ROUTES.EMAIL_GROUPS}`}>
+          <EuiSmallButtonEmpty href={`#${ROUTES.EMAIL_GROUPS}`}>
             Cancel
-          </EuiButtonEmpty>
+          </EuiSmallButtonEmpty>
         </EuiFlexItem>
         <EuiFlexItem grow={false}>
-          <EuiButton
+          <EuiSmallButton
             fill
             isLoading={loading}
             onClick={async () => {
@@ -184,7 +184,7 @@ export function CreateRecipientGroup(props: CreateRecipientGroupProps) {
             }}
           >
             {props.edit ? 'Save' : 'Create'}
-          </EuiButton>
+          </EuiSmallButton>
         </EuiFlexItem>
       </EuiFlexGroup>
     </>

@@ -4,8 +4,8 @@
  */
 
 import {
-  EuiFieldSearch,
-  EuiFilterButton,
+  EuiCompressedFieldSearch,
+  EuiSmallFilterButton,
   EuiFilterGroup,
   EuiFilterSelectItem,
   EuiFlexGroup,
@@ -65,7 +65,7 @@ export const SendersTableControls = (props: SendersTableControlsProps) => {
   return (
     <EuiFlexGroup>
       <EuiFlexItem>
-        <EuiFieldSearch
+        <EuiCompressedFieldSearch
           data-test-subj="senders-table-search-input"
           fullWidth={true}
           placeholder="Search"
@@ -77,7 +77,7 @@ export const SendersTableControls = (props: SendersTableControlsProps) => {
         <EuiFilterGroup>
           <EuiPopover
             button={
-              <EuiFilterButton
+              <EuiSmallFilterButton
                 iconType="arrowDown"
                 grow={false}
                 onClick={() =>
@@ -89,7 +89,7 @@ export const SendersTableControls = (props: SendersTableControlsProps) => {
                 ) : (
                   'Encryption method'
                 )}
-              </EuiFilterButton>
+              </EuiSmallFilterButton>
             }
             isOpen={isEncryptionPopoverOpen}
             closePopover={() => setIsEncryptionPopoverOpen(false)}
