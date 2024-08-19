@@ -8,6 +8,7 @@ import {
   EuiFlexGroup,
   EuiFlexItem,
   EuiHealth,
+  EuiSmallButton,
   EuiSpacer,
   EuiText,
   EuiTitle,
@@ -56,7 +57,7 @@ const ChannelHeaderContent = ({ channel, setChannel }) => {
         {channel && (
           <ModalConsumer>
             {({ onShow }) => (
-              <EuiButton
+              <EuiSmallButton
                 data-test-subj="channel-details-mute-button"
                 iconType={channel.is_enabled ? 'bellSlash' : 'bell'}
                 onClick={() => {
@@ -79,7 +80,7 @@ const ChannelHeaderContent = ({ channel, setChannel }) => {
                 }}
               >
                 {channel.is_enabled ? 'Mute channel' : 'Unmute channel'}
-              </EuiButton>
+              </EuiSmallButton>
             )}
           </ModalConsumer>
         )}
@@ -264,7 +265,7 @@ export function ChannelDetails(props: ChannelDetailsProps) {
                 {channel && (
                   <ModalConsumer>
                     {({ onShow }) => (
-                      <EuiButton
+                      <EuiSmallButton
                         data-test-subj="channel-details-mute-button"
                         iconType={channel.is_enabled ? 'bellSlash' : 'bell'}
                         onClick={() => {
@@ -287,7 +288,7 @@ export function ChannelDetails(props: ChannelDetailsProps) {
                         }}
                       >
                         {channel.is_enabled ? 'Mute channel' : 'Unmute channel'}
-                      </EuiButton>
+                      </EuiSmallButton>
                     )}
                   </ModalConsumer>
                 )}

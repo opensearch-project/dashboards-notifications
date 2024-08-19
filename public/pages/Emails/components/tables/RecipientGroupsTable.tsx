@@ -5,10 +5,10 @@
 
 import {
   EuiBasicTable,
-  EuiButton,
+  EuiSmallButton,
   EuiContextMenuItem,
   EuiEmptyPrompt,
-  EuiFieldSearch,
+  EuiCompressedFieldSearch,
   EuiFlexGroup,
   EuiFlexItem,
   EuiHorizontalRule,
@@ -293,7 +293,7 @@ export class RecipientGroupsTable extends Component<
           >
             <EuiFlexGroup>
               <EuiFlexItem>
-                <EuiFieldSearch
+                <EuiCompressedFieldSearch
                   data-test-subj="recipient-groups-table-search-input"
                   fullWidth={true}
                   placeholder="Search"
@@ -304,14 +304,14 @@ export class RecipientGroupsTable extends Component<
                 <EuiPopover
                   panelPaddingSize="none"
                   button={
-                    <EuiButton
+                    <EuiSmallButton
                       iconType="arrowDown"
                       iconSide="right"
                       onClick={this.togglePopover}
                       style={{ marginLeft: '10px' }} // Ensure spacing is correct
                     >
                       Actions
-                    </EuiButton>
+                    </EuiSmallButton>
                   }
                   isOpen={this.state.isPopoverOpen}
                   closePopover={() => this.setState({ isPopoverOpen: false })}
@@ -354,9 +354,9 @@ export class RecipientGroupsTable extends Component<
                   title={<h2>No recipient groups to display</h2>}
                   body="Use an email group to manage a list of email addresses you frequently send at a time. You can select recipient groups when configuring email channels."
                   actions={
-                    <EuiButton href={`#${ROUTES.CREATE_RECIPIENT_GROUP}`}>
+                    <EuiSmallButton href={`#${ROUTES.CREATE_RECIPIENT_GROUP}`}>
                       Create recipient group
-                    </EuiButton>
+                    </EuiSmallButton>
                   }
                 />
               }
@@ -375,7 +375,7 @@ export class RecipientGroupsTable extends Component<
                     component: (
                       <ModalConsumer>
                         {({ onShow }) => (
-                          <EuiButton
+                          <EuiSmallButton
                             data-test-subj="recipient-groups-table-delete-button"
                             disabled={this.state.selectedItems.length === 0}
                             onClick={() =>
@@ -386,14 +386,14 @@ export class RecipientGroupsTable extends Component<
                             }
                           >
                             Delete
-                          </EuiButton>
+                          </EuiSmallButton>
                         )}
                       </ModalConsumer>
                     ),
                   },
                   {
                     component: (
-                      <EuiButton
+                      <EuiSmallButton
                         data-test-subj="recipient-groups-table-edit-button"
                         disabled={this.state.selectedItems.length !== 1}
                         onClick={() =>
@@ -403,14 +403,14 @@ export class RecipientGroupsTable extends Component<
                         }
                       >
                         Edit
-                      </EuiButton>
+                      </EuiSmallButton>
                     ),
                   },
                   {
                     component: (
-                      <EuiButton fill href={`#${ROUTES.CREATE_RECIPIENT_GROUP}`}>
+                      <EuiSmallButton fill href={`#${ROUTES.CREATE_RECIPIENT_GROUP}`}>
                         Create recipient group
-                      </EuiButton>
+                      </EuiSmallButton>
                     ),
                   },
                 ]}
@@ -421,7 +421,7 @@ export class RecipientGroupsTable extends Component<
             titleSize="m"
             total={this.state.total}
           >
-            <EuiFieldSearch
+            <EuiCompressedFieldSearch
               data-test-subj="recipient-groups-table-search-input"
               fullWidth={true}
               placeholder="Search"
@@ -440,9 +440,9 @@ export class RecipientGroupsTable extends Component<
                   title={<h2>No recipient groups to display</h2>}
                   body="Use an email group to manage a list of email addresses you frequently send at a time. You can select recipient groups when configuring email channels."
                   actions={
-                    <EuiButton href={`#${ROUTES.CREATE_RECIPIENT_GROUP}`}>
+                    <EuiSmallButton href={`#${ROUTES.CREATE_RECIPIENT_GROUP}`}>
                       Create recipient group
-                    </EuiButton>
+                    </EuiSmallButton>
                   }
                 />
               }
