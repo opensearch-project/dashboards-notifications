@@ -34,67 +34,10 @@ import { ChannelDetailsActions } from './ChannelDetailsActions';
 import { ChannelSettingsDetails } from './ChannelSettingsDetails';
 import { getUseUpdatedUx } from '../../../../services/utils/constants';
 import PageHeader from "../../../../components/PageHeader/PageHeader";
-import { CoreStart } from 'opensearch-dashboards/public';
-import { BrowserServices } from 'plugins/dashboards-notifications/public/models/interfaces';
 
 interface ChannelDetailsProps extends RouteComponentProps<{
   id: string
 }> { }
-
-const ChannelHeaderContent = ({ channel, setChannel }) => {
-  const coreContext = useContext(CoreServicesContext)!;
-  const servicesContext = useContext(ServicesContext)!;
-
-  return (
-    <EuiFlexGroup gutterSize="m" alignItems="flexEnd">
-      <EuiFlexItem />
-      <EuiFlexItem grow={false}>
-        {channel && (
-          <ChannelDetailsActions
-            channel={channel}
-          />
-        )}
-      </EuiFlexItem>
-      {getMuteChannelComponent(channel, setChannel, servicesContext, coreContext)}
-    </EuiFlexGroup>
-  );
-};
-
-
-function getMuteChannelComponent(channel: any, setChannel: any, servicesContext: BrowserServices, coreContext: CoreStart) {
-  return <EuiFlexItem grow={false}>
-    {channel && (
-      <ModalConsumer>
-        {({ onShow }) => (
-          <EuiSmallButton
-            data-test-subj="channel-details-mute-button"
-            iconType={channel.is_enabled ? 'bellSlash' : 'bell'}
-            onClick={() => {
-              if (channel.is_enabled) {
-                onShow(MuteChannelModal, {
-                  selected: [channel],
-                  setSelected: (selected: any[]) => setChannel(selected[0]),
-                });
-              } else {
-                const newChannel = { ...channel, is_enabled: true };
-                servicesContext.notificationService
-                  .updateConfig(channel.config_id, newChannel)
-                  .then(() => {
-                    coreContext.notifications.toasts.addSuccess(
-                      `Channel ${channel.name} successfully unmuted.`
-                    );
-                    setChannel(newChannel);
-                  });
-              }
-            }}
-          >
-            {channel.is_enabled ? 'Mute channel' : 'Unmute channel'}
-          </EuiSmallButton>
-        )}
-      </ModalConsumer>
-    )}
-  </EuiFlexItem>;
-}
 
 export function ChannelDetails(props: ChannelDetailsProps) {
   const coreContext = useContext(CoreServicesContext)!;
@@ -201,13 +144,51 @@ export function ChannelDetails(props: ChannelDetailsProps) {
     },
   ];
 
+  const actionsAndMuteComponent = <EuiFlexGroup gutterSize="m" alignItems="flexEnd">
+    <EuiFlexItem />
+    <EuiFlexItem grow={false}>
+      {channel && (
+        <ChannelDetailsActions
+          channel={channel} />
+      )}
+    </EuiFlexItem>
+    <EuiFlexItem grow={false}>
+      {channel && (
+        <ModalConsumer>
+          {({ onShow }) => (
+            <EuiSmallButton
+              data-test-subj="channel-details-mute-button"
+              iconType={channel.is_enabled ? 'bellSlash' : 'bell'}
+              onClick={() => {
+                if (channel.is_enabled) {
+                  onShow(MuteChannelModal, {
+                    selected: [channel],
+                    setSelected: (selected: any[]) => setChannel(selected[0]),
+                  });
+                } else {
+                  const newChannel = { ...channel, is_enabled: true };
+                  servicesContext.notificationService
+                    .updateConfig(channel.config_id, newChannel)
+                    .then(() => {
+                      coreContext.notifications.toasts.addSuccess(
+                        `Channel ${channel.name} successfully unmuted.`
+                      );
+                      setChannel(newChannel);
+                    });
+                }
+              }}
+            >
+              {channel.is_enabled ? 'Mute channel' : 'Unmute channel'}
+            </EuiSmallButton>
+          )}
+        </ModalConsumer>
+      )}
+    </EuiFlexItem>
+  </EuiFlexGroup>;
   const rightControls = [
     {
       renderComponent: (
-        <ChannelHeaderContent
-          channel={channel}
-          setChannel={setChannel}
-        />
+        actionsAndMuteComponent
       ),
     },
     {
@@ -249,23 +230,23 @@ export function ChannelDetails(props: ChannelDetailsProps) {
         appBadgeControls={getUseUpdatedUx() ? badgeControls : []}
       >
         {!getUseUpdatedUx() && (
-          <div>
-            <EuiTitle size="l">
-              <h1>{channel?.name || '-'}</h1>
-            </EuiTitle>
+          <EuiFlexGroup
+          alignItems="center"
+          gutterSize="m"
+          style={{ maxWidth: 1316 }}
+        >
+          <EuiFlexItem grow={false}>
             <EuiFlexGroup gutterSize="m" alignItems="flexEnd">
-              {badgeComponent}
-              <EuiFlexItem />
               <EuiFlexItem grow={false}>
-                {channel && (
-                  <ChannelDetailsActions
-                    channel={channel}
-                  />
-                )}
+                <EuiTitle size="l">
+                  <h1>{channel?.name ?? '-'}</h1>
+                </EuiTitle>
               </EuiFlexItem>
-              {getMuteChannelComponent(channel, setChannel, servicesContext, coreContext)}
+              {badgeComponent}
             </EuiFlexGroup>
-          </div>
+          </EuiFlexItem>
+          {actionsAndMuteComponent}
+          </EuiFlexGroup>
         )}
       </PageHeader>
 
