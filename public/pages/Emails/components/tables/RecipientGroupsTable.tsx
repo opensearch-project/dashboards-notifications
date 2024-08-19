@@ -6,16 +6,11 @@
 import {
   EuiBasicTable,
   EuiSmallButton,
-<<<<<<< HEAD
   EuiContextMenuItem,
   EuiEmptyPrompt,
   EuiCompressedFieldSearch,
   EuiFlexGroup,
   EuiFlexItem,
-=======
-  EuiEmptyPrompt,
-  EuiCompressedFieldSearch,
->>>>>>> main
   EuiHorizontalRule,
   EuiLink,
   EuiPopover,
@@ -28,7 +23,7 @@ import { Criteria } from '@elastic/eui/src/components/basic_table/basic_table';
 import { Pagination } from '@elastic/eui/src/components/basic_table/pagination_bar';
 import _ from 'lodash';
 import React, { Component } from 'react';
-import { ApplicationStart, CoreStart } from '../../../../../../../src/core/public';
+import { CoreStart } from '../../../../../../../src/core/public';
 import {
   RecipientGroupItemType,
   TableState,
