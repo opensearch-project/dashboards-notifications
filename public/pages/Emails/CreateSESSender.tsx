@@ -4,8 +4,8 @@
  */
 
 import {
-  EuiButton,
-  EuiButtonEmpty,
+  EuiSmallButton,
+  EuiSmallButtonEmpty,
   EuiFlexGroup,
   EuiFlexItem,
   EuiSpacer,
@@ -129,12 +129,12 @@ export function CreateSESSender(props: CreateSESSenderProps) {
       <EuiSpacer />
       <EuiFlexGroup justifyContent="flexEnd" style={{ maxWidth: 1024 }}>
         <EuiFlexItem grow={false}>
-          <EuiButtonEmpty href={`#${ROUTES.EMAIL_SENDERS}`}>
+          <EuiSmallButtonEmpty href={`#${ROUTES.EMAIL_SENDERS}`}>
             Cancel
-          </EuiButtonEmpty>
+          </EuiSmallButtonEmpty>
         </EuiFlexItem>
         <EuiFlexItem grow={false}>
-          <EuiButton
+          <EuiSmallButton
             fill
             isLoading={loading}
             onClick={async () => {
@@ -180,7 +180,7 @@ export function CreateSESSender(props: CreateSESSenderProps) {
             }}
           >
             {props.edit ? 'Save' : 'Create'}
-          </EuiButton>
+          </EuiSmallButton>
         </EuiFlexItem>
       </EuiFlexGroup>
     </>

@@ -4,13 +4,13 @@
  */
 
 import {
-  EuiFieldNumber,
-  EuiFieldText,
-  EuiFormRow,
-  EuiRadioGroup,
+  EuiCompressedFieldNumber,
+  EuiCompressedFieldText,
+  EuiCompressedFormRow,
+  EuiCompressedRadioGroup,
   EuiRadioGroupOption,
   EuiSpacer,
-  EuiSuperSelect,
+  EuiCompressedSuperSelect,
 } from '@elastic/eui';
 import React, { useContext } from 'react';
 import { CUSTOM_WEBHOOK_ENDPOINT_TYPE } from '../../../utils/constants';
@@ -61,12 +61,12 @@ export function CustomWebhookSettings(props: CustomWebhookSettingsProps) {
 
   const renderWebhook = () => {
     return (
-      <EuiFormRow
+      <EuiCompressedFormRow
         label="Webhook URL"
         error={context.inputErrors.webhookURL.join(' ')}
         isInvalid={context.inputErrors.webhookURL.length > 0}
       >
-        <EuiFieldText
+        <EuiCompressedFieldText
           placeholder="https://name.example.com/XXXXX..."
           data-test-subj="custom-webhook-url-input"
           value={props.webhookURL}
@@ -79,15 +79,15 @@ export function CustomWebhookSettings(props: CustomWebhookSettingsProps) {
             });
           }}
         />
-      </EuiFormRow>
+      </EuiCompressedFormRow>
     );
   };
 
   const renderCustomURL = () => {
     return (
       <>
-        <EuiFormRow label="Type">
-          <EuiSuperSelect
+        <EuiCompressedFormRow label="Type">
+          <EuiCompressedSuperSelect
             options={[
               { value: 'HTTPS', inputDisplay: 'HTTPS' },
               { value: 'HTTP', inputDisplay: 'HTTP' },
@@ -95,13 +95,13 @@ export function CustomWebhookSettings(props: CustomWebhookSettingsProps) {
             valueOfSelected={props.customURLType}
             onChange={props.setCustomURLType}
           />
-        </EuiFormRow>
-        <EuiFormRow
+        </EuiCompressedFormRow>
+        <EuiCompressedFormRow
           label="Host"
           error={context.inputErrors.customURLHost.join(' ')}
           isInvalid={context.inputErrors.customURLHost.length > 0}
         >
-          <EuiFieldText
+          <EuiCompressedFieldText
             placeholder="name.example.com"
             data-test-subj="custom-webhook-host-input"
             value={props.customURLHost}
@@ -114,8 +114,8 @@ export function CustomWebhookSettings(props: CustomWebhookSettingsProps) {
               });
             }}
           />
-        </EuiFormRow>
-        <EuiFormRow
+        </EuiCompressedFormRow>
+        <EuiCompressedFormRow
           label={
             <span>
               Port - <i style={{ fontWeight: 'normal' }}>optional</i>
@@ -124,7 +124,7 @@ export function CustomWebhookSettings(props: CustomWebhookSettingsProps) {
           error={context.inputErrors.customURLPort.join(' ')}
           isInvalid={context.inputErrors.customURLPort.length > 0}
         >
-          <EuiFieldNumber
+          <EuiCompressedFieldNumber
             placeholder="Enter port"
             data-test-subj="custom-webhook-port-input"
             value={props.customURLPort}
@@ -137,21 +137,21 @@ export function CustomWebhookSettings(props: CustomWebhookSettingsProps) {
               });
             }}
           />
-        </EuiFormRow>
-        <EuiFormRow
+        </EuiCompressedFormRow>
+        <EuiCompressedFormRow
           label={
             <span>
               Path - <i style={{ fontWeight: 'normal' }}>optional</i>
             </span>
           }
         >
-          <EuiFieldText
+          <EuiCompressedFieldText
             placeholder="Enter path"
             data-test-subj="custom-webhook-path-input"
             value={props.customURLPath}
             onChange={(e) => props.setCustomURLPath(e.target.value)}
           />
-        </EuiFormRow>
+        </EuiCompressedFormRow>
 
         <EuiSpacer />
         <WebhookHeaders
@@ -165,8 +165,8 @@ export function CustomWebhookSettings(props: CustomWebhookSettingsProps) {
 
   return (
     <>
-      <EuiFormRow label="Method" style={{ maxWidth: '700px' }}>
-        <EuiSuperSelect
+      <EuiCompressedFormRow label="Method" style={{ maxWidth: '700px' }}>
+        <EuiCompressedSuperSelect
           options={[
             { value: 'POST', inputDisplay: 'POST' },
             { value: 'PUT', inputDisplay: 'PUT' },
@@ -175,10 +175,10 @@ export function CustomWebhookSettings(props: CustomWebhookSettingsProps) {
           valueOfSelected={props.webhookMethod}
           onChange={props.setWebhookMethod}
         />
-      </EuiFormRow>
+      </EuiCompressedFormRow>
 
-      <EuiFormRow label="Define endpoints by" style={{ maxWidth: '700px' }}>
-        <EuiRadioGroup
+      <EuiCompressedFormRow label="Define endpoints by" style={{ maxWidth: '700px' }}>
+        <EuiCompressedRadioGroup
           options={webhookTypeOptions}
           idSelected={props.webhookTypeIdSelected}
           onChange={(id: string) =>
@@ -187,7 +187,7 @@ export function CustomWebhookSettings(props: CustomWebhookSettingsProps) {
             )
           }
         />
-      </EuiFormRow>
+      </EuiCompressedFormRow>
       {props.webhookTypeIdSelected === 'WEBHOOK_URL'
         ? renderWebhook()
         : renderCustomURL()}

@@ -5,7 +5,7 @@
 
 import {
   EuiBasicTable,
-  EuiButton,
+  EuiSmallButton,
   EuiEmptyPrompt,
   EuiHealth,
   EuiHorizontalRule,
@@ -238,9 +238,9 @@ export class Channels extends MDSEnabledComponent<ChannelsProps, ChannelsState> 
                 },
                 {
                   component: (
-                    <EuiButton fill href={`#${ROUTES.CREATE_CHANNEL}`}>
+                    <EuiSmallButton fill href={`#${ROUTES.CREATE_CHANNEL}`}>
                       Create channel
-                    </EuiButton>
+                    </EuiSmallButton>
                   ),
                 },
               ]}
@@ -269,9 +269,9 @@ export class Channels extends MDSEnabledComponent<ChannelsProps, ChannelsState> 
                 title={<h2>No channels to display</h2>}
                 body="To send or receive notifications, you will need to create a notification channel."
                 actions={
-                  <EuiButton href={`#${ROUTES.CREATE_CHANNEL}`}>
+                  <EuiSmallButton href={`#${ROUTES.CREATE_CHANNEL}`}>
                     Create channel
-                  </EuiButton>
+                  </EuiSmallButton>
                 }
               />
             }

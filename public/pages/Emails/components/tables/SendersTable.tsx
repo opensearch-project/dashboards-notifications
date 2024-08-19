@@ -5,7 +5,7 @@
 
 import {
   EuiBasicTable,
-  EuiButton,
+  EuiSmallButton,
   EuiEmptyPrompt,
   EuiHorizontalRule,
   EuiTableFieldDataColumnType,
@@ -212,7 +212,7 @@ export class SendersTable extends Component<
                 component: (
                   <ModalConsumer>
                     {({ onShow }) => (
-                      <EuiButton
+                      <EuiSmallButton
                         data-test-subj="senders-table-delete-button"
                         disabled={this.state.selectedItems.length === 0}
                         onClick={() =>
@@ -223,14 +223,14 @@ export class SendersTable extends Component<
                         }
                       >
                         Delete
-                      </EuiButton>
+                      </EuiSmallButton>
                     )}
                   </ModalConsumer>
                 ),
               },
               {
                 component: (
-                  <EuiButton
+                  <EuiSmallButton
                     data-test-subj="senders-table-edit-button"
                     disabled={this.state.selectedItems.length !== 1}
                     onClick={() =>
@@ -240,14 +240,14 @@ export class SendersTable extends Component<
                     }
                   >
                     Edit
-                  </EuiButton>
+                  </EuiSmallButton>
                 ),
               },
               {
                 component: (
-                  <EuiButton fill href={`#${ROUTES.CREATE_SENDER}`}>
+                  <EuiSmallButton fill href={`#${ROUTES.CREATE_SENDER}`}>
                     Create SMTP sender
-                  </EuiButton>
+                  </EuiSmallButton>
                 ),
               },
             ]}
@@ -276,9 +276,9 @@ export class SendersTable extends Component<
               title={<h2>No SMTP senders to display</h2>}
               body="Set up an outbound email server by creating a sender. You will select a sender when configuring email channels."
               actions={
-                <EuiButton href={`#${ROUTES.CREATE_SENDER}`}>
+                <EuiSmallButton href={`#${ROUTES.CREATE_SENDER}`}>
                   Create SMTP sender
-                </EuiButton>
+                </EuiSmallButton>
               }
             />
           }
