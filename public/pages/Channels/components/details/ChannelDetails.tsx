@@ -207,14 +207,14 @@ export function ChannelDetails(props: ChannelDetailsProps) {
     {
       renderComponent: (
         <div style={{ display: 'flex', alignItems: 'center' }}>
-          <EuiButton
+          <EuiSmallButton
             data-test-subj="send-test-message-button"
             onClick={sendTestMessage}
             style={{ marginLeft: '10px' }}
             disabled={!channel?.is_enabled}
           >
             Send test message
-          </EuiButton>
+          </EuiSmallButton>
         </div>
       ),
     },
