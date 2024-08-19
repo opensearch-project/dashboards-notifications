@@ -155,15 +155,14 @@ export function CreateSESSender(props: CreateSESSenderProps) {
               );
               const request = props.edit
                 ? servicesContext.notificationService.updateConfig(
-                    props.match.params.id!,
-                    config
-                  )
+                  props.match.params.id!,
+                  config
+                )
                 : servicesContext.notificationService.createConfig(config);
               await request
                 .then((response) => {
                   coreContext.notifications.toasts.addSuccess(
-                    `Sender ${senderName} successfully ${
-                      props.edit ? 'updated' : 'created'
+                    `Sender ${senderName} successfully ${props.edit ? 'updated' : 'created'
                     }.`
                   );
                   setTimeout(
@@ -174,9 +173,8 @@ export function CreateSESSender(props: CreateSESSenderProps) {
                 .catch((error) => {
                   setLoading(false);
                   coreContext.notifications.toasts.addError(error?.body || error, {
-                    title: `Failed to ${
-                      props.edit ? 'update' : 'create'
-                    } sender.`,
+                    title: `Failed to ${props.edit ? 'update' : 'create'
+                      } sender.`,
                   });
                 });
             }}

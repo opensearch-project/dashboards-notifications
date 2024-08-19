@@ -20,7 +20,7 @@ import { Criteria } from '@elastic/eui/src/components/basic_table/basic_table';
 import { Pagination } from '@elastic/eui/src/components/basic_table/pagination_bar';
 import _ from 'lodash';
 import React, { Component } from 'react';
-import {  CoreStart } from '../../../../../../../src/core/public';
+import { CoreStart } from '../../../../../../../src/core/public';
 import { SenderItemType, TableState } from '../../../../../models/interfaces';
 import {
   ContentPanel,
@@ -234,6 +234,32 @@ export class SendersTable extends Component<
       },
     ];
 
+    const createSMTPButton = <EuiSmallButton fill href={`#${ROUTES.CREATE_SENDER}`}>
+      Create SMTP sender
+    </EuiSmallButton>;
+
+    const senderControlComponent = <SendersTableControls
+      onSearchChange={this.onSearchChange}
+      filters={this.state.filters}
+      onFiltersChange={(filters) => this.setState({ filters })} />;
+
+    const basicTableComponent = <EuiBasicTable
+      columns={this.columns}
+      items={this.state.items}
+      itemId="config_id"
+      isSelectable={true}
+      selection={selection}
+      noItemsMessage={<EuiEmptyPrompt
+        title={<h2>No SMTP senders to display</h2>}
+        body="Set up an outbound email server by creating a sender. You will select a sender when configuring email channels."
+        actions={<EuiSmallButton href={`#${ROUTES.CREATE_SENDER}`}>
+          Create SMTP sender
+        </EuiSmallButton>} />}
+      onChange={this.onTableChange}
+      pagination={pagination}
+      sorting={sorting}
+      loading={this.state.loading} />;
+
     return (
       <>
         {getUseUpdatedUx() ? (
@@ -258,11 +284,7 @@ export class SendersTable extends Component<
           >
             <EuiFlexGroup>
               <EuiFlexItem>
-                <SendersTableControls
-                  onSearchChange={this.onSearchChange}
-                  filters={this.state.filters}
-                  onFiltersChange={(filters) => this.setState({ filters })}
-                />
+                {senderControlComponent}
               </EuiFlexItem>
               <EuiFlexItem grow={false}>
                 <EuiPopover
@@ -306,29 +328,7 @@ export class SendersTable extends Component<
               </EuiFlexItem>
             </EuiFlexGroup>
             <EuiHorizontalRule margin="s" />
-
-            <EuiBasicTable
-              columns={this.columns}
-              items={this.state.items}
-              itemId="config_id"
-              isSelectable={true}
-              selection={selection}
-              noItemsMessage={
-                <EuiEmptyPrompt
-                  title={<h2>No SMTP senders to display</h2>}
-                  body="Set up an outbound email server by creating a sender. You will select a sender when configuring email channels."
-                  actions={
-                    <EuiSmallButton href={`#${ROUTES.CREATE_SENDER}`}>
-                      Create SMTP sender
-                    </EuiSmallButton>
-                  }
-                />
-              }
-              onChange={this.onTableChange}
-              pagination={pagination}
-              sorting={sorting}
-              loading={this.state.loading}
-            />
+            {basicTableComponent}
           </ContentPanel>
         ) : (
           <ContentPanel
@@ -372,9 +372,7 @@ export class SendersTable extends Component<
                   },
                   {
                     component: (
-                      <EuiSmallButton fill href={`#${ROUTES.CREATE_SENDER}`}>
-                        Create SMTP sender
-                      </EuiSmallButton>
+                      createSMTPButton
                     ),
                   },
                 ]}
@@ -385,35 +383,9 @@ export class SendersTable extends Component<
             titleSize="m"
             total={this.state.total}
           >
-            <SendersTableControls
-              onSearchChange={this.onSearchChange}
-              filters={this.state.filters}
-              onFiltersChange={(filters) => this.setState({ filters })}
-            />
+            {senderControlComponent}
             <EuiHorizontalRule margin="s" />
-
-            <EuiBasicTable
-              columns={this.columns}
-              items={this.state.items}
-              itemId="config_id"
-              isSelectable={true}
-              selection={selection}
-              noItemsMessage={
-                <EuiEmptyPrompt
-                  title={<h2>No SMTP senders to display</h2>}
-                  body="Set up an outbound email server by creating a sender. You will select a sender when configuring email channels."
-                  actions={
-                    <EuiSmallButton href={`#${ROUTES.CREATE_SENDER}`}>
-                      Create SMTP sender
-                    </EuiSmallButton>
-                  }
-                />
-              }
-              onChange={this.onTableChange}
-              pagination={pagination}
-              sorting={sorting}
-              loading={this.state.loading}
-            />
+            {basicTableComponent}
           </ContentPanel>
         )}
       </>

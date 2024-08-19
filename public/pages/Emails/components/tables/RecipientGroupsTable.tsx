@@ -265,9 +265,35 @@ export class RecipientGroupsTable extends Component<
 
     const totalEmailGroups = (
       <EuiTitle size="m">
-      <h2>({this.state.total})</h2>
-    </EuiTitle>
+        <h2>({this.state.total})</h2>
+      </EuiTitle>
     )
+
+    const searchComponent = <EuiCompressedFieldSearch
+      data-test-subj="recipient-groups-table-search-input"
+      fullWidth={true}
+      placeholder="Search"
+      onSearch={this.onSearchChange} />;
+
+    const createRecepientButton = <EuiSmallButton fill href={`#${ROUTES.CREATE_RECIPIENT_GROUP}`}>
+      Create recipient group
+    </EuiSmallButton>;
+
+    const tableComponent = <EuiBasicTable
+      columns={this.columns}
+      items={this.state.items}
+      itemId="config_id"
+      isSelectable={true}
+      selection={selection}
+      noItemsMessage={<EuiEmptyPrompt
+        title={<h2>No recipient groups to display</h2>}
+        body="Use an email group to manage a list of email addresses you frequently send at a time. You can select recipient groups when configuring email channels."
+        actions={<EuiSmallButton href={`#${ROUTES.CREATE_RECIPIENT_GROUP}`}>
+          Create recipient group
+        </EuiSmallButton>} />}
+      onChange={this.onTableChange}
+      pagination={pagination}
+      sorting={sorting} />;
 
     return (
       <>
@@ -293,12 +319,7 @@ export class RecipientGroupsTable extends Component<
           >
             <EuiFlexGroup>
               <EuiFlexItem>
-                <EuiCompressedFieldSearch
-                  data-test-subj="recipient-groups-table-search-input"
-                  fullWidth={true}
-                  placeholder="Search"
-                  onSearch={this.onSearchChange}
-                />
+                {searchComponent}
               </EuiFlexItem>
               <EuiFlexItem grow={false}>
                 <EuiPopover
@@ -342,28 +363,7 @@ export class RecipientGroupsTable extends Component<
               </EuiFlexItem>
             </EuiFlexGroup>
             <EuiHorizontalRule margin="s" />
-
-            <EuiBasicTable
-              columns={this.columns}
-              items={this.state.items}
-              itemId="config_id"
-              isSelectable={true}
-              selection={selection}
-              noItemsMessage={
-                <EuiEmptyPrompt
-                  title={<h2>No recipient groups to display</h2>}
-                  body="Use an email group to manage a list of email addresses you frequently send at a time. You can select recipient groups when configuring email channels."
-                  actions={
-                    <EuiSmallButton href={`#${ROUTES.CREATE_RECIPIENT_GROUP}`}>
-                      Create recipient group
-                    </EuiSmallButton>
-                  }
-                />
-              }
-              onChange={this.onTableChange}
-              pagination={pagination}
-              sorting={sorting}
-            />
+            {tableComponent}
           </ContentPanel>
 
         ) : (
@@ -408,9 +408,7 @@ export class RecipientGroupsTable extends Component<
                   },
                   {
                     component: (
-                      <EuiSmallButton fill href={`#${ROUTES.CREATE_RECIPIENT_GROUP}`}>
-                        Create recipient group
-                      </EuiSmallButton>
+                      createRecepientButton
                     ),
                   },
                 ]}
@@ -421,35 +419,10 @@ export class RecipientGroupsTable extends Component<
             titleSize="m"
             total={this.state.total}
           >
-            <EuiCompressedFieldSearch
-              data-test-subj="recipient-groups-table-search-input"
-              fullWidth={true}
-              placeholder="Search"
-              onSearch={this.onSearchChange}
-            />
+            {searchComponent}
             <EuiHorizontalRule margin="s" />
 
-            <EuiBasicTable
-              columns={this.columns}
-              items={this.state.items}
-              itemId="config_id"
-              isSelectable={true}
-              selection={selection}
-              noItemsMessage={
-                <EuiEmptyPrompt
-                  title={<h2>No recipient groups to display</h2>}
-                  body="Use an email group to manage a list of email addresses you frequently send at a time. You can select recipient groups when configuring email channels."
-                  actions={
-                    <EuiSmallButton href={`#${ROUTES.CREATE_RECIPIENT_GROUP}`}>
-                      Create recipient group
-                    </EuiSmallButton>
-                  }
-                />
-              }
-              onChange={this.onTableChange}
-              pagination={pagination}
-              sorting={sorting}
-            />
+            {tableComponent}
           </ContentPanel>
         )}
       </>

@@ -238,6 +238,36 @@ export class Channels extends MDSEnabledComponent<ChannelsProps, ChannelsState> 
       </EuiTitle>
     )
 
+    const channelActionsComponent = <ChannelActions
+      selected={this.state.selectedItems}
+      setSelected={(selectedItems: ChannelItemType[]) => this.setState({ selectedItems })}
+      items={this.state.items}
+      setItems={(items: ChannelItemType[]) => this.setState({ items })}
+      refresh={this.refresh} />;
+
+    const channelControlsComponent = <ChannelControls
+      onSearchChange={this.onSearchChange}
+      filters={this.state.filters}
+      onFiltersChange={this.onFiltersChange} />;
+
+    const basicTableComponent = <EuiBasicTable
+      columns={this.columns}
+      items={this.state.items}
+      itemId="config_id"
+      isSelectable={true}
+      selection={selection}
+      noItemsMessage={<EuiEmptyPrompt
+        title={<h2>No channels to display</h2>}
+        body="To send or receive notifications, you will need to create a notification channel."
+        actions={<EuiSmallButton href={`#${ROUTES.CREATE_CHANNEL}`}>
+          Create channel
+        </EuiSmallButton>} />}
+      onChange={this.onTableChange}
+      pagination={pagination}
+      sorting={sorting}
+      tableLayout="auto"
+      loading={this.state.loading} />;
+
     return (
       <>
         {getUseUpdatedUx() ? (
@@ -261,50 +291,14 @@ export class Channels extends MDSEnabledComponent<ChannelsProps, ChannelsState> 
           >
             <div style={{ marginBottom: '10px' }}>
               <div style={{ display: 'flex', alignItems: 'center' }}>
-                <ChannelControls
-                  onSearchChange={this.onSearchChange}
-                  filters={this.state.filters}
-                  onFiltersChange={this.onFiltersChange}
-                />
+                {channelControlsComponent}
                 <div style={{ marginLeft: '10px' }}>
-                  <ChannelActions
-                    selected={this.state.selectedItems}
-                    setSelected={(selectedItems: ChannelItemType[]) =>
-                      this.setState({ selectedItems })
-                    }
-                    items={this.state.items}
-                    setItems={(items: ChannelItemType[]) =>
-                      this.setState({ items })
-                    }
-                    refresh={this.refresh}
-                  />
+                  {channelActionsComponent}
                 </div>
               </div>
             </div>
             <EuiHorizontalRule margin="s" />
-            <EuiBasicTable
-              columns={this.columns}
-              items={this.state.items}
-              itemId="config_id"
-              isSelectable={true}
-              selection={selection}
-              noItemsMessage={
-                <EuiEmptyPrompt
-                  title={<h2>No channels to display</h2>}
-                  body="To send or receive notifications, you will need to create a notification channel."
-                  actions={
-                    <EuiSmallButton href={`#${ROUTES.CREATE_CHANNEL}`}>
-                      Create channel
-                    </EuiSmallButton>
-                  }
-                />
-              }
-              onChange={this.onTableChange}
-              pagination={pagination}
-              sorting={sorting}
-              tableLayout="auto"
-              loading={this.state.loading}
-            />
+            {basicTableComponent}
           </ContentPanel>
 
 
@@ -315,17 +309,7 @@ export class Channels extends MDSEnabledComponent<ChannelsProps, ChannelsState> 
                 actions={[
                   {
                     component: (
-                      <ChannelActions
-                        selected={this.state.selectedItems}
-                        setSelected={(selectedItems: ChannelItemType[]) =>
-                          this.setState({ selectedItems })
-                        }
-                        items={this.state.items}
-                        setItems={(items: ChannelItemType[]) =>
-                          this.setState({ items })
-                        }
-                        refresh={this.refresh}
-                      />
+                      channelActionsComponent
                     ),
                   },
                   {
@@ -343,36 +327,9 @@ export class Channels extends MDSEnabledComponent<ChannelsProps, ChannelsState> 
             titleSize="m"
             total={this.state.total}
           >
-            <ChannelControls
-              onSearchChange={this.onSearchChange}
-              filters={this.state.filters}
-              onFiltersChange={this.onFiltersChange}
-            />
+            {channelControlsComponent}
             <EuiHorizontalRule margin="s" />
-
-            <EuiBasicTable
-              columns={this.columns}
-              items={this.state.items}
-              itemId="config_id"
-              isSelectable={true}
-              selection={selection}
-              noItemsMessage={
-                <EuiEmptyPrompt
-                  title={<h2>No channels to display</h2>}
-                  body="To send or receive notifications, you will need to create a notification channel."
-                  actions={
-                    <EuiSmallButton href={`#${ROUTES.CREATE_CHANNEL}`}>
-                      Create channel
-                    </EuiSmallButton>
-                  }
-                />
-              }
-              onChange={this.onTableChange}
-              pagination={pagination}
-              sorting={sorting}
-              tableLayout="auto"
-              loading={this.state.loading}
-            />
+            {basicTableComponent}
           </ContentPanel>
 
         )}

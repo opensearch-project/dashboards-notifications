@@ -212,6 +212,34 @@ export class SESSendersTable extends Component<
       },
     ];
 
+    const createSESButton = <EuiSmallButton fill href={`#${ROUTES.CREATE_SES_SENDER}`}>
+      Create SES sender
+    </EuiSmallButton>;
+
+    const tableComponent = <EuiBasicTable
+      columns={this.columns}
+      items={this.state.items}
+      itemId="config_id"
+      isSelectable={true}
+      selection={selection}
+      noItemsMessage={<EuiEmptyPrompt
+        title={<h2>No SES senders to display</h2>}
+        body="Set up an outbound email server by creating a sender. You will select a sender when configuring email channels."
+        actions={<EuiSmallButton href={`#${ROUTES.CREATE_SES_SENDER}`}>
+          Create SES sender
+        </EuiSmallButton>} />}
+      onChange={this.onTableChange}
+      pagination={pagination}
+      sorting={sorting}
+      loading={this.state.loading}
+      tableLayout="auto" />;
+
+    const searchComponent = <EuiCompressedFieldSearch
+      data-test-subj="ses-senders-table-search-input"
+      fullWidth={true}
+      placeholder="Search"
+      onSearch={this.onSearchChange} />;
+
     return (
       <>
         {getUseUpdatedUx() ? (
@@ -236,12 +264,7 @@ export class SESSendersTable extends Component<
           >
             <EuiFlexGroup>
               <EuiFlexItem>
-                <EuiCompressedFieldSearch
-                  data-test-subj="ses-senders-table-search-input"
-                  fullWidth={true}
-                  placeholder="Search"
-                  onSearch={this.onSearchChange}
-                />
+                {searchComponent}
               </EuiFlexItem>
               <EuiFlexItem grow={false}>
                 <EuiPopover
@@ -285,30 +308,7 @@ export class SESSendersTable extends Component<
               </EuiFlexItem>
             </EuiFlexGroup>
             <EuiHorizontalRule margin="s" />
-
-            <EuiBasicTable
-              columns={this.columns}
-              items={this.state.items}
-              itemId="config_id"
-              isSelectable={true}
-              selection={selection}
-              noItemsMessage={
-                <EuiEmptyPrompt
-                  title={<h2>No SES senders to display</h2>}
-                  body="Set up an outbound email server by creating a sender. You will select a sender when configuring email channels."
-                  actions={
-                    <EuiSmallButton href={`#${ROUTES.CREATE_SES_SENDER}`}>
-                      Create SES sender
-                    </EuiSmallButton>
-                  }
-                />
-              }
-              onChange={this.onTableChange}
-              pagination={pagination}
-              sorting={sorting}
-              loading={this.state.loading}
-              tableLayout="auto"
-            />
+            {tableComponent}
           </ContentPanel>
         ) : (
           <ContentPanel
@@ -352,9 +352,7 @@ export class SESSendersTable extends Component<
                   },
                   {
                     component: (
-                      <EuiSmallButton fill href={`#${ROUTES.CREATE_SES_SENDER}`}>
-                        Create SES sender
-                      </EuiSmallButton>
+                      createSESButton
                     ),
                   },
                 ]}
@@ -365,37 +363,9 @@ export class SESSendersTable extends Component<
             titleSize="m"
             total={this.state.total}
           >
-            <EuiCompressedFieldSearch
-              data-test-subj="ses-senders-table-search-input"
-              fullWidth={true}
-              placeholder="Search"
-              onSearch={this.onSearchChange}
-            />
+            {searchComponent}
             <EuiHorizontalRule margin="s" />
-
-            <EuiBasicTable
-              columns={this.columns}
-              items={this.state.items}
-              itemId="config_id"
-              isSelectable={true}
-              selection={selection}
-              noItemsMessage={
-                <EuiEmptyPrompt
-                  title={<h2>No SES senders to display</h2>}
-                  body="Set up an outbound email server by creating a sender. You will select a sender when configuring email channels."
-                  actions={
-                    <EuiSmallButton href={`#${ROUTES.CREATE_SES_SENDER}`}>
-                      Create SES sender
-                    </EuiSmallButton>
-                  }
-                />
-              }
-              onChange={this.onTableChange}
-              pagination={pagination}
-              sorting={sorting}
-              loading={this.state.loading}
-              tableLayout="auto"
-            />
+            {tableComponent}
           </ContentPanel>
 
         )}
