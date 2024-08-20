@@ -298,74 +298,61 @@ export class RecipientGroupsTable extends Component<
     return (
       <>
         {getUseUpdatedUx() ? (
-
-          <ContentPanel
-            actions={
-              <ContentPanelActions
-                actions={[
-                  {
-                    component: (
-                      <PageHeader
-                        appRightControls={headerControls}
-                        appLeftControls={[
-                          { renderComponent: totalEmailGroups },
-                        ]}
-                      />
-                    ),
-                  }
-                ]}
-              />
-            }
-          >
-            <EuiFlexGroup>
-              <EuiFlexItem>
-                {searchComponent}
-              </EuiFlexItem>
-              <EuiFlexItem grow={false}>
-                <EuiPopover
-                  panelPaddingSize="none"
-                  button={
-                    <EuiSmallButton
-                      iconType="arrowDown"
-                      iconSide="right"
-                      onClick={this.togglePopover}
-                      style={{ marginLeft: '10px' }} // Ensure spacing is correct
-                    >
-                      Actions
-                    </EuiSmallButton>
-                  }
-                  isOpen={this.state.isPopoverOpen}
-                  closePopover={() => this.setState({ isPopoverOpen: false })}
-                >
-                  {actions.map((action) => (
-                    <ModalConsumer key={action.label}>
-                      {({ onShow }) => (
-                        <EuiContextMenuItem
-                          key={action.label}
-                          disabled={action.disabled}
-                          onClick={() => {
-                            this.setState({ isPopoverOpen: false });
-                            if (action.modal) {
-                              onShow(action.modal, {
-                                ...(action.modalParams || {}),
-                              });
-                            } else if (action.action) {
-                              action.action();
-                            }
-                          }}
-                        >
-                          {action.label}
-                        </EuiContextMenuItem>
-                      )}
-                    </ModalConsumer>
-                  ))}
-                </EuiPopover>
-              </EuiFlexItem>
-            </EuiFlexGroup>
-            <EuiHorizontalRule margin="s" />
-            {tableComponent}
-          </ContentPanel>
-
+          <>
+            <PageHeader
+              appRightControls={headerControls}
+              appLeftControls={[{ renderComponent: totalEmailGroups }]}
+            />
+            <ContentPanel>
+              <EuiFlexGroup>
+                <EuiFlexItem>
+                  {searchComponent}
+                </EuiFlexItem>
+                <EuiFlexItem grow={false}>
+                  <EuiPopover
+                    panelPaddingSize="none"
+                    button={
+                      <EuiSmallButton
+                        iconType="arrowDown"
+                        iconSide="right"
+                        onClick={this.togglePopover}
+                        style={{ marginLeft: '10px' }} // Ensure spacing is correct
+                      >
+                        Actions
+                      </EuiSmallButton>
+                    }
+                    isOpen={this.state.isPopoverOpen}
+                    closePopover={() => this.setState({ isPopoverOpen: false })}
+                  >
+                    {actions.map((action) => (
+                      <ModalConsumer key={action.label}>
+                        {({ onShow }) => (
+                          <EuiContextMenuItem
+                            key={action.label}
+                            disabled={action.disabled}
+                            onClick={() => {
+                              this.setState({ isPopoverOpen: false });
+                              if (action.modal) {
+                                onShow(action.modal, {
+                                  ...(action.modalParams || {}),
+                                });
+                              } else if (action.action) {
+                                action.action();
+                              }
+                            }}
+                          >
+                            {action.label}
+                          </EuiContextMenuItem>
+                        )}
+                      </ModalConsumer>
+                    ))}
+                  </EuiPopover>
+                </EuiFlexItem>
+              </EuiFlexGroup>
+              <EuiHorizontalRule margin="s" />
+              {tableComponent}
+            </ContentPanel>
+          </>
         ) : (
           <ContentPanel
             actions={
@@ -407,9 +394,7 @@ export class RecipientGroupsTable extends Component<
                     ),
                   },
                   {
-                    component: (
-                      createRecepientButton
-                    ),
+                    component: createRecepientButton,
                   },
                 ]}
               />
@@ -421,11 +406,11 @@ export class RecipientGroupsTable extends Component<
           >
             {searchComponent}
             <EuiHorizontalRule margin="s" />
-
             {tableComponent}
           </ContentPanel>
         )}
       </>
+
     );
   }
 };

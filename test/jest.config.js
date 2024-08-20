@@ -6,7 +6,7 @@
 module.exports = {
   rootDir: '../',
   setupFiles: ['<rootDir>/test/setupTests.ts'],
-  setupFilesAfterEnv: ['<rootDir>/test/setup.jest.ts', '<rootDir>/test/polyfills.ts'],
+  setupFilesAfterEnv: ['<rootDir>/test/setup.jest.ts'],
   roots: ['<rootDir>'],
   testMatch: ['**/*.test.js', '**/*.test.jsx', '**/*.test.ts', '**/*.test.tsx'],
   clearMocks: true,

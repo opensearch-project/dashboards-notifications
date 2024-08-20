@@ -229,7 +229,7 @@ export function ChannelDetails(props: ChannelDetailsProps) {
         appRightControls={getUseUpdatedUx() ? rightControls : []}
         appBadgeControls={getUseUpdatedUx() ? badgeControls : []}
       >
-        {!getUseUpdatedUx() && (
+        {(
           <EuiFlexGroup
           alignItems="center"
           gutterSize="m"
