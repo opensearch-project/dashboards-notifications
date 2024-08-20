@@ -20,10 +20,6 @@
     "plugin_helpers": "node ../../scripts/plugin_helpers",
     "postbuild": "echo Renaming build artifact to [$npm_package_config_zip_name-$npm_package_version.zip] && mv build/$npm_package_config_id*.zip build/$npm_package_config_zip_name-$npm_package_version.zip"
   },
-  "dependencies": {
-    "tough-cookie": "^4.1.3",
-    "web-streams-polyfill": "^4.0.0"
-  },
   "devDependencies": {
     "@types/enzyme-adapter-react-16": "^1.0.6",
     "@types/showdown": "^1.9.3",

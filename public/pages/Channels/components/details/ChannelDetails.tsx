@@ -32,7 +32,6 @@ import { MuteChannelModal } from '../modals/MuteChannelModal';
 import { ChannelDetailItems } from './ChannelDetailItems';
 import { ChannelDetailsActions } from './ChannelDetailsActions';
 import { ChannelSettingsDetails } from './ChannelSettingsDetails';
-import { getUseUpdatedUx } from '../../../../services/utils/constants';
 import PageHeader from "../../../../components/PageHeader/PageHeader";
 
 interface ChannelDetailsProps extends RouteComponentProps<{

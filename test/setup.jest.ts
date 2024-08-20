@@ -2,15 +2,6 @@
  * Copyright OpenSearch Contributors
  * SPDX-License-Identifier: Apache-2.0
  */
-
-import '@testing-library/jest-dom/extend-expect';
-import { ReadableStream } from 'web-streams-polyfill'; // Polyfill for ReadableStream
-import { TextDecoder, TextEncoder } from 'util';
-global.TextEncoder = TextEncoder;
-// @ts-expect-error
-global.TextDecoder = TextDecoder;
-// @ts-expect-error
-global.ReadableStream = ReadableStream;
 import { configure } from '@testing-library/react';
 
 configure({ testIdAttribute: 'data-test-subj' });
