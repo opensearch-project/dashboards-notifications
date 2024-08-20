@@ -8,6 +8,11 @@ import React from 'react';
 import { mainStateMock } from '../../../../test/mocks/serviceMock';
 import { MainContext } from '../../Main/Main';
 import { CreateSESSenderForm } from '../components/forms/CreateSESSenderForm';
+import { setupCoreStart } from '../../../../test/utils/helpers';
+
+beforeAll(() => {
+  setupCoreStart();
+});
 
 describe('<CreateSESSenderForm/> spec', () => {
   it('renders the component', () => {

@@ -16,6 +16,11 @@ import { CoreServicesContext } from '../../../components/coreServices';
 import { ServicesContext } from '../../../services';
 import { MainContext } from '../../Main/Main';
 import { CreateSESSender } from '../CreateSESSender';
+import { setupCoreStart } from '../../../../test/utils/helpers';
+
+beforeAll(() => {
+  setupCoreStart();
+});
 
 describe('<CreateSESSender/> spec', () => {
   it('renders the component', () => {

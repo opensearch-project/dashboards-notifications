@@ -3,6 +3,9 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
+import { ChromeBreadcrumb } from 'opensearch-dashboards/public';
+import { getBreadCrumbsSetter, getUseUpdatedUx } from '../services/utils/constants';
+
 export const DOCUMENTATION_LINK = '';
 export const ALERTING_DOCUMENTATION_LINK =
   'https://opensearch.org/docs/monitoring-plugins/alerting/monitors/#authenticate-sender-account';
@@ -24,7 +27,7 @@ export const ROUTES = Object.freeze({
 });
 
 export const BREADCRUMBS = Object.freeze({
-  NOTIFICATIONS: { text: 'Notifications', href: '#/' },
+  NOTIFICATIONS: { text: 'Notification channels', href: '#/' },
   CHANNELS: { text: 'Channels', href: `#${ROUTES.CHANNELS}` },
   CHANNEL_DETAILS: { text: 'Channels', href: `#${ROUTES.CHANNEL_DETAILS}` },
   CREATE_CHANNEL: { text: 'Create channel', href: `#${ROUTES.CREATE_CHANNEL}` },
@@ -65,3 +68,7 @@ export const CUSTOM_WEBHOOK_ENDPOINT_TYPE = Object.freeze({
   WEBHOOK_URL: 'Webhook URL',
   CUSTOM_URL: 'Custom attributes URL',
 });
+
+export function setBreadcrumbs(crumbs: ChromeBreadcrumb[]) {
+  getBreadCrumbsSetter()(getUseUpdatedUx() ? crumbs : [BREADCRUMBS.NOTIFICATIONS, ...crumbs]);
+}
