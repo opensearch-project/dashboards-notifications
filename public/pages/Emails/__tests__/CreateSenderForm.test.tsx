@@ -6,6 +6,11 @@
 import { fireEvent, render } from '@testing-library/react';
 import React from 'react';
 import { CreateSenderForm } from '../components/forms/CreateSenderForm';
+import { setupCoreStart } from '../../../../test/utils/helpers';
+
+beforeAll(() => {
+  setupCoreStart();
+});
 
 describe('<CreateSenderForm/> spec', () => {
   it('renders the component', () => {

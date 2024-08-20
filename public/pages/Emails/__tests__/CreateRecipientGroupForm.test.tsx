@@ -8,6 +8,11 @@ import { configure, shallow } from 'enzyme';
 import Adapter from 'enzyme-adapter-react-16';
 import React from 'react';
 import { CreateRecipientGroupForm } from '../components/forms/CreateRecipientGroupForm';
+import { setupCoreStart } from '../../../../test/utils/helpers';
+
+beforeAll(() => {
+  setupCoreStart();
+});
 
 describe('<CreateRecipientGroupForm/> spec', () => {
   configure({ adapter: new Adapter() });

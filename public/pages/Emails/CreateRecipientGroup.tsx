@@ -18,7 +18,7 @@ import { SERVER_DELAY } from '../../../common';
 import { ContentPanel } from '../../components/ContentPanel';
 import { CoreServicesContext } from '../../components/coreServices';
 import { ServicesContext } from '../../services';
-import { BREADCRUMBS, ROUTES } from '../../utils/constants';
+import { BREADCRUMBS, ROUTES, setBreadcrumbs } from '../../utils/constants';
 import { getErrorMessage } from '../../utils/helpers';
 import { CreateRecipientGroupForm } from './components/forms/CreateRecipientGroupForm';
 import { createRecipientGroupConfigObject } from './utils/helper';
@@ -26,6 +26,7 @@ import {
   validateRecipientGroupEmails,
   validateRecipientGroupName,
 } from './utils/validationHelper';
+import { getUseUpdatedUx } from '../../services/utils/constants';
 
 interface CreateRecipientGroupProps
   extends RouteComponentProps<{ id?: string }> {
@@ -65,7 +66,7 @@ export function CreateRecipientGroup(props: CreateRecipientGroupProps) {
   };
 
   useEffect(() => {
-    coreContext.chrome.setBreadcrumbs([
+    setBreadcrumbs([
       BREADCRUMBS.NOTIFICATIONS,
       BREADCRUMBS.EMAIL_GROUPS,
       props.edit
@@ -103,9 +104,11 @@ export function CreateRecipientGroup(props: CreateRecipientGroupProps) {
 
   return (
     <>
-      <EuiTitle size="l">
-        <h1>{`${props.edit ? 'Edit' : 'Create'} recipient group`}</h1>
-      </EuiTitle>
+      {!getUseUpdatedUx() && (
+        <EuiTitle size="l">
+          <h1>{`${props.edit ? 'Edit' : 'Create'} recipient group`}</h1>
+        </EuiTitle>
+      )}
 
       <EuiSpacer />
       <ContentPanel
@@ -153,15 +156,14 @@ export function CreateRecipientGroup(props: CreateRecipientGroupProps) {
               );
               const request = props.edit
                 ? servicesContext.notificationService.updateConfig(
-                    props.match.params.id!,
-                    config
-                  )
+                  props.match.params.id!,
+                  config
+                )
                 : servicesContext.notificationService.createConfig(config);
               await request
                 .then((response) => {
                   coreContext.notifications.toasts.addSuccess(
-                    `Recipient group ${name} successfully ${
-                      props.edit ? 'updated' : 'created'
+                    `Recipient group ${name} successfully ${props.edit ? 'updated' : 'created'
                     }.`
                   );
                   setTimeout(
@@ -174,9 +176,8 @@ export function CreateRecipientGroup(props: CreateRecipientGroupProps) {
                   coreContext.notifications.toasts.addError(
                     error?.body || error,
                     {
-                      title: `Failed to ${
-                        props.edit ? 'update' : 'create'
-                      } recipient group.`,
+                      title: `Failed to ${props.edit ? 'update' : 'create'
+                        } recipient group.`,
                     }
                   );
                 });

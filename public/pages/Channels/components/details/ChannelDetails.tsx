@@ -5,11 +5,10 @@
 
 import {
   EuiButton,
-  EuiSmallButton,
   EuiFlexGroup,
   EuiFlexItem,
-  EuiGlobalToastList,
   EuiHealth,
+  EuiSmallButton,
   EuiSpacer,
   EuiText,
   EuiTitle,
@@ -25,6 +24,7 @@ import { ServicesContext } from '../../../../services';
 import {
   BREADCRUMBS,
   ROUTES,
+  setBreadcrumbs,
 } from '../../../../utils/constants';
 import { renderTime } from '../../../../utils/helpers';
 import { ListItemType } from '../../types';
@@ -32,8 +32,11 @@ import { MuteChannelModal } from '../modals/MuteChannelModal';
 import { ChannelDetailItems } from './ChannelDetailItems';
 import { ChannelDetailsActions } from './ChannelDetailsActions';
 import { ChannelSettingsDetails } from './ChannelSettingsDetails';
+import PageHeader from "../../../../components/PageHeader/PageHeader";
 
-interface ChannelDetailsProps extends RouteComponentProps<{ id: string }> {}
+interface ChannelDetailsProps extends RouteComponentProps<{
+  id: string
+}> { }
 
 export function ChannelDetails(props: ChannelDetailsProps) {
   const coreContext = useContext(CoreServicesContext)!;
@@ -42,8 +45,22 @@ export function ChannelDetails(props: ChannelDetailsProps) {
   const [channel, setChannel] = useState<ChannelItemType>();
   const [toasts, setToasts] = useState<Toast[]>([]);
 
+  const sendTestMessage = async () => {
+    try {
+      await servicesContext.notificationService.sendTestMessage(id);
+      coreContext.notifications.toasts.addSuccess(
+        'Successfully sent a test message.'
+      );
+    } catch (error) {
+      coreContext.notifications.toasts.addError(error?.body || error, {
+        title: 'Failed to send the test message.',
+        toastMessage: 'View error details and adjust the channel settings.',
+      });
+    }
+  };
+
   useEffect(() => {
-    coreContext.chrome.setBreadcrumbs([
+    setBreadcrumbs([
       BREADCRUMBS.NOTIFICATIONS,
       BREADCRUMBS.CHANNELS,
     ]);
@@ -69,7 +86,7 @@ export function ChannelDetails(props: ChannelDetailsProps) {
       })
       .then((response) => {
         setChannel(response);
-        coreContext.chrome.setBreadcrumbs([
+        setBreadcrumbs([
           BREADCRUMBS.NOTIFICATIONS,
           BREADCRUMBS.CHANNELS,
           {
@@ -126,76 +143,111 @@ export function ChannelDetails(props: ChannelDetailsProps) {
     },
   ];
 
+  const actionsAndMuteComponent = <EuiFlexGroup gutterSize="m" alignItems="flexEnd">
+    <EuiFlexItem />
+    <EuiFlexItem grow={false}>
+      {channel && (
+        <ChannelDetailsActions
+          channel={channel} />
+      )}
+    </EuiFlexItem>
+    <EuiFlexItem grow={false}>
+      {channel && (
+        <ModalConsumer>
+          {({ onShow }) => (
+            <EuiSmallButton
+              data-test-subj="channel-details-mute-button"
+              iconType={channel.is_enabled ? 'bellSlash' : 'bell'}
+              onClick={() => {
+                if (channel.is_enabled) {
+                  onShow(MuteChannelModal, {
+                    selected: [channel],
+                    setSelected: (selected: any[]) => setChannel(selected[0]),
+                  });
+                } else {
+                  const newChannel = { ...channel, is_enabled: true };
+                  servicesContext.notificationService
+                    .updateConfig(channel.config_id, newChannel)
+                    .then(() => {
+                      coreContext.notifications.toasts.addSuccess(
+                        `Channel ${channel.name} successfully unmuted.`
+                      );
+                      setChannel(newChannel);
+                    });
+                }
+              }}
+            >
+              {channel.is_enabled ? 'Mute channel' : 'Unmute channel'}
+            </EuiSmallButton>
+          )}
+        </ModalConsumer>
+      )}
+    </EuiFlexItem>
+  </EuiFlexGroup>;
+  const rightControls = [
+    {
+      renderComponent: (
+        actionsAndMuteComponent
+      ),
+    },
+    {
+      renderComponent: (
+        <div style={{ display: 'flex', alignItems: 'center' }}>
+          <EuiSmallButton
+            data-test-subj="send-test-message-button"
+            onClick={sendTestMessage}
+            style={{ marginLeft: '10px' }}
+            disabled={!channel?.is_enabled}
+          >
+            Send test message
+          </EuiSmallButton>
+        </div>
+      ),
+    },
+  ];
+
+  const badgeComponent = <EuiFlexItem grow={false} style={{ paddingBottom: 5 }}>
+    {channel?.is_enabled === undefined ? null : channel.is_enabled ? (
+      <EuiHealth color="success">Active</EuiHealth>
+    ) : (
+      <EuiHealth color="subdued">Muted</EuiHealth>
+    )}
+  </EuiFlexItem>;
+
+  const badgeControls = [
+    {
+      renderComponent: (
+        badgeComponent
+      ),
+    },
+  ];
+
   return (
     <>
-      <EuiGlobalToastList
-        toasts={toasts}
-        dismissToast={(removedToast) => {
-          setToasts(toasts.filter((toast) => toast.id !== removedToast.id));
-        }}
-        toastLifeTimeMs={60000}
-      />
-
-      <EuiFlexGroup
-        alignItems="center"
-        gutterSize="m"
-        style={{ maxWidth: 1316 }}
+      <PageHeader
+        appRightControls={rightControls}
+        appBadgeControls={badgeControls}
       >
-        <EuiFlexItem grow={false}>
-          <EuiFlexGroup gutterSize="m" alignItems="flexEnd">
-            <EuiFlexItem grow={false}>
-              <EuiTitle size="l">
-                <h1>{channel?.name || '-'}</h1>
-              </EuiTitle>
-            </EuiFlexItem>
-            <EuiFlexItem grow={false} style={{ paddingBottom: 5 }}>
-              {channel?.is_enabled === undefined ? null : channel.is_enabled ? (
-                <EuiHealth color="success">Active</EuiHealth>
-              ) : (
-                <EuiHealth color="subdued">Muted</EuiHealth>
-              )}
-            </EuiFlexItem>
+        {(
+          <EuiFlexGroup
+          alignItems="center"
+          gutterSize="m"
+          style={{ maxWidth: 1316 }}
+        >
+          <EuiFlexItem grow={false}>
+            <EuiFlexGroup gutterSize="m" alignItems="flexEnd">
+              <EuiFlexItem grow={false}>
+                <EuiTitle size="l">
+                  <h1>{channel?.name ?? '-'}</h1>
+                </EuiTitle>
+              </EuiFlexItem>
+              {badgeComponent}
+            </EuiFlexGroup>
+          </EuiFlexItem>
+          {actionsAndMuteComponent}
           </EuiFlexGroup>
-        </EuiFlexItem>
-        <EuiFlexItem />
-        <EuiFlexItem grow={false}>
-          {channel && <ChannelDetailsActions channel={channel} />}
-        </EuiFlexItem>
-        <EuiFlexItem grow={false}>
-          {channel && (
-            <ModalConsumer>
-              {({ onShow }) => (
-                <EuiSmallButton
-                  data-test-subj="channel-details-mute-button"
-                  iconType={channel?.is_enabled ? 'bellSlash' : 'bell'}
-                  onClick={() => {
-                    if (!channel) return;
-                    if (channel.is_enabled) {
-                      onShow(MuteChannelModal, {
-                        selected: [channel],
-                        setSelected: (selected: ChannelItemType[]) =>
-                          setChannel(selected[0]),
-                      });
-                    } else {
-                      const newChannel = { ...channel, is_enabled: true };
-                      servicesContext.notificationService
-                        .updateConfig(channel.config_id, newChannel)
-                        .then((resp) => {
-                          coreContext.notifications.toasts.addSuccess(
-                            `Channel ${channel.name} successfully unmuted.`
-                          );
-                          setChannel(newChannel);
-                        });
-                    }
-                  }}
-                >
-                  {channel?.is_enabled ? 'Mute channel' : 'Unmute channel'}
-                </EuiSmallButton>
-              )}
-            </ModalConsumer>
-          )}
-        </EuiFlexItem>
-      </EuiFlexGroup>
+        )}
+      </PageHeader>
 
       <EuiSpacer />
       <ContentPanel
@@ -219,4 +271,5 @@ export function ChannelDetails(props: ChannelDetailsProps) {
       </ContentPanel>
     </>
   );
-}
+};
+

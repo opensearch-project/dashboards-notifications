@@ -11,6 +11,11 @@ import {
   validateRecipientGroupName,
   validateSenderName,
 } from '../utils/validationHelper';
+import { setupCoreStart } from '../../../../test/utils/helpers';
+
+beforeAll(() => {
+  setupCoreStart();
+});
 
 describe('test sender and recipient group input validations', () => {
   it('validates sender name', () => {

@@ -15,6 +15,11 @@ import {
 import { CoreServicesContext } from '../../../components/coreServices';
 import { ServicesContext } from '../../../services';
 import { SendersTable } from '../components/tables/SendersTable';
+import { setupCoreStart } from '../../../../test/utils/helpers';
+
+beforeAll(() => {
+  setupCoreStart();
+});
 
 describe('<SendersTable /> spec', () => {
   configure({ adapter: new Adapter() });

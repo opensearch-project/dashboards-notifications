@@ -106,4 +106,5 @@ export interface TableState<T> {
   selectedItems: T[];
   items: T[];
   loading: boolean;
+  isPopoverOpen?: boolean; // Ensure this is included
 }

@@ -14,12 +14,14 @@ import {
   WorkspaceAvailability
 } from '../../../src/core/public';
 import {
+  AppPluginStartDependencies,
   notificationsDashboardsPluginSetup,
   notificationsDashboardsPluginStart,
   NotificationsDashboardsSetupDeps,
 } from './types';
 import { PLUGIN_NAME } from '../common';
 import { ROUTES } from './utils/constants';
+import { setApplication, setBreadCrumbsSetter, setNavigationUI, setUISettings } from './services/utils/constants';
 
 export class notificationsDashboardsPlugin
   implements
@@ -135,7 +137,14 @@ export class notificationsDashboardsPlugin
     return {};
   }
 
-  public start(core: CoreStart): notificationsDashboardsPluginStart {
+  public start(
+    core: CoreStart,
+    { navigation }: AppPluginStartDependencies
+  ): notificationsDashboardsPluginStart {
+    setUISettings(core.uiSettings);
+    setNavigationUI(navigation.ui);
+    setApplication(core.application);
+    setBreadCrumbsSetter(core.chrome.setBreadcrumbs);
     return {};
   }
 

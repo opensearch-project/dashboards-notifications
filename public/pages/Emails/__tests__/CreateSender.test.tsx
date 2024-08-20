@@ -12,6 +12,11 @@ import { coreServicesMock } from '../../../../test/mocks/serviceMock';
 import { CoreServicesContext } from '../../../components/coreServices';
 import { ServicesContext } from '../../../services';
 import { CreateSender } from '../CreateSender';
+import { setupCoreStart } from '../../../../test/utils/helpers';
+
+beforeAll(() => {
+  setupCoreStart();
+});
 
 describe('<CreateSender/> spec', () => {
   it('renders the component', () => {

@@ -15,6 +15,11 @@ import {
 import { CoreServicesContext } from '../../../components/coreServices';
 import { ServicesContext } from '../../../services';
 import { ChannelDetailsActions } from '../components/details/ChannelDetailsActions';
+import { setupCoreStart } from '../../../../test/utils/helpers';
+
+beforeAll(() => {
+  setupCoreStart();
+});
 
 describe('<ChannelDetailsActions /> spec', () => {
   configure({ adapter: new Adapter() });
