@@ -2,7 +2,7 @@
 
 exports[`<SlackSettings /> spec renders the component 1`] = `
 <div
-  class="euiFormRow"
+  class="euiFormRow euiFormRow--compressed"
   id="random_html_id-row"
   style="max-width: 700px;"
 >
@@ -21,13 +21,13 @@ exports[`<SlackSettings /> spec renders the component 1`] = `
     class="euiFormRow__fieldWrapper"
   >
     <div
-      class="euiFormControlLayout euiFormControlLayout--fullWidth"
+      class="euiFormControlLayout euiFormControlLayout--fullWidth euiFormControlLayout--compressed"
     >
       <div
         class="euiFormControlLayout__childrenWrapper"
       >
         <input
-          class="euiFieldText euiFieldText--fullWidth"
+          class="euiFieldText euiFieldText--fullWidth euiFieldText--compressed"
           data-test-subj="create-channel-slack-webhook-input"
           id="random_html_id"
           placeholder="https://hooks.slack.com/services/XXXXX/XXXXX/XXXXX..."
@@ -42,7 +42,7 @@ exports[`<SlackSettings /> spec renders the component 1`] = `
 
 exports[`<SlackSettings /> spec renders the component with error 1`] = `
 <div
-  class="euiFormRow"
+  class="euiFormRow euiFormRow--compressed"
   id="random_html_id-row"
   style="max-width: 700px;"
 >
@@ -61,14 +61,14 @@ exports[`<SlackSettings /> spec renders the component with error 1`] = `
     class="euiFormRow__fieldWrapper"
   >
     <div
-      class="euiFormControlLayout euiFormControlLayout--fullWidth"
+      class="euiFormControlLayout euiFormControlLayout--fullWidth euiFormControlLayout--compressed"
     >
       <div
         class="euiFormControlLayout__childrenWrapper"
       >
         <input
           aria-describedby="random_html_id-error-0"
-          class="euiFieldText euiFieldText--fullWidth"
+          class="euiFieldText euiFieldText--fullWidth euiFieldText--compressed"
           data-test-subj="create-channel-slack-webhook-input"
           id="random_html_id"
           placeholder="https://hooks.slack.com/services/XXXXX/XXXXX/XXXXX..."

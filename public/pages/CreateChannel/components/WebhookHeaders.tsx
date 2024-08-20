@@ -4,11 +4,11 @@
  */
 
 import {
-  EuiButton,
-  EuiFieldText,
+  EuiSmallButton,
+  EuiCompressedFieldText,
   EuiFlexGroup,
   EuiFlexItem,
-  EuiFormRow,
+  EuiCompressedFormRow,
   EuiSpacer,
   EuiText,
   EuiTitle,
@@ -57,8 +57,8 @@ export function WebhookHeaders(props: WebhookHeadersProps) {
             <EuiSpacer size="s" />
             <EuiFlexGroup style={{ maxWidth: 639 }}>
               <EuiFlexItem>
-                <EuiFormRow label="Key">
-                  <EuiFieldText
+                <EuiCompressedFormRow label="Key">
+                  <EuiCompressedFieldText
                     placeholder=""
                     value={header.key}
                     onChange={(e) => setHeader(e.target.value, null, i)}
@@ -68,20 +68,20 @@ export function WebhookHeaders(props: WebhookHeadersProps) {
                       header.key === 'Content-Type'
                     } // first header needs to be Content-Type
                   />
-                </EuiFormRow>
+                </EuiCompressedFormRow>
               </EuiFlexItem>
               <EuiFlexItem>
-                <EuiFormRow label="Value">
-                  <EuiFieldText
+                <EuiCompressedFormRow label="Value">
+                  <EuiCompressedFieldText
                     placeholder=""
                     value={header.value}
                     onChange={(e) => setHeader(null, e.target.value, i)}
                   />
-                </EuiFormRow>
+                </EuiCompressedFormRow>
               </EuiFlexItem>
               <EuiFlexItem>
-                <EuiFormRow hasEmptyLabelSpace>
-                  <EuiButton
+                <EuiCompressedFormRow hasEmptyLabelSpace>
+                  <EuiSmallButton
                     onClick={() => {
                       const newHeaders = [...props.headers];
                       newHeaders.splice(i, 1);
@@ -94,8 +94,8 @@ export function WebhookHeaders(props: WebhookHeadersProps) {
                     }
                   >
                     {`Remove ${props.type}`}
-                  </EuiButton>
-                </EuiFormRow>
+                  </EuiSmallButton>
+                </EuiCompressedFormRow>
               </EuiFlexItem>
             </EuiFlexGroup>
           </div>
@@ -103,13 +103,13 @@ export function WebhookHeaders(props: WebhookHeadersProps) {
       })}
 
       <EuiSpacer size="m" />
-      <EuiButton
+      <EuiSmallButton
         onClick={() => {
           props.setHeaders([...props.headers, { key: '', value: '' }]);
         }}
       >
         {`Add ${props.type}`}
-      </EuiButton>
+      </EuiSmallButton>
     </>
   );
 }
