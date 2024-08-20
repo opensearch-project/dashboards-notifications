@@ -226,8 +226,8 @@ export function ChannelDetails(props: ChannelDetailsProps) {
   return (
     <>
       <PageHeader
-        appRightControls={getUseUpdatedUx() ? rightControls : []}
-        appBadgeControls={getUseUpdatedUx() ? badgeControls : []}
+        appRightControls={rightControls}
+        appBadgeControls={badgeControls}
       >
         {(
           <EuiFlexGroup
