@@ -17,7 +17,7 @@ import { SERVER_DELAY } from '../../../common';
 import { ContentPanel } from '../../components/ContentPanel';
 import { CoreServicesContext } from '../../components/coreServices';
 import { ServicesContext } from '../../services';
-import { BREADCRUMBS, ROUTES } from '../../utils/constants';
+import { BREADCRUMBS, ROUTES, setBreadcrumbs } from '../../utils/constants';
 import { getErrorMessage } from '../../utils/helpers';
 import { MainContext } from '../Main/Main';
 import { CreateSESSenderForm } from './components/forms/CreateSESSenderForm';
@@ -28,7 +28,7 @@ import {
   validateRoleArn,
   validateSenderName,
 } from './utils/validationHelper';
-
+import { getUseUpdatedUx } from '../../services/utils/constants';
 interface CreateSESSenderProps extends RouteComponentProps<{ id?: string }> {
   edit?: boolean;
 }
@@ -51,7 +51,7 @@ export function CreateSESSender(props: CreateSESSenderProps) {
   });
 
   useEffect(() => {
-    coreContext.chrome.setBreadcrumbs([
+    setBreadcrumbs([
       BREADCRUMBS.NOTIFICATIONS,
       BREADCRUMBS.EMAIL_SENDERS,
       props.edit ? BREADCRUMBS.EDIT_SES_SENDER : BREADCRUMBS.CREATE_SES_SENDER,
@@ -101,9 +101,11 @@ export function CreateSESSender(props: CreateSESSenderProps) {
 
   return (
     <>
-      <EuiTitle size="l">
-        <h1>{`${props.edit ? 'Edit' : 'Create'} SES sender`}</h1>
-      </EuiTitle>
+      {!getUseUpdatedUx() && (
+        <EuiTitle size="l">
+          <h1>{`${props.edit ? 'Edit' : 'Create'} SES sender`}</h1>
+        </EuiTitle>
+      )}
 
       <EuiSpacer />
       <ContentPanel
@@ -153,15 +155,14 @@ export function CreateSESSender(props: CreateSESSenderProps) {
               );
               const request = props.edit
                 ? servicesContext.notificationService.updateConfig(
-                    props.match.params.id!,
-                    config
-                  )
+                  props.match.params.id!,
+                  config
+                )
                 : servicesContext.notificationService.createConfig(config);
               await request
                 .then((response) => {
                   coreContext.notifications.toasts.addSuccess(
-                    `Sender ${senderName} successfully ${
-                      props.edit ? 'updated' : 'created'
+                    `Sender ${senderName} successfully ${props.edit ? 'updated' : 'created'
                     }.`
                   );
                   setTimeout(
@@ -172,9 +173,8 @@ export function CreateSESSender(props: CreateSESSenderProps) {
                 .catch((error) => {
                   setLoading(false);
                   coreContext.notifications.toasts.addError(error?.body || error, {
-                    title: `Failed to ${
-                      props.edit ? 'update' : 'create'
-                    } sender.`,
+                    title: `Failed to ${props.edit ? 'update' : 'create'
+                      } sender.`,
                   });
                 });
             }}

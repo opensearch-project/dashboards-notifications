@@ -15,6 +15,11 @@ import {
 import { CoreServicesContext } from '../../../components/coreServices';
 import { ServicesContext } from '../../../services';
 import { RecipientGroupsTable } from '../components/tables/RecipientGroupsTable';
+import { setupCoreStart } from '../../../../test/utils/helpers';
+
+beforeAll(() => {
+  setupCoreStart();
+});
 
 describe('<RecipientGroupsTable /> spec', () => {
   configure({ adapter: new Adapter() });

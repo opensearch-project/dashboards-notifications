@@ -18,9 +18,13 @@ import {
   notificationServiceMock,
 } from '../../../../test/mocks/serviceMock';
 import { CoreServicesContext } from '../../../components/coreServices';
-import { ServicesContext } from '../../../services';
 import { ROUTES } from '../../../utils/constants';
 import httpClientMock from '../../../../test/mocks/httpClientMock';
+import { setupCoreStart } from '../../../../test/utils/helpers';
+
+beforeAll(() => {
+  setupCoreStart();
+});
 
 describe('<Main /> spec', () => {
   configure({ adapter: new Adapter() });

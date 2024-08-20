@@ -6,8 +6,12 @@
 import {
   EuiBasicTable,
   EuiSmallButton,
+  EuiContextMenuItem,
   EuiEmptyPrompt,
+  EuiFlexGroup,
+  EuiFlexItem,
   EuiHorizontalRule,
+  EuiPopover,
   EuiTableFieldDataColumnType,
   EuiTableSortingType,
   SortDirection,
@@ -36,6 +40,7 @@ import {
   isDataSourceError,
   isDataSourceChanged,
 } from '../../../../components/MDSEnabledComponent/MDSEnabledComponent';
+import { getUseUpdatedUx } from '../../../../../public/services/utils/constants';
 
 interface SendersTableProps {
   coreContext: CoreStart;
@@ -69,6 +74,7 @@ export class SendersTable extends Component<
       filters: {
         encryptionMethod: [],
       },
+      isPopoverOpen: false, // Initialize popover state
     };
 
     this.columns = [
@@ -181,6 +187,12 @@ export class SendersTable extends Component<
     this.setState({ from: 0, search });
   };
 
+  togglePopover = () => {
+    this.setState((prevState) => ({
+      isPopoverOpen: !prevState.isPopoverOpen,
+    }));
+  };
+
   render() {
     const page = Math.floor(this.state.from / this.state.size);
 
@@ -203,91 +215,180 @@ export class SendersTable extends Component<
       onSelectionChange: this.onSelectionChange,
     };
 
+    const actions = [
+      {
+        label: 'Edit',
+        disabled: this.state.selectedItems.length !== 1,
+        action: () => {
+          location.assign(`#${ROUTES.EDIT_SENDER}/${this.state.selectedItems[0]?.config_id}`);
+        },
+      },
+      {
+        label: 'Delete',
+        disabled: this.state.selectedItems.length === 0,
+        modal: DeleteSenderModal,
+        modalParams: {
+          senders: this.state.selectedItems,
+          refresh: this.refresh,
+        },
+      },
+    ];
+
+    const createSMTPButton = <EuiSmallButton fill href={`#${ROUTES.CREATE_SENDER}`}>
+      Create SMTP sender
+    </EuiSmallButton>;
+
+    const senderControlComponent = <SendersTableControls
+      onSearchChange={this.onSearchChange}
+      filters={this.state.filters}
+      onFiltersChange={(filters) => this.setState({ filters })} />;
+
+    const basicTableComponent = <EuiBasicTable
+      columns={this.columns}
+      items={this.state.items}
+      itemId="config_id"
+      isSelectable={true}
+      selection={selection}
+      noItemsMessage={<EuiEmptyPrompt
+        title={<h2>No SMTP senders to display</h2>}
+        body="Set up an outbound email server by creating a sender. You will select a sender when configuring email channels."
+        actions={<EuiSmallButton href={`#${ROUTES.CREATE_SENDER}`}>
+          Create SMTP sender
+        </EuiSmallButton>} />}
+      onChange={this.onTableChange}
+      pagination={pagination}
+      sorting={sorting}
+      loading={this.state.loading} />;
+
     return (
-      <ContentPanel
-        actions={
-          <ContentPanelActions
-            actions={[
-              {
-                component: (
-                  <ModalConsumer>
-                    {({ onShow }) => (
+      <>
+        {getUseUpdatedUx() ? (
+          <ContentPanel
+            actions={
+              <ContentPanelActions
+                actions={[
+                  {
+                    component: (
+                      <EuiSmallButton fill href={`#${ROUTES.CREATE_SENDER}`} iconType='plus'>
+                        Create SMTP sender
+                      </EuiSmallButton>
+                    ),
+                  },
+                ]}
+              />
+            }
+            bodyStyles={{ padding: 'initial' }}
+            title="SMTP senders"
+            titleSize="m"
+            total={this.state.total}
+          >
+            <EuiFlexGroup>
+              <EuiFlexItem>
+                {senderControlComponent}
+              </EuiFlexItem>
+              <EuiFlexItem grow={false}>
+                <EuiPopover
+                  panelPaddingSize="none"
+                  button={
+                    <EuiSmallButton
+                      iconType="arrowDown"
+                      iconSide="right"
+                      onClick={this.togglePopover}
+                      style={{ marginLeft: '10px' }} // Ensure spacing is correct
+                    >
+                      Actions
+                    </EuiSmallButton>
+                  }
+                  isOpen={this.state.isPopoverOpen}
+                  closePopover={() => this.setState({ isPopoverOpen: false })}
+                >
+                  {actions.map((action) => (
+                    <ModalConsumer key={action.label}>
+                      {({ onShow }) => (
+                        <EuiContextMenuItem
+                          key={action.label}
+                          disabled={action.disabled}
+                          onClick={() => {
+                            this.setState({ isPopoverOpen: false });
+                            if (action.modal) {
+                              onShow(action.modal, {
+                                ...(action.modalParams || {}),
+                              });
+                            } else if (action.action) {
+                              action.action();
+                            }
+                          }}
+                        >
+                          {action.label}
+                        </EuiContextMenuItem>
+                      )}
+                    </ModalConsumer>
+                  ))}
+                </EuiPopover>
+              </EuiFlexItem>
+            </EuiFlexGroup>
+            <EuiHorizontalRule margin="s" />
+            {basicTableComponent}
+          </ContentPanel>
+        ) : (
+          <ContentPanel
+            actions={
+              <ContentPanelActions
+                actions={[
+                  {
+                    component: (
+                      <ModalConsumer>
+                        {({ onShow }) => (
+                          <EuiSmallButton
+                            data-test-subj="senders-table-delete-button"
+                            disabled={this.state.selectedItems.length === 0}
+                            onClick={() =>
+                              onShow(DeleteSenderModal, {
+                                senders: this.state.selectedItems,
+                                refresh: this.refresh,
+                              })
+                            }
+                          >
+                            Delete
+                          </EuiSmallButton>
+                        )}
+                      </ModalConsumer>
+                    ),
+                  },
+                  {
+                    component: (
                       <EuiSmallButton
-                        data-test-subj="senders-table-delete-button"
-                        disabled={this.state.selectedItems.length === 0}
+                        data-test-subj="senders-table-edit-button"
+                        disabled={this.state.selectedItems.length !== 1}
                         onClick={() =>
-                          onShow(DeleteSenderModal, {
-                            senders: this.state.selectedItems,
-                            refresh: this.refresh,
-                          })
+                          location.assign(
+                            `#${ROUTES.EDIT_SENDER}/${this.state.selectedItems[0]?.config_id}`
+                          )
                         }
                       >
-                        Delete
+                        Edit
                       </EuiSmallButton>
-                    )}
-                  </ModalConsumer>
-                ),
-              },
-              {
-                component: (
-                  <EuiSmallButton
-                    data-test-subj="senders-table-edit-button"
-                    disabled={this.state.selectedItems.length !== 1}
-                    onClick={() =>
-                      location.assign(
-                        `#${ROUTES.EDIT_SENDER}/${this.state.selectedItems[0]?.config_id}`
-                      )
-                    }
-                  >
-                    Edit
-                  </EuiSmallButton>
-                ),
-              },
-              {
-                component: (
-                  <EuiSmallButton fill href={`#${ROUTES.CREATE_SENDER}`}>
-                    Create SMTP sender
-                  </EuiSmallButton>
-                ),
-              },
-            ]}
-          />
-        }
-        bodyStyles={{ padding: 'initial' }}
-        title="SMTP senders"
-        titleSize="m"
-        total={this.state.total}
-      >
-        <SendersTableControls
-          onSearchChange={this.onSearchChange}
-          filters={this.state.filters}
-          onFiltersChange={(filters) => this.setState({ filters })}
-        />
-        <EuiHorizontalRule margin="s" />
-
-        <EuiBasicTable
-          columns={this.columns}
-          items={this.state.items}
-          itemId="config_id"
-          isSelectable={true}
-          selection={selection}
-          noItemsMessage={
-            <EuiEmptyPrompt
-              title={<h2>No SMTP senders to display</h2>}
-              body="Set up an outbound email server by creating a sender. You will select a sender when configuring email channels."
-              actions={
-                <EuiSmallButton href={`#${ROUTES.CREATE_SENDER}`}>
-                  Create SMTP sender
-                </EuiSmallButton>
-              }
-            />
-          }
-          onChange={this.onTableChange}
-          pagination={pagination}
-          sorting={sorting}
-          loading={this.state.loading}
-        />
-      </ContentPanel>
+                    ),
+                  },
+                  {
+                    component: (
+                      createSMTPButton
+                    ),
+                  },
+                ]}
+              />
+            }
+            bodyStyles={{ padding: 'initial' }}
+            title="SMTP senders"
+            titleSize="m"
+            total={this.state.total}
+          >
+            {senderControlComponent}
+            <EuiHorizontalRule margin="s" />
+            {basicTableComponent}
+          </ContentPanel>
+        )}
+      </>
     );
   }
-}
+};

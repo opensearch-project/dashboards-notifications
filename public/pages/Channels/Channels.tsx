@@ -12,12 +12,13 @@ import {
   EuiLink,
   EuiTableFieldDataColumnType,
   EuiTableSortingType,
+  EuiTitle,
   SortDirection,
 } from '@elastic/eui';
 import { Criteria } from '@elastic/eui/src/components/basic_table/basic_table';
 import { Pagination } from '@elastic/eui/src/components/basic_table/pagination_bar';
 import _ from 'lodash';
-import React, { Component, useContext } from 'react';
+import React from 'react';
 import { RouteComponentProps } from 'react-router-dom';
 import { ChannelItemType, TableState } from '../../../models/interfaces';
 import {
@@ -29,6 +30,7 @@ import { NotificationService } from '../../services';
 import {
   BREADCRUMBS,
   ROUTES,
+  setBreadcrumbs,
 } from '../../utils/constants';
 import {
   CHANNEL_TYPE,
@@ -43,6 +45,9 @@ import MDSEnabledComponent, {
   isDataSourceChanged,
   isDataSourceError,
 } from '../../components/MDSEnabledComponent/MDSEnabledComponent';
+import PageHeader from "../../components/PageHeader/PageHeader"
+import { getUseUpdatedUx } from '../../services/utils/constants';
+import { TopNavControlButtonData } from 'src/plugins/navigation/public';
 
 interface ChannelsProps extends RouteComponentProps, DataSourceMenuProperties {
   notificationService: NotificationService;
@@ -115,7 +120,7 @@ export class Channels extends MDSEnabledComponent<ChannelsProps, ChannelsState> 
   }
 
   async componentDidMount() {
-    this.context.chrome.setBreadcrumbs([
+    setBreadcrumbs([
       BREADCRUMBS.NOTIFICATIONS,
       BREADCRUMBS.CHANNELS,
     ]);
@@ -215,26 +220,82 @@ export class Channels extends MDSEnabledComponent<ChannelsProps, ChannelsState> 
       onSelectionChange: this.onSelectionChange,
     };
 
+    const headerControls = [
+      {
+        id: 'Create Channel',
+        label: 'Create channel',
+        iconType: 'plus',
+        fill: true,
+        href: `#${ROUTES.CREATE_CHANNEL}`,
+        testId: 'createButton',
+        controlType: 'button',
+      } as TopNavControlButtonData,
+    ];
+
+    const totalChannels = (
+      <EuiTitle size="m">
+        <h2>({this.state.total})</h2>
+      </EuiTitle>
+    )
+
+    const channelActionsComponent = <ChannelActions
+      selected={this.state.selectedItems}
+      setSelected={(selectedItems: ChannelItemType[]) => this.setState({ selectedItems })}
+      items={this.state.items}
+      setItems={(items: ChannelItemType[]) => this.setState({ items })}
+      refresh={this.refresh} />;
+
+    const channelControlsComponent = <ChannelControls
+      onSearchChange={this.onSearchChange}
+      filters={this.state.filters}
+      onFiltersChange={this.onFiltersChange} />;
+
+    const basicTableComponent = <EuiBasicTable
+      columns={this.columns}
+      items={this.state.items}
+      itemId="config_id"
+      isSelectable={true}
+      selection={selection}
+      noItemsMessage={<EuiEmptyPrompt
+        title={<h2>No channels to display</h2>}
+        body="To send or receive notifications, you will need to create a notification channel."
+        actions={<EuiSmallButton href={`#${ROUTES.CREATE_CHANNEL}`}>
+          Create channel
+        </EuiSmallButton>} />}
+      onChange={this.onTableChange}
+      pagination={pagination}
+      sorting={sorting}
+      tableLayout="auto"
+      loading={this.state.loading} />;
+
     return (
       <>
+      {getUseUpdatedUx() ? (
+        <>
+          <PageHeader
+            appRightControls={headerControls}
+            appLeftControls={[{ renderComponent: totalChannels }]}
+          />
+          <ContentPanel>
+            <div style={{ marginBottom: '10px' }}>
+              <div style={{ display: 'flex', alignItems: 'center' }}>
+                {channelControlsComponent}
+                <div style={{ marginLeft: '10px' }}>
+                  {channelActionsComponent}
+                </div>
+              </div>
+            </div>
+            <EuiHorizontalRule margin="s" />
+            {basicTableComponent}
+          </ContentPanel>
+        </>
+      ) : (
         <ContentPanel
           actions={
             <ContentPanelActions
               actions={[
                 {
-                  component: (
-                    <ChannelActions
-                      selected={this.state.selectedItems}
-                      setSelected={(selectedItems: ChannelItemType[]) =>
-                        this.setState({ selectedItems })
-                      }
-                      items={this.state.items}
-                      setItems={(items: ChannelItemType[]) =>
-                        this.setState({ items })
-                      }
-                      refresh={this.refresh}
-                    />
-                  ),
+                  component: channelActionsComponent,
                 },
                 {
                   component: (
@@ -251,38 +312,14 @@ export class Channels extends MDSEnabledComponent<ChannelsProps, ChannelsState> 
           titleSize="m"
           total={this.state.total}
         >
-          <ChannelControls
-            onSearchChange={this.onSearchChange}
-            filters={this.state.filters}
-            onFiltersChange={this.onFiltersChange}
-          />
+          {channelControlsComponent}
           <EuiHorizontalRule margin="s" />
-
-          <EuiBasicTable
-            columns={this.columns}
-            items={this.state.items}
-            itemId="config_id"
-            isSelectable={true}
-            selection={selection}
-            noItemsMessage={
-              <EuiEmptyPrompt
-                title={<h2>No channels to display</h2>}
-                body="To send or receive notifications, you will need to create a notification channel."
-                actions={
-                  <EuiSmallButton href={`#${ROUTES.CREATE_CHANNEL}`}>
-                    Create channel
-                  </EuiSmallButton>
-                }
-              />
-            }
-            onChange={this.onTableChange}
-            pagination={pagination}
-            sorting={sorting}
-            tableLayout="auto"
-            loading={this.state.loading}
-          />
+          {basicTableComponent}
         </ContentPanel>
-      </>
+      )}
+    </>
+    
     );
   }
-}
+};
+

@@ -14,6 +14,11 @@ import {
 import { CoreServicesContext } from '../../../components/coreServices';
 import { MainContext } from '../../Main/Main';
 import { Channels } from '../Channels';
+import { setupCoreStart } from '../../../../test/utils/helpers';
+
+beforeAll(() => {
+  setupCoreStart();
+});
 
 describe('<Channels/> spec', () => {
   it('renders the empty component', () => {

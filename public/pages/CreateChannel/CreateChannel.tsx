@@ -28,8 +28,9 @@ import {
   BREADCRUMBS,
   CUSTOM_WEBHOOK_ENDPOINT_TYPE,
   ROUTES,
+  setBreadcrumbs,
 } from '../../utils/constants';
-import {BACKEND_CHANNEL_TYPE,CHANNEL_TYPE } from '../../../common/constants'
+import { BACKEND_CHANNEL_TYPE, CHANNEL_TYPE } from '../../../common/constants'
 import { getErrorMessage } from '../../utils/helpers';
 import { HeaderItemType, WebhookHttpType, WebhookMethodType } from '../Channels/types';
 import { MainContext } from '../Main/Main';
@@ -55,7 +56,7 @@ import {
   validateRecipients,
   validateWebhookURL,
 } from './utils/validationHelper';
-
+import { getUseUpdatedUx } from '../../services/utils/constants';
 interface CreateChannelsProps extends RouteComponentProps<{ id?: string }> {
   edit?: boolean;
 }
@@ -143,11 +144,9 @@ export function CreateChannel(props: CreateChannelsProps) {
   });
 
   useEffect(() => {
-    coreContext.chrome.setBreadcrumbs([
-      BREADCRUMBS.NOTIFICATIONS,
+    setBreadcrumbs([ BREADCRUMBS.NOTIFICATIONS,
       BREADCRUMBS.CHANNELS,
-      props.edit ? BREADCRUMBS.EDIT_CHANNEL : BREADCRUMBS.CREATE_CHANNEL,
-    ]);
+      props.edit ? BREADCRUMBS.EDIT_CHANNEL : BREADCRUMBS.CREATE_CHANNEL]);
     window.scrollTo(0, 0);
 
     if (props.edit) {
@@ -365,9 +364,11 @@ export function CreateChannel(props: CreateChannelsProps) {
       <CreateChannelContext.Provider
         value={{ edit: props.edit, inputErrors, setInputErrors }}
       >
-        <EuiTitle size="l">
-          <h1>{`${props.edit ? 'Edit' : 'Create'} channel`}</h1>
-        </EuiTitle>
+       {!getUseUpdatedUx() && (
+          <EuiTitle size="l">
+            <h1>{`${props.edit ? 'Edit' : 'Create'} channel`}</h1>
+          </EuiTitle>
+        )}
 
         <EuiSpacer />
         <ChannelNamePanel
@@ -530,4 +531,3 @@ export function CreateChannel(props: CreateChannelsProps) {
     </>
   );
 }
-

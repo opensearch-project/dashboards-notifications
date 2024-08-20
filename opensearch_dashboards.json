@@ -4,7 +4,8 @@
   "opensearchDashboardsVersion": "2.17.0",
   "requiredPlugins": [
     "navigation",
-    "data"
+    "data",
+    "opensearchDashboardsUtils"
   ],
   "optionalPlugins": [
     "share",
