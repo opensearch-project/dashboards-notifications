@@ -270,25 +270,13 @@ export class Channels extends MDSEnabledComponent<ChannelsProps, ChannelsState> 
 
     return (
       <>
-        {getUseUpdatedUx() ? (
-          <ContentPanel
-            actions={
-              <ContentPanelActions
-                actions={[
-                  {
-                    component: (
-                      <PageHeader
-                        appRightControls={headerControls}
-                        appLeftControls={[
-                          { renderComponent: totalChannels },
-                        ]}
-                      />
-                    ),
-                  }
-                ]}
-              />
-            }
-          >
+      {getUseUpdatedUx() ? (
+        <>
+          <PageHeader
+            appRightControls={headerControls}
+            appLeftControls={[{ renderComponent: totalChannels }]}
+          />
+          <ContentPanel>
             <div style={{ marginBottom: '10px' }}>
               <div style={{ display: 'flex', alignItems: 'center' }}>
                 {channelControlsComponent}
@@ -300,40 +288,37 @@ export class Channels extends MDSEnabledComponent<ChannelsProps, ChannelsState> 
             <EuiHorizontalRule margin="s" />
             {basicTableComponent}
           </ContentPanel>
-
-
-        ) : (
-          <ContentPanel
-            actions={
-              <ContentPanelActions
-                actions={[
-                  {
-                    component: (
-                      channelActionsComponent
-                    ),
-                  },
-                  {
-                    component: (
-                      <EuiSmallButton fill href={`#${ROUTES.CREATE_CHANNEL}`}>
-                        Create channel
-                      </EuiSmallButton>
-                    ),
-                  },
-                ]}
-              />
-            }
-            bodyStyles={{ padding: 'initial' }}
-            title="Channels"
-            titleSize="m"
-            total={this.state.total}
-          >
-            {channelControlsComponent}
-            <EuiHorizontalRule margin="s" />
-            {basicTableComponent}
-          </ContentPanel>
-
-        )}
-      </>
+        </>
+      ) : (
+        <ContentPanel
+          actions={
+            <ContentPanelActions
+              actions={[
+                {
+                  component: channelActionsComponent,
+                },
+                {
+                  component: (
+                    <EuiSmallButton fill href={`#${ROUTES.CREATE_CHANNEL}`}>
+                      Create channel
+                    </EuiSmallButton>
+                  ),
+                },
+              ]}
+            />
+          }
+          bodyStyles={{ padding: 'initial' }}
+          title="Channels"
+          titleSize="m"
+          total={this.state.total}
+        >
+          {channelControlsComponent}
+          <EuiHorizontalRule margin="s" />
+          {basicTableComponent}
+        </ContentPanel>
+      )}
+    </>
+    
     );
   }
 };
