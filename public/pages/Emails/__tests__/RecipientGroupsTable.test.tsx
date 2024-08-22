@@ -15,6 +15,11 @@ import {
 import { CoreServicesContext } from '../../../components/coreServices';
 import { ServicesContext } from '../../../services';
 import { RecipientGroupsTable } from '../components/tables/RecipientGroupsTable';
+import { setupCoreStart } from '../../../../test/utils/helpers';
+
+beforeAll(() => {
+  setupCoreStart();
+});
 
 describe('<RecipientGroupsTable /> spec', () => {
   configure({ adapter: new Adapter() });
@@ -40,7 +45,7 @@ describe('<RecipientGroupsTable /> spec', () => {
     const utils = render(
       <ServicesContext.Provider value={notificationServiceMock}>
         <CoreServicesContext.Provider value={coreServicesMock}>
-          <RecipientGroupsTable />
+          <RecipientGroupsTable notificationService={notificationServiceMock.notificationService} />
         </CoreServicesContext.Provider>
       </ServicesContext.Provider>
     );

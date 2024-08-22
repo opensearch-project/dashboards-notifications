@@ -3,7 +3,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { EuiFieldText, EuiFormRow, EuiTextArea } from '@elastic/eui';
+import { EuiCompressedFieldText, EuiCompressedFormRow, EuiCompressedTextArea } from '@elastic/eui';
 import React, { useContext } from 'react';
 import { ContentPanel } from '../../../components/ContentPanel';
 import { CreateChannelContext } from '../CreateChannel';
@@ -25,12 +25,12 @@ export function ChannelNamePanel(props: ChannelNamePanelProps) {
         title="Name and description"
         titleSize="s"
       >
-        <EuiFormRow
+        <EuiCompressedFormRow
           label="Name"
           error={context.inputErrors.name.join(' ')}
           isInvalid={context.inputErrors.name.length > 0}
         >
-          <EuiFieldText
+          <EuiCompressedFieldText
             data-test-subj="create-channel-name-input"
             placeholder="Enter channel name"
             value={props.name}
@@ -43,8 +43,8 @@ export function ChannelNamePanel(props: ChannelNamePanelProps) {
               });
             }}
           />
-        </EuiFormRow>
-        <EuiFormRow
+        </EuiCompressedFormRow>
+        <EuiCompressedFormRow
           label={
             <span>
               Description - <i style={{ fontWeight: 'normal' }}>optional</i>
@@ -52,7 +52,7 @@ export function ChannelNamePanel(props: ChannelNamePanelProps) {
           }
         >
           <>
-            <EuiTextArea
+            <EuiCompressedTextArea
               data-test-subj="create-channel-description-input"
               placeholder="What is the purpose of this channel?"
               style={{ height: '4.1rem' }}
@@ -60,7 +60,7 @@ export function ChannelNamePanel(props: ChannelNamePanelProps) {
               onChange={(e) => props.setDescription(e.target.value)}
             />
           </>
-        </EuiFormRow>
+        </EuiCompressedFormRow>
       </ContentPanel>
     </>
   );

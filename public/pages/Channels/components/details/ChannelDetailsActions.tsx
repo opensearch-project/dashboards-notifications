@@ -4,7 +4,7 @@
  */
 
 import {
-  EuiButton,
+  EuiSmallButton,
   EuiContextMenuItem,
   EuiPopover,
   EuiTextColor,
@@ -17,6 +17,7 @@ import { ModalConsumer } from '../../../../components/Modal';
 import { ServicesContext } from '../../../../services';
 import { ROUTES } from '../../../../utils/constants';
 import { DeleteChannelModal } from '../modals/DeleteChannelModal';
+import { getUseUpdatedUx } from '../../../../services/utils/constants';
 
 interface ChannelDetailsActionsParams {
   label: string;
@@ -59,13 +60,6 @@ export function ChannelDetailsActions(props: ChannelDetailsActionsProps) {
       href: `#${ROUTES.EDIT_CHANNEL}/${props.channel.config_id}?from=details`,
     },
     {
-      label: 'Send test message',
-      disabled:
-        !props.channel.config_id ||
-        !props.channel.is_enabled,
-      action: sendTestMessage,
-    },
-    {
       label: 'Delete',
       color: 'danger',
       modal: DeleteChannelModal,
@@ -75,19 +69,30 @@ export function ChannelDetailsActions(props: ChannelDetailsActionsProps) {
     },
   ];
 
+  // Add Send Test Message action only if getUseUpdatedUx is false
+  if (!getUseUpdatedUx()) {
+    actions.splice(1, 0, {
+      label: 'Send test message',
+      disabled:
+        !props.channel.config_id ||
+        !props.channel.is_enabled,
+      action: sendTestMessage,
+    });
+  }
+
   return (
     <ModalConsumer>
       {({ onShow }) => (
         <EuiPopover
           panelPaddingSize="none"
           button={
-            <EuiButton
+            <EuiSmallButton
               iconType="arrowDown"
               iconSide="right"
               onClick={() => setIsPopoverOpen(!isPopoverOpen)}
             >
               Actions
-            </EuiButton>
+            </EuiSmallButton>
           }
           isOpen={isPopoverOpen}
           closePopover={() => setIsPopoverOpen(false)}

@@ -4,7 +4,7 @@
  */
 
 import {
-  EuiButton,
+  EuiSmallButton,
   EuiInMemoryTable,
   EuiModal,
   EuiModalBody,
@@ -55,9 +55,9 @@ export function DetailsTableModal(props: DetailsTableModalProps) {
             <EuiInMemoryTable items={props.items} columns={columns} />
           </EuiModalBody>
           <EuiModalFooter>
-            <EuiButton fill onClick={props.onClose}>
+            <EuiSmallButton fill onClick={props.onClose}>
               Close
-            </EuiButton>
+            </EuiSmallButton>
           </EuiModalFooter>
         </EuiModal>
       </EuiOverlayMask>

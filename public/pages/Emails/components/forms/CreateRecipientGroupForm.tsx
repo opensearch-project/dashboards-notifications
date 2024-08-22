@@ -4,13 +4,13 @@
  */
 
 import {
-  EuiComboBox,
+  EuiCompressedComboBox,
   EuiComboBoxOptionOption,
-  EuiFieldText,
-  EuiFormRow,
+  EuiCompressedFieldText,
+  EuiCompressedFormRow,
   EuiSpacer,
   EuiText,
-  EuiTextArea,
+  EuiCompressedTextArea,
 } from '@elastic/eui';
 import React from 'react';
 import { onComboBoxCreateOption } from '../../utils/helper';
@@ -37,14 +37,14 @@ interface CreateRecipientGroupFormProps {
 export function CreateRecipientGroupForm(props: CreateRecipientGroupFormProps) {
   return (
     <>
-      <EuiFormRow
+      <EuiCompressedFormRow
         label="Name"
         style={{ maxWidth: '650px' }}
         helpText="The name must contain 2 to 50 characters. Valid characters are A-Z, a-z, 0-9, (_) underscore, (-) hyphen and unicode characters."
         error={props.inputErrors.name.join(' ')}
         isInvalid={props.inputErrors.name.length > 0}
       >
-        <EuiFieldText
+        <EuiCompressedFieldText
           fullWidth
           data-test-subj="create-recipient-group-form-name-input"
           placeholder="Enter recipient group name"
@@ -58,10 +58,10 @@ export function CreateRecipientGroupForm(props: CreateRecipientGroupFormProps) {
             });
           }}
         />
-      </EuiFormRow>
+      </EuiCompressedFormRow>
 
       <EuiSpacer size="m" />
-      <EuiFormRow
+      <EuiCompressedFormRow
         label={
           <span>
             Description - <i style={{ fontWeight: 'normal' }}>optional</i>
@@ -73,7 +73,7 @@ export function CreateRecipientGroupForm(props: CreateRecipientGroupFormProps) {
           <EuiText size="xs" color="subdued">
             Describe the purpose of the channel.
           </EuiText>
-          <EuiTextArea
+          <EuiCompressedTextArea
             fullWidth
             data-test-subj="create-recipient-group-form-description-input"
             placeholder="What is the purpose of this recipient group?"
@@ -82,10 +82,10 @@ export function CreateRecipientGroupForm(props: CreateRecipientGroupFormProps) {
             onChange={(e) => props.setDescription(e.target.value)}
           />
         </>
-      </EuiFormRow>
+      </EuiCompressedFormRow>
 
       <EuiSpacer size="m" />
-      <EuiFormRow
+      <EuiCompressedFormRow
         label="Emails"
         style={{ maxWidth: '650px' }}
         error={props.inputErrors.emailOptions.join(' ')}
@@ -95,7 +95,7 @@ export function CreateRecipientGroupForm(props: CreateRecipientGroupFormProps) {
           <EuiText size="xs" color="subdued">
             Select or type in one or more email addresses.
           </EuiText>
-          <EuiComboBox
+          <EuiCompressedComboBox
             placeholder="Email addresses"
             data-test-subj="create-recipient-group-form-emails-input"
             fullWidth
@@ -130,7 +130,7 @@ export function CreateRecipientGroupForm(props: CreateRecipientGroupFormProps) {
             }}
           />
         </>
-      </EuiFormRow>
+      </EuiCompressedFormRow>
 
       <EuiSpacer size="m" />
     </>

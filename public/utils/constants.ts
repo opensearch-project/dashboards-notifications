@@ -3,6 +3,9 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
+import { ChromeBreadcrumb } from 'opensearch-dashboards/public';
+import { getBreadCrumbsSetter, getUseUpdatedUx } from '../services/utils/constants';
+
 export const DOCUMENTATION_LINK = '';
 export const ALERTING_DOCUMENTATION_LINK =
   'https://opensearch.org/docs/monitoring-plugins/alerting/monitors/#authenticate-sender-account';
@@ -24,7 +27,7 @@ export const ROUTES = Object.freeze({
 });
 
 export const BREADCRUMBS = Object.freeze({
-  NOTIFICATIONS: { text: 'Notifications', href: '#/' },
+  NOTIFICATIONS: { text: 'Notification channels', href: '#/' },
   CHANNELS: { text: 'Channels', href: `#${ROUTES.CHANNELS}` },
   CHANNEL_DETAILS: { text: 'Channels', href: `#${ROUTES.CHANNEL_DETAILS}` },
   CREATE_CHANNEL: { text: 'Create channel', href: `#${ROUTES.CREATE_CHANNEL}` },
@@ -48,31 +51,6 @@ export const BREADCRUMBS = Object.freeze({
   EDIT_RECIPIENT_GROUP: { text: 'Edit recipient group' },
 });
 
-export const BACKEND_CHANNEL_TYPE = Object.freeze({
-  SLACK: 'slack',
-  EMAIL: 'email',
-  CHIME: 'chime',
-  MICROSOFT_TEAMS: 'microsoft_teams',
-  CUSTOM_WEBHOOK: 'webhook',
-  SNS: 'sns',
-});
-
-export const CHANNEL_TYPE = Object.freeze({
-  [BACKEND_CHANNEL_TYPE.SLACK]: 'Slack',
-  [BACKEND_CHANNEL_TYPE.EMAIL]: 'Email',
-  [BACKEND_CHANNEL_TYPE.CHIME]: 'Chime',
-  [BACKEND_CHANNEL_TYPE.MICROSOFT_TEAMS]: 'Microsoft Teams',
-  [BACKEND_CHANNEL_TYPE.CUSTOM_WEBHOOK]: 'Custom webhook',
-  [BACKEND_CHANNEL_TYPE.SNS]: 'Amazon SNS',
-}) as {
-  slack: string;
-  email: string;
-  chime: string;
-  microsoft_teams: string;
-  webhook: string;
-  sns: string;
-};
-
 export const ENCRYPTION_TYPE = Object.freeze({
   ssl: 'SSL/TLS',
   start_tls: 'STARTTLS',
@@ -90,3 +68,7 @@ export const CUSTOM_WEBHOOK_ENDPOINT_TYPE = Object.freeze({
   WEBHOOK_URL: 'Webhook URL',
   CUSTOM_URL: 'Custom attributes URL',
 });
+
+export function setBreadcrumbs(crumbs: ChromeBreadcrumb[]) {
+  getBreadCrumbsSetter()(getUseUpdatedUx() ? crumbs : [BREADCRUMBS.NOTIFICATIONS, ...crumbs]);
+}

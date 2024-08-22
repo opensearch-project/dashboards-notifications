@@ -18,8 +18,13 @@ import {
   notificationServiceMock,
 } from '../../../../test/mocks/serviceMock';
 import { CoreServicesContext } from '../../../components/coreServices';
-import { ServicesContext } from '../../../services';
 import { ROUTES } from '../../../utils/constants';
+import httpClientMock from '../../../../test/mocks/httpClientMock';
+import { setupCoreStart } from '../../../../test/utils/helpers';
+
+beforeAll(() => {
+  setupCoreStart();
+});
 
 describe('<Main /> spec', () => {
   configure({ adapter: new Adapter() });
@@ -28,16 +33,15 @@ describe('<Main /> spec', () => {
     const mockProps = {
       location: { search: '', pathname: ROUTES.NOTIFICATIONS },
       match: { params: { id: 'test' } },
+      http: httpClientMock, // Add the http prop here
     };
     const utils = render(
       <Router>
         <Route
           render={(props) => (
-            <ServicesContext.Provider value={notificationServiceMock}>
-              <CoreServicesContext.Provider value={coreServicesMock}>
-                <Main {...(mockProps as RouteComponentProps<{ id: string }>)} />
-              </CoreServicesContext.Provider>
-            </ServicesContext.Provider>
+            <CoreServicesContext.Provider value={coreServicesMock}>
+              <Main {...(mockProps as RouteComponentProps<{ id: string }>)} />
+            </CoreServicesContext.Provider>
           )}
         />
       </Router>

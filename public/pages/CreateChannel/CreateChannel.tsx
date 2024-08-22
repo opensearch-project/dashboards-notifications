@@ -4,14 +4,14 @@
  */
 
 import {
-  EuiButton,
-  EuiButtonEmpty,
+  EuiSmallButton,
+  EuiSmallButtonEmpty,
   EuiComboBoxOptionOption,
   EuiFlexGroup,
   EuiFlexItem,
-  EuiFormRow,
+  EuiCompressedFormRow,
   EuiSpacer,
-  EuiSuperSelect,
+  EuiCompressedSuperSelect,
   EuiSuperSelectOption,
   EuiText,
   EuiTitle,
@@ -25,12 +25,12 @@ import { ContentPanel } from '../../components/ContentPanel';
 import { CoreServicesContext } from '../../components/coreServices';
 import { ServicesContext } from '../../services';
 import {
-  BACKEND_CHANNEL_TYPE,
   BREADCRUMBS,
-  CHANNEL_TYPE,
   CUSTOM_WEBHOOK_ENDPOINT_TYPE,
   ROUTES,
+  setBreadcrumbs,
 } from '../../utils/constants';
+import { BACKEND_CHANNEL_TYPE, CHANNEL_TYPE } from '../../../common/constants'
 import { getErrorMessage } from '../../utils/helpers';
 import { HeaderItemType, WebhookHttpType, WebhookMethodType } from '../Channels/types';
 import { MainContext } from '../Main/Main';
@@ -56,7 +56,7 @@ import {
   validateRecipients,
   validateWebhookURL,
 } from './utils/validationHelper';
-
+import { getUseUpdatedUx } from '../../services/utils/constants';
 interface CreateChannelsProps extends RouteComponentProps<{ id?: string }> {
   edit?: boolean;
 }
@@ -144,11 +144,9 @@ export function CreateChannel(props: CreateChannelsProps) {
   });
 
   useEffect(() => {
-    coreContext.chrome.setBreadcrumbs([
-      BREADCRUMBS.NOTIFICATIONS,
+    setBreadcrumbs([ BREADCRUMBS.NOTIFICATIONS,
       BREADCRUMBS.CHANNELS,
-      props.edit ? BREADCRUMBS.EDIT_CHANNEL : BREADCRUMBS.CREATE_CHANNEL,
-    ]);
+      props.edit ? BREADCRUMBS.EDIT_CHANNEL : BREADCRUMBS.CREATE_CHANNEL]);
     window.scrollTo(0, 0);
 
     if (props.edit) {
@@ -366,9 +364,11 @@ export function CreateChannel(props: CreateChannelsProps) {
       <CreateChannelContext.Provider
         value={{ edit: props.edit, inputErrors, setInputErrors }}
       >
-        <EuiTitle size="l">
-          <h1>{`${props.edit ? 'Edit' : 'Create'} channel`}</h1>
-        </EuiTitle>
+       {!getUseUpdatedUx() && (
+          <EuiTitle size="l">
+            <h1>{`${props.edit ? 'Edit' : 'Create'} channel`}</h1>
+          </EuiTitle>
+        )}
 
         <EuiSpacer />
         <ChannelNamePanel
@@ -384,7 +384,7 @@ export function CreateChannel(props: CreateChannelsProps) {
           title="Configurations"
           titleSize="s"
         >
-          <EuiFormRow label="Channel type">
+          <EuiCompressedFormRow label="Channel type">
             {props.edit ? (
               <EuiText size="s">{CHANNEL_TYPE[channelType]}</EuiText>
             ) : (
@@ -392,7 +392,7 @@ export function CreateChannel(props: CreateChannelsProps) {
                 <EuiText size="xs" color="subdued">
                   Channel type cannot be changed after the channel is created.
                 </EuiText>
-                <EuiSuperSelect
+                <EuiCompressedSuperSelect
                   options={channelTypeOptions}
                   valueOfSelected={channelType}
                   onChange={setChannelType}
@@ -400,7 +400,7 @@ export function CreateChannel(props: CreateChannelsProps) {
                 />
               </>
             )}
-          </EuiFormRow>
+          </EuiCompressedFormRow>
           {channelType === BACKEND_CHANNEL_TYPE.SLACK ? (
             <SlackSettings
               slackWebhook={slackWebhook}
@@ -463,10 +463,10 @@ export function CreateChannel(props: CreateChannelsProps) {
         <EuiSpacer />
         <EuiFlexGroup gutterSize="m" justifyContent="flexEnd">
           <EuiFlexItem grow={false}>
-            <EuiButtonEmpty href={prevURL}>Cancel</EuiButtonEmpty>
+            <EuiSmallButtonEmpty href={prevURL}>Cancel</EuiSmallButtonEmpty>
           </EuiFlexItem>
           <EuiFlexItem grow={false}>
-            <EuiButton
+            <EuiSmallButton
               data-test-subj="create-channel-send-test-message-button"
               onClick={() => {
                 if (!isInputValid()) {
@@ -479,10 +479,10 @@ export function CreateChannel(props: CreateChannelsProps) {
               }}
             >
               Send test message
-            </EuiButton>
+            </EuiSmallButton>
           </EuiFlexItem>
           <EuiFlexItem grow={false}>
-            <EuiButton
+            <EuiSmallButton
               fill
               data-test-subj="create-channel-create-button"
               isLoading={loading}
@@ -524,7 +524,7 @@ export function CreateChannel(props: CreateChannelsProps) {
               }}
             >
               {props.edit ? 'Save' : 'Create'}
-            </EuiButton>
+            </EuiSmallButton>
           </EuiFlexItem>
         </EuiFlexGroup>
       </CreateChannelContext.Provider>

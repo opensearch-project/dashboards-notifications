@@ -7,19 +7,24 @@ import { EuiSpacer, EuiTitle } from '@elastic/eui';
 import React, { useContext, useEffect } from 'react';
 import { RouteComponentProps } from 'react-router-dom';
 import { CoreServicesContext } from '../../components/coreServices';
-import { BREADCRUMBS } from '../../utils/constants';
+import { BREADCRUMBS, setBreadcrumbs } from '../../utils/constants';
 import { MainContext } from '../Main/Main';
 import { SendersTable } from './components/tables/SendersTable';
 import { SESSendersTable } from './components/tables/SESSendersTable';
+import { NotificationService } from '../../services';
+import { getUseUpdatedUx } from '../../services/utils/constants';
 
-interface EmailSendersProps extends RouteComponentProps {}
+interface EmailSendersProps extends RouteComponentProps {
+  notificationService: NotificationService;
+}
 
 export function EmailSenders(props: EmailSendersProps) {
   const coreContext = useContext(CoreServicesContext)!;
   const mainStateContext = useContext(MainContext)!;
 
+
   useEffect(() => {
-    coreContext.chrome.setBreadcrumbs([
+    setBreadcrumbs([
       BREADCRUMBS.NOTIFICATIONS,
       BREADCRUMBS.EMAIL_SENDERS,
     ]);
@@ -28,14 +33,17 @@ export function EmailSenders(props: EmailSendersProps) {
 
   return (
     <>
-      <EuiTitle size="l">
-        <h1>Email senders</h1>
-      </EuiTitle>
-
+      {!getUseUpdatedUx() && (
+        <EuiTitle size="l">
+          <h1>Email senders</h1>
+        </EuiTitle>
+      )}
       {mainStateContext.availableConfigTypes.includes('smtp_account') && (
         <>
           <EuiSpacer />
-          <SendersTable coreContext={coreContext} />
+          <SendersTable coreContext={coreContext}
+            notificationService={props.notificationService}
+          />
         </>
       )}
 
@@ -43,7 +51,9 @@ export function EmailSenders(props: EmailSendersProps) {
       {mainStateContext.availableConfigTypes.includes('ses_account') && (
         <>
           <EuiSpacer />
-          <SESSendersTable coreContext={coreContext} />
+          <SESSendersTable coreContext={coreContext}
+            notificationService={props.notificationService}
+          />
         </>
       )}
     </>

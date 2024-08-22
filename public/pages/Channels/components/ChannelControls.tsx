@@ -4,8 +4,8 @@
  */
 
 import {
-  EuiFieldSearch,
-  EuiFilterButton,
+  EuiCompressedFieldSearch,
+  EuiSmallFilterButton,
   EuiFilterGroup,
   EuiFilterSelectItem,
   EuiFlexGroup,
@@ -16,7 +16,7 @@ import _ from 'lodash';
 import React, { useContext, useEffect, useState } from 'react';
 import {
   CHANNEL_TYPE,
-} from '../../../../public/utils/constants';
+} from '../../../../common/constants';
 import { MainContext } from '../../Main/Main';
 import { ChannelFiltersType } from '../types';
 
@@ -98,7 +98,7 @@ export const ChannelControls = (props: ChannelControlsProps) => {
   return (
     <EuiFlexGroup>
       <EuiFlexItem>
-        <EuiFieldSearch
+        <EuiCompressedFieldSearch
           fullWidth={true}
           placeholder="Search"
           onSearch={props.onSearchChange}
@@ -109,13 +109,13 @@ export const ChannelControls = (props: ChannelControlsProps) => {
         <EuiFilterGroup>
           <EuiPopover
             button={
-              <EuiFilterButton
+              <EuiSmallFilterButton
                 iconType="arrowDown"
                 grow={false}
                 onClick={() => setIsStatePopoverOpen(!isStatePopoverOpen)}
               >
                 {isItemSelected(stateItems) ? <b>Status</b> : 'Status'}
-              </EuiFilterButton>
+              </EuiSmallFilterButton>
             }
             isOpen={isStatePopoverOpen}
             closePopover={() => setIsStatePopoverOpen(false)}
@@ -138,13 +138,13 @@ export const ChannelControls = (props: ChannelControlsProps) => {
           </EuiPopover>
           <EuiPopover
             button={
-              <EuiFilterButton
+              <EuiSmallFilterButton
                 iconType="arrowDown"
                 grow={false}
                 onClick={() => setIsTypePopoverOpen(!isTypePopoverOpen)}
               >
                 {isItemSelected(typeItems) ? <b>Type</b> : 'Type'}
-              </EuiFilterButton>
+              </EuiSmallFilterButton>
             }
             isOpen={isTypePopoverOpen}
             closePopover={() => setIsTypePopoverOpen(false)}

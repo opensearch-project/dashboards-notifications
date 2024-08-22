@@ -9,8 +9,12 @@ import { RouteComponentProps } from 'react-router-dom';
 import { CoreServicesContext } from '../../components/coreServices';
 import { BREADCRUMBS } from '../../utils/constants';
 import { RecipientGroupsTable } from './components/tables/RecipientGroupsTable';
+import { NotificationService } from '../../services';
+import { getUseUpdatedUx } from '../../services/utils/constants';
 
-interface EmailGroupsProps extends RouteComponentProps {}
+interface EmailGroupsProps extends RouteComponentProps {
+  notificationService: NotificationService;
+}
 
 export function EmailGroups(props: EmailGroupsProps) {
   const coreContext = useContext(CoreServicesContext)!;
@@ -24,12 +28,16 @@ export function EmailGroups(props: EmailGroupsProps) {
 
   return (
     <>
-      <EuiTitle size="l">
-        <h1>Email recipient groups</h1>
-      </EuiTitle>
+      {!getUseUpdatedUx() && (
+        <EuiTitle size="l">
+          <h1>Email recipient groups</h1>
+        </EuiTitle>
+      )}
 
       <EuiSpacer />
-      <RecipientGroupsTable coreContext={coreContext} />
+      <RecipientGroupsTable coreContext={coreContext}
+        notificationService={props.notificationService}
+      />
     </>
   );
 }
