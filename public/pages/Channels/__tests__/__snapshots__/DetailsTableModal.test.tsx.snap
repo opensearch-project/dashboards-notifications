@@ -1747,6 +1747,7 @@ exports[`<DetailsTableModal /> spec renders headers 1`] = `
                                       >
                                         <EuiButtonContent
                                           className="euiButton__content"
+                                          iconGap="m"
                                           iconSide="left"
                                           textProps={
                                             Object {
@@ -3599,6 +3600,7 @@ exports[`<DetailsTableModal /> spec renders parameters 1`] = `
                                       >
                                         <EuiButtonContent
                                           className="euiButton__content"
+                                          iconGap="m"
                                           iconSide="left"
                                           textProps={
                                             Object {
