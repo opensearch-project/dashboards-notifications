@@ -36,6 +36,8 @@ import * as pluginManifest from "../../../opensearch_dashboards.json";
 import { DataSourceAttributes } from "../../../../../src/plugins/data_source/common/data_sources";
 import semver from "semver";
 import { ComponentType } from 'react';
+import { BehaviorSubject } from "rxjs";
+import { i18n } from "@osd/i18n";
 
 enum Navigation {
   Notifications = 'Notifications',
@@ -43,6 +45,15 @@ enum Navigation {
   EmailSenders = 'Email senders',
   EmailGroups = 'Email recipient groups',
 }
+
+const LocalCluster: DataSourceOption = {
+  label: i18n.translate("dataSource.localCluster", {
+    defaultMessage: "Local cluster",
+  }),
+  id: "",
+};
+
+export const dataSourceObservable = new BehaviorSubject<DataSourceOption>(LocalCluster);
 
 enum Pathname {
   Channels = '/channels',
@@ -85,12 +96,21 @@ export default class Main extends Component<MainProps, MainState> {
         dataSourceLabel?: string;
       };
 
+      if (dataSourceId) {
+        dataSourceObservable.next({ id: dataSourceId, label: dataSourceLabel });
+      }
+
       this.state = {
         ...initialState,
         dataSourceId: dataSourceId,
         dataSourceLabel: dataSourceLabel,
         dataSourceReadOnly: false,
-        dataSourceLoading: props.multiDataSourceEnabled,
+         /**
+         * undefined: need data source picker to help to determine which data source to use.
+         * empty string: using the local cluster.
+         * string: using the selected data source.
+         */
+        dataSourceLoading: dataSourceId === undefined ? props.multiDataSourceEnabled : false,
       };
     } else {
       this.state = initialState;
@@ -124,7 +144,7 @@ export default class Main extends Component<MainProps, MainState> {
     ];
 
     let newState = {
-      dataSourceId: this.state.dataSourceId || '',
+      dataSourceId: this.state.dataSourceId,
       dataSourceLabel: this.state.dataSourceLabel || '',
       dataSourceReadOnly: false,
       dataSourceLoading: this.state.dataSourceLoading,
@@ -153,6 +173,7 @@ export default class Main extends Component<MainProps, MainState> {
         dataSourceId: id,
         dataSourceLabel: label,
       });
+      dataSourceObservable.next({ id, label });
     }
     if (this.state.dataSourceLoading) {
       this.setState({
