@@ -1,6 +1,8 @@
-import React from "react";
+import React, { useContext, useEffect } from "react";
 import { DataSourceMenuContext, DataSourceMenuProperties } from "../../services/DataSourceMenuContext";
 import _ from 'lodash'
+import { useHistory } from "react-router-dom";
+import queryString from "query-string";
 
 export default class MDSEnabledComponent<
   Props extends DataSourceMenuProperties,
@@ -29,8 +31,25 @@ export function isDataSourceChanged(prevProps, currentProps) {
   return false;
 }
 
-export function isDataSourceError(error) {
+export function isDataSourceError(error: { body: { message: string | string[]; }; }) {
   return (error.body && error.body.message && error.body.message.includes("Data Source Error"));
 }
 
+export function useUpdateUrlWithDataSourceProperties() {
+  const dataSourceMenuProps = useContext(DataSourceMenuContext);
+  const { dataSourceId, multiDataSourceEnabled } = dataSourceMenuProps;
+  const history = useHistory();
+  const currentSearch = history.location.search;
+  const currentQuery = queryString.parse(currentSearch);
+  useEffect(() => {
+    if (multiDataSourceEnabled) {
+      history.replace({
+        search: queryString.stringify({
+          ...currentQuery,
+          dataSourceId,
+        }),
+      });
+    }
+  }, [dataSourceId, multiDataSourceEnabled]);
+}
 

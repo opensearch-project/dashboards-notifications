@@ -99,7 +99,6 @@ export default class Main extends Component<MainProps, MainState> {
       if (dataSourceId) {
         dataSourceObservable.next({ id: dataSourceId, label: dataSourceLabel });
       }
-
       this.state = {
         ...initialState,
         dataSourceId: dataSourceId,
