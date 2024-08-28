@@ -153,8 +153,6 @@ export class notificationsDashboardsPlugin
         navLinks
       );
     }
-
-
     // Return methods that should be available to other plugins
     return {};
   }
