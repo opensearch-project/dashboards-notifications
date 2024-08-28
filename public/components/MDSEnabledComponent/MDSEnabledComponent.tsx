@@ -39,7 +39,7 @@ export function useUpdateUrlWithDataSourceProperties() {
   const dataSourceMenuProps = useContext(DataSourceMenuContext);
   const { dataSourceId, multiDataSourceEnabled } = dataSourceMenuProps;
   const history = useHistory();
-  const currentSearch = history.location.search;
+  const currentSearch = history?.location?.search;
   const currentQuery = queryString.parse(currentSearch);
   useEffect(() => {
     if (multiDataSourceEnabled) {

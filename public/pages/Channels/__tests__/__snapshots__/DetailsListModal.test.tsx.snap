@@ -1167,7 +1167,6 @@ exports[`<DetailsListModal /> spec renders the component 1`] = `
                                       >
                                         <EuiButtonContent
                                           className="euiButton__content"
-                                          iconGap="m"
                                           iconSide="left"
                                           textProps={
                                             Object {
