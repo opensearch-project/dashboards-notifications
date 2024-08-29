@@ -11,7 +11,7 @@ import { CoreServicesConsumer, CoreServicesContext } from '../../components/core
 import { ModalProvider, ModalRoot } from '../../components/Modal';
 import { BrowserServices } from '../../models/interfaces';
 import { ServicesConsumer, ServicesContext } from '../../services/services';
-import { ROUTES } from '../../utils/constants';
+import { ROUTES, dataSourceObservable } from '../../utils/constants';
 import { CHANNEL_TYPE } from '../../../common/constants';
 import { Channels } from '../Channels/Channels';
 import { ChannelDetails } from '../Channels/components/details/ChannelDetails';
@@ -36,8 +36,6 @@ import * as pluginManifest from "../../../opensearch_dashboards.json";
 import { DataSourceAttributes } from "../../../../../src/plugins/data_source/common/data_sources";
 import semver from "semver";
 import { ComponentType } from 'react';
-import { BehaviorSubject } from "rxjs";
-import { i18n } from "@osd/i18n";
 
 enum Navigation {
   Notifications = 'Notifications',
@@ -45,15 +43,6 @@ enum Navigation {
   EmailSenders = 'Email senders',
   EmailGroups = 'Email recipient groups',
 }
-
-const LocalCluster: DataSourceOption = {
-  label: i18n.translate("dataSource.localCluster", {
-    defaultMessage: "Local cluster",
-  }),
-  id: "",
-};
-
-export const dataSourceObservable = new BehaviorSubject<DataSourceOption>(LocalCluster);
 
 enum Pathname {
   Channels = '/channels',

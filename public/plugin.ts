@@ -21,9 +21,8 @@ import {
   NotificationsDashboardsSetupDeps,
 } from './types';
 import { PLUGIN_NAME } from '../common';
-import { ROUTES } from './utils/constants';
+import { ROUTES, dataSourceObservable } from './utils/constants';
 import { setApplication, setBreadCrumbsSetter, setNavigationUI, setUISettings } from './services/utils/constants';
-import { dataSourceObservable } from "./pages/Main/Main";
 import { BehaviorSubject } from "rxjs";
 
 export class notificationsDashboardsPlugin
