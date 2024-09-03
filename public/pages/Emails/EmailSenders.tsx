@@ -13,6 +13,7 @@ import { SendersTable } from './components/tables/SendersTable';
 import { SESSendersTable } from './components/tables/SESSendersTable';
 import { NotificationService } from '../../services';
 import { getUseUpdatedUx } from '../../services/utils/constants';
+import { useUpdateUrlWithDataSourceProperties } from '../../components/MDSEnabledComponent/MDSEnabledComponent';
 
 interface EmailSendersProps extends RouteComponentProps {
   notificationService: NotificationService;
@@ -22,7 +23,9 @@ export function EmailSenders(props: EmailSendersProps) {
   const coreContext = useContext(CoreServicesContext)!;
   const mainStateContext = useContext(MainContext)!;
 
-
+  // Call the hook to manage URL updates
+  useUpdateUrlWithDataSourceProperties();
+  
   useEffect(() => {
     setBreadcrumbs([
       BREADCRUMBS.NOTIFICATIONS,
