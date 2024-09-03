@@ -11,7 +11,7 @@ import { CoreServicesConsumer, CoreServicesContext } from '../../components/core
 import { ModalProvider, ModalRoot } from '../../components/Modal';
 import { BrowserServices } from '../../models/interfaces';
 import { ServicesConsumer, ServicesContext } from '../../services/services';
-import { ROUTES } from '../../utils/constants';
+import { ROUTES, dataSourceObservable } from '../../utils/constants';
 import { CHANNEL_TYPE } from '../../../common/constants';
 import { Channels } from '../Channels/Channels';
 import { ChannelDetails } from '../Channels/components/details/ChannelDetails';
@@ -85,12 +85,20 @@ export default class Main extends Component<MainProps, MainState> {
         dataSourceLabel?: string;
       };
 
+      if (dataSourceId) {
+        dataSourceObservable.next({ id: dataSourceId, label: dataSourceLabel });
+      }
       this.state = {
         ...initialState,
         dataSourceId: dataSourceId,
         dataSourceLabel: dataSourceLabel,
         dataSourceReadOnly: false,
-        dataSourceLoading: props.multiDataSourceEnabled,
+         /**
+         * undefined: need data source picker to help to determine which data source to use.
+         * empty string: using the local cluster.
+         * string: using the selected data source.
+         */
+        dataSourceLoading: dataSourceId === undefined ? props.multiDataSourceEnabled : false,
       };
     } else {
       this.state = initialState;
@@ -124,7 +132,7 @@ export default class Main extends Component<MainProps, MainState> {
     ];
 
     let newState = {
-      dataSourceId: this.state.dataSourceId || '',
+      dataSourceId: this.state.dataSourceId,
       dataSourceLabel: this.state.dataSourceLabel || '',
       dataSourceReadOnly: false,
       dataSourceLoading: this.state.dataSourceLoading,
@@ -153,6 +161,7 @@ export default class Main extends Component<MainProps, MainState> {
         dataSourceId: id,
         dataSourceLabel: label,
       });
+      dataSourceObservable.next({ id, label });
     }
     if (this.state.dataSourceLoading) {
       this.setState({

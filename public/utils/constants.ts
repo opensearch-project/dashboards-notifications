@@ -5,6 +5,9 @@
 
 import { ChromeBreadcrumb } from 'opensearch-dashboards/public';
 import { getBreadCrumbsSetter, getUseUpdatedUx } from '../services/utils/constants';
+import { DataSourceOption } from 'src/plugins/data_source_management/public';
+import { i18n } from "@osd/i18n";
+import { BehaviorSubject } from 'rxjs';
 
 export const DOCUMENTATION_LINK = '';
 export const ALERTING_DOCUMENTATION_LINK =
@@ -72,3 +75,12 @@ export const CUSTOM_WEBHOOK_ENDPOINT_TYPE = Object.freeze({
 export function setBreadcrumbs(crumbs: ChromeBreadcrumb[]) {
   getBreadCrumbsSetter()(getUseUpdatedUx() ? crumbs : [BREADCRUMBS.NOTIFICATIONS, ...crumbs]);
 }
+
+const LocalCluster: DataSourceOption = {
+  label: i18n.translate("dataSource.localCluster", {
+    defaultMessage: "Local cluster",
+  }),
+  id: "",
+};
+
+export const dataSourceObservable = new BehaviorSubject<DataSourceOption>(LocalCluster);
