@@ -21,9 +21,8 @@ import {
   NotificationsDashboardsSetupDeps,
 } from './types';
 import { PLUGIN_NAME } from '../common';
-import { ROUTES } from './utils/constants';
+import { ROUTES, dataSourceObservable } from './utils/constants';
 import { setApplication, setBreadCrumbsSetter, setNavigationUI, setUISettings } from './services/utils/constants';
-import { dataSourceObservable } from "./pages/Main/Main";
 import { BehaviorSubject } from "rxjs";
 
 export class notificationsDashboardsPlugin
@@ -131,6 +130,12 @@ export class notificationsDashboardsPlugin
         },
       });
 
+      dataSourceObservable.subscribe((dataSourceOption) => {
+        if (dataSourceOption) {
+          this.appStateUpdater.next(this.updateDefaultRouteOfManagementApplications);
+        }
+      });
+
       const navlinks = [
         { id: 'channels', parent: PLUGIN_NAME },
         { id: 'email_senders', parent: PLUGIN_NAME },
@@ -147,7 +152,6 @@ export class notificationsDashboardsPlugin
         navLinks
       );
     }
-
     // Return methods that should be available to other plugins
     return {};
   }
