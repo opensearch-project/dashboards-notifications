@@ -4,10 +4,10 @@
  */
 
 import { EuiPage, EuiPageBody, EuiPageSideBar, EuiSideNav } from '@elastic/eui';
-import React, { Component, createContext, useContext } from 'react';
+import React, { Component, createContext, ComponentType } from 'react';
 import { Redirect, Route, RouteComponentProps, Switch } from 'react-router-dom';
-import { CoreStart, MountPoint, SavedObject } from '../../../../../src/core/public';
-import { CoreServicesConsumer, CoreServicesContext } from '../../components/coreServices';
+import { CoreStart, MountPoint, SavedObject, HttpSetup } from '../../../../../src/core/public';
+import { CoreServicesConsumer } from '../../components/coreServices';
 import { ModalProvider, ModalRoot } from '../../components/Modal';
 import { BrowserServices } from '../../models/interfaces';
 import { ServicesConsumer, ServicesContext } from '../../services/services';
@@ -31,11 +31,9 @@ import {
 import { DataSourceMenuProps, DataSourceOption } from "../../../../../src/plugins/data_source_management/public/components/data_source_menu/types";
 import _ from "lodash";
 import { NotificationService } from '../../services';
-import { HttpSetup } from '../../../../../src/core/public';
 import * as pluginManifest from "../../../opensearch_dashboards.json";
 import { DataSourceAttributes } from "../../../../../src/plugins/data_source/common/data_sources";
 import semver from "semver";
-import { ComponentType } from 'react';
 
 enum Navigation {
   Notifications = 'Notifications',
