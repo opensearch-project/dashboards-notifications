@@ -36,8 +36,6 @@ import * as pluginManifest from "../../../opensearch_dashboards.json";
 import { DataSourceAttributes } from "../../../../../src/plugins/data_source/common/data_sources";
 import semver from "semver";
 import { ComponentType } from 'react';
-import { BehaviorSubject } from "rxjs";
-import { i18n } from "@osd/i18n";
 
 enum Navigation {
   Notifications = 'Notifications',
@@ -45,15 +43,6 @@ enum Navigation {
   EmailSenders = 'Email senders',
   EmailGroups = 'Email recipient groups',
 }
-
-const LocalCluster: DataSourceOption = {
-  label: i18n.translate("dataSource.localCluster", {
-    defaultMessage: "Local cluster",
-  }),
-  id: "",
-};
-
-export const dataSourceObservable = new BehaviorSubject<DataSourceOption>(LocalCluster);
 
 enum Pathname {
   Channels = '/channels',
@@ -99,7 +88,6 @@ export default class Main extends Component<MainProps, MainState> {
       if (dataSourceId) {
         dataSourceObservable.next({ id: dataSourceId, label: dataSourceLabel });
       }
-
       this.state = {
         ...initialState,
         dataSourceId: dataSourceId,
