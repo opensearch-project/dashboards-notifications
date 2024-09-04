@@ -23,6 +23,10 @@ import {
 import { PLUGIN_NAME } from '../common';
 import { ROUTES, dataSourceObservable } from './utils/constants';
 import { setApplication, setBreadCrumbsSetter, setNavigationUI, setUISettings } from './services/utils/constants';
+<<<<<<< HEAD
+=======
+import { dataSourceObservable } from "./pages/Main/Main";
+>>>>>>> 697ad14 (Persist dataSourceId across applications under new Nav change)
 import { BehaviorSubject } from "rxjs";
 
 export class notificationsDashboardsPlugin
