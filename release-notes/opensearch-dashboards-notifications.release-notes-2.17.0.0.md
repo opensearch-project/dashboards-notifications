@@ -13,6 +13,8 @@ Compatible with OpenSearch Dashboards 2.17.0
 
 ### Bug Fixes
 * Fix link checker ([#242](https://github.com/opensearch-project/dashboards-notifications/pull/242))
+* Persist dataSourceId across applications under new Nav change ([#244](https://github.com/opensearch-project/dashboards-notifications/pull/244))
+
 
 ### Documentation
-* 2.17 release notes. ([#243](https://github.com/opensearch-project/dashboards-notifications/pull/243))
+* 2.17 release notes. ([#248](https://github.com/opensearch-project/dashboards-notifications/pull/248))
