@@ -1,17 +1,21 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`<EmailSenders/> spec renders the component with SMTP config type 1`] = `
-<h1
-  class="euiTitle euiTitle--large"
+<div
+  class="euiText euiText--small"
 >
-  Email senders
-</h1>
+  <h1>
+    Email senders
+  </h1>
+</div>
 `;
 
 exports[`<EmailSenders/> spec renders the component without SMTP config type 1`] = `
-<h1
-  class="euiTitle euiTitle--large"
+<div
+  class="euiText euiText--small"
 >
-  Email senders
-</h1>
+  <h1>
+    Email senders
+  </h1>
+</div>
 `;
