@@ -16,6 +16,7 @@ import {
   EuiTableFieldDataColumnType,
   EuiTableSortingType,
   SortDirection,
+  EuiText,
 } from '@elastic/eui';
 import { Criteria } from '@elastic/eui/src/components/basic_table/basic_table';
 import { Pagination } from '@elastic/eui/src/components/basic_table/pagination_bar';
@@ -223,8 +224,8 @@ export class SESSendersTable extends Component<
       isSelectable={true}
       selection={selection}
       noItemsMessage={<EuiEmptyPrompt
-        title={<h2>No SES senders to display</h2>}
-        body="Set up an outbound email server by creating a sender. You will select a sender when configuring email channels."
+        title={<EuiText size="s"><h2>No SES senders to display</h2></EuiText>}
+        body={<EuiText size="s">Set up an outbound email server by creating a sender. You will select a sender when configuring email channels.</EuiText>}
         actions={<EuiSmallButton href={`#${ROUTES.CREATE_SES_SENDER}`}>
           Create SES sender
         </EuiSmallButton>} />}
@@ -259,7 +260,7 @@ export class SESSendersTable extends Component<
             }
             bodyStyles={{ padding: 'initial' }}
             title="SES senders"
-            titleSize="m"
+            titleSize="s"
             total={this.state.total}
           >
             <EuiFlexGroup>
@@ -288,6 +289,7 @@ export class SESSendersTable extends Component<
                         <EuiContextMenuItem
                           key={action.label}
                           disabled={action.disabled}
+                          size="s"
                           onClick={() => {
                             this.setState({ isPopoverOpen: false });
                             if (action.modal) {
@@ -360,7 +362,7 @@ export class SESSendersTable extends Component<
             }
             bodyStyles={{ padding: 'initial' }}
             title="SES senders"
-            titleSize="m"
+            titleSize="s"
             total={this.state.total}
           >
             {searchComponent}
