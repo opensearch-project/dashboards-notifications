@@ -10,6 +10,7 @@ import {
   TopNavControlLinkData,
 } from '../../../../../src/plugins/navigation/public';
 import { getApplication, getNavigationUI, getUseUpdatedUx } from '../../services/utils/constants';
+import { useUpdateUrlWithDataSourceProperties } from '../MDSEnabledComponent/MDSEnabledComponent';
 
 export interface PageHeaderProps {
   appRightControls?: TopNavControlData[];
@@ -27,6 +28,7 @@ const PageHeader: React.FC<PageHeaderProps> = ({
 }) => {
   const { HeaderControl } = getNavigationUI();
   const { setAppBadgeControls, setAppRightControls, setAppDescriptionControls, setAppLeftControls } = getApplication();
+  useUpdateUrlWithDataSourceProperties();
 
   return getUseUpdatedUx() ? (
     <>

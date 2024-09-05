@@ -6,6 +6,7 @@
 import { i18n } from '@osd/i18n';
 import {
   AppMountParameters,
+  AppUpdater,
   CoreSetup,
   CoreStart,
   DEFAULT_APP_CATEGORIES,
@@ -20,8 +21,9 @@ import {
   NotificationsDashboardsSetupDeps,
 } from './types';
 import { PLUGIN_NAME } from '../common';
-import { ROUTES } from './utils/constants';
+import { ROUTES, dataSourceObservable } from './utils/constants';
 import { setApplication, setBreadCrumbsSetter, setNavigationUI, setUISettings } from './services/utils/constants';
+import { BehaviorSubject } from "rxjs";
 
 export class notificationsDashboardsPlugin
   implements
@@ -32,6 +34,15 @@ export class notificationsDashboardsPlugin
   private title = i18n.translate('notification.notificationTitle', {
     defaultMessage: 'Notifications',
   });
+
+  private updateDefaultRouteOfManagementApplications: AppUpdater = () => {
+    const hash = `#/?dataSourceId=${dataSourceObservable.value?.id || ""}`;
+    return {
+      defaultPath: hash,
+    };
+  };
+
+  private appStateUpdater = new BehaviorSubject<AppUpdater>(this.updateDefaultRouteOfManagementApplications);
 
   public setup(
     core: CoreSetup,
@@ -91,6 +102,7 @@ export class notificationsDashboardsPlugin
         title: 'Channels',
         order: 9070,
         workspaceAvailability: WorkspaceAvailability.outsideWorkspace,
+        updater$: this.appStateUpdater,
         mount: async (params: AppMountParameters) => {
           return mountWrapper(params, ROUTES.CHANNELS);
         },
@@ -101,6 +113,7 @@ export class notificationsDashboardsPlugin
         title: 'Email senders',
         order: 9080,
         workspaceAvailability: WorkspaceAvailability.outsideWorkspace,
+        updater$: this.appStateUpdater,
         mount: async (params: AppMountParameters) => {
           return mountWrapper(params, ROUTES.EMAIL_SENDERS);
         },
@@ -111,9 +124,16 @@ export class notificationsDashboardsPlugin
         title: 'Email recepient groups',
         order: 9090,
         workspaceAvailability: WorkspaceAvailability.outsideWorkspace,
+        updater$: this.appStateUpdater,
         mount: async (params: AppMountParameters) => {
           return mountWrapper(params, ROUTES.EMAIL_GROUPS);
         },
+      });
+
+      dataSourceObservable.subscribe((dataSourceOption) => {
+        if (dataSourceOption) {
+          this.appStateUpdater.next(this.updateDefaultRouteOfManagementApplications);
+        }
       });
 
       const navlinks = [
@@ -132,7 +152,6 @@ export class notificationsDashboardsPlugin
         navLinks
       );
     }
-
     // Return methods that should be available to other plugins
     return {};
   }
