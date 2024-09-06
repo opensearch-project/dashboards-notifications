@@ -37,10 +37,14 @@ export const MuteChannelModal = (props: MuteChannelModalProps) => {
     <EuiOverlayMask>
       <EuiModal onClose={props.onClose} maxWidth={500}>
         <EuiModalHeader>
-          <EuiModalHeaderTitle>{`Mute ${props.selected[0].name}?`}</EuiModalHeaderTitle>
+          <EuiModalHeaderTitle>
+            <EuiText size="s">
+              <h2>{`Mute ${props.selected[0].name}?`}</h2>
+            </EuiText>
+          </EuiModalHeaderTitle>
         </EuiModalHeader>
         <EuiModalBody>
-          <EuiText>
+          <EuiText size="s">
             This channel will stop sending notifications to its recipients.
             However, the channel will remain available for selection.
           </EuiText>

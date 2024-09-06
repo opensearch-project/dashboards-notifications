@@ -11,11 +11,13 @@ exports[`<ChannelNamePanel/> spec renders errors 1`] = `
     <div
       class="euiFlexItem"
     >
-      <h3
-        class="euiTitle euiTitle--small"
+      <div
+        class="euiText euiText--small"
       >
-        Name and description
-      </h3>
+        <h2>
+          Name and description
+        </h2>
+      </div>
     </div>
   </div>
   <hr
@@ -118,11 +120,13 @@ exports[`<ChannelNamePanel/> spec renders the component 1`] = `
     <div
       class="euiFlexItem"
     >
-      <h3
-        class="euiTitle euiTitle--small"
+      <div
+        class="euiText euiText--small"
       >
-        Name and description
-      </h3>
+        <h2>
+          Name and description
+        </h2>
+      </div>
     </div>
   </div>
   <hr

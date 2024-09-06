@@ -11,16 +11,18 @@ exports[`<SendersTable /> spec renders empty state 1`] = `
     <div
       class="euiFlexItem"
     >
-      <h3
-        class="euiTitle euiTitle--medium"
+      <div
+        class="euiText euiText--small"
       >
-        SMTP senders
-        <span
-          style="color: rgb(159, 159, 159); font-weight: 300;"
-        >
-           (0)
-        </span>
-      </h3>
+        <h2>
+          SMTP senders
+          <span
+            style="color: rgb(159, 159, 159); font-weight: 300;"
+          >
+             (0)
+          </span>
+        </h2>
+      </div>
     </div>
     <div
       class="euiFlexItem euiFlexItem--flexGrowZero"
@@ -470,11 +472,13 @@ exports[`<SendersTable /> spec renders empty state 1`] = `
                     <div
                       class="euiEmptyPrompt"
                     >
-                      <h2
-                        class="euiTitle euiTitle--medium"
+                      <div
+                        class="euiText euiText--small euiTitle euiTitle--medium"
                       >
-                        No SMTP senders to display
-                      </h2>
+                        <h2>
+                          No SMTP senders to display
+                        </h2>
+                      </div>
                       <span
                         class="euiTextColor euiTextColor--subdued"
                       >
@@ -484,7 +488,11 @@ exports[`<SendersTable /> spec renders empty state 1`] = `
                         <div
                           class="euiText euiText--medium"
                         >
-                          Set up an outbound email server by creating a sender. You will select a sender when configuring email channels.
+                          <div
+                            class="euiText euiText--small"
+                          >
+                            Set up an outbound email server by creating a sender. You will select a sender when configuring email channels.
+                          </div>
                         </div>
                       </span>
                       <div
