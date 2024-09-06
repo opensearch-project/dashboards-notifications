@@ -10,7 +10,7 @@ import {
   EuiFlexGroup,
   EuiFlexItem,
   EuiSpacer,
-  EuiTitle,
+  EuiText,
 } from '@elastic/eui';
 import React, { useContext, useEffect, useState } from 'react';
 import { RouteComponentProps } from 'react-router-dom';
@@ -105,9 +105,9 @@ export function CreateRecipientGroup(props: CreateRecipientGroupProps) {
   return (
     <>
       {!getUseUpdatedUx() && (
-        <EuiTitle size="l">
+        <EuiText size="s">
           <h1>{`${props.edit ? 'Edit' : 'Create'} recipient group`}</h1>
-        </EuiTitle>
+        </EuiText>
       )}
 
       <EuiSpacer />

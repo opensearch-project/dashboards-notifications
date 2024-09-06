@@ -1,9 +1,11 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`<EmailGroups/> spec renders the component 1`] = `
-<h1
-  class="euiTitle euiTitle--large"
+<div
+  class="euiText euiText--small"
 >
-  Email recipient groups
-</h1>
+  <h1>
+    Email recipient groups
+  </h1>
+</div>
 `;
