@@ -1,25 +1,31 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`<CreateSender/> spec handles failed requests 1`] = `
-<h1
-  class="euiTitle euiTitle--large"
+<div
+  class="euiText euiText--small"
 >
-  Edit SMTP sender
-</h1>
+  <h1>
+    Edit SMTP sender
+  </h1>
+</div>
 `;
 
 exports[`<CreateSender/> spec renders the component 1`] = `
-<h1
-  class="euiTitle euiTitle--large"
+<div
+  class="euiText euiText--small"
 >
-  Create SMTP sender
-</h1>
+  <h1>
+    Create SMTP sender
+  </h1>
+</div>
 `;
 
 exports[`<CreateSender/> spec renders the component for editing 1`] = `
-<h1
-  class="euiTitle euiTitle--large"
+<div
+  class="euiText euiText--small"
 >
-  Edit SMTP sender
-</h1>
+  <h1>
+    Edit SMTP sender
+  </h1>
+</div>
 `;

@@ -13,6 +13,7 @@ import {
   EuiModalHeader,
   EuiModalHeaderTitle,
   EuiOverlayMask,
+  EuiText,
 } from '@elastic/eui';
 import React, { useContext, useState } from 'react';
 import { CoreServicesContext } from '../../../../components/coreServices';
@@ -66,7 +67,11 @@ export function CreateRecipientGroupModal(
     <EuiOverlayMask>
       <EuiModal onClose={props.onClose} style={{ width: 650 }}>
         <EuiModalHeader>
-          <EuiModalHeaderTitle>Create recipient group</EuiModalHeaderTitle>
+          <EuiModalHeaderTitle>
+            <EuiText size="s">
+              <h2>Create recipient group</h2>
+            </EuiText>
+          </EuiModalHeaderTitle>
         </EuiModalHeader>
 
         <EuiModalBody>
