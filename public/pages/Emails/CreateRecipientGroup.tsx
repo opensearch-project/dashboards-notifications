@@ -66,19 +66,25 @@ export function CreateRecipientGroup(props: CreateRecipientGroupProps) {
   };
 
   useEffect(() => {
-    setBreadcrumbs([
+    const { edit } = props;
+    const breadcrumbs = [
       BREADCRUMBS.NOTIFICATIONS,
       BREADCRUMBS.EMAIL_GROUPS,
-      props.edit
-        ? BREADCRUMBS.EDIT_RECIPIENT_GROUP
-        : BREADCRUMBS.CREATE_RECIPIENT_GROUP,
-    ]);
+    ];
+    if (edit) {
+      if (getUseUpdatedUx()) {
+        breadcrumbs.push(BREADCRUMBS.EDIT_RECIPIENT_GROUP_DETAILS(name))
+      }
+      breadcrumbs.push(BREADCRUMBS.EDIT_RECIPIENT_GROUP)
+    } else {
+      breadcrumbs.push(BREADCRUMBS.CREATE_RECIPIENT_GROUP)
+    }
     window.scrollTo(0, 0);
-
+    setBreadcrumbs(breadcrumbs);
     if (props.edit) {
       getRecipientGroup();
     }
-  }, []);
+  }, [name, getUseUpdatedUx()]);
 
   const getRecipientGroup = async () => {
     const id = props.match.params?.id;
