@@ -36,7 +36,7 @@ export const BREADCRUMBS = Object.freeze({
   CREATE_CHANNEL: { text: 'Create channel', href: `#${ROUTES.CREATE_CHANNEL}` },
   EDIT_CHANNEL: { text: 'Edit channel', href: `#${ROUTES.EDIT_CHANNEL}` },
   EDIT_CHANNEL_DETAILS: (name: string) => ({
-    text: `${name}`,
+    text: name,
     href: `#${ROUTES.EDIT_CHANNEL}`,
   }),
   EMAIL_SENDERS: { text: 'Email senders', href: `#${ROUTES.EMAIL_SENDERS}` },
@@ -57,7 +57,7 @@ export const BREADCRUMBS = Object.freeze({
   },
   EDIT_RECIPIENT_GROUP: { text: 'Edit recipient group', href: `#${ROUTES.EDIT_RECIPIENT_GROUP}`},
   EDIT_RECIPIENT_GROUP_DETAILS: (name: string) => ({
-    text: `${name}`,
+    text: name,
     href: `#${ROUTES.EDIT_RECIPIENT_GROUP}`,
   }),
 });
