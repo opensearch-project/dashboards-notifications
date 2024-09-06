@@ -34,7 +34,11 @@ export const BREADCRUMBS = Object.freeze({
   CHANNELS: { text: 'Channels', href: `#${ROUTES.CHANNELS}` },
   CHANNEL_DETAILS: { text: 'Channels', href: `#${ROUTES.CHANNEL_DETAILS}` },
   CREATE_CHANNEL: { text: 'Create channel', href: `#${ROUTES.CREATE_CHANNEL}` },
-  EDIT_CHANNEL: { text: 'Edit channel' },
+  EDIT_CHANNEL: { text: 'Edit channel', href: `#${ROUTES.EDIT_CHANNEL}` },
+  EDIT_CHANNEL_DETAILS: (name: string) => ({
+    text: name,
+    href: `#${ROUTES.EDIT_CHANNEL}`,
+  }),
   EMAIL_SENDERS: { text: 'Email senders', href: `#${ROUTES.EMAIL_SENDERS}` },
   EMAIL_GROUPS: { text: 'Email recipient groups', href: `#${ROUTES.EMAIL_GROUPS}` },
   CREATE_SENDER: {
@@ -51,7 +55,11 @@ export const BREADCRUMBS = Object.freeze({
     text: 'Create recipient group',
     href: `#${ROUTES.CREATE_RECIPIENT_GROUP}`,
   },
-  EDIT_RECIPIENT_GROUP: { text: 'Edit recipient group' },
+  EDIT_RECIPIENT_GROUP: { text: 'Edit recipient group', href: `#${ROUTES.EDIT_RECIPIENT_GROUP}`},
+  EDIT_RECIPIENT_GROUP_DETAILS: (name: string) => ({
+    text: name,
+    href: `#${ROUTES.EDIT_RECIPIENT_GROUP}`,
+  }),
 });
 
 export const ENCRYPTION_TYPE = Object.freeze({

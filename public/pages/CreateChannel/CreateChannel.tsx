@@ -144,15 +144,25 @@ export function CreateChannel(props: CreateChannelsProps) {
   });
 
   useEffect(() => {
-    setBreadcrumbs([ BREADCRUMBS.NOTIFICATIONS,
+    const { edit } = props;
+    const breadcrumbs = [
+      BREADCRUMBS.NOTIFICATIONS,
       BREADCRUMBS.CHANNELS,
-      props.edit ? BREADCRUMBS.EDIT_CHANNEL : BREADCRUMBS.CREATE_CHANNEL]);
+    ];
+    if (edit) {
+      if (getUseUpdatedUx()) {
+        breadcrumbs.push(BREADCRUMBS.EDIT_CHANNEL_DETAILS(name))
+      }
+      breadcrumbs.push(BREADCRUMBS.EDIT_CHANNEL)
+    } else {
+      breadcrumbs.push(BREADCRUMBS.CREATE_CHANNEL)
+    }
     window.scrollTo(0, 0);
-
+    setBreadcrumbs(breadcrumbs);
     if (props.edit) {
       getChannel();
     }
-  }, []);
+  }, [name, getUseUpdatedUx()]);
 
   const getChannel = async () => {
     const id = props.match.params.id;
@@ -416,7 +426,7 @@ export function CreateChannel(props: CreateChannelsProps) {
               microsoftTeamsWebhook={microsoftTeamsWebhook}
               setMicrosoftTeamsWebhook={setMicrosoftTeamsWebhook}
             />
-          ): channelType === BACKEND_CHANNEL_TYPE.EMAIL ? (
+          ) : channelType === BACKEND_CHANNEL_TYPE.EMAIL ? (
             <EmailSettings
               senderType={senderType}
               setSenderType={setSenderType}
@@ -497,15 +507,14 @@ export function CreateChannel(props: CreateChannelsProps) {
                 const config = createConfigObject();
                 const request = props.edit
                   ? servicesContext.notificationService.updateConfig(
-                      id!,
-                      config
-                    )
+                    id!,
+                    config
+                  )
                   : servicesContext.notificationService.createConfig(config);
                 await request
                   .then((response) => {
                     coreContext.notifications.toasts.addSuccess(
-                      `Channel ${name} successfully ${
-                        props.edit ? 'updated' : 'created'
+                      `Channel ${name} successfully ${props.edit ? 'updated' : 'created'
                       }.`
                     );
                     setTimeout(() => (location.hash = prevURL), SERVER_DELAY);
@@ -515,9 +524,8 @@ export function CreateChannel(props: CreateChannelsProps) {
                     coreContext.notifications.toasts.addError(
                       error?.body || error,
                       {
-                        title: `Failed to ${
-                          props.edit ? 'update' : 'create'
-                        } channel.`,
+                        title: `Failed to ${props.edit ? 'update' : 'create'
+                          } channel.`,
                       }
                     );
                   });
