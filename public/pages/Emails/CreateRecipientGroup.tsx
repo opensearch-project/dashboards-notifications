@@ -79,7 +79,7 @@ export function CreateRecipientGroup(props: CreateRecipientGroupProps) {
     } else {
       breadcrumbs.push(BREADCRUMBS.CREATE_RECIPIENT_GROUP)
     }
-
+    window.scrollTo(0, 0);
     setBreadcrumbs(breadcrumbs);
     if (props.edit) {
       getRecipientGroup();
