@@ -144,15 +144,25 @@ export function CreateChannel(props: CreateChannelsProps) {
   });
 
   useEffect(() => {
-    setBreadcrumbs([ BREADCRUMBS.NOTIFICATIONS,
+    const { edit } = props;
+    const breadcrumbs = [
+      BREADCRUMBS.NOTIFICATIONS,
       BREADCRUMBS.CHANNELS,
-      props.edit ? BREADCRUMBS.EDIT_CHANNEL : BREADCRUMBS.CREATE_CHANNEL]);
-    window.scrollTo(0, 0);
+    ];
+    if (edit) {
+      if (getUseUpdatedUx()) {
+        breadcrumbs.push(BREADCRUMBS.EDIT_CHANNEL_DETAILS(name))
+      }
+      breadcrumbs.push(BREADCRUMBS.EDIT_CHANNEL)
+    } else {
+      breadcrumbs.push(BREADCRUMBS.CREATE_CHANNEL)
+     }
 
+    setBreadcrumbs(breadcrumbs);
     if (props.edit) {
       getChannel();
     }
-  }, []);
+  }, [name, getUseUpdatedUx()]);
 
   const getChannel = async () => {
     const id = props.match.params.id;
