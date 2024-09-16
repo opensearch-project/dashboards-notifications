@@ -196,6 +196,7 @@ export function ChannelDetails(props: ChannelDetailsProps) {
       isDisabled: !channel?.is_enabled,
       run: sendTestMessage,
       label: 'Send test message',
+      fill: true,
     } as TopNavControlButtonData,
   ];
 
@@ -247,7 +248,6 @@ export function ChannelDetails(props: ChannelDetailsProps) {
         bodyStyles={{ padding: 'initial' }}
         title="Name and description"
         titleSize="s"
-        panelStyles={{ maxWidth: 1300 }}
       >
         <ChannelDetailItems listItems={nameList} />
       </ContentPanel>
@@ -258,7 +258,6 @@ export function ChannelDetails(props: ChannelDetailsProps) {
         bodyStyles={{ padding: 'initial' }}
         title="Configurations"
         titleSize="s"
-        panelStyles={{ maxWidth: 1300 }}
       >
         <ChannelSettingsDetails channel={channel} />
       </ContentPanel>
