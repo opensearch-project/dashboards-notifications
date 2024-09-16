@@ -143,8 +143,7 @@ export function ChannelDetails(props: ChannelDetailsProps) {
     },
   ];
 
-  const actionsAndMuteComponent = <EuiFlexGroup gutterSize="m" alignItems="flexEnd">
-    <EuiFlexItem />
+  const actionsAndMuteComponent = <EuiFlexGroup gutterSize="s" alignItems="flexEnd">
     <EuiFlexItem grow={false}>
       {channel && (
         <ChannelDetailsActions
