@@ -112,7 +112,6 @@ export function CreateSESSender(props: CreateSESSenderProps) {
         bodyStyles={{ padding: 'initial' }}
         title="Configure sender"
         titleSize="s"
-        panelStyles={{ maxWidth: 1000 }}
       >
         <CreateSESSenderForm
           senderName={senderName}
@@ -129,7 +128,7 @@ export function CreateSESSender(props: CreateSESSenderProps) {
       </ContentPanel>
 
       <EuiSpacer />
-      <EuiFlexGroup justifyContent="flexEnd" style={{ maxWidth: 1024 }}>
+      <EuiFlexGroup justifyContent="flexEnd">
         <EuiFlexItem grow={false}>
           <EuiSmallButtonEmpty href={`#${ROUTES.EMAIL_SENDERS}`}>
             Cancel

@@ -121,7 +121,6 @@ export function CreateRecipientGroup(props: CreateRecipientGroupProps) {
         bodyStyles={{ padding: 'initial' }}
         title="Configure recipient group"
         titleSize="s"
-        panelStyles={{ maxWidth: 1000 }}
       >
         <CreateRecipientGroupForm
           name={name}
@@ -137,7 +136,7 @@ export function CreateRecipientGroup(props: CreateRecipientGroupProps) {
         />
       </ContentPanel>
       <EuiSpacer />
-      <EuiFlexGroup justifyContent="flexEnd" style={{ maxWidth: 1024 }}>
+      <EuiFlexGroup justifyContent="flexEnd">
         <EuiFlexItem grow={false}>
           <EuiSmallButtonEmpty href={`#${ROUTES.EMAIL_GROUPS}`}>
             Cancel

@@ -109,7 +109,6 @@ export function CreateSender(props: CreateSenderProps) {
         bodyStyles={{ padding: 'initial' }}
         title="Configure sender"
         titleSize="s"
-        panelStyles={{ maxWidth: 1000 }}
       >
         <CreateSenderForm
           senderName={senderName}
@@ -128,7 +127,7 @@ export function CreateSender(props: CreateSenderProps) {
       </ContentPanel>
 
       <EuiSpacer />
-      <EuiFlexGroup justifyContent="flexEnd" style={{ maxWidth: 1024 }}>
+      <EuiFlexGroup justifyContent="flexEnd">
         <EuiFlexItem grow={false}>
           <EuiSmallButtonEmpty href={`#${ROUTES.EMAIL_SENDERS}`}>
             Cancel
