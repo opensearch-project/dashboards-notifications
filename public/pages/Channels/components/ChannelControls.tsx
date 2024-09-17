@@ -96,7 +96,7 @@ export const ChannelControls = (props: ChannelControlsProps) => {
   }
 
   return (
-    <EuiFlexGroup>
+    <EuiFlexGroup gutterSize={'m'}>
       <EuiFlexItem>
         <EuiCompressedFieldSearch
           fullWidth={true}

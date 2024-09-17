@@ -269,6 +269,9 @@ export class SendersTable extends Component<
       <>
         {getUseUpdatedUx() ? (
           <ContentPanel
+            panelStyles={{
+              padding: this.state.total < 1 ? '16px 16px 0px' : '16px',
+            }}
             actions={
               <ContentPanelActions
                 actions={[
@@ -287,7 +290,7 @@ export class SendersTable extends Component<
             titleSize="s"
             total={this.state.total}
           >
-            <EuiFlexGroup>
+            <EuiFlexGroup gutterSize={'m'}>
               <EuiFlexItem>
                 {senderControlComponent}
               </EuiFlexItem>
@@ -299,7 +302,6 @@ export class SendersTable extends Component<
                       iconType="arrowDown"
                       iconSide="right"
                       onClick={this.togglePopover}
-                      style={{ marginLeft: '10px' }} // Ensure spacing is correct
                     >
                       Actions
                     </EuiSmallButton>

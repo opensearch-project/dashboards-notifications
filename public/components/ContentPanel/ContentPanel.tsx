@@ -8,7 +8,7 @@ import {
   EuiFlexItem,
   EuiHorizontalRule,
   EuiPanel,
-  EuiText,
+  EuiTitle,
 } from '@elastic/eui';
 import React from 'react';
 
@@ -40,7 +40,7 @@ const ContentPanel: React.SFC<ContentPanelProps> = ({
       alignItems="center"
     >
       <EuiFlexItem>
-        <EuiText size={titleSize}>
+        <EuiTitle size={titleSize}>
           <h2>
             {title}
             {total !== undefined ? (
@@ -49,7 +49,7 @@ const ContentPanel: React.SFC<ContentPanelProps> = ({
               >{` (${total})`}</span>
             ) : null}
           </h2>
-        </EuiText>
+        </EuiTitle>
       </EuiFlexItem>
       {actions ? (
         <EuiFlexItem grow={false}>
@@ -70,7 +70,7 @@ const ContentPanel: React.SFC<ContentPanelProps> = ({
 
     <EuiHorizontalRule margin="s" className={horizontalRuleClassName} />
 
-    <div style={{ padding: '0px 10px', ...bodyStyles }}>{children}</div>
+    <div style={{ padding: '0px', ...bodyStyles }}>{children}</div>
   </EuiPanel>
 );
 

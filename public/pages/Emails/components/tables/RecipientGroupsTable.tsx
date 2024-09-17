@@ -308,8 +308,12 @@ export class RecipientGroupsTable extends Component<
               appRightControls={headerControls}
               appLeftControls={[{ renderComponent: totalEmailGroups }]}
             />
-            <ContentPanel>
-              <EuiFlexGroup>
+            <ContentPanel
+              panelStyles={{
+                padding: this.state.total < 1 ? '16px 16px 0px' : '16px',
+              }}
+            >
+              <EuiFlexGroup gutterSize={'m'}>
                 <EuiFlexItem>
                   {searchComponent}
                 </EuiFlexItem>
@@ -321,7 +325,6 @@ export class RecipientGroupsTable extends Component<
                         iconType="arrowDown"
                         iconSide="right"
                         onClick={this.togglePopover}
-                        style={{ marginLeft: '10px' }} // Ensure spacing is correct
                       >
                         Actions
                       </EuiSmallButton>

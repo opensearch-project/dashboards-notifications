@@ -33,6 +33,7 @@ import { ChannelDetailsActions } from './ChannelDetailsActions';
 import { ChannelSettingsDetails } from './ChannelSettingsDetails';
 import PageHeader from "../../../../components/PageHeader/PageHeader";
 import { TopNavControlButtonData } from '../../../../../../../src/plugins/navigation/public';
+import { getUseUpdatedUx } from '../../../../services/utils/constants';
 
 interface ChannelDetailsProps extends RouteComponentProps<{
   id: string
@@ -143,7 +144,7 @@ export function ChannelDetails(props: ChannelDetailsProps) {
     },
   ];
 
-  const actionsAndMuteComponent = <EuiFlexGroup gutterSize="m" alignItems="flexEnd">
+  const actionsAndMuteComponent = <EuiFlexGroup gutterSize="s" alignItems="center">
     <EuiFlexItem />
     <EuiFlexItem grow={false}>
       {channel && (
@@ -196,10 +197,11 @@ export function ChannelDetails(props: ChannelDetailsProps) {
       isDisabled: !channel?.is_enabled,
       run: sendTestMessage,
       label: 'Send test message',
+      fill: true,
     } as TopNavControlButtonData,
   ];
 
-  const badgeComponent = <EuiFlexItem grow={false} style={{ paddingBottom: 5 }}>
+  const badgeComponent = <EuiFlexItem grow={false} style={{ paddingTop: '5px' }}>
     {channel?.is_enabled === undefined ? null : channel.is_enabled ? (
       <EuiHealth color="success">Active</EuiHealth>
     ) : (
@@ -225,10 +227,10 @@ export function ChannelDetails(props: ChannelDetailsProps) {
           <EuiFlexGroup
           alignItems="center"
           gutterSize="m"
-          style={{ maxWidth: 1316 }}
+          style={{ padding: '0px 8px 0px 0px' }}
         >
           <EuiFlexItem grow={false}>
-            <EuiFlexGroup gutterSize="m" alignItems="flexEnd">
+            <EuiFlexGroup gutterSize="m" alignItems="center">
               <EuiFlexItem grow={false}>
                 <EuiText size="s">
                   <h1>{channel?.name ?? '-'}</h1>
@@ -242,12 +244,12 @@ export function ChannelDetails(props: ChannelDetailsProps) {
         )}
       </PageHeader>
 
-      <EuiSpacer />
+      {!getUseUpdatedUx() && <EuiSpacer />}
+
       <ContentPanel
         bodyStyles={{ padding: 'initial' }}
         title="Name and description"
         titleSize="s"
-        panelStyles={{ maxWidth: 1300 }}
       >
         <ChannelDetailItems listItems={nameList} />
       </ContentPanel>
@@ -258,7 +260,6 @@ export function ChannelDetails(props: ChannelDetailsProps) {
         bodyStyles={{ padding: 'initial' }}
         title="Configurations"
         titleSize="s"
-        panelStyles={{ maxWidth: 1300 }}
       >
         <ChannelSettingsDetails channel={channel} />
       </ContentPanel>
