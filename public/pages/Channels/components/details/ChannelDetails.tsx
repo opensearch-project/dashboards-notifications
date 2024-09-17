@@ -143,7 +143,7 @@ export function ChannelDetails(props: ChannelDetailsProps) {
     },
   ];
 
-  const actionsAndMuteComponent = <EuiFlexGroup gutterSize="s" alignItems="flexEnd">
+  const actionsAndMuteComponent = <EuiFlexGroup gutterSize="s" alignItems="center">
     <EuiFlexItem grow={false}>
       {channel && (
         <ChannelDetailsActions
@@ -225,10 +225,9 @@ export function ChannelDetails(props: ChannelDetailsProps) {
           <EuiFlexGroup
           alignItems="center"
           gutterSize="m"
-          style={{ maxWidth: 1316 }}
         >
           <EuiFlexItem grow={false}>
-            <EuiFlexGroup gutterSize="m" alignItems="flexEnd">
+            <EuiFlexGroup gutterSize="m" alignItems="center">
               <EuiFlexItem grow={false}>
                 <EuiText size="s">
                   <h1>{channel?.name ?? '-'}</h1>
