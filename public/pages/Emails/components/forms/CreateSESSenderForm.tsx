@@ -59,7 +59,7 @@ export function CreateSESSenderForm(props: CreateSESSenderFormProps) {
         />
       </EuiCompressedFormRow>
 
-      <EuiSpacer size="m" />
+      <EuiSpacer size="l" />
       <EuiCompressedFormRow
         label="Email address"
         style={{ maxWidth: '650px' }}
@@ -82,7 +82,7 @@ export function CreateSESSenderForm(props: CreateSESSenderFormProps) {
         />
       </EuiCompressedFormRow>
 
-      <EuiSpacer size="m" />
+      <EuiSpacer size="l" />
       <EuiFlexGroup gutterSize="s" style={{ maxWidth: '658px' }}>
         <EuiFlexItem grow={6}>
           <EuiCompressedFormRow
