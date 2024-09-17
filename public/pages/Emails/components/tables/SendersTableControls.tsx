@@ -63,7 +63,7 @@ export const SendersTableControls = (props: SendersTableControlsProps) => {
   }
 
   return (
-    <EuiFlexGroup>
+    <EuiFlexGroup gutterSize={'m'}>
       <EuiFlexItem>
         <EuiCompressedFieldSearch
           data-test-subj="senders-table-search-input"
