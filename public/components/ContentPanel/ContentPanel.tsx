@@ -70,7 +70,7 @@ const ContentPanel: React.SFC<ContentPanelProps> = ({
 
     <EuiHorizontalRule margin="s" className={horizontalRuleClassName} />
 
-    <div style={{ padding: '0px 10px', ...bodyStyles }}>{children}</div>
+    <div style={{ padding: '0px', ...bodyStyles }}>{children}</div>
   </EuiPanel>
 );
 
