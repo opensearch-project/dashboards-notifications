@@ -199,7 +199,7 @@ export function ChannelDetails(props: ChannelDetailsProps) {
     } as TopNavControlButtonData,
   ];
 
-  const badgeComponent = <EuiFlexItem grow={false} style={{ paddingBottom: 5 }}>
+  const badgeComponent = <EuiFlexItem grow={false} style={{ paddingTop: '5px' }}>
     {channel?.is_enabled === undefined ? null : channel.is_enabled ? (
       <EuiHealth color="success">Active</EuiHealth>
     ) : (
