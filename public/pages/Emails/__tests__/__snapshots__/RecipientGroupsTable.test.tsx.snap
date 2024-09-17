@@ -11,18 +11,16 @@ exports[`<RecipientGroupsTable /> spec renders empty state 1`] = `
     <div
       class="euiFlexItem"
     >
-      <div
-        class="euiText euiText--small"
+      <h2
+        class="euiTitle euiTitle--small"
       >
-        <h2>
-          Recipient groups
-          <span
-            style="color: rgb(159, 159, 159); font-weight: 300;"
-          >
-             (0)
-          </span>
-        </h2>
-      </div>
+        Recipient groups
+        <span
+          style="color: rgb(159, 159, 159); font-weight: 300;"
+        >
+           (0)
+        </span>
+      </h2>
     </div>
     <div
       class="euiFlexItem euiFlexItem--flexGrowZero"
