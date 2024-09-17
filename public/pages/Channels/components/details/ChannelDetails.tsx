@@ -144,6 +144,7 @@ export function ChannelDetails(props: ChannelDetailsProps) {
   ];
 
   const actionsAndMuteComponent = <EuiFlexGroup gutterSize="s" alignItems="center">
+    <EuiFlexItem />
     <EuiFlexItem grow={false}>
       {channel && (
         <ChannelDetailsActions
@@ -225,6 +226,7 @@ export function ChannelDetails(props: ChannelDetailsProps) {
           <EuiFlexGroup
           alignItems="center"
           gutterSize="m"
+          style={{ padding: '0px 8px 0px 0px' }}
         >
           <EuiFlexItem grow={false}>
             <EuiFlexGroup gutterSize="m" alignItems="center">
