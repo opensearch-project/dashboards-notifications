@@ -308,7 +308,11 @@ export class RecipientGroupsTable extends Component<
               appRightControls={headerControls}
               appLeftControls={[{ renderComponent: totalEmailGroups }]}
             />
-            <ContentPanel>
+            <ContentPanel
+              panelStyles={{
+                padding: this.state.total < 1 ? '16px 16px 0px' : '16px',
+              }}
+            >
               <EuiFlexGroup gutterSize={'m'}>
                 <EuiFlexItem>
                   {searchComponent}

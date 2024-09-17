@@ -269,6 +269,9 @@ export class SendersTable extends Component<
       <>
         {getUseUpdatedUx() ? (
           <ContentPanel
+            panelStyles={{
+              padding: this.state.total < 1 ? '16px 16px 0px' : '16px',
+            }}
             actions={
               <ContentPanelActions
                 actions={[
