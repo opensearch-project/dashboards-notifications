@@ -33,6 +33,7 @@ import { ChannelDetailsActions } from './ChannelDetailsActions';
 import { ChannelSettingsDetails } from './ChannelSettingsDetails';
 import PageHeader from "../../../../components/PageHeader/PageHeader";
 import { TopNavControlButtonData } from '../../../../../../../src/plugins/navigation/public';
+import { getUseUpdatedUx } from '../../../../services/utils/constants';
 
 interface ChannelDetailsProps extends RouteComponentProps<{
   id: string
@@ -242,6 +243,8 @@ export function ChannelDetails(props: ChannelDetailsProps) {
           </EuiFlexGroup>
         )}
       </PageHeader>
+
+      {!getUseUpdatedUx() && <EuiSpacer />}
 
       <ContentPanel
         bodyStyles={{ padding: 'initial' }}

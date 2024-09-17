@@ -99,9 +99,12 @@ export function CreateSender(props: CreateSenderProps) {
   return (
     <>
       {!getUseUpdatedUx() && (
-        <EuiText size="s">
-          <h1>{`${props.edit ? 'Edit' : 'Create'} SMTP sender`}</h1>
-        </EuiText>
+        <>
+          <EuiText size="s">
+            <h1>{`${props.edit ? 'Edit' : 'Create'} SMTP sender`}</h1>
+          </EuiText>
+          <EuiSpacer />
+        </>
       )}
 
       <ContentPanel

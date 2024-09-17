@@ -111,9 +111,12 @@ export function CreateRecipientGroup(props: CreateRecipientGroupProps) {
   return (
     <>
       {!getUseUpdatedUx() && (
-        <EuiText size="s">
-          <h1>{`${props.edit ? 'Edit' : 'Create'} recipient group`}</h1>
-        </EuiText>
+        <>
+          <EuiText size="s">
+            <h1>{`${props.edit ? 'Edit' : 'Create'} recipient group`}</h1>
+          </EuiText>
+          <EuiSpacer />
+        </>
       )}
 
       <ContentPanel

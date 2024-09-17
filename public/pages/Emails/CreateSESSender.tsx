@@ -102,9 +102,12 @@ export function CreateSESSender(props: CreateSESSenderProps) {
   return (
     <>
       {!getUseUpdatedUx() && (
-        <EuiText size="s">
-          <h1>{`${props.edit ? 'Edit' : 'Create'} SES sender`}</h1>
-        </EuiText>
+        <>
+          <EuiText size="s">
+            <h1>{`${props.edit ? 'Edit' : 'Create'} SES sender`}</h1>
+          </EuiText>
+          <EuiSpacer />
+        </>
       )}
 
       <ContentPanel
