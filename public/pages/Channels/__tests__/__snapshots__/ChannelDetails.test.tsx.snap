@@ -4,13 +4,13 @@ exports[`<ChannelDetails/> spec handles a non-existing channel 1`] = `
 <div>
   <div
     class="euiFlexGroup euiFlexGroup--gutterMedium euiFlexGroup--alignItemsCenter euiFlexGroup--directionRow euiFlexGroup--responsive"
-    style="max-width: 1316px;"
+    style="padding: 0px 8px 0px 0px;"
   >
     <div
       class="euiFlexItem euiFlexItem--flexGrowZero"
     >
       <div
-        class="euiFlexGroup euiFlexGroup--gutterMedium euiFlexGroup--alignItemsFlexEnd euiFlexGroup--directionRow euiFlexGroup--responsive"
+        class="euiFlexGroup euiFlexGroup--gutterMedium euiFlexGroup--alignItemsCenter euiFlexGroup--directionRow euiFlexGroup--responsive"
       >
         <div
           class="euiFlexItem euiFlexItem--flexGrowZero"
@@ -25,12 +25,12 @@ exports[`<ChannelDetails/> spec handles a non-existing channel 1`] = `
         </div>
         <div
           class="euiFlexItem euiFlexItem--flexGrowZero"
-          style="padding-bottom: 5px;"
+          style="padding-top: 5px;"
         />
       </div>
     </div>
     <div
-      class="euiFlexGroup euiFlexGroup--gutterMedium euiFlexGroup--alignItemsFlexEnd euiFlexGroup--directionRow euiFlexGroup--responsive"
+      class="euiFlexGroup euiFlexGroup--gutterSmall euiFlexGroup--alignItemsCenter euiFlexGroup--directionRow euiFlexGroup--responsive"
     >
       <div
         class="euiFlexItem"
@@ -48,7 +48,6 @@ exports[`<ChannelDetails/> spec handles a non-existing channel 1`] = `
   />
   <div
     class="euiPanel euiPanel--paddingMedium euiPanel--borderRadiusMedium euiPanel--plain euiPanel--hasShadow"
-    style="max-width: 1300px;"
   >
     <div
       class="euiFlexGroup euiFlexGroup--gutterLarge euiFlexGroup--alignItemsCenter euiFlexGroup--justifyContentSpaceBetween euiFlexGroup--directionRow euiFlexGroup--responsive"
@@ -57,13 +56,11 @@ exports[`<ChannelDetails/> spec handles a non-existing channel 1`] = `
       <div
         class="euiFlexItem"
       >
-        <div
-          class="euiText euiText--small"
+        <h2
+          class="euiTitle euiTitle--small"
         >
-          <h2>
-            Name and description
-          </h2>
-        </div>
+          Name and description
+        </h2>
       </div>
     </div>
     <hr
@@ -148,7 +145,6 @@ exports[`<ChannelDetails/> spec handles a non-existing channel 1`] = `
   />
   <div
     class="euiPanel euiPanel--paddingMedium euiPanel--borderRadiusMedium euiPanel--plain euiPanel--hasShadow"
-    style="max-width: 1300px;"
   >
     <div
       class="euiFlexGroup euiFlexGroup--gutterLarge euiFlexGroup--alignItemsCenter euiFlexGroup--justifyContentSpaceBetween euiFlexGroup--directionRow euiFlexGroup--responsive"
@@ -157,13 +153,11 @@ exports[`<ChannelDetails/> spec handles a non-existing channel 1`] = `
       <div
         class="euiFlexItem"
       >
-        <div
-          class="euiText euiText--small"
+        <h2
+          class="euiTitle euiTitle--small"
         >
-          <h2>
-            Configurations
-          </h2>
-        </div>
+          Configurations
+        </h2>
       </div>
     </div>
     <hr
@@ -180,13 +174,13 @@ exports[`<ChannelDetails/> spec renders a specific channel 1`] = `
 <div>
   <div
     class="euiFlexGroup euiFlexGroup--gutterMedium euiFlexGroup--alignItemsCenter euiFlexGroup--directionRow euiFlexGroup--responsive"
-    style="max-width: 1316px;"
+    style="padding: 0px 8px 0px 0px;"
   >
     <div
       class="euiFlexItem euiFlexItem--flexGrowZero"
     >
       <div
-        class="euiFlexGroup euiFlexGroup--gutterMedium euiFlexGroup--alignItemsFlexEnd euiFlexGroup--directionRow euiFlexGroup--responsive"
+        class="euiFlexGroup euiFlexGroup--gutterMedium euiFlexGroup--alignItemsCenter euiFlexGroup--directionRow euiFlexGroup--responsive"
       >
         <div
           class="euiFlexItem euiFlexItem--flexGrowZero"
@@ -201,12 +195,12 @@ exports[`<ChannelDetails/> spec renders a specific channel 1`] = `
         </div>
         <div
           class="euiFlexItem euiFlexItem--flexGrowZero"
-          style="padding-bottom: 5px;"
+          style="padding-top: 5px;"
         />
       </div>
     </div>
     <div
-      class="euiFlexGroup euiFlexGroup--gutterMedium euiFlexGroup--alignItemsFlexEnd euiFlexGroup--directionRow euiFlexGroup--responsive"
+      class="euiFlexGroup euiFlexGroup--gutterSmall euiFlexGroup--alignItemsCenter euiFlexGroup--directionRow euiFlexGroup--responsive"
     >
       <div
         class="euiFlexItem"
@@ -224,7 +218,6 @@ exports[`<ChannelDetails/> spec renders a specific channel 1`] = `
   />
   <div
     class="euiPanel euiPanel--paddingMedium euiPanel--borderRadiusMedium euiPanel--plain euiPanel--hasShadow"
-    style="max-width: 1300px;"
   >
     <div
       class="euiFlexGroup euiFlexGroup--gutterLarge euiFlexGroup--alignItemsCenter euiFlexGroup--justifyContentSpaceBetween euiFlexGroup--directionRow euiFlexGroup--responsive"
@@ -233,13 +226,11 @@ exports[`<ChannelDetails/> spec renders a specific channel 1`] = `
       <div
         class="euiFlexItem"
       >
-        <div
-          class="euiText euiText--small"
+        <h2
+          class="euiTitle euiTitle--small"
         >
-          <h2>
-            Name and description
-          </h2>
-        </div>
+          Name and description
+        </h2>
       </div>
     </div>
     <hr
@@ -324,7 +315,6 @@ exports[`<ChannelDetails/> spec renders a specific channel 1`] = `
   />
   <div
     class="euiPanel euiPanel--paddingMedium euiPanel--borderRadiusMedium euiPanel--plain euiPanel--hasShadow"
-    style="max-width: 1300px;"
   >
     <div
       class="euiFlexGroup euiFlexGroup--gutterLarge euiFlexGroup--alignItemsCenter euiFlexGroup--justifyContentSpaceBetween euiFlexGroup--directionRow euiFlexGroup--responsive"
@@ -333,13 +323,11 @@ exports[`<ChannelDetails/> spec renders a specific channel 1`] = `
       <div
         class="euiFlexItem"
       >
-        <div
-          class="euiText euiText--small"
+        <h2
+          class="euiTitle euiTitle--small"
         >
-          <h2>
-            Configurations
-          </h2>
-        </div>
+          Configurations
+        </h2>
       </div>
     </div>
     <hr
@@ -355,13 +343,13 @@ exports[`<ChannelDetails/> spec renders a specific channel 1`] = `
 exports[`<ChannelDetails/> spec renders the component 1`] = `
 <div
   class="euiFlexGroup euiFlexGroup--gutterMedium euiFlexGroup--alignItemsCenter euiFlexGroup--directionRow euiFlexGroup--responsive"
-  style="max-width: 1316px;"
+  style="padding: 0px 8px 0px 0px;"
 >
   <div
     class="euiFlexItem euiFlexItem--flexGrowZero"
   >
     <div
-      class="euiFlexGroup euiFlexGroup--gutterMedium euiFlexGroup--alignItemsFlexEnd euiFlexGroup--directionRow euiFlexGroup--responsive"
+      class="euiFlexGroup euiFlexGroup--gutterMedium euiFlexGroup--alignItemsCenter euiFlexGroup--directionRow euiFlexGroup--responsive"
     >
       <div
         class="euiFlexItem euiFlexItem--flexGrowZero"
@@ -376,12 +364,12 @@ exports[`<ChannelDetails/> spec renders the component 1`] = `
       </div>
       <div
         class="euiFlexItem euiFlexItem--flexGrowZero"
-        style="padding-bottom: 5px;"
+        style="padding-top: 5px;"
       />
     </div>
   </div>
   <div
-    class="euiFlexGroup euiFlexGroup--gutterMedium euiFlexGroup--alignItemsFlexEnd euiFlexGroup--directionRow euiFlexGroup--responsive"
+    class="euiFlexGroup euiFlexGroup--gutterSmall euiFlexGroup--alignItemsCenter euiFlexGroup--directionRow euiFlexGroup--responsive"
   >
     <div
       class="euiFlexItem"

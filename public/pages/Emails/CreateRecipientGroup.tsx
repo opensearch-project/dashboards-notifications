@@ -111,17 +111,18 @@ export function CreateRecipientGroup(props: CreateRecipientGroupProps) {
   return (
     <>
       {!getUseUpdatedUx() && (
-        <EuiText size="s">
-          <h1>{`${props.edit ? 'Edit' : 'Create'} recipient group`}</h1>
-        </EuiText>
+        <>
+          <EuiText size="s">
+            <h1>{`${props.edit ? 'Edit' : 'Create'} recipient group`}</h1>
+          </EuiText>
+          <EuiSpacer />
+        </>
       )}
 
-      <EuiSpacer />
       <ContentPanel
         bodyStyles={{ padding: 'initial' }}
         title="Configure recipient group"
         titleSize="s"
-        panelStyles={{ maxWidth: 1000 }}
       >
         <CreateRecipientGroupForm
           name={name}
@@ -137,7 +138,7 @@ export function CreateRecipientGroup(props: CreateRecipientGroupProps) {
         />
       </ContentPanel>
       <EuiSpacer />
-      <EuiFlexGroup justifyContent="flexEnd" style={{ maxWidth: 1024 }}>
+      <EuiFlexGroup justifyContent="flexEnd">
         <EuiFlexItem grow={false}>
           <EuiSmallButtonEmpty href={`#${ROUTES.EMAIL_GROUPS}`}>
             Cancel
