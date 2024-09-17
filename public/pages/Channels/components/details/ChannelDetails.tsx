@@ -242,7 +242,6 @@ export function ChannelDetails(props: ChannelDetailsProps) {
         )}
       </PageHeader>
 
-      <EuiSpacer />
       <ContentPanel
         bodyStyles={{ padding: 'initial' }}
         title="Name and description"

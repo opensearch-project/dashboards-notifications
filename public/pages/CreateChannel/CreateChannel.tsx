@@ -379,7 +379,6 @@ export function CreateChannel(props: CreateChannelsProps) {
           </EuiText>
         )}
 
-        <EuiSpacer />
         <ChannelNamePanel
           name={name}
           setName={setName}

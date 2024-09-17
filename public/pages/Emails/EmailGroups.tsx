@@ -34,7 +34,6 @@ export function EmailGroups(props: EmailGroupsProps) {
         </EuiText>
       )}
 
-      <EuiSpacer />
       <RecipientGroupsTable coreContext={coreContext}
         notificationService={props.notificationService}
       />

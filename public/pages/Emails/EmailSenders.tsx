@@ -43,7 +43,6 @@ export function EmailSenders(props: EmailSendersProps) {
       )}
       {mainStateContext.availableConfigTypes.includes('smtp_account') && (
         <>
-          <EuiSpacer />
           <SendersTable coreContext={coreContext}
             notificationService={props.notificationService}
           />

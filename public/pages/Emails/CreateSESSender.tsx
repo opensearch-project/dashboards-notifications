@@ -107,7 +107,6 @@ export function CreateSESSender(props: CreateSESSenderProps) {
         </EuiText>
       )}
 
-      <EuiSpacer />
       <ContentPanel
         bodyStyles={{ padding: 'initial' }}
         title="Configure sender"

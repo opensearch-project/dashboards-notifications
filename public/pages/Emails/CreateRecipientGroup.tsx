@@ -116,7 +116,6 @@ export function CreateRecipientGroup(props: CreateRecipientGroupProps) {
         </EuiText>
       )}
 
-      <EuiSpacer />
       <ContentPanel
         bodyStyles={{ padding: 'initial' }}
         title="Configure recipient group"
