@@ -13,6 +13,7 @@ import {
   EuiModalHeaderTitle,
   EuiOverlayMask,
   EuiTableFieldDataColumnType,
+  EuiText,
 } from '@elastic/eui';
 import React from 'react';
 import { ModalRootProps } from '../../../../components/Modal/ModalRoot';
@@ -49,7 +50,11 @@ export function DetailsTableModal(props: DetailsTableModalProps) {
       <EuiOverlayMask>
         <EuiModal onClose={props.onClose} maxWidth={800}>
           <EuiModalHeader>
-            <EuiModalHeaderTitle>{props.header}</EuiModalHeaderTitle>
+            <EuiModalHeaderTitle>
+              <EuiText size="s">
+                <h2>{props.header}</h2>
+              </EuiText>
+            </EuiModalHeaderTitle>
           </EuiModalHeader>
           <EuiModalBody>
             <EuiInMemoryTable items={props.items} columns={columns} />

@@ -11,7 +11,6 @@ import {
   EuiSmallButton,
   EuiSpacer,
   EuiText,
-  EuiTitle,
 } from '@elastic/eui';
 import { Toast } from '@elastic/eui/src/components/toast/global_toast_list';
 import React, { useContext, useEffect, useState } from 'react';
@@ -237,9 +236,9 @@ export function ChannelDetails(props: ChannelDetailsProps) {
           <EuiFlexItem grow={false}>
             <EuiFlexGroup gutterSize="m" alignItems="flexEnd">
               <EuiFlexItem grow={false}>
-                <EuiTitle size="l">
+                <EuiText size="s">
                   <h1>{channel?.name ?? '-'}</h1>
-                </EuiTitle>
+                </EuiText>
               </EuiFlexItem>
               {badgeComponent}
             </EuiFlexGroup>
