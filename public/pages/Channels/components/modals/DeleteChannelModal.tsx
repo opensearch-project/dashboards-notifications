@@ -48,10 +48,14 @@ export const DeleteChannelModal = (props: DeleteChannelModalProps) => {
     <EuiOverlayMask>
       <EuiModal onClose={props.onClose} maxWidth={500}>
         <EuiModalHeader>
-          <EuiModalHeaderTitle>{`Delete ${name}?`}</EuiModalHeaderTitle>
+          <EuiModalHeaderTitle>
+            <EuiText size="s">
+              <h2>{`Delete ${name}?`}</h2>
+            </EuiText>
+          </EuiModalHeaderTitle>
         </EuiModalHeader>
         <EuiModalBody>
-          <EuiText>{message}</EuiText>
+          <EuiText size="s">{message}</EuiText>
           {num >= 2 && (
             <>
               <EuiSpacer />
@@ -59,6 +63,7 @@ export const DeleteChannelModal = (props: DeleteChannelModalProps) => {
                 <EuiText
                   key={`channel-list-item-${i}`}
                   style={{ marginLeft: 20 }}
+                  size="s"
                 >
                   <li>{channel.name}</li>
                 </EuiText>
@@ -66,7 +71,7 @@ export const DeleteChannelModal = (props: DeleteChannelModalProps) => {
             </>
           )}
           <EuiSpacer />
-          <EuiText>
+          <EuiText size="s">
             To confirm delete, type <i>delete</i> in the field.
           </EuiText>
           <EuiCompressedFieldText

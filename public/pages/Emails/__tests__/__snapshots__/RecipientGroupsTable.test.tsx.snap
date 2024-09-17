@@ -11,16 +11,18 @@ exports[`<RecipientGroupsTable /> spec renders empty state 1`] = `
     <div
       class="euiFlexItem"
     >
-      <h3
-        class="euiTitle euiTitle--medium"
+      <div
+        class="euiText euiText--small"
       >
-        Recipient groups
-        <span
-          style="color: rgb(159, 159, 159); font-weight: 300;"
-        >
-           (0)
-        </span>
-      </h3>
+        <h2>
+          Recipient groups
+          <span
+            style="color: rgb(159, 159, 159); font-weight: 300;"
+          >
+             (0)
+          </span>
+        </h2>
+      </div>
     </div>
     <div
       class="euiFlexItem euiFlexItem--flexGrowZero"
@@ -368,11 +370,13 @@ exports[`<RecipientGroupsTable /> spec renders empty state 1`] = `
                     <div
                       class="euiEmptyPrompt"
                     >
-                      <h2
-                        class="euiTitle euiTitle--medium"
+                      <div
+                        class="euiText euiText--small euiTitle euiTitle--medium"
                       >
-                        No recipient groups to display
-                      </h2>
+                        <h2>
+                          No recipient groups to display
+                        </h2>
+                      </div>
                       <span
                         class="euiTextColor euiTextColor--subdued"
                       >
@@ -382,7 +386,11 @@ exports[`<RecipientGroupsTable /> spec renders empty state 1`] = `
                         <div
                           class="euiText euiText--medium"
                         >
-                          Use an email group to manage a list of email addresses you frequently send at a time. You can select recipient groups when configuring email channels.
+                          <div
+                            class="euiText euiText--small"
+                          >
+                            Use an email group to manage a list of email addresses you frequently send at a time. You can select recipient groups when configuring email channels.
+                          </div>
                         </div>
                       </span>
                       <div

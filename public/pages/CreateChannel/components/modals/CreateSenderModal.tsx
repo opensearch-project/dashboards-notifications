@@ -13,6 +13,7 @@ import {
   EuiModalHeader,
   EuiModalHeaderTitle,
   EuiOverlayMask,
+  EuiText,
 } from '@elastic/eui';
 import React, { useContext, useState } from 'react';
 import { CoreServicesContext } from '../../../../components/coreServices';
@@ -68,7 +69,11 @@ export function CreateSenderModal(props: CreateSenderModalProps) {
     <EuiOverlayMask>
       <EuiModal onClose={props.onClose} style={{ width: 750 }}>
         <EuiModalHeader>
-          <EuiModalHeaderTitle>Create SMTP sender</EuiModalHeaderTitle>
+          <EuiModalHeaderTitle>
+            <EuiText size="s">
+              <h2>Create SMTP sender</h2>
+            </EuiText>
+          </EuiModalHeaderTitle>
         </EuiModalHeader>
 
         <EuiModalBody>
