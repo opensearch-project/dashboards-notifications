@@ -287,7 +287,7 @@ export class SendersTable extends Component<
             titleSize="s"
             total={this.state.total}
           >
-            <EuiFlexGroup>
+            <EuiFlexGroup gutterSize={'m'}>
               <EuiFlexItem>
                 {senderControlComponent}
               </EuiFlexItem>
@@ -299,7 +299,6 @@ export class SendersTable extends Component<
                       iconType="arrowDown"
                       iconSide="right"
                       onClick={this.togglePopover}
-                      style={{ marginLeft: '10px' }} // Ensure spacing is correct
                     >
                       Actions
                     </EuiSmallButton>

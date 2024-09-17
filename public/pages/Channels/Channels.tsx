@@ -281,7 +281,7 @@ export class Channels extends MDSEnabledComponent<ChannelsProps, ChannelsState> 
             <div style={{ marginBottom: '10px' }}>
               <div style={{ display: 'flex', alignItems: 'center' }}>
                 {channelControlsComponent}
-                <div style={{ marginLeft: '10px' }}>
+                <div style={{ marginLeft: '16px' }}>
                   {channelActionsComponent}
                 </div>
               </div>

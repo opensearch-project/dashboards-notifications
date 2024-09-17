@@ -263,7 +263,7 @@ export class SESSendersTable extends Component<
             titleSize="s"
             total={this.state.total}
           >
-            <EuiFlexGroup>
+            <EuiFlexGroup gutterSize={'m'}>
               <EuiFlexItem>
                 {searchComponent}
               </EuiFlexItem>
@@ -275,7 +275,6 @@ export class SESSendersTable extends Component<
                       iconType="arrowDown"
                       iconSide="right"
                       onClick={this.togglePopover}
-                      style={{ marginLeft: '10px' }} // Ensure spacing is correct
                     >
                       Actions
                     </EuiSmallButton>
