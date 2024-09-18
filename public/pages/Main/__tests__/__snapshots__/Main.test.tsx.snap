@@ -300,6 +300,14 @@ exports[`<Main /> spec renders the component 1`] = `
                   </button>
                 </div>
               </div>
+            </div>
+          </div>
+          <div
+            class="euiFlexItem euiFlexItem--flexGrowZero"
+          >
+            <div
+              class="euiFilterGroup"
+            >
               <div
                 class="euiPopover euiPopover--anchorDownCenter"
               >
