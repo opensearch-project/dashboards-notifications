@@ -195,6 +195,14 @@ exports[`<Channels/> spec renders the empty component 1`] = `
               </button>
             </div>
           </div>
+        </div>
+      </div>
+      <div
+        class="euiFlexItem euiFlexItem--flexGrowZero"
+      >
+        <div
+          class="euiFilterGroup"
+        >
           <div
             class="euiPopover euiPopover--anchorDownCenter"
           >
