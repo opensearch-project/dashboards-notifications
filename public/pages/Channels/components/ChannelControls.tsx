@@ -136,6 +136,10 @@ export const ChannelControls = (props: ChannelControlsProps) => {
               );
             })}
           </EuiPopover>
+        </EuiFilterGroup>
+      </EuiFlexItem>
+      <EuiFlexItem grow={false}>
+        <EuiFilterGroup>
           <EuiPopover
             button={
               <EuiSmallFilterButton
