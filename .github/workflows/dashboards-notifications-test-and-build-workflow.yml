@@ -220,5 +220,5 @@ jobs:
       - name: Upload Artifact
         uses: actions/upload-artifact@v4
         with:
-          name: dashboards-notifications
+          name: dashboards-notifications-${{ matrix.os }}
           path: OpenSearch-Dashboards/plugins/dashboards-notifications/build
