@@ -9,8 +9,8 @@ on: [pull_request, push]
 
 env:
   PLUGIN_NAME: notifications-dashboards
-  OPENSEARCH_DASHBOARDS_VERSION: '2.x'
-  NOTIFICATIONS_PLUGIN_VERSION: '2.x'
+  OPENSEARCH_DASHBOARDS_VERSION: '2.17.0'
+  NOTIFICATIONS_PLUGIN_VERSION: '2.17.0.0'
 
 jobs:
   tests:
@@ -57,7 +57,7 @@ jobs:
         run: |
           git config --system core.longpaths true
           subst 'X:' .
-      
+
       - name: enable long paths in git
         if: ${{ matrix.os == 'windows-latest' }}
         run: |
@@ -170,7 +170,7 @@ jobs:
         uses: actions/cache@v2
         with:
           path: ${{ matrix.cypress_cache_folder }}
-          key: cypress-cache-v2-${{ runner.os }}-${{ hashFiles('**/package.json') }}
+          key: cypress-cache-v2-${{ runner.os }}-${{ hashFiles('OpenSearch-Dashboards/plugins/dashboards-notifications/package.json') }}
 
       - name: Reset npm's script shell
         if: ${{ matrix.os == 'windows-latest' }}
