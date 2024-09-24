@@ -9,7 +9,7 @@ import {
   EuiFlexGroup,
   EuiFlexItem,
   EuiSpacer,
-  EuiText,
+  EuiTitle,
 } from '@elastic/eui';
 import React, { useContext, useEffect, useState } from 'react';
 import { RouteComponentProps } from 'react-router-dom';
@@ -99,9 +99,9 @@ export function CreateSender(props: CreateSenderProps) {
   return (
     <>
       {!getUseUpdatedUx() && (
-        <EuiText size="s">
+        <EuiTitle size="l">
           <h1>{`${props.edit ? 'Edit' : 'Create'} SMTP sender`}</h1>
-        </EuiText>
+        </EuiTitle>
       )}
 
       <EuiSpacer />

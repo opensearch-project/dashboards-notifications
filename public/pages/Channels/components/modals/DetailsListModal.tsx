@@ -13,7 +13,6 @@ import {
   EuiModalHeaderTitle,
   EuiOverlayMask,
   EuiTitle,
-  EuiText,
 } from '@elastic/eui';
 import React from 'react';
 import { ModalRootProps } from '../../../../components/Modal/ModalRoot';
@@ -31,11 +30,7 @@ export function DetailsListModal(props: DetailsListModalProps) {
       <EuiOverlayMask>
         <EuiModal onClose={props.onClose} maxWidth={800}>
           <EuiModalHeader>
-            <EuiModalHeaderTitle>
-              <EuiText size="s">
-                <h2>{props.header}</h2>
-              </EuiText>
-            </EuiModalHeaderTitle>
+            <EuiModalHeaderTitle>{props.header}</EuiModalHeaderTitle>
           </EuiModalHeader>
           <EuiModalBody>
             <EuiTitle size="xxs">

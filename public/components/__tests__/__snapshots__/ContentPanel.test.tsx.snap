@@ -11,13 +11,11 @@ exports[`<ContentPanel /> spec renders the component 1`] = `
     <div
       class="euiFlexItem"
     >
-      <div
-        class="euiText euiText--small"
+      <h3
+        class="euiTitle euiTitle--large"
       >
-        <h2>
-          Testing
-        </h2>
-      </div>
+        Testing
+      </h3>
     </div>
     <div
       class="euiFlexItem euiFlexItem--flexGrowZero"
@@ -59,13 +57,11 @@ exports[`<ContentPanel /> spec renders with empty actions 1`] = `
     <div
       class="euiFlexItem"
     >
-      <div
-        class="euiText euiText--small"
+      <h3
+        class="euiTitle euiTitle--large"
       >
-        <h2>
-          Testing
-        </h2>
-      </div>
+        Testing
+      </h3>
     </div>
   </div>
   <hr

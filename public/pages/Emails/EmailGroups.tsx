@@ -3,7 +3,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { EuiSpacer, EuiText } from '@elastic/eui';
+import { EuiSpacer, EuiTitle } from '@elastic/eui';
 import React, { useContext, useEffect } from 'react';
 import { RouteComponentProps } from 'react-router-dom';
 import { CoreServicesContext } from '../../components/coreServices';
@@ -29,9 +29,9 @@ export function EmailGroups(props: EmailGroupsProps) {
   return (
     <>
       {!getUseUpdatedUx() && (
-        <EuiText size="s">
+        <EuiTitle size="l">
           <h1>Email recipient groups</h1>
-        </EuiText>
+        </EuiTitle>
       )}
 
       <EuiSpacer />

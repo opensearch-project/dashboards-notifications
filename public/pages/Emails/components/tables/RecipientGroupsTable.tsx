@@ -18,7 +18,6 @@ import {
   EuiTableSortingType,
   EuiTitle,
   SortDirection,
-  EuiText,
 } from '@elastic/eui';
 import { Criteria } from '@elastic/eui/src/components/basic_table/basic_table';
 import { Pagination } from '@elastic/eui/src/components/basic_table/pagination_bar';
@@ -287,12 +286,8 @@ export class RecipientGroupsTable extends Component<
       isSelectable={true}
       selection={selection}
       noItemsMessage={<EuiEmptyPrompt
-        title={<EuiText size="s"><h2>No recipient groups to display</h2></EuiText>}
-        body={
-          <EuiText size="s">
-            Use an email group to manage a list of email addresses you frequently send at a time. You can select recipient groups when configuring email channels.
-          </EuiText>
-        }
+        title={<h2>No recipient groups to display</h2>}
+        body="Use an email group to manage a list of email addresses you frequently send at a time. You can select recipient groups when configuring email channels."
         actions={<EuiSmallButton href={`#${ROUTES.CREATE_RECIPIENT_GROUP}`}>
           Create recipient group
         </EuiSmallButton>} />}
@@ -335,7 +330,6 @@ export class RecipientGroupsTable extends Component<
                           <EuiContextMenuItem
                             key={action.label}
                             disabled={action.disabled}
-                            size="s"
                             onClick={() => {
                               this.setState({ isPopoverOpen: false });
                               if (action.modal) {
@@ -407,7 +401,7 @@ export class RecipientGroupsTable extends Component<
             }
             bodyStyles={{ padding: 'initial' }}
             title="Recipient groups"
-            titleSize="s"
+            titleSize="m"
             total={this.state.total}
           >
             {searchComponent}

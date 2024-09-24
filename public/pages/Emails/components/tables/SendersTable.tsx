@@ -15,7 +15,6 @@ import {
   EuiTableFieldDataColumnType,
   EuiTableSortingType,
   SortDirection,
-  EuiText,
 } from '@elastic/eui';
 import { Criteria } from '@elastic/eui/src/components/basic_table/basic_table';
 import { Pagination } from '@elastic/eui/src/components/basic_table/pagination_bar';
@@ -251,12 +250,8 @@ export class SendersTable extends Component<
       isSelectable={true}
       selection={selection}
       noItemsMessage={<EuiEmptyPrompt
-        title={<EuiText size="s"><h2>No SMTP senders to display</h2></EuiText>}
-        body={
-          <EuiText size="s">
-            Set up an outbound email server by creating a sender. You will select a sender when configuring email channels.
-          </EuiText>
-        }
+        title={<h2>No SMTP senders to display</h2>}
+        body="Set up an outbound email server by creating a sender. You will select a sender when configuring email channels."
         actions={<EuiSmallButton href={`#${ROUTES.CREATE_SENDER}`}>
           Create SMTP sender
         </EuiSmallButton>} />}
@@ -284,7 +279,7 @@ export class SendersTable extends Component<
             }
             bodyStyles={{ padding: 'initial' }}
             title="SMTP senders"
-            titleSize="s"
+            titleSize="m"
             total={this.state.total}
           >
             <EuiFlexGroup>
@@ -313,7 +308,6 @@ export class SendersTable extends Component<
                         <EuiContextMenuItem
                           key={action.label}
                           disabled={action.disabled}
-                          size="s"
                           onClick={() => {
                             this.setState({ isPopoverOpen: false });
                             if (action.modal) {
@@ -386,7 +380,7 @@ export class SendersTable extends Component<
             }
             bodyStyles={{ padding: 'initial' }}
             title="SMTP senders"
-            titleSize="s"
+            titleSize="m"
             total={this.state.total}
           >
             {senderControlComponent}

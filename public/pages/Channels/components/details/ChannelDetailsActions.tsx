@@ -101,7 +101,6 @@ export function ChannelDetailsActions(props: ChannelDetailsActionsProps) {
             <EuiContextMenuItem
               key={params.label}
               disabled={params.disabled}
-              size="s"
               onClick={() => {
                 setIsPopoverOpen(false);
                 if (params.modal) {

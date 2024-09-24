@@ -82,13 +82,7 @@ exports[`<DetailsTableModal /> spec renders headers 1`] = `
                         <div
                           class="euiModalHeader__title"
                         >
-                          <div
-                            class="euiText euiText--small"
-                          >
-                            <h2>
-                              test header
-                            </h2>
-                          </div>
+                          test header
                         </div>
                       </div>
                       <div
@@ -383,13 +377,7 @@ exports[`<DetailsTableModal /> spec renders headers 1`] = `
                                 <div
                                   class="euiModalHeader__title"
                                 >
-                                  <div
-                                    class="euiText euiText--small"
-                                  >
-                                    <h2>
-                                      test header
-                                    </h2>
-                                  </div>
+                                  test header
                                 </div>
                               </div>
                               <div
@@ -616,13 +604,7 @@ exports[`<DetailsTableModal /> spec renders headers 1`] = `
                                   <div
                                     class="euiModalHeader__title"
                                   >
-                                    <div
-                                      class="euiText euiText--small"
-                                    >
-                                      <h2>
-                                        test header
-                                      </h2>
-                                    </div>
+                                    test header
                                   </div>
                                 </div>
                                 <div
@@ -849,13 +831,7 @@ exports[`<DetailsTableModal /> spec renders headers 1`] = `
                                     <div
                                       class="euiModalHeader__title"
                                     >
-                                      <div
-                                        class="euiText euiText--small"
-                                      >
-                                        <h2>
-                                          test header
-                                        </h2>
-                                      </div>
+                                      test header
                                     </div>
                                   </div>
                                   <div
@@ -1070,13 +1046,7 @@ exports[`<DetailsTableModal /> spec renders headers 1`] = `
                                       <div
                                         class="euiModalHeader__title"
                                       >
-                                        <div
-                                          class="euiText euiText--small"
-                                        >
-                                          <h2>
-                                            test header
-                                          </h2>
-                                        </div>
+                                        test header
                                       </div>
                                     </div>
                                     <div
@@ -1345,17 +1315,7 @@ exports[`<DetailsTableModal /> spec renders headers 1`] = `
                                   <div
                                     className="euiModalHeader__title"
                                   >
-                                    <EuiText
-                                      size="s"
-                                    >
-                                      <div
-                                        className="euiText euiText--small"
-                                      >
-                                        <h2>
-                                          test header
-                                        </h2>
-                                      </div>
-                                    </EuiText>
+                                    test header
                                   </div>
                                 </EuiModalHeaderTitle>
                               </div>
@@ -1975,13 +1935,7 @@ exports[`<DetailsTableModal /> spec renders parameters 1`] = `
                         <div
                           class="euiModalHeader__title"
                         >
-                          <div
-                            class="euiText euiText--small"
-                          >
-                            <h2>
-                              test header
-                            </h2>
-                          </div>
+                          test header
                         </div>
                       </div>
                       <div
@@ -2276,13 +2230,7 @@ exports[`<DetailsTableModal /> spec renders parameters 1`] = `
                                 <div
                                   class="euiModalHeader__title"
                                 >
-                                  <div
-                                    class="euiText euiText--small"
-                                  >
-                                    <h2>
-                                      test header
-                                    </h2>
-                                  </div>
+                                  test header
                                 </div>
                               </div>
                               <div
@@ -2509,13 +2457,7 @@ exports[`<DetailsTableModal /> spec renders parameters 1`] = `
                                   <div
                                     class="euiModalHeader__title"
                                   >
-                                    <div
-                                      class="euiText euiText--small"
-                                    >
-                                      <h2>
-                                        test header
-                                      </h2>
-                                    </div>
+                                    test header
                                   </div>
                                 </div>
                                 <div
@@ -2742,13 +2684,7 @@ exports[`<DetailsTableModal /> spec renders parameters 1`] = `
                                     <div
                                       class="euiModalHeader__title"
                                     >
-                                      <div
-                                        class="euiText euiText--small"
-                                      >
-                                        <h2>
-                                          test header
-                                        </h2>
-                                      </div>
+                                      test header
                                     </div>
                                   </div>
                                   <div
@@ -2963,13 +2899,7 @@ exports[`<DetailsTableModal /> spec renders parameters 1`] = `
                                       <div
                                         class="euiModalHeader__title"
                                       >
-                                        <div
-                                          class="euiText euiText--small"
-                                        >
-                                          <h2>
-                                            test header
-                                          </h2>
-                                        </div>
+                                        test header
                                       </div>
                                     </div>
                                     <div
@@ -3238,17 +3168,7 @@ exports[`<DetailsTableModal /> spec renders parameters 1`] = `
                                   <div
                                     className="euiModalHeader__title"
                                   >
-                                    <EuiText
-                                      size="s"
-                                    >
-                                      <div
-                                        className="euiText euiText--small"
-                                      >
-                                        <h2>
-                                          test header
-                                        </h2>
-                                      </div>
-                                    </EuiText>
+                                    test header
                                   </div>
                                 </EuiModalHeaderTitle>
                               </div>

@@ -1,11 +1,9 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`<CreateChannel/> spec renders the component 1`] = `
-<div
-  class="euiText euiText--small"
+<h1
+  class="euiTitle euiTitle--large"
 >
-  <h1>
-    Create channel
-  </h1>
-</div>
+  Create channel
+</h1>
 `;

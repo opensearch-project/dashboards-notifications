@@ -3,7 +3,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { EuiSpacer, EuiText } from '@elastic/eui';
+import { EuiSpacer, EuiTitle } from '@elastic/eui';
 import React, { useContext, useEffect } from 'react';
 import { RouteComponentProps } from 'react-router-dom';
 import { CoreServicesContext } from '../../components/coreServices';
@@ -25,7 +25,7 @@ export function EmailSenders(props: EmailSendersProps) {
 
   // Call the hook to manage URL updates
   useUpdateUrlWithDataSourceProperties();
-
+  
   useEffect(() => {
     setBreadcrumbs([
       BREADCRUMBS.NOTIFICATIONS,
@@ -37,9 +37,9 @@ export function EmailSenders(props: EmailSendersProps) {
   return (
     <>
       {!getUseUpdatedUx() && (
-        <EuiText size="s">
+        <EuiTitle size="l">
           <h1>Email senders</h1>
-        </EuiText>
+        </EuiTitle>
       )}
       {mainStateContext.availableConfigTypes.includes('smtp_account') && (
         <>

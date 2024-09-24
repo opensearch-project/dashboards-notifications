@@ -14,6 +14,7 @@ import {
   EuiCompressedSuperSelect,
   EuiSuperSelectOption,
   EuiText,
+  EuiTitle,
 } from '@elastic/eui';
 import queryString from 'query-string';
 import React, { createContext, useContext, useEffect, useState } from 'react';
@@ -374,9 +375,9 @@ export function CreateChannel(props: CreateChannelsProps) {
         value={{ edit: props.edit, inputErrors, setInputErrors }}
       >
        {!getUseUpdatedUx() && (
-          <EuiText size="s">
+          <EuiTitle size="l">
             <h1>{`${props.edit ? 'Edit' : 'Create'} channel`}</h1>
-          </EuiText>
+          </EuiTitle>
         )}
 
         <EuiSpacer />

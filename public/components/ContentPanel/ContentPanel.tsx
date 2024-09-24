@@ -8,13 +8,13 @@ import {
   EuiFlexItem,
   EuiHorizontalRule,
   EuiPanel,
-  EuiText,
+  EuiTitle,
 } from '@elastic/eui';
 import React from 'react';
 
 interface ContentPanelProps {
   title?: string;
-  titleSize?: 'xs' | 's' | 'm';
+  titleSize?: 'xxxs' | 'xxs' | 'xs' | 's' | 'm' | 'l';
   total?: number;
   bodyStyles?: object;
   panelStyles?: object;
@@ -25,7 +25,7 @@ interface ContentPanelProps {
 
 const ContentPanel: React.SFC<ContentPanelProps> = ({
   title = '',
-  titleSize = 's',
+  titleSize = 'l',
   total = undefined,
   bodyStyles = {},
   panelStyles = {},
@@ -40,16 +40,16 @@ const ContentPanel: React.SFC<ContentPanelProps> = ({
       alignItems="center"
     >
       <EuiFlexItem>
-        <EuiText size={titleSize}>
-          <h2>
+        <EuiTitle size={titleSize}>
+          <h3>
             {title}
             {total !== undefined ? (
               <span
                 style={{ color: '#9f9f9f', fontWeight: 300 }}
               >{` (${total})`}</span>
             ) : null}
-          </h2>
-        </EuiText>
+          </h3>
+        </EuiTitle>
       </EuiFlexItem>
       {actions ? (
         <EuiFlexItem grow={false}>

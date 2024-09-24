@@ -11,18 +11,16 @@ exports[`<Channels/> spec renders the empty component 1`] = `
     <div
       class="euiFlexItem"
     >
-      <div
-        class="euiText euiText--small"
+      <h3
+        class="euiTitle euiTitle--medium"
       >
-        <h2>
-          Channels
-          <span
-            style="color: rgb(159, 159, 159); font-weight: 300;"
-          >
-             (0)
-          </span>
-        </h2>
-      </div>
+        Channels
+        <span
+          style="color: rgb(159, 159, 159); font-weight: 300;"
+        >
+           (0)
+        </span>
+      </h3>
     </div>
     <div
       class="euiFlexItem euiFlexItem--flexGrowZero"
@@ -492,13 +490,11 @@ exports[`<Channels/> spec renders the empty component 1`] = `
                     <div
                       class="euiEmptyPrompt"
                     >
-                      <div
-                        class="euiText euiText--small euiTitle euiTitle--medium"
+                      <h2
+                        class="euiTitle euiTitle--medium"
                       >
-                        <h2>
-                          No channels to display
-                        </h2>
-                      </div>
+                        No channels to display
+                      </h2>
                       <span
                         class="euiTextColor euiTextColor--subdued"
                       >
@@ -508,11 +504,7 @@ exports[`<Channels/> spec renders the empty component 1`] = `
                         <div
                           class="euiText euiText--medium"
                         >
-                          <div
-                            class="euiText euiText--small"
-                          >
-                            "To send or receive notifications, you will need to create a notification channel."
-                          </div>
+                          To send or receive notifications, you will need to create a notification channel.
                         </div>
                       </span>
                       <div

@@ -15,13 +15,11 @@ exports[`<ChannelDetails/> spec handles a non-existing channel 1`] = `
         <div
           class="euiFlexItem euiFlexItem--flexGrowZero"
         >
-          <div
-            class="euiText euiText--small"
+          <h1
+            class="euiTitle euiTitle--large"
           >
-            <h1>
-              -
-            </h1>
-          </div>
+            -
+          </h1>
         </div>
         <div
           class="euiFlexItem euiFlexItem--flexGrowZero"
@@ -57,13 +55,11 @@ exports[`<ChannelDetails/> spec handles a non-existing channel 1`] = `
       <div
         class="euiFlexItem"
       >
-        <div
-          class="euiText euiText--small"
+        <h3
+          class="euiTitle euiTitle--small"
         >
-          <h2>
-            Name and description
-          </h2>
-        </div>
+          Name and description
+        </h3>
       </div>
     </div>
     <hr
@@ -157,13 +153,11 @@ exports[`<ChannelDetails/> spec handles a non-existing channel 1`] = `
       <div
         class="euiFlexItem"
       >
-        <div
-          class="euiText euiText--small"
+        <h3
+          class="euiTitle euiTitle--small"
         >
-          <h2>
-            Configurations
-          </h2>
-        </div>
+          Configurations
+        </h3>
       </div>
     </div>
     <hr
@@ -191,13 +185,11 @@ exports[`<ChannelDetails/> spec renders a specific channel 1`] = `
         <div
           class="euiFlexItem euiFlexItem--flexGrowZero"
         >
-          <div
-            class="euiText euiText--small"
+          <h1
+            class="euiTitle euiTitle--large"
           >
-            <h1>
-              -
-            </h1>
-          </div>
+            -
+          </h1>
         </div>
         <div
           class="euiFlexItem euiFlexItem--flexGrowZero"
@@ -233,13 +225,11 @@ exports[`<ChannelDetails/> spec renders a specific channel 1`] = `
       <div
         class="euiFlexItem"
       >
-        <div
-          class="euiText euiText--small"
+        <h3
+          class="euiTitle euiTitle--small"
         >
-          <h2>
-            Name and description
-          </h2>
-        </div>
+          Name and description
+        </h3>
       </div>
     </div>
     <hr
@@ -333,13 +323,11 @@ exports[`<ChannelDetails/> spec renders a specific channel 1`] = `
       <div
         class="euiFlexItem"
       >
-        <div
-          class="euiText euiText--small"
+        <h3
+          class="euiTitle euiTitle--small"
         >
-          <h2>
-            Configurations
-          </h2>
-        </div>
+          Configurations
+        </h3>
       </div>
     </div>
     <hr
@@ -366,13 +354,11 @@ exports[`<ChannelDetails/> spec renders the component 1`] = `
       <div
         class="euiFlexItem euiFlexItem--flexGrowZero"
       >
-        <div
-          class="euiText euiText--small"
+        <h1
+          class="euiTitle euiTitle--large"
         >
-          <h1>
-            -
-          </h1>
-        </div>
+          -
+        </h1>
       </div>
       <div
         class="euiFlexItem euiFlexItem--flexGrowZero"
