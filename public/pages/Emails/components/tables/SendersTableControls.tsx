@@ -78,9 +78,6 @@ export const SendersTableControls = (props: SendersTableControlsProps) => {
           <EuiPopover
             button={
               <EuiSmallFilterButton
-                numFilters={
-                  encryptionItems.filter((item) => item.checked === 'on').length
-                }
                 iconType="arrowDown"
                 grow={false}
                 onClick={() =>

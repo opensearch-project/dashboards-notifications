@@ -160,7 +160,7 @@ exports[`<SendersTable /> spec renders empty state 1`] = `
               class="euiPopover__anchor"
             >
               <button
-                class="euiButtonEmpty euiButtonEmpty--text euiButtonEmpty--small euiFilterButton euiFilterButton-hasNotification euiFilterButton--hasIcon euiFilterButton--noGrow"
+                class="euiButtonEmpty euiButtonEmpty--text euiButtonEmpty--small euiFilterButton euiFilterButton--hasIcon euiFilterButton--noGrow"
                 type="button"
               >
                 <span
@@ -181,7 +181,7 @@ exports[`<SendersTable /> spec renders empty state 1`] = `
                     />
                   </svg>
                   <span
-                    class="euiButtonEmpty__text euiFilterButton__text-hasNotification"
+                    class="euiButtonEmpty__text"
                   >
                     <span
                       class="euiFilterButton__textShift"
@@ -189,12 +189,6 @@ exports[`<SendersTable /> spec renders empty state 1`] = `
                       title="Encryption method"
                     >
                       Encryption method
-                    </span>
-                    <span
-                      aria-label="0 available filters"
-                      class="euiNotificationBadge euiNotificationBadge--medium euiNotificationBadge--subdued euiFilterButton__notification"
-                    >
-                      0
                     </span>
                   </span>
                 </span>
