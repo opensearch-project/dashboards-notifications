@@ -32,7 +32,6 @@ import { ChannelDetailItems } from './ChannelDetailItems';
 import { ChannelDetailsActions } from './ChannelDetailsActions';
 import { ChannelSettingsDetails } from './ChannelSettingsDetails';
 import PageHeader from "../../../../components/PageHeader/PageHeader";
-import { TopNavControlButtonData } from '../../../../../../../src/plugins/navigation/public';
 
 interface ChannelDetailsProps extends RouteComponentProps<{
   id: string
@@ -191,12 +190,19 @@ export function ChannelDetails(props: ChannelDetailsProps) {
       ),
     },
     {
-      controlType: 'button',
-      testId: 'send-test-message-button',
-      isDisabled: !channel?.is_enabled,
-      run: sendTestMessage,
-      label: 'Send test message',
-    } as TopNavControlButtonData,
+      renderComponent: (
+        <div style={{ display: 'flex', alignItems: 'center' }}>
+          <EuiSmallButton
+            data-test-subj="send-test-message-button"
+            onClick={sendTestMessage}
+            style={{ marginLeft: '10px' }}
+            disabled={!channel?.is_enabled}
+          >
+            Send test message
+          </EuiSmallButton>
+        </div>
+      ),
+    },
   ];
 
   const badgeComponent = <EuiFlexItem grow={false} style={{ paddingBottom: 5 }}>
