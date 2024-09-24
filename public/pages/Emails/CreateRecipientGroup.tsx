@@ -10,7 +10,7 @@ import {
   EuiFlexGroup,
   EuiFlexItem,
   EuiSpacer,
-  EuiText,
+  EuiTitle,
 } from '@elastic/eui';
 import React, { useContext, useEffect, useState } from 'react';
 import { RouteComponentProps } from 'react-router-dom';
@@ -111,18 +111,17 @@ export function CreateRecipientGroup(props: CreateRecipientGroupProps) {
   return (
     <>
       {!getUseUpdatedUx() && (
-        <>
-          <EuiText size="s">
-            <h1>{`${props.edit ? 'Edit' : 'Create'} recipient group`}</h1>
-          </EuiText>
-          <EuiSpacer />
-        </>
+        <EuiTitle size="l">
+          <h1>{`${props.edit ? 'Edit' : 'Create'} recipient group`}</h1>
+        </EuiTitle>
       )}
 
+      <EuiSpacer />
       <ContentPanel
         bodyStyles={{ padding: 'initial' }}
         title="Configure recipient group"
         titleSize="s"
+        panelStyles={{ maxWidth: 1000 }}
       >
         <CreateRecipientGroupForm
           name={name}
@@ -138,7 +137,7 @@ export function CreateRecipientGroup(props: CreateRecipientGroupProps) {
         />
       </ContentPanel>
       <EuiSpacer />
-      <EuiFlexGroup justifyContent="flexEnd">
+      <EuiFlexGroup justifyContent="flexEnd" style={{ maxWidth: 1024 }}>
         <EuiFlexItem grow={false}>
           <EuiSmallButtonEmpty href={`#${ROUTES.EMAIL_GROUPS}`}>
             Cancel

@@ -13,7 +13,6 @@ import {
   EuiModalHeader,
   EuiModalHeaderTitle,
   EuiOverlayMask,
-  EuiText,
 } from '@elastic/eui';
 import React, { useContext, useState } from 'react';
 import { CoreServicesContext } from '../../../../components/coreServices';
@@ -71,11 +70,7 @@ export function CreateSESSenderModal(props: CreateSESSenderModalProps) {
     <EuiOverlayMask>
       <EuiModal onClose={props.onClose} style={{ width: 750 }}>
         <EuiModalHeader>
-          <EuiModalHeaderTitle>
-            <EuiText size="s">
-              <h2>Create SES sender</h2>
-            </EuiText>
-          </EuiModalHeaderTitle>
+          <EuiModalHeaderTitle>Create SES sender</EuiModalHeaderTitle>
         </EuiModalHeader>
 
         <EuiModalBody>

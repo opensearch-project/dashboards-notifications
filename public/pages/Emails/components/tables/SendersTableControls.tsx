@@ -63,7 +63,7 @@ export const SendersTableControls = (props: SendersTableControlsProps) => {
   }
 
   return (
-    <EuiFlexGroup gutterSize={'m'}>
+    <EuiFlexGroup>
       <EuiFlexItem>
         <EuiCompressedFieldSearch
           data-test-subj="senders-table-search-input"
@@ -78,9 +78,6 @@ export const SendersTableControls = (props: SendersTableControlsProps) => {
           <EuiPopover
             button={
               <EuiSmallFilterButton
-                numFilters={
-                  encryptionItems.filter((item) => item.checked === 'on').length
-                }
                 iconType="arrowDown"
                 grow={false}
                 onClick={() =>

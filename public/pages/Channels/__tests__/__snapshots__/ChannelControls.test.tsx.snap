@@ -2,7 +2,7 @@
 
 exports[`<ChannelControls /> spec renders the component 1`] = `
 <div
-  class="euiFlexGroup euiFlexGroup--gutterMedium euiFlexGroup--directionRow euiFlexGroup--responsive"
+  class="euiFlexGroup euiFlexGroup--gutterLarge euiFlexGroup--directionRow euiFlexGroup--responsive"
 >
   <div
     class="euiFlexItem"
@@ -91,14 +91,6 @@ exports[`<ChannelControls /> spec renders the component 1`] = `
           </button>
         </div>
       </div>
-    </div>
-  </div>
-  <div
-    class="euiFlexItem euiFlexItem--flexGrowZero"
-  >
-    <div
-      class="euiFilterGroup"
-    >
       <div
         class="euiPopover euiPopover--anchorDownCenter"
       >

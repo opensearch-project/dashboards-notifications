@@ -50,14 +50,10 @@ export const DeleteRecipientGroupModal = (
     <EuiOverlayMask>
       <EuiModal onClose={props.onClose} maxWidth={500}>
         <EuiModalHeader>
-          <EuiModalHeaderTitle>
-            <EuiText size="s">
-              <h2>{`Delete ${name}?`}</h2>
-            </EuiText>
-          </EuiModalHeaderTitle>
+          <EuiModalHeaderTitle>{`Delete ${name}?`}</EuiModalHeaderTitle>
         </EuiModalHeader>
         <EuiModalBody>
-          <EuiText size="s">{message}</EuiText>
+          <EuiText>{message}</EuiText>
           {num >= 2 && (
             <>
               <EuiSpacer />
@@ -72,7 +68,7 @@ export const DeleteRecipientGroupModal = (
             </>
           )}
           <EuiSpacer />
-          <EuiText size="s">
+          <EuiText>
             To confirm delete, type <i>delete</i> in the field.
           </EuiText>
           <EuiCompressedFieldText

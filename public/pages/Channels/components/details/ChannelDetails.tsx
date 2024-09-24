@@ -11,6 +11,7 @@ import {
   EuiSmallButton,
   EuiSpacer,
   EuiText,
+  EuiTitle,
 } from '@elastic/eui';
 import { Toast } from '@elastic/eui/src/components/toast/global_toast_list';
 import React, { useContext, useEffect, useState } from 'react';
@@ -32,8 +33,6 @@ import { ChannelDetailItems } from './ChannelDetailItems';
 import { ChannelDetailsActions } from './ChannelDetailsActions';
 import { ChannelSettingsDetails } from './ChannelSettingsDetails';
 import PageHeader from "../../../../components/PageHeader/PageHeader";
-import { TopNavControlButtonData } from '../../../../../../../src/plugins/navigation/public';
-import { getUseUpdatedUx } from '../../../../services/utils/constants';
 
 interface ChannelDetailsProps extends RouteComponentProps<{
   id: string
@@ -144,7 +143,7 @@ export function ChannelDetails(props: ChannelDetailsProps) {
     },
   ];
 
-  const actionsAndMuteComponent = <EuiFlexGroup gutterSize="s" alignItems="center">
+  const actionsAndMuteComponent = <EuiFlexGroup gutterSize="m" alignItems="flexEnd">
     <EuiFlexItem />
     <EuiFlexItem grow={false}>
       {channel && (
@@ -192,16 +191,22 @@ export function ChannelDetails(props: ChannelDetailsProps) {
       ),
     },
     {
-      controlType: 'button',
-      testId: 'send-test-message-button',
-      isDisabled: !channel?.is_enabled,
-      run: sendTestMessage,
-      label: 'Send test message',
-      fill: true,
-    } as TopNavControlButtonData,
+      renderComponent: (
+        <div style={{ display: 'flex', alignItems: 'center' }}>
+          <EuiSmallButton
+            data-test-subj="send-test-message-button"
+            onClick={sendTestMessage}
+            style={{ marginLeft: '10px' }}
+            disabled={!channel?.is_enabled}
+          >
+            Send test message
+          </EuiSmallButton>
+        </div>
+      ),
+    },
   ];
 
-  const badgeComponent = <EuiFlexItem grow={false} style={{ paddingTop: '5px' }}>
+  const badgeComponent = <EuiFlexItem grow={false} style={{ paddingBottom: 5 }}>
     {channel?.is_enabled === undefined ? null : channel.is_enabled ? (
       <EuiHealth color="success">Active</EuiHealth>
     ) : (
@@ -227,14 +232,14 @@ export function ChannelDetails(props: ChannelDetailsProps) {
           <EuiFlexGroup
           alignItems="center"
           gutterSize="m"
-          style={{ padding: '0px 8px 0px 0px' }}
+          style={{ maxWidth: 1316 }}
         >
           <EuiFlexItem grow={false}>
-            <EuiFlexGroup gutterSize="m" alignItems="center">
+            <EuiFlexGroup gutterSize="m" alignItems="flexEnd">
               <EuiFlexItem grow={false}>
-                <EuiText size="s">
+                <EuiTitle size="l">
                   <h1>{channel?.name ?? '-'}</h1>
-                </EuiText>
+                </EuiTitle>
               </EuiFlexItem>
               {badgeComponent}
             </EuiFlexGroup>
@@ -244,12 +249,12 @@ export function ChannelDetails(props: ChannelDetailsProps) {
         )}
       </PageHeader>
 
-      {!getUseUpdatedUx() && <EuiSpacer />}
-
+      <EuiSpacer />
       <ContentPanel
         bodyStyles={{ padding: 'initial' }}
         title="Name and description"
         titleSize="s"
+        panelStyles={{ maxWidth: 1300 }}
       >
         <ChannelDetailItems listItems={nameList} />
       </ContentPanel>
@@ -260,6 +265,7 @@ export function ChannelDetails(props: ChannelDetailsProps) {
         bodyStyles={{ padding: 'initial' }}
         title="Configurations"
         titleSize="s"
+        panelStyles={{ maxWidth: 1300 }}
       >
         <ChannelSettingsDetails channel={channel} />
       </ContentPanel>

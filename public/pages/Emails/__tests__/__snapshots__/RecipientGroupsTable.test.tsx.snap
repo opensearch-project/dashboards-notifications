@@ -11,8 +11,8 @@ exports[`<RecipientGroupsTable /> spec renders empty state 1`] = `
     <div
       class="euiFlexItem"
     >
-      <h2
-        class="euiTitle euiTitle--small"
+      <h3
+        class="euiTitle euiTitle--medium"
       >
         Recipient groups
         <span
@@ -20,7 +20,7 @@ exports[`<RecipientGroupsTable /> spec renders empty state 1`] = `
         >
            (0)
         </span>
-      </h2>
+      </h3>
     </div>
     <div
       class="euiFlexItem euiFlexItem--flexGrowZero"
@@ -368,13 +368,11 @@ exports[`<RecipientGroupsTable /> spec renders empty state 1`] = `
                     <div
                       class="euiEmptyPrompt"
                     >
-                      <div
-                        class="euiText euiText--small euiTitle euiTitle--medium"
+                      <h2
+                        class="euiTitle euiTitle--medium"
                       >
-                        <h2>
-                          No recipient groups to display
-                        </h2>
-                      </div>
+                        No recipient groups to display
+                      </h2>
                       <span
                         class="euiTextColor euiTextColor--subdued"
                       >
@@ -384,11 +382,7 @@ exports[`<RecipientGroupsTable /> spec renders empty state 1`] = `
                         <div
                           class="euiText euiText--medium"
                         >
-                          <div
-                            class="euiText euiText--small"
-                          >
-                            Use an email group to manage a list of email addresses you frequently send at a time. You can select recipient groups when configuring email channels.
-                          </div>
+                          Use an email group to manage a list of email addresses you frequently send at a time. You can select recipient groups when configuring email channels.
                         </div>
                       </span>
                       <div

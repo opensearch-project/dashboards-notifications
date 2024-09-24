@@ -14,7 +14,6 @@ import {
   EuiTableSortingType,
   EuiTitle,
   SortDirection,
-  EuiText,
 } from '@elastic/eui';
 import { Criteria } from '@elastic/eui/src/components/basic_table/basic_table';
 import { Pagination } from '@elastic/eui/src/components/basic_table/pagination_bar';
@@ -258,8 +257,8 @@ export class Channels extends MDSEnabledComponent<ChannelsProps, ChannelsState> 
       isSelectable={true}
       selection={selection}
       noItemsMessage={<EuiEmptyPrompt
-        title={<EuiText size="s"><h2>No channels to display</h2></EuiText>}
-        body={<EuiText size="s">"To send or receive notifications, you will need to create a notification channel."</EuiText>}
+        title={<h2>No channels to display</h2>}
+        body="To send or receive notifications, you will need to create a notification channel."
         actions={<EuiSmallButton href={`#${ROUTES.CREATE_CHANNEL}`}>
           Create channel
         </EuiSmallButton>} />}
@@ -277,11 +276,11 @@ export class Channels extends MDSEnabledComponent<ChannelsProps, ChannelsState> 
             appRightControls={headerControls}
             appLeftControls={[{ renderComponent: totalChannels }]}
           />
-          <ContentPanel panelStyles={{ padding: this.state.total < 1? '16px 16px 0px' : '16px' }}>
+          <ContentPanel>
             <div style={{ marginBottom: '10px' }}>
               <div style={{ display: 'flex', alignItems: 'center' }}>
                 {channelControlsComponent}
-                <div style={{ marginLeft: '16px' }}>
+                <div style={{ marginLeft: '10px' }}>
                   {channelActionsComponent}
                 </div>
               </div>
@@ -310,7 +309,7 @@ export class Channels extends MDSEnabledComponent<ChannelsProps, ChannelsState> 
           }
           bodyStyles={{ padding: 'initial' }}
           title="Channels"
-          titleSize="s"
+          titleSize="m"
           total={this.state.total}
         >
           {channelControlsComponent}
@@ -319,7 +318,7 @@ export class Channels extends MDSEnabledComponent<ChannelsProps, ChannelsState> 
         </ContentPanel>
       )}
     </>
-
+    
     );
   }
 };

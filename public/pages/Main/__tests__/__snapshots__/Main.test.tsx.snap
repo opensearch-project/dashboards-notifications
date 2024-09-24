@@ -116,8 +116,8 @@ exports[`<Main /> spec renders the component 1`] = `
         <div
           class="euiFlexItem"
         >
-          <h2
-            class="euiTitle euiTitle--small"
+          <h3
+            class="euiTitle euiTitle--medium"
           >
             Channels
             <span
@@ -125,7 +125,7 @@ exports[`<Main /> spec renders the component 1`] = `
             >
                (0)
             </span>
-          </h2>
+          </h3>
         </div>
         <div
           class="euiFlexItem euiFlexItem--flexGrowZero"
@@ -211,7 +211,7 @@ exports[`<Main /> spec renders the component 1`] = `
         style="padding: initial;"
       >
         <div
-          class="euiFlexGroup euiFlexGroup--gutterMedium euiFlexGroup--directionRow euiFlexGroup--responsive"
+          class="euiFlexGroup euiFlexGroup--gutterLarge euiFlexGroup--directionRow euiFlexGroup--responsive"
         >
           <div
             class="euiFlexItem"
@@ -300,14 +300,6 @@ exports[`<Main /> spec renders the component 1`] = `
                   </button>
                 </div>
               </div>
-            </div>
-          </div>
-          <div
-            class="euiFlexItem euiFlexItem--flexGrowZero"
-          >
-            <div
-              class="euiFilterGroup"
-            >
               <div
                 class="euiPopover euiPopover--anchorDownCenter"
               >
@@ -603,13 +595,11 @@ exports[`<Main /> spec renders the component 1`] = `
                         <div
                           class="euiEmptyPrompt"
                         >
-                          <div
-                            class="euiText euiText--small euiTitle euiTitle--medium"
+                          <h2
+                            class="euiTitle euiTitle--medium"
                           >
-                            <h2>
-                              No channels to display
-                            </h2>
-                          </div>
+                            No channels to display
+                          </h2>
                           <span
                             class="euiTextColor euiTextColor--subdued"
                           >
@@ -619,11 +609,7 @@ exports[`<Main /> spec renders the component 1`] = `
                             <div
                               class="euiText euiText--medium"
                             >
-                              <div
-                                class="euiText euiText--small"
-                              >
-                                "To send or receive notifications, you will need to create a notification channel."
-                              </div>
+                              To send or receive notifications, you will need to create a notification channel.
                             </div>
                           </span>
                           <div

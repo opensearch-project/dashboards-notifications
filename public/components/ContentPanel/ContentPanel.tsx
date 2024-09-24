@@ -14,7 +14,7 @@ import React from 'react';
 
 interface ContentPanelProps {
   title?: string;
-  titleSize?: 'xs' | 's' | 'm';
+  titleSize?: 'xxxs' | 'xxs' | 'xs' | 's' | 'm' | 'l';
   total?: number;
   bodyStyles?: object;
   panelStyles?: object;
@@ -25,7 +25,7 @@ interface ContentPanelProps {
 
 const ContentPanel: React.SFC<ContentPanelProps> = ({
   title = '',
-  titleSize = 's',
+  titleSize = 'l',
   total = undefined,
   bodyStyles = {},
   panelStyles = {},
@@ -41,14 +41,14 @@ const ContentPanel: React.SFC<ContentPanelProps> = ({
     >
       <EuiFlexItem>
         <EuiTitle size={titleSize}>
-          <h2>
+          <h3>
             {title}
             {total !== undefined ? (
               <span
                 style={{ color: '#9f9f9f', fontWeight: 300 }}
               >{` (${total})`}</span>
             ) : null}
-          </h2>
+          </h3>
         </EuiTitle>
       </EuiFlexItem>
       {actions ? (
@@ -70,7 +70,7 @@ const ContentPanel: React.SFC<ContentPanelProps> = ({
 
     <EuiHorizontalRule margin="s" className={horizontalRuleClassName} />
 
-    <div style={{ padding: '0px', ...bodyStyles }}>{children}</div>
+    <div style={{ padding: '0px 10px', ...bodyStyles }}>{children}</div>
   </EuiPanel>
 );
 
