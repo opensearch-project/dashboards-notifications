@@ -37,15 +37,13 @@ export function EmailSenders(props: EmailSendersProps) {
   return (
     <>
       {!getUseUpdatedUx() && (
-        <>
-          <EuiText size="s">
-            <h1>Email senders</h1>
-          </EuiText>
-          <EuiSpacer />
-        </>
+        <EuiText size="s">
+          <h1>Email senders</h1>
+        </EuiText>
       )}
       {mainStateContext.availableConfigTypes.includes('smtp_account') && (
         <>
+          <EuiSpacer />
           <SendersTable coreContext={coreContext}
             notificationService={props.notificationService}
           />

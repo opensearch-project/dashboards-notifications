@@ -74,7 +74,7 @@ export function CreateSenderForm(props: CreateSenderFormProps) {
         />
       </EuiCompressedFormRow>
 
-      <EuiSpacer size="l" />
+      <EuiSpacer size="m" />
       <EuiFlexGroup gutterSize="s" style={{ maxWidth: '658px' }}>
         <EuiFlexItem grow={4}>
           <EuiCompressedFormRow
@@ -141,7 +141,7 @@ export function CreateSenderForm(props: CreateSenderFormProps) {
         </EuiFlexItem>
       </EuiFlexGroup>
 
-      <EuiSpacer size="l" />
+      <EuiSpacer size="m" />
       <EuiCompressedFormRow
         label="Encryption method"
         style={{ maxWidth: '650px' }}

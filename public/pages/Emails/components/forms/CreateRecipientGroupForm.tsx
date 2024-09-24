@@ -60,7 +60,7 @@ export function CreateRecipientGroupForm(props: CreateRecipientGroupFormProps) {
         />
       </EuiCompressedFormRow>
 
-      <EuiSpacer size="l" />
+      <EuiSpacer size="m" />
       <EuiCompressedFormRow
         label={
           <span>
@@ -84,7 +84,7 @@ export function CreateRecipientGroupForm(props: CreateRecipientGroupFormProps) {
         </>
       </EuiCompressedFormRow>
 
-      <EuiSpacer size="l" />
+      <EuiSpacer size="m" />
       <EuiCompressedFormRow
         label="Emails"
         style={{ maxWidth: '650px' }}

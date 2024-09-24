@@ -102,18 +102,17 @@ export function CreateSESSender(props: CreateSESSenderProps) {
   return (
     <>
       {!getUseUpdatedUx() && (
-        <>
-          <EuiText size="s">
-            <h1>{`${props.edit ? 'Edit' : 'Create'} SES sender`}</h1>
-          </EuiText>
-          <EuiSpacer />
-        </>
+        <EuiText size="s">
+          <h1>{`${props.edit ? 'Edit' : 'Create'} SES sender`}</h1>
+        </EuiText>
       )}
 
+      <EuiSpacer />
       <ContentPanel
         bodyStyles={{ padding: 'initial' }}
         title="Configure sender"
         titleSize="s"
+        panelStyles={{ maxWidth: 1000 }}
       >
         <CreateSESSenderForm
           senderName={senderName}
@@ -130,7 +129,7 @@ export function CreateSESSender(props: CreateSESSenderProps) {
       </ContentPanel>
 
       <EuiSpacer />
-      <EuiFlexGroup justifyContent="flexEnd">
+      <EuiFlexGroup justifyContent="flexEnd" style={{ maxWidth: 1024 }}>
         <EuiFlexItem grow={false}>
           <EuiSmallButtonEmpty href={`#${ROUTES.EMAIL_SENDERS}`}>
             Cancel

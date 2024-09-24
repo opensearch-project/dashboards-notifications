@@ -373,15 +373,13 @@ export function CreateChannel(props: CreateChannelsProps) {
       <CreateChannelContext.Provider
         value={{ edit: props.edit, inputErrors, setInputErrors }}
       >
-        {!getUseUpdatedUx() && (
-          <>
-            <EuiText size="s">
-              <h1>{`${props.edit ? 'Edit' : 'Create'} channel`}</h1>
-            </EuiText>
-            <EuiSpacer />
-          </>
+       {!getUseUpdatedUx() && (
+          <EuiText size="s">
+            <h1>{`${props.edit ? 'Edit' : 'Create'} channel`}</h1>
+          </EuiText>
         )}
 
+        <EuiSpacer />
         <ChannelNamePanel
           name={name}
           setName={setName}

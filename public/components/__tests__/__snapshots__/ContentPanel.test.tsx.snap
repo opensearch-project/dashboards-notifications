@@ -11,11 +11,13 @@ exports[`<ContentPanel /> spec renders the component 1`] = `
     <div
       class="euiFlexItem"
     >
-      <h2
-        class="euiTitle euiTitle--small"
+      <div
+        class="euiText euiText--small"
       >
-        Testing
-      </h2>
+        <h2>
+          Testing
+        </h2>
+      </div>
     </div>
     <div
       class="euiFlexItem euiFlexItem--flexGrowZero"
@@ -37,7 +39,7 @@ exports[`<ContentPanel /> spec renders the component 1`] = `
     class="euiHorizontalRule euiHorizontalRule--full euiHorizontalRule--marginSmall"
   />
   <div
-    style="padding: 0px;"
+    style="padding: 0px 10px;"
   >
     <div>
       Testing ContentPanel
@@ -57,18 +59,20 @@ exports[`<ContentPanel /> spec renders with empty actions 1`] = `
     <div
       class="euiFlexItem"
     >
-      <h2
-        class="euiTitle euiTitle--small"
+      <div
+        class="euiText euiText--small"
       >
-        Testing
-      </h2>
+        <h2>
+          Testing
+        </h2>
+      </div>
     </div>
   </div>
   <hr
     class="euiHorizontalRule euiHorizontalRule--full euiHorizontalRule--marginSmall"
   />
   <div
-    style="padding: 0px;"
+    style="padding: 0px 10px;"
   >
     <div>
       Testing ContentPanel

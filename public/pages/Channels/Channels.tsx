@@ -277,11 +277,11 @@ export class Channels extends MDSEnabledComponent<ChannelsProps, ChannelsState> 
             appRightControls={headerControls}
             appLeftControls={[{ renderComponent: totalChannels }]}
           />
-          <ContentPanel panelStyles={{ padding: this.state.total < 1? '16px 16px 0px' : '16px' }}>
+          <ContentPanel>
             <div style={{ marginBottom: '10px' }}>
               <div style={{ display: 'flex', alignItems: 'center' }}>
                 {channelControlsComponent}
-                <div style={{ marginLeft: '16px' }}>
+                <div style={{ marginLeft: '10px' }}>
                   {channelActionsComponent}
                 </div>
               </div>

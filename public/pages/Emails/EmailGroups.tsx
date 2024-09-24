@@ -29,14 +29,12 @@ export function EmailGroups(props: EmailGroupsProps) {
   return (
     <>
       {!getUseUpdatedUx() && (
-        <>
-          <EuiText size="s">
-            <h1>Email recipient groups</h1>
-          </EuiText>
-          <EuiSpacer />
-        </>
+        <EuiText size="s">
+          <h1>Email recipient groups</h1>
+        </EuiText>
       )}
 
+      <EuiSpacer />
       <RecipientGroupsTable coreContext={coreContext}
         notificationService={props.notificationService}
       />

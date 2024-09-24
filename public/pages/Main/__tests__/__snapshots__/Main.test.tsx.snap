@@ -116,16 +116,18 @@ exports[`<Main /> spec renders the component 1`] = `
         <div
           class="euiFlexItem"
         >
-          <h2
-            class="euiTitle euiTitle--small"
+          <div
+            class="euiText euiText--small"
           >
-            Channels
-            <span
-              style="color: rgb(159, 159, 159); font-weight: 300;"
-            >
-               (0)
-            </span>
-          </h2>
+            <h2>
+              Channels
+              <span
+                style="color: rgb(159, 159, 159); font-weight: 300;"
+              >
+                 (0)
+              </span>
+            </h2>
+          </div>
         </div>
         <div
           class="euiFlexItem euiFlexItem--flexGrowZero"
@@ -211,7 +213,7 @@ exports[`<Main /> spec renders the component 1`] = `
         style="padding: initial;"
       >
         <div
-          class="euiFlexGroup euiFlexGroup--gutterMedium euiFlexGroup--directionRow euiFlexGroup--responsive"
+          class="euiFlexGroup euiFlexGroup--gutterLarge euiFlexGroup--directionRow euiFlexGroup--responsive"
         >
           <div
             class="euiFlexItem"
