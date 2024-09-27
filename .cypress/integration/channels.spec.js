@@ -185,24 +185,6 @@ describe('Test create channels', () => {
     cy.contains('successfully created.').should('exist');
   });
 
-  function cidrToIpList(cidr) {
-    const [base, bits] = cidr.split('/');
-    const baseParts = base.split('.').map(Number);
-    const numAddresses = 1 << (32 - bits); // Calculate the number of IPs in the range
-    const ipList = [];
-
-    for (let i = 0; i < numAddresses; i++) {
-      const ip = [
-        baseParts[0] + ((i >> 24) & 255),
-        baseParts[1] + ((i >> 16) & 255),
-        baseParts[2] + ((i >> 8) & 255),
-        baseParts[3] + (i & 255),
-      ].join('.');
-      ipList.push(ip);
-    }
-    return ipList;
-  }
-
   const updateLocalClusterSettings = (denyList) => {
     cy.request({
       method: 'PUT',
