@@ -188,7 +188,7 @@ describe('Test create channels', () => {
   const updateLocalClusterSettings = (denyList) => {
     cy.request({
       method: 'PUT',
-      url: 'http://localhost:9200/_cluster/settings', // Change to your local Elasticsearch URL
+      url: 'http://localhost:9200/_cluster/settings',
       body: {
         persistent: {
           opensearch: {
@@ -203,7 +203,6 @@ describe('Test create channels', () => {
         },
       },
     }).then((response) => {
-      // Optionally handle the response to confirm the settings were updated
       expect(response.status).to.eq(200);
       expect(response.body).to.have.property('acknowledged', true);
     });
@@ -215,7 +214,7 @@ describe('Test create channels', () => {
       '169.254.0.1',
       '10.0.0.1',
       '255.255.255.255'
-    ]; // List of CIDRs to test
+    ];
 
     updateLocalClusterSettings(deniedIps);
 
