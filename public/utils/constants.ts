@@ -87,8 +87,9 @@ export function setBreadcrumbs(crumbs: ChromeBreadcrumb[]) {
 const LocalCluster: DataSourceOption = {
   label: i18n.translate("dataSource.localCluster", {
     defaultMessage: "Local cluster",
-  }),
+  }) as string,
   id: "",
 };
 
-export const dataSourceObservable = new BehaviorSubject<DataSourceOption>(LocalCluster);
+// We should use empty object for default value as local cluster may be disabled
+export const dataSourceObservable = new BehaviorSubject<DataSourceOption>({});
