@@ -87,7 +87,7 @@ export function setBreadcrumbs(crumbs: ChromeBreadcrumb[]) {
 const LocalCluster: DataSourceOption = {
   label: i18n.translate("dataSource.localCluster", {
     defaultMessage: "Local cluster",
-  }) as string,
+  }),
   id: "",
 };
 
