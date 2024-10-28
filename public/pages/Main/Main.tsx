@@ -28,12 +28,16 @@ import {
   DataSourceSelectableConfig,
   DataSourceViewConfig,
 } from "../../../../../src/plugins/data_source_management/public";
-import { DataSourceMenuProps, DataSourceOption } from "../../../../../src/plugins/data_source_management/public/components/data_source_menu/types";
+import {
+  DataSourceMenuProps,
+  DataSourceOption,
+} from '../../../../../src/plugins/data_source_management/public/components/data_source_menu/types';
 import _ from "lodash";
 import { NotificationService } from '../../services';
 import * as pluginManifest from "../../../opensearch_dashboards.json";
 import { DataSourceAttributes } from "../../../../../src/plugins/data_source/common/data_sources";
 import semver from "semver";
+import { BehaviorSubject } from 'rxjs';
 
 enum Navigation {
   Notifications = 'Notifications',
@@ -76,20 +80,17 @@ export default class Main extends Component<MainProps, MainState> {
 
     if (props.multiDataSourceEnabled) {
       const {
-        dataSourceId = "",
+        dataSourceId,
         dataSourceLabel = ""
       } = queryString.parse(this.props.location.search) as {
         dataSourceId?: string;
         dataSourceLabel?: string;
       };
 
-      if (dataSourceId) {
-        dataSourceObservable.next({ id: dataSourceId, label: dataSourceLabel });
-      }
       this.state = {
         ...initialState,
-        dataSourceId: dataSourceId,
-        dataSourceLabel: dataSourceLabel,
+        dataSourceId,
+        dataSourceLabel,
         dataSourceReadOnly: false,
          /**
          * undefined: need data source picker to help to determine which data source to use.
@@ -108,7 +109,10 @@ export default class Main extends Component<MainProps, MainState> {
   }
 
   componentDidUpdate(prevProps: any, prevState: { dataSourceId: string; }) {
-    if (this.props.multiDataSourceEnabled && (prevState.dataSourceId !== this.state.dataSourceId)) {
+    if (
+      this.props.multiDataSourceEnabled &&
+      prevState.dataSourceId !== this.state.dataSourceId
+    ) {
       // Call setServerFeatures when dataSourceId is updated or dataSourceComponent is loaded
       this.setServerFeatures();
     }
@@ -153,6 +157,10 @@ export default class Main extends Component<MainProps, MainState> {
   }
 
   onSelectedDataSources = (dataSources: DataSourceOption[]) => {
+    if (dataSources.length == 0) {
+      //No datasource selected
+      return;
+    }
     const { id = "", label = "" } = dataSources[0] || {};
     if (this.state.dataSourceId !== id || this.state.dataSourceLabel !== label) {
       this.setState({
