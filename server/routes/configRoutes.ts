@@ -139,7 +139,7 @@ export function configRoutes(router: IRouter, dataSourceEnabled: boolean) {
         return response.ok({ body: resp });
       } catch (error) {
         return response.custom({
-          statusCode: error.statusCode || 500,
+          statusCode: error.statusCode || 404,
           body: error.message,
         });
       }
@@ -244,7 +244,11 @@ export function configRoutes(router: IRouter, dataSourceEnabled: boolean) {
   router.get(
     {
       path: NODE_API.GET_AVAILABLE_FEATURES,
-      validate: false,
+      validate: dataSourceEnabled ? {
+        query: schema.object({
+          dataSourceId: schema.string(),
+        }),
+      } : false,
     },
     async (context, request, response) => {
       const client = MDSEnabledClientService.getClient(request, context, dataSourceEnabled);
@@ -273,7 +277,7 @@ export function configRoutes(router: IRouter, dataSourceEnabled: boolean) {
         return response.ok({ body: availableFeature });
       } catch (error) {
         return response.custom({
-          statusCode: error.statusCode || 500,
+          statusCode: error.statusCode || 404,
           body: error.message,
         });
       }
