@@ -139,7 +139,7 @@ export function configRoutes(router: IRouter, dataSourceEnabled: boolean) {
         return response.ok({ body: resp });
       } catch (error) {
         return response.custom({
-          statusCode: error.statusCode || 400,
+          statusCode: error.statusCode || 404,
           body: error.message,
         });
       }
@@ -277,7 +277,7 @@ export function configRoutes(router: IRouter, dataSourceEnabled: boolean) {
         return response.ok({ body: availableFeature });
       } catch (error) {
         return response.custom({
-          statusCode: error.statusCode || 400,
+          statusCode: error.statusCode || 404,
           body: error.message,
         });
       }
