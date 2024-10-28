@@ -17,4 +17,4 @@ Compatible with OpenSearch Dashboards 2.18.0
 * bug fix to switch to default datasource instead of local cluster when initial loading ([#290](https://github.com/opensearch-project/dashboards-notifications/pull/290))
 
 ### Documentation
-* Added 2.18.0 release notes. ([#]())
+* Added 2.18.0 release notes. ([#293](https://github.com/opensearch-project/dashboards-notifications/pull/293))
