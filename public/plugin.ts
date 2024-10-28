@@ -130,7 +130,7 @@ export class notificationsDashboardsPlugin
 
       core.application.register({
         id: `email_groups`,
-        title: 'Email recepient groups',
+        title: 'Email recipient groups',
         order: 9090,
         workspaceAvailability: WorkspaceAvailability.outsideWorkspace,
         updater$: this.appStateUpdater,

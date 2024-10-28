@@ -276,7 +276,7 @@ export class RecipientGroupsTable extends Component<
       placeholder="Search"
       onSearch={this.onSearchChange} />;
 
-    const createRecepientButton = <EuiSmallButton fill href={`#${ROUTES.CREATE_RECIPIENT_GROUP}`}>
+    const createRecipientButton = <EuiSmallButton fill href={`#${ROUTES.CREATE_RECIPIENT_GROUP}`}>
       Create recipient group
     </EuiSmallButton>;
 
@@ -403,7 +403,7 @@ export class RecipientGroupsTable extends Component<
                     ),
                   },
                   {
-                    component: createRecepientButton,
+                    component: createRecipientButton,
                   },
                 ]}
               />
