@@ -7,4 +7,4 @@ Compatible with OpenSearch Dashboards 2.19.0
 * Bumped cypress version. ([#313](https://github.com/opensearch-project/dashboards-notifications/pull/313))
 
 ### Documentation
-* Added 2.19.0 release notes. ([#]())
+* Added 2.19.0 release notes. ([#321](https://github.com/opensearch-project/dashboards-notifications/pull/321))
