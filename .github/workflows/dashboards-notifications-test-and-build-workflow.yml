@@ -11,7 +11,7 @@ env:
   PLUGIN_NAME: notifications-dashboards
   OPENSEARCH_DASHBOARDS_VERSION: 'main'
   NOTIFICATIONS_PLUGIN_VERSION: 'main'
-  OPENSEARCH_VERSION: '3.0.0-SNAPSHOT'
+  OPENSEARCH_VERSION: '3.0.0-alpha1-SNAPSHOT'
 
 jobs:
   tests:
@@ -175,7 +175,7 @@ jobs:
 
       - name: Cache Cypress
         id: cache-cypress
-        uses: actions/cache@v2
+        uses: actions/cache@v4
         with:
           path: ${{ matrix.cypress_cache_folder }}
           key: cypress-cache-v2-${{ runner.os }}-${{ hashFiles('OpenSearch-Dashboards/plugins/dashboards-notifications/package.json') }}
