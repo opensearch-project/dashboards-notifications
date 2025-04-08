@@ -23,7 +23,7 @@
   "devDependencies": {
     "@types/enzyme-adapter-react-16": "^1.0.6",
     "@types/showdown": "^1.9.3",
-    "cypress": "12.17.4",
+    "cypress": "^13.6.0",
     "enzyme-adapter-react-16": "^1.15.5",
     "jest-dom": "^4.0.0"
   },
