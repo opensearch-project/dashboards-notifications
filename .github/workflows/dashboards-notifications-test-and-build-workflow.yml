@@ -1,6 +1,6 @@
 ##
- # Copyright OpenSearch Contributors
- # SPDX-License-Identifier: Apache-2.0
+# Copyright OpenSearch Contributors
+# SPDX-License-Identifier: Apache-2.0
 ##
 
 name: Test and Build Dashboards Notifications
@@ -38,9 +38,8 @@ jobs:
             jest_test_args: --coverage
             cypress_cache_folder: ~/.cache/Cypress
             # TODO: Add back when macos-latest is back in the test matrix
-#          - os: macos-latest
-#            cypress_cache_folder: ~/Library/Caches/Cypress
-
+    #          - os: macos-latest
+    #            cypress_cache_folder: ~/Library/Caches/Cypress
 
     name: Test and Build Dashboards Notifications on ${{ matrix.os }}
     runs-on: ${{ matrix.os }}
@@ -51,6 +50,11 @@ jobs:
         with:
           distribution: temurin # Temurin is a distribution of adoptium
           java-version: 21
+
+      - name: Verify Java Version
+        run: |
+          java -version
+          echo "JAVA_HOME=$JAVA_HOME"
 
       # This is a hack, but this step creates a link to the X: mounted drive, which makes the path
       # short enough to work on Windows
