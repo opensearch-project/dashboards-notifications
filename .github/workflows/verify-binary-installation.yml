@@ -20,6 +20,12 @@ jobs:
       - name: Checkout Branch
         uses: actions/checkout@v3
 
+      - name: Set up JDK
+        uses: actions/setup-java@v2
+        with:
+          distribution: temurin # Temurin is a distribution of adoptium
+          java-version: 21
+
       - name: Set env
         run: |
           opensearch_version=$(node -p "require('./opensearch_dashboards.json').opensearchDashboardsVersion")
