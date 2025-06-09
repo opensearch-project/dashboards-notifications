@@ -12,7 +12,6 @@ env:
   OPENSEARCH_DASHBOARDS_VERSION: 'main'
   NOTIFICATIONS_PLUGIN_VERSION: 'main'
   OPENSEARCH_VERSION: '3.1.0-SNAPSHOT'
-
 jobs:
   Get-CI-Image-Tag:
     uses: opensearch-project/opensearch-build/.github/workflows/get-ci-image-tag.yml@main
