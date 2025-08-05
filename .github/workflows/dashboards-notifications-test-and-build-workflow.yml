@@ -1,6 +1,6 @@
 ##
- # Copyright OpenSearch Contributors
- # SPDX-License-Identifier: Apache-2.0
+# Copyright OpenSearch Contributors
+# SPDX-License-Identifier: Apache-2.0
 ##
 
 name: Test and Build Dashboards Notifications
@@ -11,7 +11,7 @@ env:
   PLUGIN_NAME: notifications-dashboards
   OPENSEARCH_DASHBOARDS_VERSION: 'main'
   NOTIFICATIONS_PLUGIN_VERSION: 'main'
-  OPENSEARCH_VERSION: '3.1.0-SNAPSHOT'
+  OPENSEARCH_VERSION: '3.2.0-SNAPSHOT'
 
 jobs:
   tests:
@@ -38,9 +38,8 @@ jobs:
             jest_test_args: --coverage
             cypress_cache_folder: ~/.cache/Cypress
             # TODO: Add back when macos-latest is back in the test matrix
-#          - os: macos-latest
-#            cypress_cache_folder: ~/Library/Caches/Cypress
-
+    #          - os: macos-latest
+    #            cypress_cache_folder: ~/Library/Caches/Cypress
 
     name: Test and Build Dashboards Notifications on ${{ matrix.os }}
     runs-on: ${{ matrix.os }}
