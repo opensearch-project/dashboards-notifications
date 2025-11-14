@@ -319,6 +319,14 @@ describe('Test channel details', () => {
     cy.contains('Edit').click({ force: true });
     cy.contains('Edit channel').should('exist');
     cy.get('.euiText').contains('Custom webhook').should('exist');
+
+    // Test editing the name
+    cy.get('[placeholder="Enter channel name"]')
+      .clear()
+      .type('Updated webhook channel name');
+    cy.wait(delay);
+
+    // Test editing the description
     cy.get(
       '[data-test-subj="create-channel-description-input"]'
     ).type('{selectall}{backspace}Updated custom webhook description');
@@ -326,6 +334,7 @@ describe('Test channel details', () => {
     cy.contains('Save').click({ force: true });
 
     cy.contains('successfully updated.').should('exist');
+    cy.contains('Updated webhook channel name').should('exist');
     cy.contains('Updated custom webhook description').should('exist');
   })
 
@@ -333,7 +342,7 @@ describe('Test channel details', () => {
     cy.contains('Actions').click({ force: true });
     cy.contains('Delete').click({ force: true });
     cy.get('input[placeholder="delete"]').type('delete');
-    cy.get('[data-test-subj="delete-channel-modal-delete-button"]').click({force: true})
+    cy.get('[data-test-subj="delete-channel-modal-delete-button"]').click({ force: true })
     cy.contains('successfully deleted.').should('exist');
     cy.contains('Test slack channel').should('exist');
   })
