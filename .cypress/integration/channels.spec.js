@@ -283,16 +283,15 @@ describe('Test channel details', () => {
   //   cy.createTestEmailChannel();
   // });
 
-  beforeEach(() => {
+  beforeEach(() => {});
+
+  it('displays channel details', async () => {
     cy.visit(
       `${Cypress.env(
         'opensearchDashboards'
       )}/app/notifications-dashboards#channels`
     );
     cy.contains('Test webhook channel').click();
-  });
-
-  it('displays channel details', async () => {
     cy.contains('custom-webhook-test-url.com').should('exist');
     cy.contains('test-path').should('exist');
     cy.contains('8888').should('exist');
@@ -302,6 +301,12 @@ describe('Test channel details', () => {
   });
 
   it('mutes and unmutes channels', async () => {
+    cy.visit(
+      `${Cypress.env(
+        'opensearchDashboards'
+      )}/app/notifications-dashboards#channels`
+    );
+    cy.contains('Test webhook channel').click();
     cy.contains('Mute channel').click({ force: true });
     cy.get('[data-test-subj="mute-channel-modal-mute-button"]').click({
       force: true,
@@ -315,6 +320,12 @@ describe('Test channel details', () => {
   });
 
   it('edits channels', () => {
+    cy.visit(
+      `${Cypress.env(
+        'opensearchDashboards'
+      )}/app/notifications-dashboards#channels`
+    );
+    cy.contains('Test webhook channel').click();
     cy.contains('Actions').click({ force: true });
     cy.contains('Edit').click({ force: true });
     cy.contains('Edit channel').should('exist');
@@ -330,6 +341,12 @@ describe('Test channel details', () => {
   })
 
   it('deletes channels', async () => {
+    cy.visit(
+      `${Cypress.env(
+        'opensearchDashboards'
+      )}/app/notifications-dashboards#channels`
+    );
+    cy.contains('Updated test webhook channel').click();
     cy.contains('Actions').click({ force: true });
     cy.contains('Delete').click({ force: true });
     cy.get('input[placeholder="delete"]').type('delete');
