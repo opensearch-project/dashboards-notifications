@@ -9,9 +9,7 @@ on: [pull_request, push]
 
 env:
   PLUGIN_NAME: notifications-dashboards
-  OPENSEARCH_DASHBOARDS_VERSION: 'main'
-  NOTIFICATIONS_PLUGIN_VERSION: 'main'
-  OPENSEARCH_VERSION: '3.0.0-SNAPSHOT'
+  NOTIFICATIONS_PLUGIN_VERSION: '3.0'
 
 jobs:
   tests:
@@ -47,6 +45,7 @@ jobs:
 
     steps:
       - name: Set up JDK
+        id: setup-java
         uses: actions/setup-java@v2
         with:
           distribution: temurin # Temurin is a distribution of adoptium
@@ -67,6 +66,24 @@ jobs:
           git config --system core.longpaths true
         shell: bash
 
+      - name: Checkout Notification Dashboards plugin
+        uses: actions/checkout@v2
+        with:
+          path: dashboards-notifications
+
+      - name: Get plugin version from opensearch_dashboards.json
+        id: plugin_version
+        working-directory: dashboards-notifications
+        run: |
+          PLUGIN_VERSION=$(node -p "require('./opensearch_dashboards.json').opensearchDashboardsVersion")
+          echo "Plugin version: $PLUGIN_VERSION"
+          # Extract major.minor version (e.g., 3.3.0 -> 3.3)
+          BRANCH_VERSION=$(echo $PLUGIN_VERSION | cut -d. -f1,2)
+          echo "Branch version: $BRANCH_VERSION"
+          echo "OPENSEARCH_DASHBOARDS_VERSION=$BRANCH_VERSION" >> $GITHUB_OUTPUT
+          echo "OPENSEARCH_VERSION=$PLUGIN_VERSION-SNAPSHOT" >> $GITHUB_OUTPUT
+        shell: bash
+
       - name: Check out the notifications repo
         uses: actions/checkout@v2
         with:
@@ -81,22 +98,21 @@ jobs:
           if [ "$RUNNER_OS" == "macOS" ]; then
               brew install coreutils
           fi
+          # Ensure Java 21 is being used
+          echo "Java version:"
+          java -version
+          echo "JAVA_HOME: $JAVA_HOME"
           cd notifications/notifications
-          ./gradlew run -Dopensearch.version=${{ env.OPENSEARCH_VERSION }} -x integTest -x jacocoTestReport &
+          ./gradlew run -Dopensearch.version=${{ steps.plugin_version.outputs.OPENSEARCH_VERSION }} -x integTest -x jacocoTestReport &
           timeout 300 bash -c 'while [[ "$(curl -s -o /dev/null -w ''%{http_code}'' localhost:9200)" != "200" ]]; do sleep 5; done'
         shell: bash
         env:
           _JAVA_OPTIONS: ${{ matrix.os_java_options }}
-
-      - name: Checkout Notification Dashboards plugin
-        uses: actions/checkout@v2
-        with:
-          path: dashboards-notifications
       - name: Checkout OpenSearch Dashboards
         uses: actions/checkout@v2
         with:
           repository: opensearch-project/Opensearch-Dashboards
-          ref: ${{ env.OPENSEARCH_DASHBOARDS_VERSION }}
+          ref: ${{ steps.plugin_version.outputs.OPENSEARCH_DASHBOARDS_VERSION }}
           path: OpenSearch-Dashboards
 
       - name: Setup Node
