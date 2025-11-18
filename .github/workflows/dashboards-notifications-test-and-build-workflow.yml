@@ -9,7 +9,7 @@ on: [pull_request, push]
 
 env:
   PLUGIN_NAME: notifications-dashboards
-  NOTIFICATIONS_PLUGIN_VERSION: 'main'
+  NOTIFICATIONS_PLUGIN_VERSION: '3.0'
 
 jobs:
   tests:
