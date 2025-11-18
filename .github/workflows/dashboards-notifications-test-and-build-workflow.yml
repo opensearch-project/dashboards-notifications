@@ -165,8 +165,8 @@ jobs:
 
       - name: Add sleep to wait for bundle build completion
         run: |
-          sleep 300
-        # sleep two more minutes to make sure all the bundles have been built.
+          sleep 420
+        # sleep 7 minutes to make sure all the bundles have been built, else the tests fail
         shell: bash
 
       - name: Install Cypress
