@@ -163,10 +163,16 @@ jobs:
           netstat -anp tcp | grep LISTEN | grep 5601 || netstat -ntlp | grep 5601
         shell: bash
 
+      # sleep 7 minutes for Linux/Mac, 10 minutes for Windows to make sure all the bundles have been built
       - name: Add sleep to wait for bundle build completion
         run: |
-          sleep 300
-        # sleep two more minutes to make sure all the bundles have been built.
+          if [ "${{ matrix.os }}" == "windows-latest" ]; then
+            echo "Windows detected, sleeping for 10 minutes..."
+            sleep 600
+          else
+            echo "Non-Windows OS, sleeping for 7 minutes..."
+            sleep 420
+          fi
         shell: bash
 
       - name: Install Cypress
