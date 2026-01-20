@@ -11,7 +11,7 @@ env:
   PLUGIN_NAME: notifications-dashboards
   OPENSEARCH_DASHBOARDS_VERSION: 'main'
   NOTIFICATIONS_PLUGIN_VERSION: 'main'
-  OPENSEARCH_VERSION: '3.4.0-SNAPSHOT'
+  # OPENSEARCH_VERSION is set dynamically from opensearch_dashboards.json in the workflow
 
 jobs:
   Get-CI-Image-Tag:
@@ -54,6 +54,19 @@ jobs:
           distribution: temurin # Temurin is a distribution of adoptium
           java-version: 21
 
+      - name: Checkout Notification Dashboards plugin
+        uses: actions/checkout@v2
+        with:
+          path: dashboards-notifications
+
+      - name: Set env
+        run: |
+          opensearch_version=$(node -p "require('./dashboards-notifications/opensearch_dashboards.json').opensearchDashboardsVersion")
+          plugin_version=$(node -p "require('./dashboards-notifications/opensearch_dashboards.json').version")
+          echo "OPENSEARCH_VERSION=${opensearch_version}-SNAPSHOT" >> $GITHUB_ENV
+          echo "PLUGIN_VERSION=$plugin_version" >> $GITHUB_ENV
+        shell: bash
+
       - name: Check out the notifications repo
         uses: actions/checkout@v2
         with:
@@ -71,11 +84,6 @@ jobs:
         shell: bash
         env:
           _JAVA_OPTIONS: ${{ matrix.os_java_options }}
-
-      - name: Checkout Notification Dashboards plugin
-        uses: actions/checkout@v2
-        with:
-          path: dashboards-notifications
       - name: Checkout OpenSearch Dashboards
         uses: actions/checkout@v2
         with:
