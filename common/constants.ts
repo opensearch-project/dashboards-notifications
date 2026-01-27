@@ -5,6 +5,7 @@ export const BACKEND_CHANNEL_TYPE = Object.freeze({
   MICROSOFT_TEAMS: 'microsoft_teams',
   CUSTOM_WEBHOOK: 'webhook',
   SNS: 'sns',
+  MATTERMOST: 'mattermost',
 });
 export const CHANNEL_TYPE = Object.freeze({
   [BACKEND_CHANNEL_TYPE.SLACK]: 'Slack',
@@ -13,6 +14,7 @@ export const CHANNEL_TYPE = Object.freeze({
   [BACKEND_CHANNEL_TYPE.MICROSOFT_TEAMS]: 'Microsoft Teams',
   [BACKEND_CHANNEL_TYPE.CUSTOM_WEBHOOK]: 'Custom webhook',
   [BACKEND_CHANNEL_TYPE.SNS]: 'Amazon SNS',
+  [BACKEND_CHANNEL_TYPE.MATTERMOST]: 'Mattermost',
 }) as {
   slack: string;
   email: string;
@@ -20,4 +22,5 @@ export const CHANNEL_TYPE = Object.freeze({
   microsoft_teams: string;
   webhook: string;
   sns: string;
+  mattermost: string;
 };

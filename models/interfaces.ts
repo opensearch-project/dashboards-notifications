@@ -36,6 +36,9 @@ export interface ChannelItemType extends ConfigType {
   slack?: {
     url: string;
   };
+  mattermost?: {
+    url: string;
+  };
   chime?: {
     url: string;
   };

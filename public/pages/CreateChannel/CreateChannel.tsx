@@ -39,6 +39,7 @@ import { MicrosoftTeamsSettings } from './components/MicrosoftTeamsSettings';
 import { CustomWebhookSettings } from './components/CustomWebhookSettings';
 import { EmailSettings } from './components/EmailSettings';
 import { SlackSettings } from './components/SlackSettings';
+import { MattermostSettings } from './components/MattermostSettings';
 import { SNSSettings } from './components/SNSSettings';
 import {
   constructEmailObject,
@@ -95,6 +96,7 @@ export function CreateChannel(props: CreateChannelsProps) {
   const [channelType, setChannelType] = useState(channelTypeOptions[0].value);
 
   const [slackWebhook, setSlackWebhook] = useState('');
+  const [mattermostWebhook, setMattermostWebhook] = useState('');
   const [chimeWebhook, setChimeWebhook] = useState('');
   const [microsoftTeamsWebhook, setMicrosoftTeamsWebhook] = useState('');
 
@@ -130,6 +132,7 @@ export function CreateChannel(props: CreateChannelsProps) {
   const [inputErrors, setInputErrors] = useState<InputErrorsType>({
     name: [],
     slackWebhook: [],
+    mattermostWebhook: [],
     chimeWebhook: [],
     microsoftTeamsWebhook: [],
     smtpSender: [],
@@ -197,6 +200,8 @@ export function CreateChannel(props: CreateChannelsProps) {
 
       if (type === BACKEND_CHANNEL_TYPE.SLACK) {
         setSlackWebhook(response.slack?.url || '');
+      } else if (type === BACKEND_CHANNEL_TYPE.MATTERMOST) {
+        setMattermostWebhook(response.mattermost?.url || '');
       } else if (type === BACKEND_CHANNEL_TYPE.CHIME) {
         setChimeWebhook(response.chime?.url || '');
       } else if (type === BACKEND_CHANNEL_TYPE.MICROSOFT_TEAMS) {
@@ -249,6 +254,8 @@ export function CreateChannel(props: CreateChannelsProps) {
     };
     if (channelType === BACKEND_CHANNEL_TYPE.SLACK) {
       errors.slackWebhook = validateWebhookURL(slackWebhook);
+    } else if (channelType === BACKEND_CHANNEL_TYPE.MATTERMOST) {
+      errors.mattermostWebhook = validateWebhookURL(mattermostWebhook);
     } else if (channelType === BACKEND_CHANNEL_TYPE.CHIME) {
       errors.chimeWebhook = validateWebhookURL(chimeWebhook);
     } else if (channelType === BACKEND_CHANNEL_TYPE.MICROSOFT_TEAMS) {
@@ -288,6 +295,8 @@ export function CreateChannel(props: CreateChannelsProps) {
     };
     if (channelType === BACKEND_CHANNEL_TYPE.SLACK) {
       config.slack = { url: slackWebhook };
+    } else if (channelType === BACKEND_CHANNEL_TYPE.MATTERMOST) {
+      config.mattermost = { url: mattermostWebhook };
     } else if (channelType === BACKEND_CHANNEL_TYPE.CHIME) {
       config.chime = { url: chimeWebhook };
     } else if (channelType === BACKEND_CHANNEL_TYPE.MICROSOFT_TEAMS) {
@@ -421,6 +430,11 @@ export function CreateChannel(props: CreateChannelsProps) {
             <SlackSettings
               slackWebhook={slackWebhook}
               setSlackWebhook={setSlackWebhook}
+            />
+          ) : channelType === BACKEND_CHANNEL_TYPE.MATTERMOST ? (
+            <MattermostSettings
+              mattermostWebhook={mattermostWebhook}
+              setMattermostWebhook={setMattermostWebhook}
             />
           ) : channelType === BACKEND_CHANNEL_TYPE.CHIME ? (
             <ChimeSettings
