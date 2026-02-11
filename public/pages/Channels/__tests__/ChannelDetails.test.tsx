@@ -3,12 +3,11 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { fireEvent, render, waitFor } from '@testing-library/react';
+import { fireEvent, render, waitFor, act } from '@testing-library/react';
 import { configure } from 'enzyme';
-import Adapter from 'enzyme-adapter-react-16';
+import Adapter from '@cfaester/enzyme-adapter-react-18';
 import React from 'react';
-import ReactDOM from 'react-dom';
-import { act } from 'react-dom/test-utils';
+import { createRoot } from 'react-dom/client';
 import { RouteComponentProps } from 'react-router-dom';
 import { MOCK_DATA } from '../../../../test/mocks/mockData';
 import {
@@ -49,16 +48,16 @@ describe('<ChannelDetails/> spec', () => {
     };
     let container = document.createElement('div');
 
+    const root = createRoot(container);
     act(() => {
-      ReactDOM.render(
+      root.render(
         <ServicesContext.Provider value={notificationServiceMock}>
           <CoreServicesContext.Provider value={coreServicesMock}>
             <ChannelDetails
               {...(props as RouteComponentProps<{ id: string }>)}
             />
           </CoreServicesContext.Provider>
-        </ServicesContext.Provider>,
-        container
+        </ServicesContext.Provider>
       );
     });
     await waitFor(() => {
@@ -76,16 +75,16 @@ describe('<ChannelDetails/> spec', () => {
     };
     let container = document.createElement('div');
 
+    const root = createRoot(container);
     act(() => {
-      ReactDOM.render(
+      root.render(
         <ServicesContext.Provider value={notificationServiceMock}>
           <CoreServicesContext.Provider value={coreServicesMock}>
             <ChannelDetails
               {...(props as RouteComponentProps<{ id: string }>)}
             />
           </CoreServicesContext.Provider>
-        </ServicesContext.Provider>,
-        container
+        </ServicesContext.Provider>
       );
     });
     await waitFor(() => {

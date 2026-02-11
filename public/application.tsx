@@ -4,7 +4,7 @@
  */
 
 import React from 'react';
-import ReactDOM from 'react-dom';
+import { createRoot } from 'react-dom/client';
 import { HashRouter as Router, Route } from 'react-router-dom';
 import { AppMountParameters, CoreStart } from '../../../src/core/public';
 import { CoreServicesContext } from './components/coreServices';
@@ -19,8 +19,8 @@ export const renderApp = (
   pluginStartDependencies: AppPluginStartDependencies,
   defaultRoute?: string,
 ) => {
-
-  ReactDOM.render(
+  const root = createRoot(params.element);
+  root.render(
     <Router>
       <Route
         render={(props) => (
@@ -35,9 +35,8 @@ export const renderApp = (
             </CoreServicesContext.Provider>
         )}
       />
-    </Router>,
-    params.element
+    </Router>
   );
 
-  return () => ReactDOM.unmountComponentAtNode(params.element);
+  return () => root.unmount();
 };

@@ -13,6 +13,8 @@ import { getApplication, getNavigationUI, getUseUpdatedUx } from '../../services
 import { useUpdateUrlWithDataSourceProperties } from '../MDSEnabledComponent/MDSEnabledComponent';
 
 export interface PageHeaderProps {
+  data: string;
+  children?: React.ReactNode;
   appRightControls?: TopNavControlData[];
   appBadgeControls?: TopNavControlData[];
   appDescriptionControls?: (TopNavControlDescriptionData | TopNavControlLinkData)[];
@@ -20,6 +22,7 @@ export interface PageHeaderProps {
 }
 
 const PageHeader: React.FC<PageHeaderProps> = ({
+  data,
   children,
   appBadgeControls,
   appRightControls,

@@ -5,7 +5,7 @@
 
 import { fireEvent, render } from '@testing-library/react';
 import { configure, shallow } from 'enzyme';
-import Adapter from 'enzyme-adapter-react-16';
+import Adapter from '@cfaester/enzyme-adapter-react-18';
 import React from 'react';
 import { CreateRecipientGroupForm } from '../components/forms/CreateRecipientGroupForm';
 import { setupCoreStart } from '../../../../test/utils/helpers';

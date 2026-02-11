@@ -3,9 +3,9 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { render } from '@testing-library/react';
+import { render, act, fireEvent, waitFor } from '@testing-library/react';
 import { configure } from 'enzyme';
-import Adapter from 'enzyme-adapter-react-16';
+import Adapter from '@cfaester/enzyme-adapter-react-18';
 import React from 'react';
 import { MOCK_DATA } from '../../../../test/mocks/mockData';
 import {
@@ -36,7 +36,7 @@ describe('<ChannelDetailsActions /> spec', () => {
     expect(utils.container.firstChild).toMatchSnapshot();
   });
 
-  it('opens popover', () => {
+  it('opens popover', async () => {
     const channel = MOCK_DATA.chime;
     const utils = render(
       <ServicesContext.Provider value={notificationServiceMock}>
@@ -45,11 +45,11 @@ describe('<ChannelDetailsActions /> spec', () => {
         </CoreServicesContext.Provider>
       </ServicesContext.Provider>
     );
-    utils.getByText('Actions').click();
+    await act(async () => fireEvent.click(utils.getByText('Actions')));
     expect(utils.container.firstChild).toMatchSnapshot();
   });
 
-  it('clicks buttons in popover', () => {
+  it('clicks buttons in popover', async () => {
     const channel = MOCK_DATA.chime;
     const utils = render(
       <ServicesContext.Provider value={notificationServiceMock}>
@@ -58,12 +58,15 @@ describe('<ChannelDetailsActions /> spec', () => {
         </CoreServicesContext.Provider>
       </ServicesContext.Provider>
     );
-    utils.getByText('Actions').click();
-    utils.getByText('Edit').click();
-    utils.getByText('Actions').click();
-    utils.getByText('Send test message').click();
-    utils.getByText('Actions').click();
-    utils.getByText('Delete').click();
+    await act(async () => fireEvent.click(utils.getByText('Actions')));
+    await waitFor(() => expect(utils.getByText('Edit')).toBeTruthy());
+    await act(async () => fireEvent.click(utils.getByText('Edit')));
+    await act(async () => fireEvent.click(utils.getByText('Actions')));
+    await waitFor(() => expect(utils.getByText('Send test message')).toBeTruthy());
+    await act(async () => fireEvent.click(utils.getByText('Send test message')));
+    await act(async () => fireEvent.click(utils.getByText('Actions')));
+    await waitFor(() => expect(utils.getByText('Delete')).toBeTruthy());
+    await act(async () => fireEvent.click(utils.getByText('Delete')));
     expect(utils.container.firstChild).toMatchSnapshot();
   });
 });
