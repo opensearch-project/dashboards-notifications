@@ -151,6 +151,12 @@ jobs:
           netstat -anp tcp | grep LISTEN | grep 5601 || netstat -ntlp | grep 5601
         shell: bash
 
+      - name: Add sleep to wait for bundle build completion
+        run: |
+          sleep 300
+        # sleep two more minutes to make sure all the bundles have been built.
+        shell: bash
+
       - name: Install Cypress
         run: |
           cd OpenSearch-Dashboards/plugins/dashboards-notifications
