@@ -6,8 +6,6 @@ This document contains a list of maintainers in this repo. See [opensearch-proje
 | Maintainer            | GitHub ID                                                | Affiliation |
 |-----------------------|----------------------------------------------------------| ----------- |
 | Saurabh Singh         | [getsaurabh02](https://github.com/getsaurabh02)          | Amazon |
-| Subhobrata Dey        | [sbcd90](https://github.com/sbcd90)                      | Amazon |
-| Praveen Sameneni      | [praveensameneni](https://github.com/praveensameneni)    | Amazon |
 | Amardeepsingh Siglani | [amsiglan](https://github.com/amsiglan)                  | Amazon |
 | Xuesong Luo           | [xluo-aws](https://github.com/xluo-aws)       | Amazon      |
 | Hailong Cui           | [Hailong-am](https://github.com/Hailong-am)   | Amazon      |
@@ -17,5 +15,18 @@ This document contains a list of maintainers in this repo. See [opensearch-proje
 | Zhichao Geng           | [zhichao-aws](https://github.com/zhichao-aws)   | Amazon      |
 | Thomas Hurney         | [AWSHurneyt](https://github.com/AWSHurneyt)      | Amazon      |
 | Riya Saxena           | [riysaxen-amzn](https://github.com/riysaxen-amzn)   | Amazon    |
+| Surya Sashank Nistala | [eirsep](https://github.com/eirsep)                 | Amazon    |
+| Dennis Toepker        | [toepkerd](https://github.com/toepkerd)             | Amazon    |
+| Sai Vikhyath          | [vikhy-aws](https://github.com/vikhy-aws)           | Amazon    |
+| Manaswini Ragamouni   | [manaswini1920](https://github.com/manaswini1920)   | Amazon    |
+| Nishtha Mehrotra            | [nishtham-amazon](https://github.com/nishtham-amazon) | Amazon  |
+| Kash Kondaka         | [KashKondaka](https://github.com/KashKondaka)       | Amazon    |
+
+## Emeritus
+
+| Maintainer             | GitHub ID                                     | Affiliation |
+| ---------------------- | --------------------------------------------- | ----------- |
+| Subhobrata Dey        | [sbcd90](https://github.com/sbcd90)                      | Amazon |
+| Praveen Sameneni      | [praveensameneni](https://github.com/praveensameneni)    | Amazon |
 
 [This document](https://github.com/opensearch-project/.github/blob/main/MAINTAINERS.md) explains what maintainers do in this repo, and how they should be doing it. If you're interested in contributing, see [CONTRIBUTING](CONTRIBUTING.md).
