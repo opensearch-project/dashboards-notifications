@@ -1,5 +1,3 @@
-import { getWorkspaceState } from '../../../src/core/server/utils';
-
 interface WorkspaceAuthorizer {
   authorizeWorkspace: (
     request: any,
@@ -11,6 +9,7 @@ interface WorkspaceAuthorizer {
 
 let workspaceStart: WorkspaceAuthorizer | undefined;
 let logger: any;
+let workspaceIdGetter: ((request: any) => string | undefined) | undefined;
 
 export class MDSEnabledClientService {
   static setWorkspaceStart(ws: WorkspaceAuthorizer) {
@@ -19,6 +18,10 @@ export class MDSEnabledClientService {
 
   static setLogger(l: any) {
     logger = l;
+  }
+
+  static setWorkspaceIdGetter(fn: (request: any) => string | undefined) {
+    workspaceIdGetter = fn;
   }
 
   static getClient(request, context, dataSourceEnabled) {
@@ -47,7 +50,7 @@ export class MDSEnabledClientService {
     }
 
     const principal = request.headers['x-amzn-aosd-username'] as string;
-    const workspaceId = getWorkspaceState(request).requestWorkspaceId;
+    const workspaceId = workspaceIdGetter?.(request);
 
     if (!principal || !workspaceId || !workspaceStart) {
       return true;

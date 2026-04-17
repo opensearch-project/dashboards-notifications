@@ -4,9 +4,6 @@
  */
 
 import { MDSEnabledClientService } from '../MDSEnabledClientService';
-import { getWorkspaceState } from '../../../src/core/server/utils';
-
-const mockGetWorkspaceState = getWorkspaceState as jest.Mock;
 
 const createMockRequest = (overrides: any = {}) => ({
   query: { dataSourceId: 'ds-1', ...overrides.query },
@@ -33,9 +30,9 @@ describe('MDSEnabledClientService - checkWorkspaceAcl', () => {
 
   beforeEach(() => {
     jest.clearAllMocks();
-    mockGetWorkspaceState.mockReturnValue({ requestWorkspaceId: 'ws-1' });
     mockAuthorizeWorkspace.mockResolvedValue({ authorized: true });
     MDSEnabledClientService.setWorkspaceStart({ authorizeWorkspace: mockAuthorizeWorkspace });
+    MDSEnabledClientService.setWorkspaceIdGetter(() => 'ws-1');
     MDSEnabledClientService.setLogger({ info: jest.fn() });
   });
 
@@ -88,7 +85,7 @@ describe('MDSEnabledClientService - checkWorkspaceAcl', () => {
   });
 
   it('should skip ACL check when no workspace ID in request', async () => {
-    mockGetWorkspaceState.mockReturnValue({ requestWorkspaceId: undefined });
+    MDSEnabledClientService.setWorkspaceIdGetter(() => undefined);
     const request = createMockRequest();
     const context = createMockContext('https://col.us-west-2.aoss.amazonaws.com');
     const result = await MDSEnabledClientService.checkWorkspaceAcl(request, context, true, ['read']);

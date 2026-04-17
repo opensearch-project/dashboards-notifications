@@ -67,6 +67,14 @@ export class notificationsDashboardsPlugin
     MDSEnabledClientService.setLogger(this.logger);
     if (plugins?.workspace) {
       MDSEnabledClientService.setWorkspaceStart(plugins.workspace);
+      try {
+        const { getWorkspaceState } = require('../../../src/core/server/utils');
+        MDSEnabledClientService.setWorkspaceIdGetter((request) => {
+          try { return getWorkspaceState(request).requestWorkspaceId; } catch (e) { return undefined; }
+        });
+      } catch (e) {
+        this.logger.warn('Failed to load getWorkspaceState, workspace ACL will skip workspace ID resolution');
+      }
     }
     return {};
   }
