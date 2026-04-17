@@ -36,6 +36,14 @@ interface DeleteQuerySchema {
 
 export function configRoutes(router: IRouter, dataSourceEnabled: boolean) {
 
+  const enforceWorkspaceAcl = async (context, request, response, permissionModes: string[]) => {
+    const authorized = await MDSEnabledClientService.checkWorkspaceAcl(request, context, dataSourceEnabled, permissionModes);
+    if (!authorized) {
+      return response.custom({ statusCode: 403, body: 'Workspace ACL check failed: unauthorized' });
+    }
+    return null;
+  };
+
   const getConfigsQuerySchema: Schema = {
     from_index: schema.number(),
     max_items: schema.number(),
@@ -111,6 +119,8 @@ export function configRoutes(router: IRouter, dataSourceEnabled: boolean) {
       },
     },
     async (context, request, response) => {
+      const aclResponse = await enforceWorkspaceAcl(context, request, response, ['library_write', 'library_read']);
+      if (aclResponse) return aclResponse;
       const config_type = joinRequestParams(request.query.config_type);
       const config_id_list = joinRequestParams(request.query.config_id_list);
       const encryption_method = joinRequestParams(
@@ -152,6 +162,8 @@ export function configRoutes(router: IRouter, dataSourceEnabled: boolean) {
       validate: genericParamsAndDataSourceIdQuery,
     },
     async (context, request, response) => {
+      const aclResponse = await enforceWorkspaceAcl(context, request, response, ['library_write', 'library_read']);
+      if (aclResponse) return aclResponse;
       const client = MDSEnabledClientService.getClient(request, context, dataSourceEnabled);
       try {
         const resp = await client(
@@ -174,6 +186,8 @@ export function configRoutes(router: IRouter, dataSourceEnabled: boolean) {
       validate: genericBodyAndDataSourceIdQuery,
     },
     async (context, request, response) => {
+      const aclResponse = await enforceWorkspaceAcl(context, request, response, ['library_write']);
+      if (aclResponse) return aclResponse;
       const client = MDSEnabledClientService.getClient(request, context, dataSourceEnabled);
       try {
         const resp = await client(
@@ -197,6 +211,8 @@ export function configRoutes(router: IRouter, dataSourceEnabled: boolean) {
       validate: updateQuerySchema,
     },
     async (context, request, response) => {
+      const aclResponse = await enforceWorkspaceAcl(context, request, response, ['library_write']);
+      if (aclResponse) return aclResponse;
       const client = MDSEnabledClientService.getClient(request, context, dataSourceEnabled);
       try {
         const resp = await client(
@@ -224,6 +240,8 @@ export function configRoutes(router: IRouter, dataSourceEnabled: boolean) {
       }
     },
     async (context, request, response) => {
+      const aclResponse = await enforceWorkspaceAcl(context, request, response, ['library_write']);
+      if (aclResponse) return aclResponse;
       const client = MDSEnabledClientService.getClient(request, context, dataSourceEnabled)
       const config_id_list = joinRequestParams(request.query.config_id_list);
       try {
@@ -251,6 +269,8 @@ export function configRoutes(router: IRouter, dataSourceEnabled: boolean) {
       } : false,
     },
     async (context, request, response) => {
+      const aclResponse = await enforceWorkspaceAcl(context, request, response, ['library_write', 'library_read']);
+      if (aclResponse) return aclResponse;
       const client = MDSEnabledClientService.getClient(request, context, dataSourceEnabled);
 
       try {

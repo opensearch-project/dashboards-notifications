@@ -14,6 +14,7 @@ import {
 import { defineRoutes } from "./routes";
 import { NotificationsPlugin } from "./clusters/notificationsPlugin";
 import { DataSourcePluginSetup } from "../../../src/plugins/data_source/server";
+import { MDSEnabledClientService } from "../common/MDSEnabledClientService";
 
 export interface NotificationsDashboardsPluginDependencies {
   dataSource: DataSourcePluginSetup;
@@ -61,8 +62,12 @@ export class notificationsDashboardsPlugin
     return {};
   }
 
-  public start(core: CoreStart) {
+  public start(core: CoreStart, plugins?: any) {
     this.logger.debug("notificationsDashboards: Started");
+    MDSEnabledClientService.setLogger(this.logger);
+    if (plugins?.workspace) {
+      MDSEnabledClientService.setWorkspaceStart(plugins.workspace);
+    }
     return {};
   }
 
