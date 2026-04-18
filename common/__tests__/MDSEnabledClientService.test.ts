@@ -3,14 +3,15 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { MDSEnabledClientService } from '../MDSEnabledClientService';
+jest.mock('../../common/notifications_configs.json', () => ({
+  'ws.acl.enforce.endpoint.patterns': ['.aoss.amazonaws.com'],
+}), { virtual: true });
+
+import { MDSEnabledClientService } from '../../server/MDSEnabledClientService';
 
 const createMockRequest = (overrides: any = {}) => ({
   query: { dataSourceId: 'ds-1', ...overrides.query },
-  headers: {
-    'x-amzn-aosd-username': 'arn:aws:sts::123456:assumed-role/Admin/user1',
-    ...overrides.headers,
-  },
+  headers: overrides.headers || {},
 });
 
 const createMockContext = (endpoint = 'https://col.us-west-2.aoss.amazonaws.com') => ({
@@ -25,7 +26,12 @@ const createMockContext = (endpoint = 'https://col.us-west-2.aoss.amazonaws.com'
   },
 });
 
-describe('MDSEnabledClientService - checkWorkspaceAcl', () => {
+const createMockResponse = () => ({
+  ok: jest.fn((payload) => payload),
+  unauthorized: jest.fn((payload) => ({ unauthorized: true, ...payload })),
+});
+
+describe('MDSEnabledClientService - Workspace ACL', () => {
   const mockAuthorizeWorkspace = jest.fn();
 
   beforeEach(() => {
@@ -33,80 +39,92 @@ describe('MDSEnabledClientService - checkWorkspaceAcl', () => {
     mockAuthorizeWorkspace.mockResolvedValue({ authorized: true });
     MDSEnabledClientService.setWorkspaceStart({ authorizeWorkspace: mockAuthorizeWorkspace });
     MDSEnabledClientService.setWorkspaceIdGetter(() => 'ws-1');
-    MDSEnabledClientService.setLogger({ info: jest.fn() });
+    MDSEnabledClientService.setLogger({ debug: jest.fn() });
   });
 
-  it('should skip ACL check when no dataSourceId', async () => {
-    const request = createMockRequest({ query: { dataSourceId: '' } });
-    const result = await MDSEnabledClientService.checkWorkspaceAcl(request, {}, true, ['read']);
-    expect(result).toBe(true);
-    expect(mockAuthorizeWorkspace).not.toHaveBeenCalled();
+  describe('checkWorkspaceAcl', () => {
+    it('should skip ACL check when no dataSourceId', async () => {
+      const request = createMockRequest({ query: { dataSourceId: '' } });
+      const result = await MDSEnabledClientService.checkWorkspaceAcl(request, {}, true, ['read']);
+      expect(result).toBe(true);
+      expect(mockAuthorizeWorkspace).not.toHaveBeenCalled();
+    });
+
+    it('should skip ACL check when dataSourceEnabled is false', async () => {
+      const request = createMockRequest();
+      const result = await MDSEnabledClientService.checkWorkspaceAcl(request, {}, false, ['read']);
+      expect(result).toBe(true);
+      expect(mockAuthorizeWorkspace).not.toHaveBeenCalled();
+    });
+
+    it('should skip ACL check for non-AOSS (managed domain) endpoints', async () => {
+      const request = createMockRequest();
+      const context = createMockContext('https://search-domain.us-west-2.es.amazonaws.com');
+      const result = await MDSEnabledClientService.checkWorkspaceAcl(request, context, true, ['read']);
+      expect(result).toBe(true);
+      expect(mockAuthorizeWorkspace).not.toHaveBeenCalled();
+    });
+
+    it('should run ACL check for AOSS endpoints and return true when authorized', async () => {
+      const request = createMockRequest();
+      const context = createMockContext('https://col.us-west-2.aoss.amazonaws.com');
+      const result = await MDSEnabledClientService.checkWorkspaceAcl(request, context, true, ['library_read']);
+      expect(result).toBe(true);
+      expect(mockAuthorizeWorkspace).toHaveBeenCalledWith(request, ['ws-1'], ['library_read']);
+    });
+
+    it('should return false when workspace authorization fails for AOSS', async () => {
+      mockAuthorizeWorkspace.mockResolvedValue({ authorized: false });
+      const request = createMockRequest();
+      const context = createMockContext('https://col.us-west-2.aoss.amazonaws.com');
+      const result = await MDSEnabledClientService.checkWorkspaceAcl(request, context, true, ['library_write']);
+      expect(result).toBe(false);
+    });
+
+    it('should skip ACL check when no workspace ID in request', async () => {
+      MDSEnabledClientService.setWorkspaceIdGetter(() => undefined);
+      const request = createMockRequest();
+      const context = createMockContext('https://col.us-west-2.aoss.amazonaws.com');
+      const result = await MDSEnabledClientService.checkWorkspaceAcl(request, context, true, ['read']);
+      expect(result).toBe(true);
+      expect(mockAuthorizeWorkspace).not.toHaveBeenCalled();
+    });
+
+    it('should skip ACL check when workspaceStart is not set', async () => {
+      MDSEnabledClientService.setWorkspaceStart(undefined as any);
+      const request = createMockRequest();
+      const context = createMockContext('https://col.us-west-2.aoss.amazonaws.com');
+      const result = await MDSEnabledClientService.checkWorkspaceAcl(request, context, true, ['read']);
+      expect(result).toBe(true);
+    });
+
+    it('should pass correct permission modes to authorizeWorkspace', async () => {
+      const request = createMockRequest();
+      const context = createMockContext('https://col.us-west-2.aoss.amazonaws.com');
+      await MDSEnabledClientService.checkWorkspaceAcl(request, context, true, ['library_write', 'library_read']);
+      expect(mockAuthorizeWorkspace).toHaveBeenCalledWith(request, ['ws-1'], ['library_write', 'library_read']);
+    });
   });
 
-  it('should skip ACL check when dataSourceEnabled is false', async () => {
-    const request = createMockRequest();
-    const result = await MDSEnabledClientService.checkWorkspaceAcl(request, {}, false, ['read']);
-    expect(result).toBe(true);
-    expect(mockAuthorizeWorkspace).not.toHaveBeenCalled();
-  });
+  describe('enforceWorkspaceAcl', () => {
+    it('should return undefined when authorized', async () => {
+      const request = createMockRequest();
+      const context = createMockContext();
+      const response = createMockResponse();
+      const result = await MDSEnabledClientService.enforceWorkspaceAcl(request, context, response, true, ['read']);
+      expect(result).toBeUndefined();
+      expect(response.unauthorized).not.toHaveBeenCalled();
+    });
 
-  it('should skip ACL check for non-AOSS (managed domain) endpoints', async () => {
-    const request = createMockRequest();
-    const context = createMockContext('https://search-domain.us-west-2.es.amazonaws.com');
-    const result = await MDSEnabledClientService.checkWorkspaceAcl(request, context, true, ['read']);
-    expect(result).toBe(true);
-    expect(mockAuthorizeWorkspace).not.toHaveBeenCalled();
-  });
-
-  it('should run ACL check for AOSS endpoints and return true when authorized', async () => {
-    const request = createMockRequest();
-    const context = createMockContext('https://col.us-west-2.aoss.amazonaws.com');
-    const result = await MDSEnabledClientService.checkWorkspaceAcl(request, context, true, ['library_read']);
-    expect(result).toBe(true);
-    expect(mockAuthorizeWorkspace).toHaveBeenCalledWith(
-      request, ['ws-1'], 'arn:aws:sts::123456:assumed-role/Admin/user1', ['library_read']
-    );
-  });
-
-  it('should return false when workspace authorization fails for AOSS', async () => {
-    mockAuthorizeWorkspace.mockResolvedValue({ authorized: false });
-    const request = createMockRequest();
-    const context = createMockContext('https://col.us-west-2.aoss.amazonaws.com');
-    const result = await MDSEnabledClientService.checkWorkspaceAcl(request, context, true, ['library_write']);
-    expect(result).toBe(false);
-  });
-
-  it('should skip ACL check when no principal header', async () => {
-    const request = createMockRequest({ headers: { 'x-amzn-aosd-username': undefined } });
-    const context = createMockContext('https://col.us-west-2.aoss.amazonaws.com');
-    const result = await MDSEnabledClientService.checkWorkspaceAcl(request, context, true, ['read']);
-    expect(result).toBe(true);
-    expect(mockAuthorizeWorkspace).not.toHaveBeenCalled();
-  });
-
-  it('should skip ACL check when no workspace ID in request', async () => {
-    MDSEnabledClientService.setWorkspaceIdGetter(() => undefined);
-    const request = createMockRequest();
-    const context = createMockContext('https://col.us-west-2.aoss.amazonaws.com');
-    const result = await MDSEnabledClientService.checkWorkspaceAcl(request, context, true, ['read']);
-    expect(result).toBe(true);
-    expect(mockAuthorizeWorkspace).not.toHaveBeenCalled();
-  });
-
-  it('should skip ACL check when workspaceStart is not set', async () => {
-    MDSEnabledClientService.setWorkspaceStart(undefined as any);
-    const request = createMockRequest();
-    const context = createMockContext('https://col.us-west-2.aoss.amazonaws.com');
-    const result = await MDSEnabledClientService.checkWorkspaceAcl(request, context, true, ['read']);
-    expect(result).toBe(true);
-  });
-
-  it('should pass correct permission modes to authorizeWorkspace', async () => {
-    const request = createMockRequest();
-    const context = createMockContext('https://col.us-west-2.aoss.amazonaws.com');
-    await MDSEnabledClientService.checkWorkspaceAcl(request, context, true, ['library_write', 'library_read']);
-    expect(mockAuthorizeWorkspace).toHaveBeenCalledWith(
-      request, ['ws-1'], 'arn:aws:sts::123456:assumed-role/Admin/user1', ['library_write', 'library_read']
-    );
+    it('should return unauthorized response when not authorized', async () => {
+      mockAuthorizeWorkspace.mockResolvedValue({ authorized: false });
+      const request = createMockRequest();
+      const context = createMockContext();
+      const response = createMockResponse();
+      await MDSEnabledClientService.enforceWorkspaceAcl(request, context, response, true, ['library_write']);
+      expect(response.unauthorized).toHaveBeenCalledWith({
+        body: { message: 'Workspace ACL check failed: unauthorized' },
+      });
+    });
   });
 });

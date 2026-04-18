@@ -12,7 +12,7 @@ import { NODE_API } from '../../common';
 import { joinRequestParams } from '../utils/helper';
 import _ from 'lodash';
 import { CHANNEL_TYPE } from '../../common/constants';
-import { MDSEnabledClientService } from '../../common/MDSEnabledClientService';
+import { MDSEnabledClientService } from '../MDSEnabledClientService';
 
 interface Schema {
   [key: string]: any;
@@ -35,14 +35,6 @@ interface DeleteQuerySchema {
 }
 
 export function configRoutes(router: IRouter, dataSourceEnabled: boolean) {
-
-  const enforceWorkspaceAcl = async (context, request, response, permissionModes: string[]) => {
-    const authorized = await MDSEnabledClientService.checkWorkspaceAcl(request, context, dataSourceEnabled, permissionModes);
-    if (!authorized) {
-      return response.custom({ statusCode: 403, body: 'Workspace ACL check failed: unauthorized' });
-    }
-    return null;
-  };
 
   const getConfigsQuerySchema: Schema = {
     from_index: schema.number(),
@@ -119,7 +111,7 @@ export function configRoutes(router: IRouter, dataSourceEnabled: boolean) {
       },
     },
     async (context, request, response) => {
-      const aclResponse = await enforceWorkspaceAcl(context, request, response, ['library_write', 'library_read']);
+      const aclResponse = await MDSEnabledClientService.enforceWorkspaceAcl(request, context, response, dataSourceEnabled, ['library_write', 'library_read']);
       if (aclResponse) return aclResponse;
       const config_type = joinRequestParams(request.query.config_type);
       const config_id_list = joinRequestParams(request.query.config_id_list);
@@ -162,7 +154,7 @@ export function configRoutes(router: IRouter, dataSourceEnabled: boolean) {
       validate: genericParamsAndDataSourceIdQuery,
     },
     async (context, request, response) => {
-      const aclResponse = await enforceWorkspaceAcl(context, request, response, ['library_write', 'library_read']);
+      const aclResponse = await MDSEnabledClientService.enforceWorkspaceAcl(request, context, response, dataSourceEnabled, ['library_write', 'library_read']);
       if (aclResponse) return aclResponse;
       const client = MDSEnabledClientService.getClient(request, context, dataSourceEnabled);
       try {
@@ -186,7 +178,7 @@ export function configRoutes(router: IRouter, dataSourceEnabled: boolean) {
       validate: genericBodyAndDataSourceIdQuery,
     },
     async (context, request, response) => {
-      const aclResponse = await enforceWorkspaceAcl(context, request, response, ['library_write']);
+      const aclResponse = await MDSEnabledClientService.enforceWorkspaceAcl(request, context, response, dataSourceEnabled, ['library_write']);
       if (aclResponse) return aclResponse;
       const client = MDSEnabledClientService.getClient(request, context, dataSourceEnabled);
       try {
@@ -211,7 +203,7 @@ export function configRoutes(router: IRouter, dataSourceEnabled: boolean) {
       validate: updateQuerySchema,
     },
     async (context, request, response) => {
-      const aclResponse = await enforceWorkspaceAcl(context, request, response, ['library_write']);
+      const aclResponse = await MDSEnabledClientService.enforceWorkspaceAcl(request, context, response, dataSourceEnabled, ['library_write']);
       if (aclResponse) return aclResponse;
       const client = MDSEnabledClientService.getClient(request, context, dataSourceEnabled);
       try {
@@ -240,7 +232,7 @@ export function configRoutes(router: IRouter, dataSourceEnabled: boolean) {
       }
     },
     async (context, request, response) => {
-      const aclResponse = await enforceWorkspaceAcl(context, request, response, ['library_write']);
+      const aclResponse = await MDSEnabledClientService.enforceWorkspaceAcl(request, context, response, dataSourceEnabled, ['library_write']);
       if (aclResponse) return aclResponse;
       const client = MDSEnabledClientService.getClient(request, context, dataSourceEnabled)
       const config_id_list = joinRequestParams(request.query.config_id_list);
@@ -269,7 +261,7 @@ export function configRoutes(router: IRouter, dataSourceEnabled: boolean) {
       } : false,
     },
     async (context, request, response) => {
-      const aclResponse = await enforceWorkspaceAcl(context, request, response, ['library_write', 'library_read']);
+      const aclResponse = await MDSEnabledClientService.enforceWorkspaceAcl(request, context, response, dataSourceEnabled, ['library_write', 'library_read']);
       if (aclResponse) return aclResponse;
       const client = MDSEnabledClientService.getClient(request, context, dataSourceEnabled);
 

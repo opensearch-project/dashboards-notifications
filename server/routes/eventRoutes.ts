@@ -9,17 +9,9 @@ import {
   IRouter,
 } from '../../../../src/core/server';
 import { NODE_API } from '../../common';
-import { MDSEnabledClientService } from '../../common/MDSEnabledClientService';
+import { MDSEnabledClientService } from '../MDSEnabledClientService';
 
 export function eventRoutes(router: IRouter, dataSourceEnabled: boolean) {
-
-  const enforceWorkspaceAcl = async (context, request, response, permissionModes: string[]) => {
-    const authorized = await MDSEnabledClientService.checkWorkspaceAcl(request, context, dataSourceEnabled, permissionModes);
-    if (!authorized) {
-      return response.custom({ statusCode: 403, body: 'Workspace ACL check failed: unauthorized' });
-    }
-    return null;
-  };
 
   let genericParamsAndDataSourceIdQuery: { params: any; query?: any } = {
     params: schema.any(),
@@ -38,7 +30,7 @@ export function eventRoutes(router: IRouter, dataSourceEnabled: boolean) {
       validate: genericParamsAndDataSourceIdQuery,
     },
     async (context, request, response) => {
-      const aclResponse = await enforceWorkspaceAcl(context, request, response, ['library_write', 'library_read']);
+      const aclResponse = await MDSEnabledClientService.enforceWorkspaceAcl(request, context, response, dataSourceEnabled, ['library_write', 'library_read']);
       if (aclResponse) return aclResponse;
       // @ts-ignore
       const client = MDSEnabledClientService.getClient(request, context, dataSourceEnabled);
@@ -63,7 +55,7 @@ export function eventRoutes(router: IRouter, dataSourceEnabled: boolean) {
       validate: genericParamsAndDataSourceIdQuery,
     },
     async (context, request, response) => {
-      const aclResponse = await enforceWorkspaceAcl(context, request, response, ['library_write']);
+      const aclResponse = await MDSEnabledClientService.enforceWorkspaceAcl(request, context, response, dataSourceEnabled, ['library_write']);
       if (aclResponse) return aclResponse;
       // @ts-ignore
       const client = MDSEnabledClientService.getClient(request, context, dataSourceEnabled);

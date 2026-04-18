@@ -6,6 +6,7 @@ import {
   Logger,
   ILegacyClusterClient,
 } from "../../../src/core/server";
+import { getWorkspaceState } from "../../../src/core/server/utils";
 
 import {
   notificationsDashboardsPluginSetup,
@@ -14,10 +15,20 @@ import {
 import { defineRoutes } from "./routes";
 import { NotificationsPlugin } from "./clusters/notificationsPlugin";
 import { DataSourcePluginSetup } from "../../../src/plugins/data_source/server";
-import { MDSEnabledClientService } from "../common/MDSEnabledClientService";
+import { MDSEnabledClientService } from "./MDSEnabledClientService";
 
 export interface NotificationsDashboardsPluginDependencies {
   dataSource: DataSourcePluginSetup;
+}
+
+export interface NotificationsDashboardsPluginStartDependencies {
+  workspace?: {
+    authorizeWorkspace: (
+      request: any,
+      workspaceIds: string[],
+      permissionModes?: string[]
+    ) => Promise<any>;
+  };
 }
 
 export class notificationsDashboardsPlugin
@@ -62,19 +73,18 @@ export class notificationsDashboardsPlugin
     return {};
   }
 
-  public start(core: CoreStart, plugins?: any) {
+  public start(core: CoreStart, plugins?: NotificationsDashboardsPluginStartDependencies) {
     this.logger.debug("notificationsDashboards: Started");
     MDSEnabledClientService.setLogger(this.logger);
     if (plugins?.workspace) {
       MDSEnabledClientService.setWorkspaceStart(plugins.workspace);
-      try {
-        const { getWorkspaceState } = require('../../../src/core/server/utils');
-        MDSEnabledClientService.setWorkspaceIdGetter((request) => {
-          try { return getWorkspaceState(request).requestWorkspaceId; } catch (e) { return undefined; }
-        });
-      } catch (e) {
-        this.logger.warn('Failed to load getWorkspaceState, workspace ACL will skip workspace ID resolution');
-      }
+      MDSEnabledClientService.setWorkspaceIdGetter((request) => {
+        try {
+          return getWorkspaceState(request).requestWorkspaceId;
+        } catch (e) {
+          return undefined;
+        }
+      });
     }
     return {};
   }
