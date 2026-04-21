@@ -1,31 +1,29 @@
-// eslint-disable-next-line @typescript-eslint/no-var-requires
-const notificationsConfig = require('../common/notifications_configs.json');
-
-const WS_ACL_ENDPOINT_PATTERNS: string[] = notificationsConfig['ws.acl.enforce.endpoint.patterns'] || [];
-
 interface WorkspaceAuthorizer {
   authorizeWorkspace: (
     request: any,
     workspaceIds: string[],
     permissionModes?: string[]
   ) => Promise<{ authorized: true } | { authorized: false; unauthorizedWorkspaces: string[] }>;
+  aclEnforceEndpointPatterns: string[];
 }
 
-let workspaceStart: WorkspaceAuthorizer | undefined;
-let logger: any;
-let workspaceIdGetter: ((request: any) => string | undefined) | undefined;
-
 export class MDSEnabledClientService {
+  private static workspaceStart: WorkspaceAuthorizer | undefined;
+  private static logger: any;
+  private static workspaceIdGetter: ((request: any) => string | undefined) | undefined;
+  private static aclEndpointPatterns: string[] = [];
+
   static setWorkspaceStart(ws: WorkspaceAuthorizer) {
-    workspaceStart = ws;
+    MDSEnabledClientService.workspaceStart = ws;
+    MDSEnabledClientService.aclEndpointPatterns = ws?.aclEnforceEndpointPatterns ?? [];
   }
 
   static setLogger(l: any) {
-    logger = l;
+    MDSEnabledClientService.logger = l;
   }
 
   static setWorkspaceIdGetter(fn: (request: any) => string | undefined) {
-    workspaceIdGetter = fn;
+    MDSEnabledClientService.workspaceIdGetter = fn;
   }
 
   static getClient(request, context, dataSourceEnabled) {
@@ -40,14 +38,19 @@ export class MDSEnabledClientService {
   }
 
   static async enforceWorkspaceAcl(request, context, response, dataSourceEnabled, permissionModes: string[] = ['read']) {
-    const authorized = await MDSEnabledClientService.checkWorkspaceAcl(request, context, dataSourceEnabled, permissionModes);
-    if (!authorized) {
-      return response.unauthorized({ body: { message: 'Workspace ACL check failed: unauthorized' } });
+    const result = await MDSEnabledClientService.checkWorkspaceAcl(request, context, dataSourceEnabled, permissionModes);
+    if (result === true) return undefined;
+    if (result === 'no-workspace-id') {
+      return response.badRequest({ body: { message: 'Workspace ID is required for this data source' } });
     }
-    return undefined;
+    if (result === 'workspace-not-enabled') {
+      return response.notFound({ body: { message: 'Workspace plugin is not enabled' } });
+    }
+    // result === false — unauthorized
+    return response.unauthorized({ body: { message: 'Workspace ACL check failed: unauthorized' } });
   }
 
-  static async checkWorkspaceAcl(request, context, dataSourceEnabled, permissionModes: string[] = ['read']): Promise<boolean> {
+  static async checkWorkspaceAcl(request, context, dataSourceEnabled, permissionModes: string[] = ['read']): Promise<true | false | 'no-workspace-id' | 'workspace-not-enabled'> {
     const { dataSourceId = "" } = (request.query || {}) as { dataSourceId?: string };
     if (!dataSourceEnabled || !dataSourceId || dataSourceId.trim().length === 0) {
       return true;
@@ -57,19 +60,22 @@ export class MDSEnabledClientService {
     const dataSource = await savedObjectsClient.get('data-source', dataSourceId);
     const endpoint = (dataSource.attributes as any).endpoint as string;
 
-    const requiresAcl = WS_ACL_ENDPOINT_PATTERNS.some((pattern) => endpoint.includes(pattern));
+    const requiresAcl = MDSEnabledClientService.aclEndpointPatterns.some((pattern) => endpoint.includes(pattern));
     if (!requiresAcl) {
       return true;
     }
 
-    const workspaceId = workspaceIdGetter?.(request);
-
-    if (!workspaceId || !workspaceStart) {
-      return true;
+    if (!MDSEnabledClientService.workspaceStart) {
+      return 'workspace-not-enabled';
     }
 
-    const result = await workspaceStart.authorizeWorkspace(request, [workspaceId], permissionModes);
-    logger?.debug(`Workspace ACL check: workspace=${workspaceId}, authorized=${result.authorized}, permissionModes=${permissionModes.join(',')}`);
+    const workspaceId = MDSEnabledClientService.workspaceIdGetter?.(request);
+    if (!workspaceId) {
+      return 'no-workspace-id';
+    }
+
+    const result = await MDSEnabledClientService.workspaceStart.authorizeWorkspace(request, [workspaceId], permissionModes);
+    MDSEnabledClientService.logger?.debug(`Workspace ACL check: workspace=${workspaceId}, authorized=${result.authorized}, permissionModes=${permissionModes.join(',')}`);
     return result.authorized;
   }
 }

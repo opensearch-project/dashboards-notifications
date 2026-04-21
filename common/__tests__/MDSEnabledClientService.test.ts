@@ -3,10 +3,6 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-jest.mock('../../common/notifications_configs.json', () => ({
-  'ws.acl.enforce.endpoint.patterns': ['.aoss.amazonaws.com'],
-}), { virtual: true });
-
 import { MDSEnabledClientService } from '../../server/MDSEnabledClientService';
 
 const createMockRequest = (overrides: any = {}) => ({
@@ -29,6 +25,8 @@ const createMockContext = (endpoint = 'https://col.us-west-2.aoss.amazonaws.com'
 const createMockResponse = () => ({
   ok: jest.fn((payload) => payload),
   unauthorized: jest.fn((payload) => ({ unauthorized: true, ...payload })),
+  badRequest: jest.fn((payload) => ({ badRequest: true, ...payload })),
+  notFound: jest.fn((payload) => ({ notFound: true, ...payload })),
 });
 
 describe('MDSEnabledClientService - Workspace ACL', () => {
@@ -37,7 +35,10 @@ describe('MDSEnabledClientService - Workspace ACL', () => {
   beforeEach(() => {
     jest.clearAllMocks();
     mockAuthorizeWorkspace.mockResolvedValue({ authorized: true });
-    MDSEnabledClientService.setWorkspaceStart({ authorizeWorkspace: mockAuthorizeWorkspace });
+    MDSEnabledClientService.setWorkspaceStart({
+      authorizeWorkspace: mockAuthorizeWorkspace,
+      aclEnforceEndpointPatterns: ['.aoss.amazonaws.com'],
+    });
     MDSEnabledClientService.setWorkspaceIdGetter(() => 'ws-1');
     MDSEnabledClientService.setLogger({ debug: jest.fn() });
   });
@@ -81,21 +82,34 @@ describe('MDSEnabledClientService - Workspace ACL', () => {
       expect(result).toBe(false);
     });
 
-    it('should skip ACL check when no workspace ID in request', async () => {
+    it('should return no-workspace-id when no workspace ID in request', async () => {
       MDSEnabledClientService.setWorkspaceIdGetter(() => undefined);
+      const request = createMockRequest();
+      const context = createMockContext('https://col.us-west-2.aoss.amazonaws.com');
+      const result = await MDSEnabledClientService.checkWorkspaceAcl(request, context, true, ['read']);
+      expect(result).toBe('no-workspace-id');
+      expect(mockAuthorizeWorkspace).not.toHaveBeenCalled();
+    });
+
+    it('should return workspace-not-enabled when workspaceStart is not set', async () => {
+      // Patterns were set from beforeEach, now clear workspaceStart to simulate plugin not available
+      (MDSEnabledClientService as any).workspaceStart = undefined;
+      const request = createMockRequest();
+      const context = createMockContext('https://col.us-west-2.aoss.amazonaws.com');
+      const result = await MDSEnabledClientService.checkWorkspaceAcl(request, context, true, ['read']);
+      expect(result).toBe('workspace-not-enabled');
+    });
+
+    it('should skip ACL check when aclEnforceEndpointPatterns is empty', async () => {
+      MDSEnabledClientService.setWorkspaceStart({
+        authorizeWorkspace: mockAuthorizeWorkspace,
+        aclEnforceEndpointPatterns: [],
+      });
       const request = createMockRequest();
       const context = createMockContext('https://col.us-west-2.aoss.amazonaws.com');
       const result = await MDSEnabledClientService.checkWorkspaceAcl(request, context, true, ['read']);
       expect(result).toBe(true);
       expect(mockAuthorizeWorkspace).not.toHaveBeenCalled();
-    });
-
-    it('should skip ACL check when workspaceStart is not set', async () => {
-      MDSEnabledClientService.setWorkspaceStart(undefined as any);
-      const request = createMockRequest();
-      const context = createMockContext('https://col.us-west-2.aoss.amazonaws.com');
-      const result = await MDSEnabledClientService.checkWorkspaceAcl(request, context, true, ['read']);
-      expect(result).toBe(true);
     });
 
     it('should pass correct permission modes to authorizeWorkspace', async () => {
@@ -124,6 +138,29 @@ describe('MDSEnabledClientService - Workspace ACL', () => {
       await MDSEnabledClientService.enforceWorkspaceAcl(request, context, response, true, ['library_write']);
       expect(response.unauthorized).toHaveBeenCalledWith({
         body: { message: 'Workspace ACL check failed: unauthorized' },
+      });
+    });
+
+    it('should return 400 when workspace ID is missing for AOSS endpoint', async () => {
+      MDSEnabledClientService.setWorkspaceIdGetter(() => undefined);
+      const request = createMockRequest();
+      const context = createMockContext();
+      const response = createMockResponse();
+      await MDSEnabledClientService.enforceWorkspaceAcl(request, context, response, true, ['read']);
+      expect(response.badRequest).toHaveBeenCalledWith({
+        body: { message: 'Workspace ID is required for this data source' },
+      });
+    });
+
+    it('should return 404 when workspace plugin is not enabled', async () => {
+      // Patterns were set from beforeEach, now clear workspaceStart to simulate plugin not available
+      (MDSEnabledClientService as any).workspaceStart = undefined;
+      const request = createMockRequest();
+      const context = createMockContext();
+      const response = createMockResponse();
+      await MDSEnabledClientService.enforceWorkspaceAcl(request, context, response, true, ['read']);
+      expect(response.notFound).toHaveBeenCalledWith({
+        body: { message: 'Workspace plugin is not enabled' },
       });
     });
   });

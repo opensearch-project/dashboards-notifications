@@ -28,6 +28,7 @@ export interface NotificationsDashboardsPluginStartDependencies {
       workspaceIds: string[],
       permissionModes?: string[]
     ) => Promise<any>;
+    aclEnforceEndpointPatterns: string[];
   };
 }
 
