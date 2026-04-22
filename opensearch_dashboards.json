@@ -11,7 +11,8 @@
     "share",
     "managementOverview",
     "dataSource",
-    "dataSourceManagement"
+    "dataSourceManagement",
+    "workspace"
   ],
   "server": true,
   "ui": true,

@@ -4,10 +4,11 @@
  */
 
 import { IRouter } from '../../../../src/core/server';
+import { MDSEnabledClientService } from '../MDSEnabledClientService';
 import { configRoutes } from './configRoutes';
 import { eventRoutes } from './eventRoutes';
 
-export function defineRoutes(router: IRouter, dataSourceEnabled: boolean) {
-  configRoutes(router, dataSourceEnabled);
-  eventRoutes(router, dataSourceEnabled);
+export function defineRoutes(router: IRouter, dataSourceEnabled: boolean, service: MDSEnabledClientService) {
+  configRoutes(router, dataSourceEnabled, service);
+  eventRoutes(router, dataSourceEnabled, service);
 }
