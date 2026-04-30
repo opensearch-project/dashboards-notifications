@@ -1,0 +1,1435 @@
+openapi: 3.0.0
+info:
+  title: OpenSearch Dashboards Notifications APIs
+  description: OpenAPI spec for OpenSearch Dashboards Notifications plugin APIs
+  termsOfService: https://lfprojects.org/policies/terms-of-use/
+  contact:
+    name: OpenSearch Dashboards
+    url: https://opensearch.org
+    email: opensearch@amazon.com
+  license:
+    name: Apache v2.0 License
+    url: https://www.apache.org/licenses/LICENSE-2.0
+  version: 3.1.0
+servers:
+  - url: http://localhost:5601
+externalDocs:
+  description: Official documentation
+  url: https://docs.opensearch.org/latest/about
+components:
+  schemas: {}
+  parameters: {}
+paths:
+  /api/notifications/get_configs:
+    get:
+      operationId: getConfigs
+      summary: Get notification configs
+      parameters:
+        - schema:
+            type: string
+            minLength: 1
+            description: Unique identifier for the datasource
+          required: false
+          description: Unique identifier for the datasource
+          name: dataSourceId
+          in: query
+        - schema:
+            type: integer
+            minimum: 0
+            description: Starting index for pagination
+          required: true
+          description: Starting index for pagination
+          name: from_index
+          in: query
+        - schema:
+            type: integer
+            minimum: 0
+            maximum: 10000
+            description: Maximum number of results to return
+          required: true
+          description: Maximum number of results to return
+          name: max_items
+          in: query
+        - schema:
+            type: string
+            description: Search query string
+          required: false
+          description: Search query string
+          name: query
+          in: query
+        - schema:
+            anyOf:
+              - type: array
+                items:
+                  type: string
+              - type: string
+            description: "Filter by config type(s): slack, chime, webhook, email, sns,
+              ses_account, smtp_account, email_group, microsoft_teams"
+          required: true
+          description: "Filter by config type(s): slack, chime, webhook, email, sns,
+            ses_account, smtp_account, email_group, microsoft_teams"
+          name: config_type
+          in: query
+        - schema:
+            type: boolean
+            description: Filter by enabled status
+          required: false
+          description: Filter by enabled status
+          name: is_enabled
+          in: query
+        - schema:
+            type: string
+            description: Field to sort results by
+          required: false
+          description: Field to sort results by
+          name: sort_field
+          in: query
+        - schema:
+            type: string
+            enum:
+              - asc
+              - desc
+            description: Sort order
+          required: false
+          description: Sort order
+          name: sort_order
+          in: query
+        - schema:
+            anyOf:
+              - type: array
+                items:
+                  type: string
+                  minLength: 1
+                  description: Unique identifier for the notification config
+                minItems: 1
+              - type: string
+                minLength: 1
+                description: Unique identifier for the notification config
+            description: One or more notification config IDs
+          required: false
+          description: One or more notification config IDs
+          name: config_id_list
+          in: query
+        - schema:
+            anyOf:
+              - type: array
+                items:
+                  type: string
+              - type: string
+            description: Filter by SMTP method (e.g. "start_tls", "ssl", "none")
+          required: false
+          description: Filter by SMTP method (e.g. "start_tls", "ssl", "none")
+          name: smtp_account.method
+          in: query
+      responses:
+        "200":
+          description: Configs retrieved successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  start_index:
+                    type: integer
+                    minimum: 0
+                  total_hits:
+                    type: integer
+                    minimum: 0
+                  total_hit_relation:
+                    type: string
+                  config_list:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        config_id:
+                          type: string
+                        last_updated_time_ms:
+                          type: integer
+                          minimum: 0
+                          description: Last updated timestamp in milliseconds
+                        created_time_ms:
+                          type: integer
+                          minimum: 0
+                          description: Created timestamp in milliseconds
+                        config:
+                          type: object
+                          properties:
+                            name:
+                              type: string
+                              minLength: 1
+                              description: Name of the notification channel
+                            description:
+                              type: string
+                              description: Description of the notification channel
+                            config_type:
+                              type: string
+                              enum:
+                                - slack
+                                - chime
+                                - webhook
+                                - email
+                                - sns
+                                - ses_account
+                                - smtp_account
+                                - email_group
+                                - microsoft_teams
+                              description: Notification channel type
+                            is_enabled:
+                              type: boolean
+                              description: Whether the channel is enabled
+                            slack:
+                              type: object
+                              properties:
+                                url:
+                                  type: string
+                                  format: uri
+                              required:
+                                - url
+                            chime:
+                              type: object
+                              properties:
+                                url:
+                                  type: string
+                                  format: uri
+                              required:
+                                - url
+                            webhook:
+                              type: object
+                              properties:
+                                url:
+                                  type: string
+                                  format: uri
+                              required:
+                                - url
+                            microsoft_teams:
+                              type: object
+                              properties:
+                                url:
+                                  type: string
+                                  format: uri
+                              required:
+                                - url
+                            sns:
+                              type: object
+                              properties:
+                                topic_arn:
+                                  type: string
+                                  pattern: ^arn:aws[a-zA-Z-]*:[a-zA-Z0-9-]+:[a-z0-9-]*:\d{12}:.+$
+                                  description: SNS topic ARN
+                                role_arn:
+                                  type: string
+                                  pattern: ^arn:aws[a-zA-Z-]*:[a-zA-Z0-9-]+:[a-z0-9-]*:\d{12}:.+$
+                                  description: IAM role ARN
+                              required:
+                                - topic_arn
+                            smtp_account:
+                              type: object
+                              properties:
+                                host:
+                                  type: string
+                                  minLength: 1
+                                  description: SMTP server hostname
+                                port:
+                                  type: integer
+                                  minimum: 1
+                                  maximum: 65535
+                                method:
+                                  type: string
+                                  description: Encryption method, e.g. "start_tls", "ssl", "none"
+                                from_address:
+                                  type: string
+                                  format: email
+                                  description: Sender email address
+                              required:
+                                - host
+                                - port
+                                - method
+                                - from_address
+                            ses_account:
+                              type: object
+                              properties:
+                                region:
+                                  type: string
+                                  pattern: ^[a-z]{2}(-[a-z]+)+-\d+$
+                                  description: AWS region, e.g. "us-west-2"
+                                role_arn:
+                                  type: string
+                                  pattern: ^arn:aws[a-zA-Z-]*:[a-zA-Z0-9-]+:[a-z0-9-]*:\d{12}:.+$
+                                  description: IAM role ARN
+                                from_address:
+                                  type: string
+                                  format: email
+                                  description: Sender email address
+                              required:
+                                - region
+                                - from_address
+                            email_group:
+                              type: object
+                              properties:
+                                recipient_list:
+                                  type: array
+                                  items:
+                                    type: object
+                                    properties:
+                                      recipient:
+                                        type: string
+                                    required:
+                                      - recipient
+                              required:
+                                - recipient_list
+                            email:
+                              type: object
+                              properties:
+                                email_account_id:
+                                  type: string
+                                recipient_list:
+                                  type: array
+                                  items:
+                                    type: object
+                                    properties:
+                                      recipient:
+                                        type: string
+                                    required:
+                                      - recipient
+                                email_group_id_list:
+                                  type: array
+                                  items:
+                                    type: string
+                              required:
+                                - email_account_id
+                          required:
+                            - name
+                            - config_type
+                          description: Notification channel configuration
+                      required:
+                        - config_id
+                        - last_updated_time_ms
+                        - created_time_ms
+                        - config
+                      description: Notification config with metadata
+                required:
+                  - start_index
+                  - total_hits
+                  - total_hit_relation
+                  - config_list
+                description: Paginated list of notification configs
+                example: &a1
+                  start_index: 0
+                  total_hits: 1
+                  total_hit_relation: eq
+                  config_list:
+                    - config_id: sample-config-id
+                      last_updated_time_ms: 1652760532774
+                      created_time_ms: 1652760532774
+                      config:
+                        name: my-slack-channel
+                        description: Slack notification channel
+                        config_type: slack
+                        is_enabled: true
+                        slack:
+                          url: https://example.com/slack-webhook
+        "500":
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  statusCode:
+                    type: number
+                  body:
+                    type: string
+                required:
+                  - statusCode
+                  - body
+  /api/notifications/get_config/{configId}:
+    get:
+      operationId: getConfigById
+      summary: Get a notification config by ID
+      parameters:
+        - schema:
+            type: string
+            minLength: 1
+            description: Unique identifier for the notification config
+          required: true
+          description: Unique identifier for the notification config
+          name: configId
+          in: path
+        - schema:
+            type: string
+            minLength: 1
+            description: Unique identifier for the datasource
+          required: false
+          description: Unique identifier for the datasource
+          name: dataSourceId
+          in: query
+      responses:
+        "200":
+          description: Config retrieved
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  start_index:
+                    type: integer
+                    minimum: 0
+                  total_hits:
+                    type: integer
+                    minimum: 0
+                  total_hit_relation:
+                    type: string
+                  config_list:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        config_id:
+                          type: string
+                        last_updated_time_ms:
+                          type: integer
+                          minimum: 0
+                          description: Last updated timestamp in milliseconds
+                        created_time_ms:
+                          type: integer
+                          minimum: 0
+                          description: Created timestamp in milliseconds
+                        config:
+                          type: object
+                          properties:
+                            name:
+                              type: string
+                              minLength: 1
+                              description: Name of the notification channel
+                            description:
+                              type: string
+                              description: Description of the notification channel
+                            config_type:
+                              type: string
+                              enum:
+                                - slack
+                                - chime
+                                - webhook
+                                - email
+                                - sns
+                                - ses_account
+                                - smtp_account
+                                - email_group
+                                - microsoft_teams
+                              description: Notification channel type
+                            is_enabled:
+                              type: boolean
+                              description: Whether the channel is enabled
+                            slack:
+                              type: object
+                              properties:
+                                url:
+                                  type: string
+                                  format: uri
+                              required:
+                                - url
+                            chime:
+                              type: object
+                              properties:
+                                url:
+                                  type: string
+                                  format: uri
+                              required:
+                                - url
+                            webhook:
+                              type: object
+                              properties:
+                                url:
+                                  type: string
+                                  format: uri
+                              required:
+                                - url
+                            microsoft_teams:
+                              type: object
+                              properties:
+                                url:
+                                  type: string
+                                  format: uri
+                              required:
+                                - url
+                            sns:
+                              type: object
+                              properties:
+                                topic_arn:
+                                  type: string
+                                  pattern: ^arn:aws[a-zA-Z-]*:[a-zA-Z0-9-]+:[a-z0-9-]*:\d{12}:.+$
+                                  description: SNS topic ARN
+                                role_arn:
+                                  type: string
+                                  pattern: ^arn:aws[a-zA-Z-]*:[a-zA-Z0-9-]+:[a-z0-9-]*:\d{12}:.+$
+                                  description: IAM role ARN
+                              required:
+                                - topic_arn
+                            smtp_account:
+                              type: object
+                              properties:
+                                host:
+                                  type: string
+                                  minLength: 1
+                                  description: SMTP server hostname
+                                port:
+                                  type: integer
+                                  minimum: 1
+                                  maximum: 65535
+                                method:
+                                  type: string
+                                  description: Encryption method, e.g. "start_tls", "ssl", "none"
+                                from_address:
+                                  type: string
+                                  format: email
+                                  description: Sender email address
+                              required:
+                                - host
+                                - port
+                                - method
+                                - from_address
+                            ses_account:
+                              type: object
+                              properties:
+                                region:
+                                  type: string
+                                  pattern: ^[a-z]{2}(-[a-z]+)+-\d+$
+                                  description: AWS region, e.g. "us-west-2"
+                                role_arn:
+                                  type: string
+                                  pattern: ^arn:aws[a-zA-Z-]*:[a-zA-Z0-9-]+:[a-z0-9-]*:\d{12}:.+$
+                                  description: IAM role ARN
+                                from_address:
+                                  type: string
+                                  format: email
+                                  description: Sender email address
+                              required:
+                                - region
+                                - from_address
+                            email_group:
+                              type: object
+                              properties:
+                                recipient_list:
+                                  type: array
+                                  items:
+                                    type: object
+                                    properties:
+                                      recipient:
+                                        type: string
+                                    required:
+                                      - recipient
+                              required:
+                                - recipient_list
+                            email:
+                              type: object
+                              properties:
+                                email_account_id:
+                                  type: string
+                                recipient_list:
+                                  type: array
+                                  items:
+                                    type: object
+                                    properties:
+                                      recipient:
+                                        type: string
+                                    required:
+                                      - recipient
+                                email_group_id_list:
+                                  type: array
+                                  items:
+                                    type: string
+                              required:
+                                - email_account_id
+                          required:
+                            - name
+                            - config_type
+                          description: Notification channel configuration
+                      required:
+                        - config_id
+                        - last_updated_time_ms
+                        - created_time_ms
+                        - config
+                      description: Notification config with metadata
+                required:
+                  - start_index
+                  - total_hits
+                  - total_hit_relation
+                  - config_list
+                description: Paginated list of notification configs
+                example: *a1
+        "500":
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  statusCode:
+                    type: number
+                  body:
+                    type: string
+                required:
+                  - statusCode
+                  - body
+  /api/notifications/create_config:
+    post:
+      operationId: createConfig
+      summary: Create a notification config
+      parameters:
+        - schema:
+            type: string
+            minLength: 1
+            description: Unique identifier for the datasource
+          required: false
+          description: Unique identifier for the datasource
+          name: dataSourceId
+          in: query
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                config_id:
+                  type: string
+                  description: Custom config ID (auto-generated if omitted)
+                config:
+                  type: object
+                  properties:
+                    name:
+                      type: string
+                      minLength: 1
+                      description: Name of the notification channel
+                    description:
+                      type: string
+                      description: Description of the notification channel
+                    config_type:
+                      type: string
+                      enum:
+                        - slack
+                        - chime
+                        - webhook
+                        - email
+                        - sns
+                        - ses_account
+                        - smtp_account
+                        - email_group
+                        - microsoft_teams
+                      description: Notification channel type
+                    is_enabled:
+                      type: boolean
+                      description: Whether the channel is enabled
+                    slack:
+                      type: object
+                      properties:
+                        url:
+                          type: string
+                          format: uri
+                      required:
+                        - url
+                    chime:
+                      type: object
+                      properties:
+                        url:
+                          type: string
+                          format: uri
+                      required:
+                        - url
+                    webhook:
+                      type: object
+                      properties:
+                        url:
+                          type: string
+                          format: uri
+                      required:
+                        - url
+                    microsoft_teams:
+                      type: object
+                      properties:
+                        url:
+                          type: string
+                          format: uri
+                      required:
+                        - url
+                    sns:
+                      type: object
+                      properties:
+                        topic_arn:
+                          type: string
+                          pattern: ^arn:aws[a-zA-Z-]*:[a-zA-Z0-9-]+:[a-z0-9-]*:\d{12}:.+$
+                          description: SNS topic ARN
+                        role_arn:
+                          type: string
+                          pattern: ^arn:aws[a-zA-Z-]*:[a-zA-Z0-9-]+:[a-z0-9-]*:\d{12}:.+$
+                          description: IAM role ARN
+                      required:
+                        - topic_arn
+                    smtp_account:
+                      type: object
+                      properties:
+                        host:
+                          type: string
+                          minLength: 1
+                          description: SMTP server hostname
+                        port:
+                          type: integer
+                          minimum: 1
+                          maximum: 65535
+                        method:
+                          type: string
+                          description: Encryption method, e.g. "start_tls", "ssl", "none"
+                        from_address:
+                          type: string
+                          format: email
+                          description: Sender email address
+                      required:
+                        - host
+                        - port
+                        - method
+                        - from_address
+                    ses_account:
+                      type: object
+                      properties:
+                        region:
+                          type: string
+                          pattern: ^[a-z]{2}(-[a-z]+)+-\d+$
+                          description: AWS region, e.g. "us-west-2"
+                        role_arn:
+                          type: string
+                          pattern: ^arn:aws[a-zA-Z-]*:[a-zA-Z0-9-]+:[a-z0-9-]*:\d{12}:.+$
+                          description: IAM role ARN
+                        from_address:
+                          type: string
+                          format: email
+                          description: Sender email address
+                      required:
+                        - region
+                        - from_address
+                    email_group:
+                      type: object
+                      properties:
+                        recipient_list:
+                          type: array
+                          items:
+                            type: object
+                            properties:
+                              recipient:
+                                type: string
+                            required:
+                              - recipient
+                      required:
+                        - recipient_list
+                    email:
+                      type: object
+                      properties:
+                        email_account_id:
+                          type: string
+                        recipient_list:
+                          type: array
+                          items:
+                            type: object
+                            properties:
+                              recipient:
+                                type: string
+                            required:
+                              - recipient
+                        email_group_id_list:
+                          type: array
+                          items:
+                            type: string
+                      required:
+                        - email_account_id
+                  required:
+                    - name
+                    - config_type
+                  description: Notification channel configuration
+              required:
+                - config
+              description: Create notification config request body
+              example: &a2
+                config:
+                  name: my-slack-channel
+                  description: Slack notification channel
+                  config_type: slack
+                  is_enabled: true
+                  slack:
+                    url: https://example.com/slack-webhook
+      responses:
+        "200":
+          description: Config created
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  config_id:
+                    type: string
+                    description: ID of the created or updated config
+                required:
+                  - config_id
+                description: Config ID response
+                example: &a3
+                  config_id: sample-config-id
+        "500":
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  statusCode:
+                    type: number
+                  body:
+                    type: string
+                required:
+                  - statusCode
+                  - body
+  /api/notifications/update_config/{configId}:
+    put:
+      operationId: updateConfig
+      summary: Update a notification config
+      parameters:
+        - schema:
+            type: string
+            minLength: 1
+            description: Unique identifier for the notification config
+          required: true
+          description: Unique identifier for the notification config
+          name: configId
+          in: path
+        - schema:
+            type: string
+            minLength: 1
+            description: Unique identifier for the datasource
+          required: false
+          description: Unique identifier for the datasource
+          name: dataSourceId
+          in: query
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                config:
+                  type: object
+                  properties:
+                    name:
+                      type: string
+                      minLength: 1
+                      description: Name of the notification channel
+                    description:
+                      type: string
+                      description: Description of the notification channel
+                    config_type:
+                      type: string
+                      enum:
+                        - slack
+                        - chime
+                        - webhook
+                        - email
+                        - sns
+                        - ses_account
+                        - smtp_account
+                        - email_group
+                        - microsoft_teams
+                      description: Notification channel type
+                    is_enabled:
+                      type: boolean
+                      description: Whether the channel is enabled
+                    slack:
+                      type: object
+                      properties:
+                        url:
+                          type: string
+                          format: uri
+                      required:
+                        - url
+                    chime:
+                      type: object
+                      properties:
+                        url:
+                          type: string
+                          format: uri
+                      required:
+                        - url
+                    webhook:
+                      type: object
+                      properties:
+                        url:
+                          type: string
+                          format: uri
+                      required:
+                        - url
+                    microsoft_teams:
+                      type: object
+                      properties:
+                        url:
+                          type: string
+                          format: uri
+                      required:
+                        - url
+                    sns:
+                      type: object
+                      properties:
+                        topic_arn:
+                          type: string
+                          pattern: ^arn:aws[a-zA-Z-]*:[a-zA-Z0-9-]+:[a-z0-9-]*:\d{12}:.+$
+                          description: SNS topic ARN
+                        role_arn:
+                          type: string
+                          pattern: ^arn:aws[a-zA-Z-]*:[a-zA-Z0-9-]+:[a-z0-9-]*:\d{12}:.+$
+                          description: IAM role ARN
+                      required:
+                        - topic_arn
+                    smtp_account:
+                      type: object
+                      properties:
+                        host:
+                          type: string
+                          minLength: 1
+                          description: SMTP server hostname
+                        port:
+                          type: integer
+                          minimum: 1
+                          maximum: 65535
+                        method:
+                          type: string
+                          description: Encryption method, e.g. "start_tls", "ssl", "none"
+                        from_address:
+                          type: string
+                          format: email
+                          description: Sender email address
+                      required:
+                        - host
+                        - port
+                        - method
+                        - from_address
+                    ses_account:
+                      type: object
+                      properties:
+                        region:
+                          type: string
+                          pattern: ^[a-z]{2}(-[a-z]+)+-\d+$
+                          description: AWS region, e.g. "us-west-2"
+                        role_arn:
+                          type: string
+                          pattern: ^arn:aws[a-zA-Z-]*:[a-zA-Z0-9-]+:[a-z0-9-]*:\d{12}:.+$
+                          description: IAM role ARN
+                        from_address:
+                          type: string
+                          format: email
+                          description: Sender email address
+                      required:
+                        - region
+                        - from_address
+                    email_group:
+                      type: object
+                      properties:
+                        recipient_list:
+                          type: array
+                          items:
+                            type: object
+                            properties:
+                              recipient:
+                                type: string
+                            required:
+                              - recipient
+                      required:
+                        - recipient_list
+                    email:
+                      type: object
+                      properties:
+                        email_account_id:
+                          type: string
+                        recipient_list:
+                          type: array
+                          items:
+                            type: object
+                            properties:
+                              recipient:
+                                type: string
+                            required:
+                              - recipient
+                        email_group_id_list:
+                          type: array
+                          items:
+                            type: string
+                      required:
+                        - email_account_id
+                  required:
+                    - name
+                    - config_type
+                  description: Notification channel configuration
+              required:
+                - config
+              description: Update notification config request body
+              example: *a2
+      responses:
+        "200":
+          description: Config updated
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  config_id:
+                    type: string
+                    description: ID of the created or updated config
+                required:
+                  - config_id
+                description: Config ID response
+                example: *a3
+        "500":
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  statusCode:
+                    type: number
+                  body:
+                    type: string
+                required:
+                  - statusCode
+                  - body
+  /api/notifications/delete_configs:
+    delete:
+      operationId: deleteConfigs
+      summary: Delete notification configs
+      parameters:
+        - schema:
+            type: string
+            minLength: 1
+            description: Unique identifier for the datasource
+          required: false
+          description: Unique identifier for the datasource
+          name: dataSourceId
+          in: query
+        - schema:
+            anyOf:
+              - type: array
+                items:
+                  type: string
+                  minLength: 1
+                  description: Unique identifier for the notification config
+                minItems: 1
+              - type: string
+                minLength: 1
+                description: Unique identifier for the notification config
+            description: One or more notification config IDs
+          required: true
+          description: One or more notification config IDs
+          name: config_id_list
+          in: query
+      responses:
+        "200":
+          description: Configs deleted
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  delete_response_list:
+                    type: object
+                    additionalProperties:
+                      type: string
+                    description: Map of config ID to deletion status (e.g. "OK")
+                required:
+                  - delete_response_list
+                description: Delete configs response
+                example:
+                  delete_response_list:
+                    sample-config-id: OK
+        "500":
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  statusCode:
+                    type: number
+                  body:
+                    type: string
+                required:
+                  - statusCode
+                  - body
+  /api/notifications/features:
+    get:
+      operationId: getAvailableFeatures
+      summary: Get available notification features
+      parameters:
+        - schema:
+            type: string
+            minLength: 1
+            description: Unique identifier for the datasource
+          required: false
+          description: Unique identifier for the datasource
+          name: dataSourceId
+          in: query
+      responses:
+        "200":
+          description: Available features
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  availableChannels:
+                    type: object
+                    additionalProperties:
+                      type: object
+                      properties:
+                        config_id:
+                          type: string
+                        name:
+                          type: string
+                        description:
+                          type: string
+                        config_type:
+                          type: string
+                          enum:
+                            - slack
+                            - chime
+                            - webhook
+                            - email
+                            - sns
+                            - ses_account
+                            - smtp_account
+                            - email_group
+                            - microsoft_teams
+                          description: Notification channel type
+                        is_enabled:
+                          type: boolean
+                      required:
+                        - config_id
+                        - name
+                        - description
+                        - config_type
+                        - is_enabled
+                      description: Notification channel summary
+                    description: Map of channel type to channel details
+                  availableConfigTypes:
+                    type: array
+                    items:
+                      type: string
+                    description: List of supported config types (e.g. slack, chime, webhook, email,
+                      sns, ses_account, smtp_account, email_group,
+                      microsoft_teams)
+                  tooltipSupport:
+                    type: boolean
+                    description: Whether tooltip support is available
+                required:
+                  - availableChannels
+                  - availableConfigTypes
+                  - tooltipSupport
+                example:
+                  availableChannels:
+                    slack:
+                      config_id: ""
+                      name: Slack
+                      description: Slack channel
+                      config_type: slack
+                      is_enabled: true
+                  availableConfigTypes:
+                    - slack
+                    - chime
+                    - webhook
+                    - email
+                    - sns
+                    - ses_account
+                    - smtp_account
+                    - email_group
+                    - microsoft_teams
+                  tooltipSupport: true
+        "500":
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  statusCode:
+                    type: number
+                  body:
+                    type: string
+                required:
+                  - statusCode
+                  - body
+  /api/notifications/get_event/{eventId}:
+    get:
+      operationId: getEventById
+      summary: Get a notification event by ID
+      parameters:
+        - schema:
+            type: string
+            minLength: 1
+            description: Unique identifier for the notification event
+          required: true
+          description: Unique identifier for the notification event
+          name: eventId
+          in: path
+        - schema:
+            type: string
+            minLength: 1
+            description: Unique identifier for the datasource
+          required: false
+          description: Unique identifier for the datasource
+          name: dataSourceId
+          in: query
+      responses:
+        "200":
+          description: Event retrieved
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  event_source:
+                    type: object
+                    properties:
+                      title:
+                        type: string
+                      reference_id:
+                        type: string
+                      severity:
+                        type: string
+                        enum:
+                          - info
+                          - high
+                          - critical
+                        description: Event severity level
+                      tags:
+                        type: array
+                        items:
+                          type: string
+                    required:
+                      - title
+                      - reference_id
+                      - severity
+                      - tags
+                  status_list:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        config_id:
+                          type: string
+                        config_type:
+                          type: string
+                          enum:
+                            - slack
+                            - chime
+                            - webhook
+                            - email
+                            - sns
+                            - ses_account
+                            - smtp_account
+                            - email_group
+                            - microsoft_teams
+                          description: Notification channel type
+                        config_name:
+                          type: string
+                        email_recipient_status:
+                          type: array
+                          items:
+                            type: object
+                            properties:
+                              recipient:
+                                type: string
+                              delivery_status:
+                                type: object
+                                properties:
+                                  status_code:
+                                    type: string
+                                  status_text:
+                                    type: string
+                                required:
+                                  - status_code
+                                  - status_text
+                            required:
+                              - recipient
+                              - delivery_status
+                        delivery_status:
+                          type: object
+                          properties:
+                            status_code:
+                              type: string
+                              description: HTTP status code as string
+                            status_text:
+                              type: string
+                              description: Response body text
+                          required:
+                            - status_code
+                            - status_text
+                      required:
+                        - config_id
+                        - config_type
+                        - config_name
+                        - delivery_status
+                required:
+                  - event_source
+                  - status_list
+                description: Notification event response
+                example: &a4
+                  event_source:
+                    title: Test message title
+                    reference_id: sample-config-id
+                    severity: info
+                    tags: []
+                  status_list:
+                    - config_id: sample-config-id
+                      config_type: slack
+                      config_name: my-slack-channel
+                      delivery_status:
+                        status_code: "200"
+                        status_text: OK
+        "500":
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  statusCode:
+                    type: number
+                  body:
+                    type: string
+                required:
+                  - statusCode
+                  - body
+  /api/notifications/test_message/{configId}:
+    post:
+      operationId: sendTestMessage
+      summary: Send a test notification message
+      parameters:
+        - schema:
+            type: string
+            minLength: 1
+            description: Unique identifier for the notification config
+          required: true
+          description: Unique identifier for the notification config
+          name: configId
+          in: path
+        - schema:
+            type: string
+            minLength: 1
+            description: Unique identifier for the datasource
+          required: false
+          description: Unique identifier for the datasource
+          name: dataSourceId
+          in: query
+      responses:
+        "200":
+          description: Test message sent
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  event_source:
+                    type: object
+                    properties:
+                      title:
+                        type: string
+                      reference_id:
+                        type: string
+                      severity:
+                        type: string
+                        enum:
+                          - info
+                          - high
+                          - critical
+                        description: Event severity level
+                      tags:
+                        type: array
+                        items:
+                          type: string
+                    required:
+                      - title
+                      - reference_id
+                      - severity
+                      - tags
+                  status_list:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        config_id:
+                          type: string
+                        config_type:
+                          type: string
+                          enum:
+                            - slack
+                            - chime
+                            - webhook
+                            - email
+                            - sns
+                            - ses_account
+                            - smtp_account
+                            - email_group
+                            - microsoft_teams
+                          description: Notification channel type
+                        config_name:
+                          type: string
+                        email_recipient_status:
+                          type: array
+                          items:
+                            type: object
+                            properties:
+                              recipient:
+                                type: string
+                              delivery_status:
+                                type: object
+                                properties:
+                                  status_code:
+                                    type: string
+                                  status_text:
+                                    type: string
+                                required:
+                                  - status_code
+                                  - status_text
+                            required:
+                              - recipient
+                              - delivery_status
+                        delivery_status:
+                          type: object
+                          properties:
+                            status_code:
+                              type: string
+                              description: HTTP status code as string
+                            status_text:
+                              type: string
+                              description: Response body text
+                          required:
+                            - status_code
+                            - status_text
+                      required:
+                        - config_id
+                        - config_type
+                        - config_name
+                        - delivery_status
+                required:
+                  - event_source
+                  - status_list
+                description: Notification event response
+                example: *a4
+        "500":
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  statusCode:
+                    type: number
+                  body:
+                    type: string
+                required:
+                  - statusCode
+                  - body
