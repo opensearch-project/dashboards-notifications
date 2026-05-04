@@ -329,6 +329,20 @@ paths:
                         is_enabled: true
                         slack:
                           url: https://example.com/slack-webhook
+        "400":
+          description: Invalid query parameters
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  statusCode:
+                    type: number
+                  body:
+                    type: string
+                required:
+                  - statusCode
+                  - body
         "500":
           description: Internal server error
           content:
@@ -558,6 +572,20 @@ paths:
                   - config_list
                 description: Paginated list of notification configs
                 example: *a1
+        "404":
+          description: Config not found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  statusCode:
+                    type: number
+                  body:
+                    type: string
+                required:
+                  - statusCode
+                  - body
         "500":
           description: Internal server error
           content:
@@ -772,6 +800,20 @@ paths:
                 description: Config ID response
                 example: &a3
                   config_id: sample-config-id
+        "400":
+          description: Invalid config parameters
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  statusCode:
+                    type: number
+                  body:
+                    type: string
+                required:
+                  - statusCode
+                  - body
         "500":
           description: Internal server error
           content:
@@ -983,6 +1025,34 @@ paths:
                   - config_id
                 description: Config ID response
                 example: *a3
+        "400":
+          description: Invalid config parameters
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  statusCode:
+                    type: number
+                  body:
+                    type: string
+                required:
+                  - statusCode
+                  - body
+        "404":
+          description: Config not found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  statusCode:
+                    type: number
+                  body:
+                    type: string
+                required:
+                  - statusCode
+                  - body
         "500":
           description: Internal server error
           content:
@@ -1045,6 +1115,20 @@ paths:
                 example:
                   delete_response_list:
                     sample-config-id: OK
+        "400":
+          description: Invalid query parameters
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  statusCode:
+                    type: number
+                  body:
+                    type: string
+                required:
+                  - statusCode
+                  - body
         "500":
           description: Internal server error
           content:
@@ -1289,6 +1373,20 @@ paths:
                       delivery_status:
                         status_code: "200"
                         status_text: OK
+        "404":
+          description: Event not found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  statusCode:
+                    type: number
+                  body:
+                    type: string
+                required:
+                  - statusCode
+                  - body
         "500":
           description: Internal server error
           content:
@@ -1419,6 +1517,20 @@ paths:
                   - status_list
                 description: Notification event response
                 example: *a4
+        "404":
+          description: Config not found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  statusCode:
+                    type: number
+                  body:
+                    type: string
+                required:
+                  - statusCode
+                  - body
         "500":
           description: Internal server error
           content:
