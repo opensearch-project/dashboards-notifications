@@ -1129,6 +1129,20 @@ paths:
                 required:
                   - statusCode
                   - body
+        "404":
+          description: One or more configs not found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  statusCode:
+                    type: number
+                  body:
+                    type: string
+                required:
+                  - statusCode
+                  - body
         "500":
           description: Internal server error
           content:
