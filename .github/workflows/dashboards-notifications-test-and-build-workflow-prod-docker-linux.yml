@@ -15,7 +15,7 @@ env:
 
 jobs:
   Get-CI-Image-Tag:
-    uses: opensearch-project/opensearch-build/.github/workflows/get-ci-image-tag.yml@main
+    uses: opensearch-project/opensearch-build/.github/workflows/get-ci-image-tag.yml@c2498b758c08fb7bc48476509a5fc1b8dd5f7493 # main
     with:
       product: opensearch-dashboards
 
@@ -49,13 +49,13 @@ jobs:
 
     steps:
       - name: Set up JDK
-        uses: actions/setup-java@v2
+        uses: actions/setup-java@91d3aa4956ec4a53e477c4907347b5e3481be8c9 # v2
         with:
           distribution: temurin # Temurin is a distribution of adoptium
           java-version: 21
 
       - name: Checkout Notification Dashboards plugin
-        uses: actions/checkout@v2
+        uses: actions/checkout@ee0669bd1cc54295c223e0bb666b733df41de1c5 # v2
         with:
           path: dashboards-notifications
 
@@ -68,7 +68,7 @@ jobs:
         shell: bash
 
       - name: Check out the notifications repo
-        uses: actions/checkout@v2
+        uses: actions/checkout@ee0669bd1cc54295c223e0bb666b733df41de1c5 # v2
         with:
           repository: opensearch-project/notifications
           ref: ${{ env.NOTIFICATIONS_PLUGIN_VERSION }}
@@ -85,7 +85,7 @@ jobs:
         env:
           _JAVA_OPTIONS: ${{ matrix.os_java_options }}
       - name: Checkout OpenSearch Dashboards
-        uses: actions/checkout@v2
+        uses: actions/checkout@ee0669bd1cc54295c223e0bb666b733df41de1c5 # v2
         with:
           repository: opensearch-project/Opensearch-Dashboards
           ref: ${{ env.OPENSEARCH_DASHBOARDS_VERSION }}
@@ -104,7 +104,7 @@ jobs:
                                whoami && yarn osd bootstrap --single-version=loose && yarn build"
 
       - name: Run unit tests
-        uses: nick-fields/retry@v2
+        uses: nick-fields/retry@14672906e672a08bd6eeb15720e9ed3ce869cdd4 # v2
         with:
           timeout_minutes: 30
           max_attempts: 1
@@ -121,14 +121,14 @@ jobs:
         shell: bash
 
       - name: Upload coverage
-        uses: codecov/codecov-action@v1
+        uses: codecov/codecov-action@29386c70ef20e286228c72b668a06fd0e8399192 # v1
         with:
           flags: dashboards-notifications
           directory: OpenSearch-Dashboards/plugins/
           token: ${{ secrets.CODECOV_TOKEN }}
 
       - name: Upload Artifact
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
         with:
           name: dashboards-notifications
           path: OpenSearch-Dashboards/plugins/dashboards-notifications/build
