@@ -435,34 +435,13 @@ update_package_json() {
   fi
 }
 
-update_manual_build_workflow() {
-  local WORKFLOW_FILE="$WAZUH_DASHBOARD_NOTIFICATIONS_WORKFLOW_FILE"
-  if [ -f "$WORKFLOW_FILE" ]; then
-    log "Processing $WORKFLOW_FILE"
-    local modified=false
-    # Update the default value for the reference input
-    if [[ "$CURRENT_VERSION" != "$VERSION" ]]; then
-      log "Attempting to update default reference to $VERSION in $WORKFLOW_FILE"
-      sed_inplace "s/^\([[:space:]]*default:[[:space:]]*\)$CURRENT_VERSION/\1$VERSION/" "$WORKFLOW_FILE"
-      modified=true
-    fi
-
-    if [[ $modified == true ]]; then
-      log "Successfully updated $WORKFLOW_FILE with new default reference: $VERSION"
-    fi
-  else
-    log "WARNING: $WORKFLOW_FILE not found. Skipping update."
-  fi
-  log "Updating $WAZUH_DASHBOARD_NOTIFICATIONS_WORKFLOW_FILE workflow..."
-}
-
 update_branch_reference_defaults() {
   if [[ "$skip_urls" == "yes" ]]; then
     log "skip_urls is yes (--set-as-main): leaving workflow branch defaults unchanged"
     return 0
   fi
 
-  local bump_string="$VERSION"
+  local bump_string="$GIT_REF_REPLACEMENT"
   local files=(
     "${REPO_PATH}/.github/workflows/5_builderpackage_notifications_plugin.yml"
     "${REPO_PATH}/.github/workflows/5_builderprecompiled_base-dev-environment.yml"
@@ -478,6 +457,20 @@ update_branch_reference_defaults() {
 
     sed_inplace "s/^\\([[:space:]]*default:[[:space:]]*\\)main\\([[:space:]]*\\)$/\\1${bump_string}\\2/" "$f"
   done
+}
+
+get_git_ref_replacement(){
+  local replacement
+  if [ "$TAG" = true ]; then
+    replacement="v${VERSION}"
+    if [ -n "$STAGE" ]; then
+      replacement+="-${STAGE}"
+    fi
+  else
+    replacement="${VERSION}"
+  fi
+
+  GIT_REF_REPLACEMENT="$replacement"
 }
 
 # --- Main Execution ---
@@ -514,13 +507,14 @@ main() {
     log "Freeze mode enabled: version values and branch references will be updated."
   fi
 
+  get_git_ref_replacement
+
   # Start file modifications
   log "Starting file modifications..."
 
   update_root_version_json
   update_package_json
   update_changelog
-  update_manual_build_workflow
   update_branch_reference_defaults
 
   log "File modifications completed."
