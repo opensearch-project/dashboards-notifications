@@ -9,7 +9,7 @@
   },
   "wazuh": {
     "version": "5.0.0",
-    "revision": "02"
+    "revision": "03"
   },
   "main": "index.ts",
   "config": {
