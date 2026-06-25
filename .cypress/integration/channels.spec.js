@@ -289,10 +289,10 @@ describe('Test channel details', () => {
         'opensearchDashboards'
       )}/app/notifications-dashboards#channels`
     );
-    cy.contains('Test webhook channel').click();
   });
 
   it('displays channel details', async () => {
+    cy.contains('Test webhook channel').click();
     cy.contains('custom-webhook-test-url.com').should('exist');
     cy.contains('test-path').should('exist');
     cy.contains('8888').should('exist');
@@ -302,6 +302,7 @@ describe('Test channel details', () => {
   });
 
   it('mutes and unmutes channels', async () => {
+    cy.contains('Test webhook channel').click();
     cy.contains('Mute channel').click({ force: true });
     cy.get('[data-test-subj="mute-channel-modal-mute-button"]').click({
       force: true,
@@ -315,10 +316,19 @@ describe('Test channel details', () => {
   });
 
   it('edits channels', () => {
+    cy.contains('Test webhook channel').click();
     cy.contains('Actions').click({ force: true });
     cy.contains('Edit').click({ force: true });
     cy.contains('Edit channel').should('exist');
     cy.get('.euiText').contains('Custom webhook').should('exist');
+
+    // Test editing the name
+    cy.get('[placeholder="Enter channel name"]')
+      .clear()
+      .type('Updated webhook channel name');
+    cy.wait(delay);
+
+    // Test editing the description
     cy.get(
       '[data-test-subj="create-channel-description-input"]'
     ).type('{selectall}{backspace}Updated custom webhook description');
@@ -326,14 +336,16 @@ describe('Test channel details', () => {
     cy.contains('Save').click({ force: true });
 
     cy.contains('successfully updated.').should('exist');
+    cy.contains('Updated webhook channel name').should('exist');
     cy.contains('Updated custom webhook description').should('exist');
   })
 
   it('deletes channels', async () => {
+    cy.contains('Updated webhook channel name').click();
     cy.contains('Actions').click({ force: true });
     cy.contains('Delete').click({ force: true });
     cy.get('input[placeholder="delete"]').type('delete');
-    cy.get('[data-test-subj="delete-channel-modal-delete-button"]').click({force: true})
+    cy.get('[data-test-subj="delete-channel-modal-delete-button"]').click({ force: true })
     cy.contains('successfully deleted.').should('exist');
     cy.contains('Test slack channel').should('exist');
   })
