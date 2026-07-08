@@ -142,6 +142,15 @@ export function CreateChannel(props: CreateChannelsProps) {
     roleArn: [],
   });
 
+  // Initial load: fetch channel data and set up page
+  useEffect(() => {
+    window.scrollTo(0, 0);
+    if (props.edit) {
+      getChannel();
+    }
+  }, []);
+
+  // Update breadcrumbs when name changes
   useEffect(() => {
     const { edit } = props;
     const breadcrumbs = [
@@ -156,12 +165,8 @@ export function CreateChannel(props: CreateChannelsProps) {
     } else {
       breadcrumbs.push(BREADCRUMBS.CREATE_CHANNEL)
     }
-    window.scrollTo(0, 0);
     setBreadcrumbs(breadcrumbs);
-    if (props.edit) {
-      getChannel();
-    }
-  }, [name, getUseUpdatedUx()]);
+  }, [name, props.edit]);
 
   const getChannel = async () => {
     const id = props.match.params.id;
