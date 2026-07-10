@@ -19,7 +19,10 @@ module.exports = [
   {
     files: ['**/*.{js,ts,tsx}'],
     rules: {
-      '@osd/eslint/require-license-header': ['error', { licenses: [LICENSE_HEADER] }],
+      '@osd/eslint/require-license-header': [
+        'error',
+        { licenses: [LICENSE_HEADER] },
+      ],
       'no-console': 0,
     },
   },
