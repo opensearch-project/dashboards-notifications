@@ -49,7 +49,7 @@ describe('<CreateRecipientGroupForm/> spec', () => {
     );
     fireEvent.change(nameInput, { target: { value: 'test name' } });
     fireEvent.blur(nameInput);
-    expect(setName).toBeCalledWith('test name');
+    expect(setName).toHaveBeenCalledWith('test name');
 
     const descriptionInput = utils.getByTestId(
       'create-recipient-group-form-description-input'
@@ -58,7 +58,7 @@ describe('<CreateRecipientGroupForm/> spec', () => {
       target: { value: 'test description' },
     });
     fireEvent.blur(descriptionInput);
-    expect(setDescription).toBeCalledWith('test description');
+    expect(setDescription).toHaveBeenCalledWith('test description');
   });
 
   it('changes email options', () => {

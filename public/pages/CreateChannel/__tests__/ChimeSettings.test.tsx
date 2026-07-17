@@ -71,7 +71,7 @@ describe('<ChimeSettings /> spec', () => {
     const input = utils.getByLabelText('Webhook URL');
     fireEvent.change(input, { target: { value: 'https://hooks.chime.aws/incomingwebhooks/sample_chime_url?token=123456' } });
     fireEvent.blur(input);
-    expect(setChimeWebhook).toBeCalledWith('https://hooks.chime.aws/incomingwebhooks/sample_chime_url?token=123456');
-    expect(setInputErrors).toBeCalled();
+    expect(setChimeWebhook).toHaveBeenCalledWith('https://hooks.chime.aws/incomingwebhooks/sample_chime_url?token=123456');
+    expect(setInputErrors).toHaveBeenCalled();
   });
 });

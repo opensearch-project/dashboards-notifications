@@ -77,7 +77,7 @@ describe('<CreateSESSenderModal/> spec', () => {
 
     utils.getByText('Create').click();
     await waitFor(() => {
-      expect(createConfig).toBeCalled();
+      expect(createConfig).toHaveBeenCalled();
     });
   });
 
@@ -115,7 +115,7 @@ describe('<CreateSESSenderModal/> spec', () => {
 
     utils.getByText('Create').click();
     await waitFor(() => {
-      expect(createConfig).toBeCalled();
+      expect(createConfig).toHaveBeenCalled();
     });
   });
 });

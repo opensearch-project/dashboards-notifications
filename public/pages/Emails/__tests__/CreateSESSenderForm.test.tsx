@@ -48,26 +48,26 @@ describe('<CreateSESSenderForm/> spec', () => {
     const nameInput = utils.getByTestId('create-ses-sender-form-name-input');
     fireEvent.change(nameInput, { target: { value: 'test name' } });
     fireEvent.blur(nameInput);
-    expect(setSenderName).toBeCalledWith('test name');
+    expect(setSenderName).toHaveBeenCalledWith('test name');
 
     const emailInput = utils.getByTestId('create-ses-sender-form-email-input');
     fireEvent.change(emailInput, { target: { value: 'test@email.com' } });
     fireEvent.blur(emailInput);
-    expect(setEmail).toBeCalledWith('test@email.com');
+    expect(setEmail).toHaveBeenCalledWith('test@email.com');
 
     const roleArnInput = utils.getByTestId(
       'create-ses-sender-form-role-arn-input'
     );
     fireEvent.change(roleArnInput, { target: { value: 'test-role' } });
     fireEvent.blur(roleArnInput);
-    expect(setRoleArn).toBeCalledWith('test-role');
+    expect(setRoleArn).toHaveBeenCalledWith('test-role');
 
     const awsRegionInput = utils.getByTestId(
       'create-ses-sender-form-aws-region-input'
     );
     fireEvent.change(awsRegionInput, { target: { value: 'us-east-2' } });
     fireEvent.blur(awsRegionInput);
-    expect(setAwsRegion).toBeCalledWith('us-east-2');
+    expect(setAwsRegion).toHaveBeenCalledWith('us-east-2');
   });
 
   it('renders errors', () => {
