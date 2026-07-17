@@ -86,13 +86,13 @@ describe('<SNSSettings /> spec', () => {
     const topicArnInput = utils.getByTestId('sns-settings-topic-arn-input');
     fireEvent.change(topicArnInput, { target: { value: 'test-update-topic' } });
     fireEvent.blur(topicArnInput);
-    expect(setTopicArn).toBeCalledWith('test-update-topic');
-    expect(setInputErrors).toBeCalled();
+    expect(setTopicArn).toHaveBeenCalledWith('test-update-topic');
+    expect(setInputErrors).toHaveBeenCalled();
 
     const roleArnInput = utils.getByTestId('sns-settings-role-arn-input');
     fireEvent.change(roleArnInput, { target: { value: 'test-update-role' } });
     fireEvent.blur(roleArnInput);
-    expect(setRoleArn).toBeCalledWith('test-update-role');
-    expect(setInputErrors).toBeCalled();
+    expect(setRoleArn).toHaveBeenCalledWith('test-update-role');
+    expect(setInputErrors).toHaveBeenCalled();
   });
 });

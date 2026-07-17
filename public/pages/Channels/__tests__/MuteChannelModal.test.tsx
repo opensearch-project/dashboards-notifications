@@ -64,7 +64,7 @@ describe('<MuteChannelModal /> spec', () => {
       </CoreServicesContext.Provider>
     );
     utils.getByText('Mute').click();
-    await waitFor(() => expect(setSelected).toBeCalled())
+    await waitFor(() => expect(setSelected).toHaveBeenCalled())
   });
 
   it('handles failures', async () => {

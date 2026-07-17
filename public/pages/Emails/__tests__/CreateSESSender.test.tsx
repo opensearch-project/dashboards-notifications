@@ -64,7 +64,7 @@ describe('<CreateSESSender/> spec', () => {
 
     utils.getByText('Save').click();
     await waitFor(() => {
-      expect(updateConfig).toBeCalled();
+      expect(updateConfig).toHaveBeenCalled();
     });
   });
 
@@ -77,7 +77,7 @@ describe('<CreateSESSender/> spec', () => {
 
     utils.getByText('Save').click();
     await waitFor(() => {
-      expect(updateConfig).toBeCalled();
+      expect(updateConfig).toHaveBeenCalled();
     });
   });
 });

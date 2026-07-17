@@ -62,12 +62,12 @@ describe('<WebhookHeaders /> spec', () => {
     fireEvent.change(parameterUtils.getByDisplayValue('key1'), {
       target: { value: 'test-key' },
     });
-    expect(setHeaders).toBeCalledWith([{ key: 'test-key', value: 'value1' }]);
+    expect(setHeaders).toHaveBeenCalledWith([{ key: 'test-key', value: 'value1' }]);
 
     fireEvent.change(parameterUtils.getByDisplayValue('value1'), {
       target: { value: 'test-value' },
     });
-    expect(setHeaders).toBeCalledWith([
+    expect(setHeaders).toHaveBeenCalledWith([
       { key: 'test-key', value: 'test-value' },
     ]);
 

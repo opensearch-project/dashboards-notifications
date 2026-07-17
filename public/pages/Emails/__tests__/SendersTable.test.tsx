@@ -50,13 +50,13 @@ describe('<SendersTable /> spec', () => {
       </ServicesContext.Provider>
     );
 
-    await waitFor(() => expect(getSenders).toBeCalled());
+    await waitFor(() => expect(getSenders).toHaveBeenCalled());
 
     const input = utils.getByPlaceholderText('Search');
     fireEvent.change(input, { target: { value: 'test-query' } });
 
     await waitFor(() =>
-      expect(getSenders).toBeCalledWith(
+      expect(getSenders).toHaveBeenCalledWith(
         expect.objectContaining({ query: 'test-query' })
       )
     );

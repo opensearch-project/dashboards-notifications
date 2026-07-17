@@ -71,7 +71,7 @@ describe('<SlackSettings /> spec', () => {
     const input = utils.getByLabelText('Slack webhook URL');
     fireEvent.change(input, { target: { value: 'https://test-slack-url' } });
     fireEvent.blur(input);
-    expect(setSlackWebhook).toBeCalledWith('https://test-slack-url');
-    expect(setInputErrors).toBeCalled();
+    expect(setSlackWebhook).toHaveBeenCalledWith('https://test-slack-url');
+    expect(setInputErrors).toHaveBeenCalled();
   });
 });

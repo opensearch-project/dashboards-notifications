@@ -56,7 +56,7 @@ describe('<CreateSender/> spec', () => {
 
     utils.getByText('Save').click();
     await waitFor(() => {
-      expect(updateConfig).toBeCalled();
+      expect(updateConfig).toHaveBeenCalled();
     });
   });
 
@@ -69,7 +69,7 @@ describe('<CreateSender/> spec', () => {
 
     utils.getByText('Save').click();
     await waitFor(() => {
-      expect(updateConfig).toBeCalled();
+      expect(updateConfig).toHaveBeenCalled();
     });
   });
 });

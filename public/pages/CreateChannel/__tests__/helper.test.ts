@@ -119,7 +119,7 @@ describe('constructs and deconstructs webhook objects', () => {
     expect(webhookParams).toEqual([]);
     expect(webhookHeaders).toEqual([]);
 
-    expect(console.error).toBeCalled();
+    expect(console.error).toHaveBeenCalled();
   });
 });
 

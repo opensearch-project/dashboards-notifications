@@ -127,6 +127,6 @@ describe('<ChannelActions/> spec', () => {
 
     const muteButton = utils.getByText('Unmute');
     fireEvent.click(muteButton);
-    expect(updateConfig).toBeCalled();
+    expect(updateConfig).toHaveBeenCalled();
   });
 });

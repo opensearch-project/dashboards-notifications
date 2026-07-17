@@ -55,13 +55,13 @@ describe('<Channels/> spec', () => {
       </MainContext.Provider>
     );
 
-    await waitFor(() => expect(getChannels).toBeCalled());
+    await waitFor(() => expect(getChannels).toHaveBeenCalled());
 
     const input = utils.getByPlaceholderText('Search');
     fireEvent.change(input, { target: { value: 'test-query' } });
 
     await waitFor(() =>
-      expect(getChannels).toBeCalledWith(
+      expect(getChannels).toHaveBeenCalledWith(
         expect.objectContaining({ query: 'test-query' })
       )
     );

@@ -71,7 +71,7 @@ describe('<MicrosoftTeamsSettings /> spec', () => {
     const input = utils.getByLabelText('Webhook URL');
     fireEvent.change(input, { target: { value: 'https://test-microsoftTeams-url' } });
     fireEvent.blur(input);
-    expect(setMicrosoftTeamsWebhook).toBeCalledWith('https://test-microsoftTeams-url');
-    expect(setInputErrors).toBeCalled();
+    expect(setMicrosoftTeamsWebhook).toHaveBeenCalledWith('https://test-microsoftTeams-url');
+    expect(setInputErrors).toHaveBeenCalled();
   });
 });

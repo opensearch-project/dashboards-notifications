@@ -40,7 +40,7 @@ describe('<ChannelControls /> spec', () => {
     const input = utils.getByPlaceholderText('Search');
 
     fireEvent.change(input, { target: { value: 'test' } });
-    expect(onSearchChange).toBeCalledWith('test');
+    expect(onSearchChange).toHaveBeenCalledWith('test');
   });
 
   it('changes filters', () => {
@@ -57,13 +57,13 @@ describe('<ChannelControls /> spec', () => {
     );
     fireEvent.click(utils.getByText('Status'));
     fireEvent.click(utils.getByText('Active'));
-    expect(onFiltersChange).toBeCalledWith({ state: 'true' });
+    expect(onFiltersChange).toHaveBeenCalledWith({ state: 'true' });
 
     fireEvent.click(utils.getByText('Type'));
     fireEvent.click(utils.getByText('Email'));
     fireEvent.click(utils.getByText('Chime'));
-    expect(onFiltersChange).toBeCalledWith({ type: ['email', 'chime'] });
+    expect(onFiltersChange).toHaveBeenCalledWith({ type: ['email', 'chime'] });
 
-    expect(onFiltersChange).toBeCalledTimes(3);
+    expect(onFiltersChange).toHaveBeenCalledTimes(3);
   });
 });

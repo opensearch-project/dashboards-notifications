@@ -42,22 +42,22 @@ describe('<CreateSenderForm/> spec', () => {
     const nameInput = utils.getByTestId('create-sender-form-name-input');
     fireEvent.change(nameInput, { target: { value: 'test name' } });
     fireEvent.blur(nameInput);
-    expect(setSenderName).toBeCalledWith('test name');
+    expect(setSenderName).toHaveBeenCalledWith('test name');
 
     const emailInput = utils.getByTestId('create-sender-form-email-input');
     fireEvent.change(emailInput, { target: { value: 'test@email.com' } });
     fireEvent.blur(emailInput);
-    expect(setEmail).toBeCalledWith('test@email.com');
+    expect(setEmail).toHaveBeenCalledWith('test@email.com');
 
     const hostInput = utils.getByTestId('create-sender-form-host-input');
     fireEvent.change(hostInput, { target: { value: 'host.com' } });
     fireEvent.blur(hostInput);
-    expect(setHost).toBeCalledWith('host.com');
+    expect(setHost).toHaveBeenCalledWith('host.com');
 
     const portInput = utils.getByTestId('create-sender-form-port-input');
     fireEvent.change(portInput, { target: { value: '23' } });
     fireEvent.blur(portInput);
-    expect(setPort).toBeCalledWith('23');
+    expect(setPort).toHaveBeenCalledWith('23');
   });
 
   it('renders errors', () => {

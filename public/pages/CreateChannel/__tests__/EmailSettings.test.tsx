@@ -71,8 +71,8 @@ describe('<EmailSettings /> spec', () => {
     utils.getByText('Create recipient group').click();
 
     await waitFor(() => {
-      expect(getSenders).toBeCalled();
-      expect(getRecipientGroups).toBeCalled();
+      expect(getSenders).toHaveBeenCalled();
+      expect(getRecipientGroups).toHaveBeenCalled();
     });
   });
 });

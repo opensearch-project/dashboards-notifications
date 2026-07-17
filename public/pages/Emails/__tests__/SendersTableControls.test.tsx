@@ -45,7 +45,7 @@ describe('<SendersTableControls /> spec', () => {
     const input = utils.getByPlaceholderText('Search');
 
     fireEvent.change(input, { target: { value: 'test' } });
-    expect(onSearchChange).toBeCalledWith('test');
+    expect(onSearchChange).toHaveBeenCalledWith('test');
   });
 
   it('changes filters', () => {
@@ -63,6 +63,6 @@ describe('<SendersTableControls /> spec', () => {
     fireEvent.click(utils.getByText('Encryption method'));
     fireEvent.click(utils.getByText('STARTTLS'));
     fireEvent.click(utils.getByText('None'));
-    expect(onFiltersChange).toBeCalledWith({ encryptionMethod: ["start_tls", "none"] });
+    expect(onFiltersChange).toHaveBeenCalledWith({ encryptionMethod: ["start_tls", "none"] });
   });
 });

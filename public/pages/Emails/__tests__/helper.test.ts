@@ -82,8 +82,8 @@ describe('handles combo box create option', () => {
       setSelectedOptions,
       setInputError
     );
-    expect(setOptions).toBeCalledWith([...options, { label: 'new-option' }]);
-    expect(setSelectedOptions).toBeCalledWith([
+    expect(setOptions).toHaveBeenCalledWith([...options, { label: 'new-option' }]);
+    expect(setSelectedOptions).toHaveBeenCalledWith([
       ...selectedOptions,
       { label: 'new-option' },
     ]);
@@ -107,8 +107,8 @@ describe('handles combo box create option', () => {
       setSelectedOptions,
       setInputError
     );
-    expect(setOptions).not.toBeCalled();
-    expect(setSelectedOptions).toBeCalledWith([
+    expect(setOptions).not.toHaveBeenCalled();
+    expect(setSelectedOptions).toHaveBeenCalledWith([
       ...selectedOptions,
       { label: 'existing-option' },
     ]);

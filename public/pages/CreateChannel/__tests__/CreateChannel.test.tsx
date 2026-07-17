@@ -121,13 +121,13 @@ describe('<CreateChannel/> spec', () => {
     );
 
     await waitFor(() => {
-      expect(getSlackChannel).toBeCalled();
+      expect(getSlackChannel).toHaveBeenCalled();
     });
 
     utilsSlack.getByTestId('create-channel-create-button').click();
     utilsSlack.getByTestId('create-channel-send-test-message-button').click();
     await waitFor(() => {
-      expect(updateConfigSuccess).toBeCalled();
+      expect(updateConfigSuccess).toHaveBeenCalled();
     });
   });
 
@@ -158,12 +158,12 @@ describe('<CreateChannel/> spec', () => {
     );
 
     await waitFor(() => {
-      expect(getChimeChannel).toBeCalled();
+      expect(getChimeChannel).toHaveBeenCalled();
     });
 
     utilsChime.getByTestId('create-channel-create-button').click();
     await waitFor(() => {
-      expect(updateConfigFailure).toBeCalled();
+      expect(updateConfigFailure).toHaveBeenCalled();
     });
   });
 
@@ -194,12 +194,12 @@ describe('<CreateChannel/> spec', () => {
     );
 
     await waitFor(() => {
-      expect(getMicrosoftTeamsChannel).toBeCalled();
+      expect(getMicrosoftTeamsChannel).toHaveBeenCalled();
     });
 
     utilsMicrosoftTeams.getByTestId('create-channel-create-button').click();
     await waitFor(() => {
-      expect(updateConfigFailure).toBeCalled();
+      expect(updateConfigFailure).toHaveBeenCalled();
     });
   });
 
@@ -234,12 +234,12 @@ describe('<CreateChannel/> spec', () => {
     );
 
     await waitFor(() => {
-      expect(getEmailChannel).toBeCalled();
+      expect(getEmailChannel).toHaveBeenCalled();
     });
 
     utilsEmail.getByTestId('create-channel-create-button').click();
     await waitFor(() => {
-      expect(updateConfigSuccess).toBeCalled();
+      expect(updateConfigSuccess).toHaveBeenCalled();
     });
   });
 
@@ -274,7 +274,7 @@ describe('<CreateChannel/> spec', () => {
     );
 
     await waitFor(() => {
-      expect(getEmailChannel).toBeCalled();
+      expect(getEmailChannel).toHaveBeenCalled();
     });
   });
 
@@ -305,12 +305,12 @@ describe('<CreateChannel/> spec', () => {
     );
 
     await waitFor(() => {
-      expect(getWebhookChannel).toBeCalled();
+      expect(getWebhookChannel).toHaveBeenCalled();
     });
 
     utilsWebhook.getByTestId('create-channel-create-button').click();
     await waitFor(() => {
-      expect(updateConfigSuccess).toBeCalled();
+      expect(updateConfigSuccess).toHaveBeenCalled();
     });
   });
 
@@ -339,12 +339,12 @@ describe('<CreateChannel/> spec', () => {
     );
 
     await waitFor(() => {
-      expect(getSNSChannel).toBeCalled();
+      expect(getSNSChannel).toHaveBeenCalled();
     });
 
     utilsSNS.getByTestId('create-channel-create-button').click();
     await waitFor(() => {
-      expect(updateConfigSuccess).toBeCalled();
+      expect(updateConfigSuccess).toHaveBeenCalled();
     });
   });
 });

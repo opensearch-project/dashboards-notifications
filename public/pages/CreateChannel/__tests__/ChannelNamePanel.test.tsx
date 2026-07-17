@@ -47,7 +47,7 @@ describe('<ChannelNamePanel/> spec', () => {
     const nameField = utils.getByPlaceholderText('Enter channel name');
     fireEvent.change(nameField, { target: { value: 'test name' } });
     fireEvent.blur(nameField);
-    expect(setName).toBeCalledWith('test name');
+    expect(setName).toHaveBeenCalledWith('test name');
   });
 
   it('renders errors', () => {

@@ -50,13 +50,13 @@ describe('<RecipientGroupsTable /> spec', () => {
       </ServicesContext.Provider>
     );
 
-    await waitFor(() => expect(getRecipientGroups).toBeCalled());
+    await waitFor(() => expect(getRecipientGroups).toHaveBeenCalled());
 
     const input = utils.getByPlaceholderText('Search');
     fireEvent.change(input, { target: { value: 'test-query' } });
 
     await waitFor(() =>
-      expect(getRecipientGroups).toBeCalledWith(
+      expect(getRecipientGroups).toHaveBeenCalledWith(
         expect.objectContaining({ query: 'test-query' })
       )
     );

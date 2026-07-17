@@ -53,7 +53,7 @@ describe('<CreateRecipientGroup/> spec', () => {
 
     utils.getByText('Save').click();
     await waitFor(() => {
-      expect(updateConfig).toBeCalled();
+      expect(updateConfig).toHaveBeenCalled();
     });
   });
 });

@@ -53,8 +53,8 @@ describe('<CustomWebhookSettings /> spec', () => {
     const hostInput = customURLUtils.getByTestId('custom-webhook-host-input');
     fireEvent.change(hostInput, { target: { value: 'https://test-url' } });
     fireEvent.blur(hostInput);
-    expect(setCustomURLHost).toBeCalledWith('https://test-url');
-    expect(setInputErrors).toBeCalled();
+    expect(setCustomURLHost).toHaveBeenCalledWith('https://test-url');
+    expect(setInputErrors).toHaveBeenCalled();
 
     const webhookURLUtils = render(
       <CreateChannelContext.Provider
@@ -87,13 +87,13 @@ describe('<CustomWebhookSettings /> spec', () => {
     const urlInput = customURLUtils.getByTestId('custom-webhook-url-input');
     fireEvent.change(urlInput, { target: { value: 'https://test-url' } });
     fireEvent.blur(urlInput);
-    expect(setWebhookURL).toBeCalledWith('https://test-url');
-    expect(setInputErrors).toBeCalled();
+    expect(setWebhookURL).toHaveBeenCalledWith('https://test-url');
+    expect(setInputErrors).toHaveBeenCalled();
 
     const pathInput = customURLUtils.getByTestId('custom-webhook-path-input');
     fireEvent.change(pathInput, { target: { value: 'https://test-url' } });
     fireEvent.blur(pathInput);
-    expect(setCustomURLPath).toBeCalledWith('https://test-url');
+    expect(setCustomURLPath).toHaveBeenCalledWith('https://test-url');
   });
 
   it('renders the component with errors', () => {
