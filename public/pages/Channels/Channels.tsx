@@ -48,6 +48,10 @@ import MDSEnabledComponent, {
 } from '../../components/MDSEnabledComponent/MDSEnabledComponent';
 import PageHeader from "../../components/PageHeader/PageHeader"
 import { getUseUpdatedUx } from '../../services/utils/constants';
+import {
+  isResourceSharingAvailable,
+  NOTIFICATION_CONFIG_RESOURCE_TYPE,
+} from '../../services/utils/resource_sharing';
 import { TopNavControlButtonData } from 'src/plugins/navigation/public';
 
 interface ChannelsProps extends RouteComponentProps, DataSourceMenuProperties {
@@ -115,6 +119,28 @@ export class Channels extends MDSEnabledComponent<ChannelsProps, ChannelsState> 
         truncateText: true,
         render: (description: string) => description || '-',
       },
+      ...(isResourceSharingAvailable()
+        ? [
+            {
+              // Resource-sharing SPI marker column: the centralized Share
+              // button is mounted here by security-dashboards-plugin when
+              // installed and resource sharing is enabled for notification
+              // configs.
+              field: 'config_id',
+              name: 'Share',
+              sortable: false,
+              width: '5%',
+              render: (configId: string) => (
+                <div
+                  data-resource-share-button
+                  data-resource-id={configId}
+                  data-resource-type={NOTIFICATION_CONFIG_RESOURCE_TYPE}
+                  data-resource-share-display="icon"
+                />
+              ),
+            } as EuiTableFieldDataColumnType<ChannelItemType>,
+          ]
+        : []),
     ];
 
     this.refresh = this.refresh.bind(this);
