@@ -127,14 +127,15 @@ export class Channels extends MDSEnabledComponent<ChannelsProps, ChannelsState> 
               // installed and resource sharing is enabled for notification
               // configs.
               field: 'config_id',
-              name: 'Share',
+              name: 'Access',
               sortable: false,
               width: '5%',
-              render: (configId: string) => (
+              render: (configId: string, item: ChannelItemType) => (
                 <div
                   data-resource-share-button
                   data-resource-id={configId}
                   data-resource-type={NOTIFICATION_CONFIG_RESOURCE_TYPE}
+                  {...(item?.name ? { 'data-resource-name': item.name } : {})}
                   data-resource-share-display="icon"
                 />
               ),
