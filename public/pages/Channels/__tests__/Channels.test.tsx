@@ -14,7 +14,13 @@ import {
 import { CoreServicesContext } from '../../../components/coreServices';
 import { MainContext } from '../../Main/Main';
 import { Channels } from '../Channels';
+import { isResourceSharingAvailable } from '../../../services/utils/resource_sharing';
 import { setupCoreStart } from '../../../../test/utils/helpers';
+
+jest.mock('../../../services/utils/resource_sharing', () => ({
+  isResourceSharingAvailable: jest.fn(),
+  NOTIFICATION_CONFIG_RESOURCE_TYPE: 'notification_config',
+}));
 
 beforeAll(() => {
   setupCoreStart();
@@ -65,5 +71,69 @@ describe('<Channels/> spec', () => {
         expect.objectContaining({ query: 'test-query' })
       )
     );
+  });
+});
+
+describe('<Channels/> resource sharing Access column', () => {
+  const renderChannels = () => {
+    const getChannels = jest.fn(async () => ({
+      items: [
+        {
+          config_id: 'channel-1',
+          name: 'my channel',
+          config_type: 'slack',
+          is_enabled: true,
+          description: 'a channel',
+        },
+      ],
+      total: 1,
+    }));
+    const notificationService = jest.fn() as any;
+    notificationService.getChannels = getChannels;
+    const utils = render(
+      <MainContext.Provider value={mainStateMock}>
+        <CoreServicesContext.Provider value={coreServicesMock}>
+          <Channels
+            {...routerComponentPropsMock}
+            notificationService={notificationService}
+          />
+        </CoreServicesContext.Provider>
+      </MainContext.Provider>
+    );
+    return { utils, getChannels };
+  };
+
+  afterEach(() => (isResourceSharingAvailable as jest.Mock).mockReset());
+
+  it('renders the Access column with a share-button marker when resource sharing is available', async () => {
+    (isResourceSharingAvailable as jest.Mock).mockReturnValue(true);
+    const { utils, getChannels } = renderChannels();
+
+    await waitFor(() => expect(getChannels).toHaveBeenCalled());
+    await waitFor(() =>
+      expect(
+        utils.container.querySelector('[data-resource-share-button]')
+      ).not.toBeNull()
+    );
+
+    const marker = utils.container.querySelector(
+      '[data-resource-share-button]'
+    );
+    expect(marker!.getAttribute('data-resource-id')).toBe('channel-1');
+    expect(marker!.getAttribute('data-resource-type')).toBe(
+      'notification_config'
+    );
+    expect(marker!.getAttribute('data-resource-name')).toBe('my channel');
+    expect(marker!.getAttribute('data-resource-share-display')).toBe('icon');
+  });
+
+  it('does not render the Access column when resource sharing is unavailable', async () => {
+    (isResourceSharingAvailable as jest.Mock).mockReturnValue(false);
+    const { utils, getChannels } = renderChannels();
+
+    await waitFor(() => expect(getChannels).toHaveBeenCalled());
+    expect(
+      utils.container.querySelector('[data-resource-share-button]')
+    ).toBeNull();
   });
 });
