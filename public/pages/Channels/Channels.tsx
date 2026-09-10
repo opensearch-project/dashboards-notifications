@@ -174,8 +174,9 @@ export class Channels extends MDSEnabledComponent<ChannelsProps, ChannelsState> 
   }
 
   async updateResourceSharingAvailableTypes() {
-    const resourceSharingAvailableTypes =
-      await getResourceSharingAvailableTypes(this.props.dataSourceId);
+    const resourceSharingAvailableTypes = await getResourceSharingAvailableTypes(
+      this.props.notificationService.dataSourceId
+    );
     this.setState({ resourceSharingAvailableTypes });
   }
 
