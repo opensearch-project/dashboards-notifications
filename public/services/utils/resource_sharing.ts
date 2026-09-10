@@ -12,10 +12,8 @@ import { getHttp } from './constants';
 export const NOTIFICATION_CONFIG_RESOURCE_TYPE = 'notification_config';
 
 /**
- * Resource types shareable on the given data source, via the security
- * plugin's data-source-aware routes. Empty when the security plugin is not
- * installed, resource sharing is disabled on that source, or no types are
- * registered — no plugin dependency involved.
+ * Resource-sharing types available on the given data source (feature flag +
+ * per-type list). Returns [] when disabled or on error.
  */
 export const getResourceSharingAvailableTypes = async (
   resourceDataSourceId?: string
