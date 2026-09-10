@@ -22,7 +22,13 @@ import {
 } from './types';
 import { PLUGIN_NAME } from '../common';
 import { ROUTES, dataSourceObservable } from './utils/constants';
-import { setApplication, setBreadCrumbsSetter, setNavigationUI, setUISettings } from './services/utils/constants';
+import {
+  setApplication,
+  setBreadCrumbsSetter,
+  setHttp,
+  setNavigationUI,
+  setUISettings,
+} from './services/utils/constants';
 import { BehaviorSubject } from "rxjs";
 
 export class notificationsDashboardsPlugin
@@ -172,6 +178,7 @@ export class notificationsDashboardsPlugin
     setUISettings(core.uiSettings);
     setNavigationUI(navigation.ui);
     setApplication(core.application);
+    setHttp(core.http);
     setBreadCrumbsSetter(core.chrome.setBreadcrumbs);
     return {};
   }

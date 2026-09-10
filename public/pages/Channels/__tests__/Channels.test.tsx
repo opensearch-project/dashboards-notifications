@@ -14,16 +14,20 @@ import {
 import { CoreServicesContext } from '../../../components/coreServices';
 import { MainContext } from '../../Main/Main';
 import { Channels } from '../Channels';
-import { isResourceSharingAvailable } from '../../../services/utils/resource_sharing';
+import { getResourceSharingAvailableTypes } from '../../../services/utils/resource_sharing';
 import { setupCoreStart } from '../../../../test/utils/helpers';
 
 jest.mock('../../../services/utils/resource_sharing', () => ({
-  isResourceSharingAvailable: jest.fn(),
+  getResourceSharingAvailableTypes: jest.fn(),
   NOTIFICATION_CONFIG_RESOURCE_TYPE: 'notification_config',
 }));
 
 beforeAll(() => {
   setupCoreStart();
+});
+
+beforeEach(() => {
+  (getResourceSharingAvailableTypes as jest.Mock).mockResolvedValue([]);
 });
 
 describe('<Channels/> spec', () => {
@@ -103,10 +107,12 @@ describe('<Channels/> resource sharing Access column', () => {
     return { utils, getChannels };
   };
 
-  afterEach(() => (isResourceSharingAvailable as jest.Mock).mockReset());
+  afterEach(() => (getResourceSharingAvailableTypes as jest.Mock).mockReset());
 
   it('renders the Access column with a share-button marker when resource sharing is available', async () => {
-    (isResourceSharingAvailable as jest.Mock).mockReturnValue(true);
+    (getResourceSharingAvailableTypes as jest.Mock).mockResolvedValue([
+      'notification_config',
+    ]);
     const { utils, getChannels } = renderChannels();
 
     await waitFor(() => expect(getChannels).toHaveBeenCalled());
@@ -128,7 +134,7 @@ describe('<Channels/> resource sharing Access column', () => {
   });
 
   it('does not render the Access column when resource sharing is unavailable', async () => {
-    (isResourceSharingAvailable as jest.Mock).mockReturnValue(false);
+    (getResourceSharingAvailableTypes as jest.Mock).mockResolvedValue([]);
     const { utils, getChannels } = renderChannels();
 
     await waitFor(() => expect(getChannels).toHaveBeenCalled());
