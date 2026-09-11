@@ -28,7 +28,7 @@ describe('Test create email senders', () => {
   });
 
   it('creates ssl sender', () => {
-    cy.contains('button', 'Create SMTP sender').click({ force: true });
+    cy.contains('a, button', 'Create SMTP sender').click({ force: true });
     cy.get('[data-test-subj="create-sender-form-name-input"]').type(
       'test-ssl-sender'
     );
@@ -48,7 +48,7 @@ describe('Test create email senders', () => {
   });
 
   it('creates tls sender', () => {
-    cy.contains('button', 'Create SMTP sender').click({ force: true });
+    cy.contains('a, button', 'Create SMTP sender').click({ force: true });
     cy.get('[data-test-subj="create-sender-form-name-input"]').type(
       'test-tls-sender'
     );
@@ -72,7 +72,7 @@ describe('Test create email senders', () => {
   });
 
   it('creates SES sender', () => {
-    cy.contains('button', 'Create SES sender').click({ force: true });
+    cy.contains('a, button', 'Create SES sender').click({ force: true });
     cy.get('[data-test-subj="create-ses-sender-form-name-input"]').type(
       'test-ses-sender'
     );
@@ -199,7 +199,7 @@ describe('Test create, edit and delete recipient group', () => {
   });
 
   it('creates recipient group', () => {
-    cy.contains('button', 'Create recipient group').click({ force: true });
+    cy.contains('a, button', 'Create recipient group').click({ force: true });
     cy.get('[data-test-subj="create-recipient-group-form-name-input"]').type(
       'Test recipient group'
     );
