@@ -23,6 +23,8 @@ export const [getApplication, setApplication] = createGetterSetter<CoreStart['ap
   'application'
 );
 
+export const [getHttp, setHttp] = createGetterSetter<CoreStart['http']>('http');
+
 export const [getBreadCrumbsSetter, setBreadCrumbsSetter] = createGetterSetter<
   CoreStart['chrome']['setBreadcrumbs']
 >('breadCrumbSetter');
