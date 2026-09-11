@@ -28,13 +28,11 @@ describe('Test create email senders', () => {
   });
 
   it('creates ssl sender', () => {
-    cy.get('.euiButton__text')
-      .contains('Create SMTP sender')
-      .click({ force: true });
+    cy.contains('button', 'Create SMTP sender').click({ force: true });
     cy.get('[data-test-subj="create-sender-form-name-input"]').type(
       'test-ssl-sender'
     );
-    cy.get('.euiButton__text').contains('Create').click({ force: true });
+    cy.contains('button', 'Create').click({ force: true });
     cy.contains('Some fields are invalid.').should('exist');
 
     cy.get('[data-test-subj="create-sender-form-email-input"]').type(
@@ -44,15 +42,13 @@ describe('Test create email senders', () => {
       'test-host.com'
     );
     cy.get('[data-test-subj="create-sender-form-port-input"]').type('123');
-    cy.get('.euiButton__text').contains('Create').click({ force: true });
+    cy.contains('button', 'Create').click({ force: true });
     cy.contains('successfully created.').should('exist');
     cy.contains('test-ssl-sender').should('exist');
   });
 
   it('creates tls sender', () => {
-    cy.get('.euiButton__text')
-      .contains('Create SMTP sender')
-      .click({ force: true });
+    cy.contains('button', 'Create SMTP sender').click({ force: true });
     cy.get('[data-test-subj="create-sender-form-name-input"]').type(
       'test-tls-sender'
     );
@@ -67,18 +63,16 @@ describe('Test create email senders', () => {
       force: true,
     });
     cy.wait(delay);
-    cy.get('.euiContextMenuItem__text').contains('STARTTLS').click({ force: true });
+    cy.contains('button', 'STARTTLS').click({ force: true });
     cy.wait(delay);
 
-    cy.get('.euiButton__text').contains('Create').click({ force: true });
+    cy.contains('button', 'Create').click({ force: true });
     cy.contains('successfully created.').should('exist');
     cy.contains('test-tls-sender').should('exist');
   });
 
   it('creates SES sender', () => {
-    cy.get('.euiButton__text')
-      .contains('Create SES sender')
-      .click({ force: true });
+    cy.contains('button', 'Create SES sender').click({ force: true });
     cy.get('[data-test-subj="create-ses-sender-form-name-input"]').type(
       'test-ses-sender'
     );
@@ -92,7 +86,7 @@ describe('Test create email senders', () => {
       'us-east-1'
     );
 
-    cy.get('.euiButton__text').contains('Create').click({ force: true });
+    cy.contains('button', 'Create').click({ force: true });
     cy.contains('successfully created.').should('exist');
     cy.contains('test-ses-sender').should('exist');
   });
@@ -119,26 +113,26 @@ describe('Test edit senders', () => {
   });
 
   it('edits sender email address', () => {
-    cy.get('.euiCheckbox__input[aria-label="Select this row"]').eq(0).click(); // ssl sender
+    cy.get('[data-test-subj^="checkboxSelectRow"]').eq(0).click(); // ssl sender
     cy.get('[data-test-subj="senders-table-edit-button"]').click();
     cy.get('[data-test-subj="create-sender-form-email-input"]').type(
       '{selectall}{backspace}editedtest@email.com'
     );
     cy.wait(delay);
 
-    cy.get('.euiButton__text').contains('Save').click({ force: true });
+    cy.contains('button', 'Save').click({ force: true });
     cy.contains('successfully updated.').should('exist');
   });
 
   it('edits ses sender region', () => {
-    cy.get('.euiCheckbox__input[aria-label="Select this row"]').eq(2).click(); // ses sender
+    cy.get('[data-test-subj^="checkboxSelectRow"]').eq(2).click(); // ses sender
     cy.get('[data-test-subj="ses-senders-table-edit-button"]').click();
     cy.get('[data-test-subj="create-ses-sender-form-aws-region-input"]').type(
       '{selectall}{backspace}us-west-2'
     );
     cy.wait(delay);
 
-    cy.get('.euiButton__text').contains('Save').click({ force: true });
+    cy.contains('button', 'Save').click({ force: true });
     cy.contains('successfully updated.').should('exist');
   });
 });
@@ -164,8 +158,10 @@ describe('Test delete senders', () => {
   });
 
   it('deletes smtp senders', () => {
-    cy.get('.euiCheckbox__input[aria-label="Select this row"]').eq(0).click(); // ssl sender
-    cy.get('[data-test-subj="senders-table-delete-button"]').click({ force: true });
+    cy.get('[data-test-subj^="checkboxSelectRow"]').eq(0).click(); // ssl sender
+    cy.get('[data-test-subj="senders-table-delete-button"]').click({
+      force: true,
+    });
     cy.get('input[placeholder="delete"]').type('delete');
     cy.wait(delay);
     cy.get('[data-test-subj="delete-sender-modal-delete-button"]').click();
@@ -173,8 +169,10 @@ describe('Test delete senders', () => {
   });
 
   it('deletes ses senders', () => {
-    cy.get('.euiCheckbox__input[aria-label="Select this row"]').last().click(); // ses sender
-    cy.get('[data-test-subj="ses-senders-table-delete-button"]').click({ force: true });
+    cy.get('[data-test-subj^="checkboxSelectRow"]').last().click(); // ses sender
+    cy.get('[data-test-subj="ses-senders-table-delete-button"]').click({
+      force: true,
+    });
     cy.get('input[placeholder="delete"]').type('delete');
     cy.wait(delay);
     cy.get('[data-test-subj="delete-sender-modal-delete-button"]').click();
@@ -201,13 +199,11 @@ describe('Test create, edit and delete recipient group', () => {
   });
 
   it('creates recipient group', () => {
-    cy.get('.euiButton__text')
-      .contains('Create recipient group')
-      .click({ force: true });
+    cy.contains('button', 'Create recipient group').click({ force: true });
     cy.get('[data-test-subj="create-recipient-group-form-name-input"]').type(
       'Test recipient group'
     );
-    cy.get('.euiButton__text').contains('Create').click({ force: true });
+    cy.contains('button', 'Create').click({ force: true });
     cy.contains('Some fields are invalid.').should('exist');
 
     cy.get(
@@ -233,21 +229,25 @@ describe('Test create, edit and delete recipient group', () => {
     );
     cy.wait(delay);
 
-    cy.get('.euiButton__text').contains('Create').click({ force: true });
+    cy.contains('button', 'Create').click({ force: true });
     cy.contains('successfully created.').should('exist');
     cy.contains('Test recipient group').should('exist');
     cy.wait(delay);
   });
 
   it('edits recipient group description', () => {
-    cy.get('.euiCheckbox__input[aria-label="Select this row"]').last().click({ force: true }); // recipient group
-    cy.get('[data-test-subj="recipient-groups-table-edit-button"]').click({ force: true });
+    cy.get('[data-test-subj^="checkboxSelectRow"]')
+      .last()
+      .click({ force: true }); // recipient group
+    cy.get('[data-test-subj="recipient-groups-table-edit-button"]').click({
+      force: true,
+    });
     cy.get(
       '[data-test-subj="create-recipient-group-form-description-input"]'
     ).type('{selectall}{backspace}Updated group description');
     cy.wait(delay);
 
-    cy.get('.euiButton__text').contains('Save').click({ force: true });
+    cy.contains('button', 'Save').click({ force: true });
     cy.contains('successfully updated.').should('exist');
   });
 
