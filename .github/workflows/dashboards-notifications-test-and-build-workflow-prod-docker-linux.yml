@@ -120,13 +120,6 @@ jobs:
           netstat -anp tcp | grep LISTEN | grep 5601 || netstat -ntlp | grep 5601
         shell: bash
 
-      - name: Upload coverage
-        uses: codecov/codecov-action@29386c70ef20e286228c72b668a06fd0e8399192 # v1
-        with:
-          flags: dashboards-notifications
-          directory: OpenSearch-Dashboards/plugins/
-          token: ${{ secrets.CODECOV_TOKEN }}
-
       - name: Upload Artifact
         uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
         with:
