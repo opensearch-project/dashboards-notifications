@@ -60,7 +60,7 @@ interface ChannelsProps extends RouteComponentProps, DataSourceMenuProperties {
 
 interface ChannelsState extends TableState<ChannelItemType>, DataSourceMenuProperties {
   filters: ChannelFiltersType;
-  resourceSharingAvailableTypes: string[];
+  resourceSharing: { dataSourceId: string | undefined; types: string[] };
 }
 
 export class Channels extends MDSEnabledComponent<ChannelsProps, ChannelsState> {
@@ -81,7 +81,7 @@ export class Channels extends MDSEnabledComponent<ChannelsProps, ChannelsState> 
       items: [],
       selectedItems: [],
       loading: true,
-      resourceSharingAvailableTypes: [],
+      resourceSharing: { dataSourceId: undefined, types: [] },
     };
 
     this.state = state;
@@ -134,7 +134,9 @@ export class Channels extends MDSEnabledComponent<ChannelsProps, ChannelsState> 
       sortable: false,
       width: '5%',
       render: (configId: string, item: ChannelItemType) =>
-        this.state.resourceSharingAvailableTypes.includes(
+        this.state.resourceSharing.dataSourceId ===
+          this.props.notificationService.dataSourceId &&
+        this.state.resourceSharing.types.includes(
           NOTIFICATION_CONFIG_RESOURCE_TYPE
         ) ? (
           <div
@@ -174,10 +176,17 @@ export class Channels extends MDSEnabledComponent<ChannelsProps, ChannelsState> 
   }
 
   async updateResourceSharingAvailableTypes() {
-    const resourceSharingAvailableTypes = await getResourceSharingAvailableTypes(
-      this.props.notificationService.dataSourceId
-    );
-    this.setState({ resourceSharingAvailableTypes });
+    // Capture which data source this probe is for so a late-resolving call
+    // (e.g. from a data source the user has since switched away from) can't
+    // overwrite state with a result that no longer matches the current
+    // selection.
+    const requestedDataSourceId = this.props.notificationService.dataSourceId;
+    const types = await getResourceSharingAvailableTypes(requestedDataSourceId);
+    if (requestedDataSourceId === this.props.notificationService.dataSourceId) {
+      this.setState({
+        resourceSharing: { dataSourceId: requestedDataSourceId, types },
+      });
+    }
   }
 
   getQueryObjectFromState(state: ChannelsState) {
@@ -260,11 +269,11 @@ export class Channels extends MDSEnabledComponent<ChannelsProps, ChannelsState> 
       onSelectionChange: this.onSelectionChange,
     };
 
-    const columns = this.state.resourceSharingAvailableTypes.includes(
-      NOTIFICATION_CONFIG_RESOURCE_TYPE
-    )
-      ? [...this.columns, this.accessColumn]
-      : this.columns;
+    const columns =
+      this.state.resourceSharing.dataSourceId === this.props.notificationService.dataSourceId &&
+      this.state.resourceSharing.types.includes(NOTIFICATION_CONFIG_RESOURCE_TYPE)
+        ? [...this.columns, this.accessColumn]
+        : this.columns;
 
     const headerControls = [
       {

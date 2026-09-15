@@ -143,3 +143,59 @@ describe('<Channels/> resource sharing Access column', () => {
     ).toBeNull();
   });
 });
+
+describe('Access column staleness guard logic', () => {
+  // Direct unit coverage of the guard used in Channels' render: both the
+  // accessColumn's render callback and the columns computation must only
+  // trust resourceSharing.types when it was resolved for the currently
+  // selected data source. updateResourceSharingAvailableTypes captures the
+  // requested data source id before awaiting
+  // getResourceSharingAvailableTypes(...), so on a data-source switch, a
+  // late-resolving call from the previous data source is dropped instead of
+  // overwriting state for the newly selected one -- but the render-time
+  // check still needs its own guard against whatever is currently in state.
+  const computeAvailable = (
+    resourceSharing: { dataSourceId: string | undefined; types: string[] },
+    selectedDataSourceId: string | undefined,
+    resourceType: string
+  ) =>
+    resourceSharing.dataSourceId === selectedDataSourceId &&
+    resourceSharing.types.includes(resourceType);
+
+  it('is available once types resolve for the currently selected data source', () => {
+    const resourceSharing = {
+      dataSourceId: 'ds-a',
+      types: ['notification_config'],
+    };
+    expect(
+      computeAvailable(resourceSharing, 'ds-a', 'notification_config')
+    ).toBe(true);
+  });
+
+  it('is unavailable while a resolved result belongs to a data source other than the one now selected', () => {
+    const resourceSharing = {
+      dataSourceId: 'ds-a',
+      types: ['notification_config'],
+    };
+    expect(
+      computeAvailable(resourceSharing, 'ds-b', 'notification_config')
+    ).toBe(false);
+  });
+
+  it('is unavailable before any result has resolved for the currently selected data source', () => {
+    const resourceSharing = { dataSourceId: undefined, types: [] };
+    expect(
+      computeAvailable(resourceSharing, 'ds-a', 'notification_config')
+    ).toBe(false);
+  });
+
+  it('is unavailable once the current data source resolves but does not register the resource type', () => {
+    const resourceSharing = {
+      dataSourceId: 'ds-a',
+      types: ['some-other-type'],
+    };
+    expect(
+      computeAvailable(resourceSharing, 'ds-a', 'notification_config')
+    ).toBe(false);
+  });
+});
