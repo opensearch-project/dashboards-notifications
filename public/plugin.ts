@@ -12,7 +12,6 @@ import {
   DEFAULT_APP_CATEGORIES,
   DEFAULT_NAV_GROUPS,
   Plugin,
-  WorkspaceAvailability
 } from '../../../src/core/public';
 import {
   AppPluginStartDependencies,
@@ -79,7 +78,6 @@ export class notificationsDashboardsPlugin
       description: i18n.translate('dashboards-notifications.leftNav.notifications.description', {
         defaultMessage: 'Configure and organize notification channels.'
       }),
-      workspaceAvailability: WorkspaceAvailability.outsideWorkspace,
       async mount(params: AppMountParameters) {
         // Load application bundle
         const { renderApp } = await import('./application');
@@ -116,7 +114,6 @@ export class notificationsDashboardsPlugin
         id: `channels`,
         title: 'Channels',
         order: 9070,
-        workspaceAvailability: WorkspaceAvailability.outsideWorkspace,
         updater$: this.appStateUpdater,
         mount: async (params: AppMountParameters) => {
           return mountWrapper(params, ROUTES.CHANNELS);
@@ -127,7 +124,6 @@ export class notificationsDashboardsPlugin
         id: `email_senders`,
         title: 'Email senders',
         order: 9080,
-        workspaceAvailability: WorkspaceAvailability.outsideWorkspace,
         updater$: this.appStateUpdater,
         mount: async (params: AppMountParameters) => {
           return mountWrapper(params, ROUTES.EMAIL_SENDERS);
@@ -138,7 +134,6 @@ export class notificationsDashboardsPlugin
         id: `email_groups`,
         title: 'Email recipient groups',
         order: 9090,
-        workspaceAvailability: WorkspaceAvailability.outsideWorkspace,
         updater$: this.appStateUpdater,
         mount: async (params: AppMountParameters) => {
           return mountWrapper(params, ROUTES.EMAIL_GROUPS);
@@ -166,6 +161,29 @@ export class notificationsDashboardsPlugin
         DEFAULT_NAV_GROUPS.settingsAndSetup,
         navLinks
       );
+
+      // Surface notification channel management inside observability workspaces,
+      // alongside where Alerting and Anomaly Detection appear in the side nav.
+      if (core.chrome.getIsIconSideNavEnabled()) {
+        core.chrome.navGroup.addNavLinksToGroup(DEFAULT_NAV_GROUPS.observability, [
+          {
+            id: PLUGIN_NAME,
+            category: DEFAULT_APP_CATEGORIES.observabilityTools,
+            order: 9000,
+            title: 'Notification channels',
+            euiIconType: 'navNotifications',
+          },
+          ...navLinks,
+        ]);
+      } else {
+        core.chrome.navGroup.addNavLinksToGroup(DEFAULT_NAV_GROUPS.observability, [
+          {
+            id: PLUGIN_NAME,
+            title: 'Notification channels',
+          },
+          ...navLinks,
+        ]);
+      }
     }
     // Return methods that should be available to other plugins
     return {};
