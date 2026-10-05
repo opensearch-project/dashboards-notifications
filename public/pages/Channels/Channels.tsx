@@ -48,6 +48,10 @@ import MDSEnabledComponent, {
 } from '../../components/MDSEnabledComponent/MDSEnabledComponent';
 import PageHeader from "../../components/PageHeader/PageHeader"
 import { getUseUpdatedUx } from '../../services/utils/constants';
+import {
+  getResourceSharingAvailableTypes,
+  NOTIFICATION_CONFIG_RESOURCE_TYPE,
+} from '../../services/utils/resource_sharing';
 import { TopNavControlButtonData } from 'src/plugins/navigation/public';
 
 interface ChannelsProps extends RouteComponentProps, DataSourceMenuProperties {
@@ -56,11 +60,13 @@ interface ChannelsProps extends RouteComponentProps, DataSourceMenuProperties {
 
 interface ChannelsState extends TableState<ChannelItemType>, DataSourceMenuProperties {
   filters: ChannelFiltersType;
+  resourceSharing: { dataSourceId: string | undefined; types: string[] };
 }
 
 export class Channels extends MDSEnabledComponent<ChannelsProps, ChannelsState> {
   static contextType = CoreServicesContext;
   columns: EuiTableFieldDataColumnType<ChannelItemType>[];
+  accessColumn: EuiTableFieldDataColumnType<ChannelItemType>;
 
   constructor(props: ChannelsProps) {
     super(props);
@@ -75,6 +81,7 @@ export class Channels extends MDSEnabledComponent<ChannelsProps, ChannelsState> 
       items: [],
       selectedItems: [],
       loading: true,
+      resourceSharing: { dataSourceId: undefined, types: [] },
     };
 
     this.state = state;
@@ -117,6 +124,31 @@ export class Channels extends MDSEnabledComponent<ChannelsProps, ChannelsState> 
       },
     ];
 
+    this.accessColumn = {
+      // Resource-sharing SPI marker column: the centralized Share
+      // button is mounted here by security-dashboards-plugin when
+      // installed and resource sharing is enabled for notification
+      // configs on the selected data source.
+      field: 'config_id',
+      name: 'Access',
+      sortable: false,
+      width: '5%',
+      render: (configId: string, item: ChannelItemType) =>
+        this.state.resourceSharing.dataSourceId ===
+          this.props.notificationService.dataSourceId &&
+        this.state.resourceSharing.types.includes(
+          NOTIFICATION_CONFIG_RESOURCE_TYPE
+        ) ? (
+          <div
+            data-resource-share-button
+            data-resource-id={configId}
+            data-resource-type={NOTIFICATION_CONFIG_RESOURCE_TYPE}
+            {...(item?.name ? { 'data-resource-name': item.name } : {})}
+            data-resource-share-display="icon"
+          />
+        ) : null,
+    };
+
     this.refresh = this.refresh.bind(this);
   }
 
@@ -126,6 +158,7 @@ export class Channels extends MDSEnabledComponent<ChannelsProps, ChannelsState> 
       BREADCRUMBS.CHANNELS,
     ]);
     window.scrollTo(0, 0);
+    this.updateResourceSharingAvailableTypes();
     await this.refresh();
   }
 
@@ -137,7 +170,22 @@ export class Channels extends MDSEnabledComponent<ChannelsProps, ChannelsState> 
       await this.refresh();
     }
     if (isDataSourceChanged(this.props, prevProps)) {
+      this.updateResourceSharingAvailableTypes();
       await this.refresh();
+    }
+  }
+
+  async updateResourceSharingAvailableTypes() {
+    // Capture which data source this probe is for so a late-resolving call
+    // (e.g. from a data source the user has since switched away from) can't
+    // overwrite state with a result that no longer matches the current
+    // selection.
+    const requestedDataSourceId = this.props.notificationService.dataSourceId;
+    const types = await getResourceSharingAvailableTypes(requestedDataSourceId);
+    if (requestedDataSourceId === this.props.notificationService.dataSourceId) {
+      this.setState({
+        resourceSharing: { dataSourceId: requestedDataSourceId, types },
+      });
     }
   }
 
@@ -221,6 +269,12 @@ export class Channels extends MDSEnabledComponent<ChannelsProps, ChannelsState> 
       onSelectionChange: this.onSelectionChange,
     };
 
+    const columns =
+      this.state.resourceSharing.dataSourceId === this.props.notificationService.dataSourceId &&
+      this.state.resourceSharing.types.includes(NOTIFICATION_CONFIG_RESOURCE_TYPE)
+        ? [...this.columns, this.accessColumn]
+        : this.columns;
+
     const headerControls = [
       {
         id: 'Create Channel',
@@ -252,7 +306,7 @@ export class Channels extends MDSEnabledComponent<ChannelsProps, ChannelsState> 
       onFiltersChange={this.onFiltersChange} />;
 
     const basicTableComponent = <EuiBasicTable
-      columns={this.columns}
+      columns={columns}
       items={this.state.items}
       itemId="config_id"
       isSelectable={true}

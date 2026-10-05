@@ -1,5 +1,7 @@
 # OpenSearch Dashboards Notifications
 
+[![codecov](https://codecov.io/gh/opensearch-project/dashboards-notifications/branch/main/graph/badge.svg?flag=dashboards-notifications)](https://codecov.io/gh/opensearch-project/dashboards-notifications)
+
 Dashboards Notifications plugin provides an interface that helps users to manage and view notifications using the OpenSearch Notifications plugin.
 
 ## Documentation

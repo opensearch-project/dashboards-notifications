@@ -75,10 +75,11 @@ jobs:
         run: |
           PLUGIN_VERSION=$(node -p "require('./opensearch_dashboards.json').opensearchDashboardsVersion")
           echo "Plugin version: $PLUGIN_VERSION"
-          # Extract major.minor version (e.g., 3.3.0 -> 3.3)
-          BRANCH_VERSION=$(echo $PLUGIN_VERSION | cut -d. -f1,2)
-          echo "Branch version: $BRANCH_VERSION"
-          echo "OPENSEARCH_DASHBOARDS_VERSION=$BRANCH_VERSION" >> $GITHUB_OUTPUT
+          # OpenSearch Dashboards develops pre-release versions on 'main' (no
+          # release branch is cut until later; branches currently stop at 3.7),
+          # so check out OSD from 'main' rather than the derived major.minor,
+          # which does not exist for 3.8/3.9 and fails the checkout.
+          echo "OPENSEARCH_DASHBOARDS_VERSION=main" >> $GITHUB_OUTPUT
           echo "OPENSEARCH_VERSION=$PLUGIN_VERSION-SNAPSHOT" >> $GITHUB_OUTPUT
         shell: bash
 
@@ -220,11 +221,11 @@ jobs:
           path: OpenSearch-Dashboards/plugins/dashboards-notifications/.cypress/videos
 
       - name: Upload coverage
-        if: ${{ matrix.os == 'ubuntu-latest' }}
-        uses: codecov/codecov-action@29386c70ef20e286228c72b668a06fd0e8399192 # v1
+        if: ${{ !cancelled() && matrix.os == 'ubuntu-latest' && github.repository == 'opensearch-project/dashboards-notifications' }}
+        uses: codecov/codecov-action@fb8b3582c8e4def4969c97caa2f19720cb33a72f # v7.0.0
         with:
           flags: dashboards-notifications
-          directory: OpenSearch-Dashboards/plugins/
+          directory: OpenSearch-Dashboards/plugins/dashboards-notifications/coverage
           token: ${{ secrets.CODECOV_TOKEN }}
 
       - name: Upload Artifact
