@@ -18,7 +18,6 @@ This document contains a list of maintainers in this repo. See [opensearch-proje
 | Surya Sashank Nistala | [eirsep](https://github.com/eirsep)                 | Amazon    |
 | Dennis Toepker        | [toepkerd](https://github.com/toepkerd)             | Amazon    |
 | Sai Vikhyath          | [vikhy-aws](https://github.com/vikhy-aws)           | Amazon    |
-| Manaswini Ragamouni   | [manaswini1920](https://github.com/manaswini1920)   | Amazon    |
 | Nishtha Mehrotra            | [nishtham-amazon](https://github.com/nishtham-amazon) | Amazon  |
 | Kash Kondaka         | [KashKondaka](https://github.com/KashKondaka)       | Amazon    |
 
@@ -28,5 +27,6 @@ This document contains a list of maintainers in this repo. See [opensearch-proje
 | ---------------------- | --------------------------------------------- | ----------- |
 | Subhobrata Dey        | [sbcd90](https://github.com/sbcd90)                      | Amazon |
 | Praveen Sameneni      | [praveensameneni](https://github.com/praveensameneni)    | Amazon |
+| Manaswini Ragamouni   | [manaswini1920](https://github.com/manaswini1920)   | Amazon      |
 
 [This document](https://github.com/opensearch-project/.github/blob/main/MAINTAINERS.md) explains what maintainers do in this repo, and how they should be doing it. If you're interested in contributing, see [CONTRIBUTING](CONTRIBUTING.md).
