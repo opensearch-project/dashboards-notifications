@@ -48,13 +48,13 @@ jobs:
 
     steps:
       - name: Set up JDK
-        uses: actions/setup-java@v2
+        uses: actions/setup-java@de7274f081f381c8f8158605e0321c36c376e2e6 # v6.0.1
         with:
           distribution: temurin # Temurin is a distribution of adoptium
           java-version: 11
 
       - name: Check out the notifications repo
-        uses: actions/checkout@v2
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
           repository: opensearch-project/notifications
           ref: ${{ env.NOTIFICATIONS_PLUGIN_VERSION }}
@@ -72,11 +72,11 @@ jobs:
           _JAVA_OPTIONS: ${{ matrix.os_java_options }}
 
       - name: Checkout Notification Dashboards plugin
-        uses: actions/checkout@v2
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
           path: dashboards-notifications
       - name: Checkout OpenSearch Dashboards
-        uses: actions/checkout@v2
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
           repository: opensearch-project/Opensearch-Dashboards
           ref: ${{ env.OPENSEARCH_DASHBOARDS_VERSION }}
@@ -95,7 +95,7 @@ jobs:
                                whoami && yarn osd bootstrap --single-version=loose && yarn build"
 
       - name: Run unit tests
-        uses: nick-fields/retry@v2
+        uses: nick-fields/retry@ad984534de44a9489a53aefd81eb77f87c70dc60 # v4.0.0
         with:
           timeout_minutes: 30
           max_attempts: 1
@@ -112,14 +112,14 @@ jobs:
         shell: bash
 
       - name: Upload coverage
-        uses: codecov/codecov-action@v1
+        uses: codecov/codecov-action@303a32d7a59b442fa8d48b6a1cc6825c09c847a5 # v7.1.1
         with:
           flags: dashboards-notifications
           directory: OpenSearch-Dashboards/plugins/
           token: ${{ secrets.CODECOV_TOKEN }}
 
       - name: Upload Artifact
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
         with:
           name: dashboards-notifications
           path: OpenSearch-Dashboards/plugins/dashboards-notifications/build
