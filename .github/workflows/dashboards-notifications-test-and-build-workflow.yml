@@ -46,8 +46,9 @@ jobs:
 
     steps:
       - name: Set up JDK
-        uses: actions/setup-java@v1
+        uses: actions/setup-java@de7274f081f381c8f8158605e0321c36c376e2e6 # v6.0.1
         with:
+          distribution: temurin # Temurin is a distribution of adoptium
           java-version: 11
 
       # This is a hack, but this step creates a link to the X: mounted drive, which makes the path
@@ -66,7 +67,7 @@ jobs:
         shell: bash
 
       - name: Check out the notifications repo
-        uses: actions/checkout@v2
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
           repository: opensearch-project/notifications
           ref: ${{ env.NOTIFICATIONS_PLUGIN_VERSION }}
@@ -87,18 +88,18 @@ jobs:
           _JAVA_OPTIONS: ${{ matrix.os_java_options }}
 
       - name: Checkout Notification Dashboards plugin
-        uses: actions/checkout@v2
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
           path: dashboards-notifications
       - name: Checkout OpenSearch Dashboards
-        uses: actions/checkout@v2
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
           repository: opensearch-project/Opensearch-Dashboards
           ref: ${{ env.OPENSEARCH_DASHBOARDS_VERSION }}
           path: OpenSearch-Dashboards
 
       - name: Setup Node
-        uses: actions/setup-node@v3
+        uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
         with:
           node-version-file: './OpenSearch-Dashboards/.nvmrc'
           registry-url: 'https://registry.npmjs.org'
@@ -135,7 +136,7 @@ jobs:
           yarn build
 
       - name: Run unit tests
-        uses: nick-fields/retry@v2
+        uses: nick-fields/retry@ad984534de44a9489a53aefd81eb77f87c70dc60 # v4.0.0
         with:
           timeout_minutes: 30
           max_attempts: 1
@@ -173,7 +174,7 @@ jobs:
 
       - name: Cache Cypress
         id: cache-cypress
-        uses: actions/cache@v3
+        uses: actions/cache@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6.1.0
         with:
           path: ${{ matrix.cypress_cache_folder }}
           key: cypress-cache-v3-${{ runner.os }}-${{ hashFiles('OpenSearch-Dashboards/plugins/dashboards-notifications/package.json') }}
@@ -190,7 +191,7 @@ jobs:
           curl http://localhost:9200
 
       - name: Run Cypress tests
-        uses: cypress-io/github-action@v2
+        uses: cypress-io/github-action@c541a95ea92d9239347a2355f2e895cd4b3f8060 # v7.4.6
         with:
           working-directory: OpenSearch-Dashboards/plugins/dashboards-notifications
           command: yarn run cypress run
@@ -199,14 +200,14 @@ jobs:
           CYPRESS_CACHE_FOLDER: ${{ matrix.cypress_cache_folder }}
 
       # Screenshots are only captured on failure, will change this once we do visual regression tests
-      - uses: actions/upload-artifact@v4
+      - uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
         if: failure()
         with:
           name: cypress-screenshots-${{ matrix.os }}
           path: OpenSearch-Dashboards/plugins/dashboards-notifications/.cypress/screenshots
 
       # Test run video was always captured, so this action uses "always()" condition
-      - uses: actions/upload-artifact@v4
+      - uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
         if: always()
         with:
           name: cypress-videos-${{ matrix.os }}
@@ -214,14 +215,14 @@ jobs:
 
       - name: Upload coverage
         if: ${{ matrix.os == 'ubuntu-latest' }}
-        uses: codecov/codecov-action@v1
+        uses: codecov/codecov-action@303a32d7a59b442fa8d48b6a1cc6825c09c847a5 # v7.1.1
         with:
           flags: dashboards-notifications
           directory: OpenSearch-Dashboards/plugins/
           token: ${{ secrets.CODECOV_TOKEN }}
 
       - name: Upload Artifact
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
         with:
           name: dashboards-notifications-${{ matrix.os }}
           path: OpenSearch-Dashboards/plugins/dashboards-notifications/build
