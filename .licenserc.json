@@ -1,0 +1,43 @@
+{
+  "**/*.ts": [
+    " Copyright OpenSearch Contributors",
+    " SPDX-License-Identifier: Apache-2.0"
+  ],
+  "**/*.tsx": [
+    " Copyright OpenSearch Contributors",
+    " SPDX-License-Identifier: Apache-2.0"
+  ],
+  "**/*.js": [
+    " Copyright OpenSearch Contributors",
+    " SPDX-License-Identifier: Apache-2.0"
+  ],
+  "**/*.scss": [
+    " Copyright OpenSearch Contributors",
+    " SPDX-License-Identifier: Apache-2.0"
+  ],
+  "ignore": [
+    ".md",
+    ".json",
+    ".yml",
+    ".yaml",
+    ".txt",
+    ".html",
+    ".config",
+    ".png",
+    ".svg",
+    ".ico",
+    ".lock",
+    ".snap",
+    ".git",
+    ".gitignore",
+    ".prettierrc",
+    ".prettierignore",
+    ".lintstagedrc",
+    "node_modules/",
+    "build/",
+    "dist/",
+    "target/",
+    "**/__snapshots__/",
+    "*.d.ts"
+  ]
+}
