@@ -1,17 +1,5 @@
 {
-  "**/*.ts": [
-    " Copyright OpenSearch Contributors",
-    " SPDX-License-Identifier: Apache-2.0"
-  ],
-  "**/*.tsx": [
-    " Copyright OpenSearch Contributors",
-    " SPDX-License-Identifier: Apache-2.0"
-  ],
-  "**/*.js": [
-    " Copyright OpenSearch Contributors",
-    " SPDX-License-Identifier: Apache-2.0"
-  ],
-  "**/*.scss": [
+  "**/*.*": [
     " Copyright OpenSearch Contributors",
     " SPDX-License-Identifier: Apache-2.0"
   ],
