@@ -1,3 +1,8 @@
+/*
+ * Copyright OpenSearch Contributors
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 export const BACKEND_CHANNEL_TYPE = Object.freeze({
   SLACK: 'slack',
   EMAIL: 'email',
