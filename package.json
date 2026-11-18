@@ -21,10 +21,12 @@
     "postbuild": "echo Renaming build artifact to [$npm_package_config_zip_name-$npm_package_version.zip] && mv build/$npm_package_config_id*.zip build/$npm_package_config_zip_name-$npm_package_version.zip"
   },
   "devDependencies": {
+    "@electron-internal/extract-zip": "^1.0.8",
     "cypress": "^13.6.0"
   },
   "resolutions": {
     "qs": "^6.16.0",
-    "uuid": "^11.1.1"
+    "uuid": "^11.1.1",
+    "**/extract-zip": "file:./scripts/extract_zip_shim"
   }
 }
